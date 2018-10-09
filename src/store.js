@@ -5,6 +5,8 @@ import actions from "./vuex/actions"
 import getters from "./vuex/getters"
 
 import dice from "./vuex/modules/dice"
+import roller from "./vuex/modules/roller"
+import web3Handler from "./vuex/modules/web3Handler"
 
 Vue.use(Vuex);
 
@@ -14,6 +16,8 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    dice
+    dice,
+    roller,
+    web3Handler
   }
 });

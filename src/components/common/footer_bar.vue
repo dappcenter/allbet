@@ -4,10 +4,11 @@
             <li>
                 <h3>我们的游戏</h3>
                 <router-link to="dice">投骰子</router-link>
+                <router-link to="roller">过山车</router-link>
             </li>
             <li>
                 <h3>区块链 & 朋友</h3>
-                <a href="javascript:;">您的余额0.000以太幣</a>
+                <a href="javascript:;">您的余额 {{web3.balance}} 以太幣</a>
                 <a href="javascript:;">网络：Main net</a>
                 <a href="javascript:;">智能合约</a>
             </li>
@@ -22,6 +23,20 @@
         </ul>
     </div>
 </template>
+
+<script>
+export default {
+    created() {
+        this.$store.dispatch("registerWeb3")
+    },
+    computed: {
+        web3() {
+            return this.$store.state.web3Handler.web3
+        }
+    }
+}
+</script>
+
 
 <style lang="less">
 .footerbar {

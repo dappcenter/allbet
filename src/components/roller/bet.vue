@@ -1,15 +1,24 @@
 <template>
 	<section class="module-bet">
 		<h2>
-			<img src="../../../public/img/dice-6.png" alt="">
-			<span>骰子</span>
+			<span>过山车</span>
 		</h2>
-		<ul>
-			<li v-for="item,index in diceList" :class="{'checked' : item.checked}" @click="onDice(index)" :key="index">
-				<img src="../../../public/img/dice-6.png" alt="">
-			</li>
-		</ul>
-		<p class="tip">选择骰子数来进行投注</p>
+		<!-- 滑块 -->
+		<div class="slider-wrap">
+			<div class="slider" ref="slider">
+				<div class="bar" ref="bar"></div>
+				<div class="handle" @mousedown="onHandleTouchS" ref="handle"></div>
+			</div>
+			<div class="scale">
+				<span>1%</span>
+				<span>25%</span>
+				<span>50%</span>
+				<span>75%</span>
+				<span>97%</span>
+			</div>
+			<p class="tip">调整您的胜率</p>
+		</div>
+		<!-- 下注 -->
 		<div class="hotkeys">
 			<span @click="onHotkeys(0.05)">0.05</span>
 			<span @click="onHotkeys(0.10)">0.10</span>
@@ -65,7 +74,8 @@ export default {
 					checked: false
 				}
 			],
-			checkedNum: 1
+			checkedNum: 1,
+			odds: 1
 		}
 	},
 	mounted() {
@@ -75,6 +85,13 @@ export default {
 			amount: this.amount
 		})
 
+		window.onmouseup = function() {
+			window.onmousemove = null
+		}
+
+		this.setBetInfo({
+			odds: 1
+		})
 	},
 	methods: {
 		onHotkeys(amount) {
@@ -84,17 +101,6 @@ export default {
 				this.amount = amount.toFixed(2)
 			}
 		},
-		onDice(i) {
-			if(this.checkedNum == 1 && this.diceList[i].checked) return;
-			if(this.checkedNum < 5 || this.diceList[i].checked) {
-				if(this.diceList[i].checked) {
-					this.checkedNum --
-				}else {
-					this.checkedNum ++
-				}
-				this.diceList[i].checked = !this.diceList[i].checked
-			}
-		},
 		onAdd() {
 			this.amount = (Number(this.amount) + 0.01).toFixed(2)
 		},
@@ -102,8 +108,26 @@ export default {
 			this.amount = (Number(this.amount) - 0.01).toFixed(2)
 		},
 		...mapMutations({
-			setBetInfo: "SET_DICE_BET_INFO"
-		})
+			setBetInfo: "SET_ROLLER_BET_INFO"
+		}),
+		onHandleTouchS(e) {
+			let that = this
+			const sliderOffsetL = this.$refs.slider.offsetLeft
+			const sliderWidth = this.$refs.slider.clientWidth - 20
+			const ofX = e.offsetX
+			let moveWidth = 0
+			window.onmousemove = function(e) {
+				moveWidth = e.clientX - sliderOffsetL - ofX
+				moveWidth = moveWidth <= 0 ? 0 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
+				that.$refs.handle.style.left = moveWidth + "px"
+				that.$refs.bar.style.width = moveWidth + "px"
+				that.odds = (moveWidth / (sliderWidth / 97)).toFixed(2) < 1 ? 1 : (moveWidth / (sliderWidth / 97)).toFixed(2)
+				that.setBetInfo({
+					odds: that.odds,
+					amount: that.amount
+				})
+			}
+		}
 	},
 	watch: {
 		diceList: {
@@ -117,7 +141,7 @@ export default {
 		},
 		amount(newVal, oldVal) {
 			this.setBetInfo({
-				diceList: this.diceList,
+				odds: this.odds,
 				amount: newVal
 			})
 		}
@@ -129,7 +153,11 @@ export default {
 	.module-bet {
 		width: 410px;
 		text-align: center;
-
+		-moz-user-select:none; /*火狐*/
+		-webkit-user-select:none; /*webkit浏览器*/
+		-ms-user-select:none; /*IE10*/
+		-khtml-user-select:none; /*早期浏览器*/
+		user-select:none;
 		h2 {
 			text-align: center;
 
@@ -147,27 +175,50 @@ export default {
 			}
 		}
 
-		ul {
+		.slider {
+			position: relative;
+			background-color: #667ab7;
+			height: 20px;
+			box-shadow: inset 0 1px 0 #2a365a;
+			border-radius: 5px;
+			margin: 30px 50px 0px 50px;
+			.handle {
+				position: absolute;
+				height: 38px;
+				width: 20px;
+				background: #ced4e8;
+				border-radius: 5px;
+				top: -9px;
+				cursor: pointer;
+			}
+			.bar {
+				background-color: lime;
+				height: 20px;
+				width: 0;
+				top: 0;
+				left: 0;
+				border-top-left-radius: 5px;
+				border-bottom-left-radius: 5px;
+				opacity: 0.75;
+				margin-right: 10px;
+			}
+			&:after {
+				content: ' ';
+				position: absolute;
+				bottom: -5px;
+				left: 5px;
+				width: calc(100% - 10px);
+				display: block;
+				height: 5px;
+				background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
+			}
+		}
+		.scale {
 			display: flex;
 			justify-content: space-between;
-			flex-wrap: wrap;
-			width: 180px;
-			margin: 10px auto;
-			li {
-				margin-top: 20px;
-				img {
-					display: block;
-					width: 50px;
-					margin: 0 auto;
-					opacity: .3;
-					transition: all .5s;
-				}
+			margin: 10px 50px;
+			span {
 
-				&.checked {
-					img {
-						opacity: 1;
-					}
-				}
 			}
 		}
 
@@ -303,6 +354,5 @@ export default {
 				margin-top: 20px;
 			}
 		}
-		 
 	}
 </style>

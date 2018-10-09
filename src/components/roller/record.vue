@@ -260,9 +260,6 @@ export default {
 				div	{
 					color: #fff;
 					flex: 2;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
 					a {
 						color: inherit;
 						text-decoration: underline;

@@ -3,7 +3,7 @@
 		<HeaderBar></HeaderBar>
 		<div class="main">
 			<Bet></Bet>
-			<Preview></Preview>
+			<Preview :betInfo="betInfo"></Preview>
 			<Record></Record>
 		</div>
 		<FooterBar></FooterBar>
@@ -17,7 +17,15 @@
 	import Record from "@/components/dice/record"
 	import FooterBar from "@/components/common/footer_bar"
 	export default {
+		mounted() {
+		},
 		methods: {
+			
+		},
+		computed: {
+			betInfo() {
+				return this.$store.getters.getBetRecordData
+			}
 		},
 		components: {
 			HeaderBar,
