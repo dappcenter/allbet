@@ -43,10 +43,11 @@ body {
 	}
 }
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Poppins",sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #fff;
+	color: #fff;
+	font-size: 14px;
 }
 #nav {
   padding: 30px;

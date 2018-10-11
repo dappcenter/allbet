@@ -7,6 +7,7 @@ import MuseUI from "muse-ui";
 import "muse-ui/dist/muse-ui.css";
 import i18n from "./lang"
 import VueParticles from 'vue-particles'
+import "./assets/less/base.less"
 Vue.use(VueParticles)
 
 Vue.use(axios)

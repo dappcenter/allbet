@@ -1,26 +1,22 @@
 <template>
     <div class="footerbar">
-        <ul>
-            <li>
-                <h3>我们的游戏</h3>
-                <router-link to="dice">投骰子</router-link>
-                <router-link to="roller">过山车</router-link>
-            </li>
-            <li>
-                <h3>区块链 & 朋友</h3>
-                <a href="javascript:;">您的余额 {{web3.balance}} 以太幣</a>
-                <a href="javascript:;">网络：Main net</a>
-                <a href="javascript:;">智能合约</a>
-            </li>
-            <li>
-                <h3>特色</h3>
-                <a href="javascript:;">GitHub</a>
-            </li>
-            <li>
-                <h3>联系我们</h3>
-                <a href="javascript:;">Telegram</a>
-            </li>
-        </ul>
+        <div class="container">
+            <div class="linklist">
+                <a href="javascript:;">
+                    <img src="../../../public/img/Twitter.png" alt="">
+                </a>
+                <a href="javascript:;">
+                    <img src="../../../public/img/Discord.png" alt="">
+                </a>
+                <a href="javascript:;">
+                    <img src="../../../public/img/Weibo.png" alt="">
+                </a>
+                <a href="javascript:;">
+                    <img src="../../../public/img/Telegram.png" alt="">
+                </a>
+            </div>
+            <p>Copyright © 2018.allbet.io</p>
+        </div>
     </div>
 </template>
 
@@ -40,25 +36,29 @@ export default {
 
 <style lang="less">
 .footerbar {
-    border-top: 1px solid #aaa;
-    ul {
+    background-color: #191B29;
+    height: 60px;
+    .container {
         display: flex;
-        justify-content: center;
-        li {
-            width: 200px;
-            padding: 30px;
-            text-align: center;
-            h3 {
-                font-weight: 200;
-                font-size: 16px;
-            }
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+        height: 60px;
+        .linklist {
             a {
-                display: block;
-                font-size: 14px;
-                color: #aaa;
-                text-decoration: underline;
+                display: inline-block;
+                margin-right: 40px;
+                img {
+                    width: 30px;
+                    height: 30px;
+                }
             }
+            
         }
+    }
+    p {
+        font-size: 16px;
+        color: #fff;
     }
 }
 @media screen and (max-width: 800px){
