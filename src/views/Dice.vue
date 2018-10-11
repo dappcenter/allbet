@@ -6,35 +6,31 @@
 			<Preview :betInfo="betInfo"></Preview>
 			<Record></Record>
 		</div>
-		<FooterBar></FooterBar>
+		<FooterBar ref="ft"></FooterBar>
 	</div>
 </template>
 
 <script type="text/javascript">
-	import HeaderBar from "@/components/common/header_bar"
-	import Bet from "@/components/dice/bet"
-	import Preview from "@/components/dice/preview"
-	import Record from "@/components/dice/record"
-	import FooterBar from "@/components/common/footer_bar"
-	export default {
-		mounted() {
-		},
-		methods: {
-			
-		},
-		computed: {
-			betInfo() {
-				return this.$store.getters.getBetRecordData
-			}
-		},
-		components: {
-			HeaderBar,
-			Bet,
-			Preview,
-			Record,
-			FooterBar
-		}
-	};
+import HeaderBar from "@/components/common/header_bar"
+import Bet from "@/components/dice/bet"
+import Preview from "@/components/dice/preview"
+import Record from "@/components/dice/record"
+import FooterBar from "@/components/common/footer_bar"
+import { setInterval } from 'timers';
+export default {
+    computed: {
+	    betInfo() {
+		    return this.$store.getters.getBetRecordData
+	    }
+    },
+    components: {
+	    HeaderBar,
+	    Bet,
+	    Preview,
+	    Record,
+	    FooterBar
+    }
+};
 </script>
 
 <style lang="less">

@@ -5,7 +5,7 @@
 			<span>骰子</span>
 		</h2>
 		<ul>
-			<li v-for="item,index in diceList" :class="{'checked' : item.checked}" @click="onDice(index)" :key="index">
+			<li v-for="item,index in diceList" :class="{'checked' : item.checked}" @click="onDice(index)">
 				<img src="../../../public/img/dice-6.png" alt="">
 			</li>
 		</ul>
@@ -30,98 +30,98 @@
 <script>
 import {mapMutations} from "vuex"
 export default {
-	data() {
-		return {
-			amount: 0.12,
-			diceList: [
-				{
-					id: 1,
-					value: 1,
-					checked: true
-				},
-				{
-					id: 2,
-					value: 2,
-					checked: false
-				},
-				{
-					id: 3,
-					value: 3,
-					checked: false
-				},
-				{
-					id: 4,
-					value: 4,
-					checked: false
-				},
-				{
-					id: 5,
-					value: 5,
-					checked: false
-				},
-				{
-					id: 6,
-					value: 6,
-					checked: false
-				}
-			],
-			checkedNum: 1
-		}
-	},
-	mounted() {
+    data() {
+        return {
+            amount: 0.12,
+            diceList: [
+                {
+                    id: 1,
+                    value: 1,
+                    checked: true
+                },
+                {
+                    id: 2,
+                    value: 2,
+                    checked: false
+                },
+                {
+                    id: 3,
+                    value: 3,
+                    checked: false
+                },
+                {
+                    id: 4,
+                    value: 4,
+                    checked: false
+                },
+                {
+                    id: 5,
+                    value: 5,
+                    checked: false
+                },
+                {
+                    id: 6,
+                    value: 6,
+                    checked: false
+                }
+            ],
+            checkedNum: 1
+        }
+    },
+    mounted() {
 
-		this.setBetInfo({
-			diceList: this.diceList,
-			amount: this.amount
-		})
+        this.setBetInfo({
+            diceList: this.diceList,
+            amount: this.amount
+        })
 
-	},
-	methods: {
-		onHotkeys(amount) {
-			if(amount === 'max') {
-				this.amount = 888
-			}else {
-				this.amount = amount.toFixed(2)
-			}
-		},
-		onDice(i) {
-			if(this.checkedNum == 1 && this.diceList[i].checked) return;
-			if(this.checkedNum < 5 || this.diceList[i].checked) {
-				if(this.diceList[i].checked) {
-					this.checkedNum --
-				}else {
-					this.checkedNum ++
-				}
-				this.diceList[i].checked = !this.diceList[i].checked
-			}
-		},
-		onAdd() {
-			this.amount = (Number(this.amount) + 0.01).toFixed(2)
-		},
-		onMinus() {
-			this.amount = (Number(this.amount) - 0.01).toFixed(2)
-		},
-		...mapMutations({
-			setBetInfo: "SET_DICE_BET_INFO"
-		})
-	},
-	watch: {
-		diceList: {
-			handler: function(newVal, oldVal) {
-				this.setBetInfo({
-					diceList: newVal,
-					amount: this.amount
-				})
-			},
-			deep: true
-		},
-		amount(newVal, oldVal) {
-			this.setBetInfo({
-				diceList: this.diceList,
-				amount: newVal
-			})
-		}
-	}
+    },
+    methods: {
+        onHotkeys(amount) {
+            if(amount === 'max') {
+                this.amount = 888
+            }else {
+                this.amount = amount.toFixed(2)
+            }
+        },
+        onDice(i) {
+            if(this.checkedNum == 1 && this.diceList[i].checked) return;
+            if(this.checkedNum < 5 || this.diceList[i].checked) {
+                if(this.diceList[i].checked) {
+                    this.checkedNum --
+                }else {
+                    this.checkedNum ++
+                }
+                this.diceList[i].checked = !this.diceList[i].checked
+            }
+        },
+        onAdd() {
+            this.amount = (Number(this.amount) + 0.01).toFixed(2)
+        },
+        onMinus() {
+            this.amount = (Number(this.amount) - 0.01).toFixed(2)
+        },
+        ...mapMutations({
+            setBetInfo: "SET_DICE_BET_INFO"
+        })
+    },
+    watch: {
+        diceList: {
+            handler: function(newVal, oldVal) {
+                this.setBetInfo({
+                    diceList: newVal,
+                    amount: this.amount
+                })
+            },
+            deep: true
+        },
+        amount(newVal, oldVal) {
+            this.setBetInfo({
+                diceList: this.diceList,
+                amount: newVal
+            })
+        }
+    }
 }
 </script>
 

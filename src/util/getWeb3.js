@@ -43,7 +43,6 @@ let getWeb3 = new Promise(function(resolve, reject) {
             if(err) {
                 reject(new Error("无法检索到地址"))
             }else {
-                console.log(coinbase)
                 result = Object.assign({}, result, {coinbase})
                 resolve(result)
             }

@@ -21,17 +21,17 @@
 <script>
 import DigitaRoll from '@/components/common/digitalRoll'
 export default {
-	props: ['betInfo'],
-	data() {
-		return {
+    props: ['betInfo'],
+    data() {
+        return {
 
-		}
-	},
-	mounted() {
-	},
-	components: {
-		DigitaRoll
-	}
+        }
+    },
+    mounted() {
+    },
+    components: {
+        DigitaRoll
+    }
 }
 </script>
 
@@ -48,9 +48,6 @@ export default {
 					height: 45px;
 				}
 			}
-		}
-		&.ctn3 {
-
 		}
 		h4 {
 			margin-bottom: 10px;
@@ -84,9 +81,6 @@ export default {
 			display: block;
 			padding-top: 0.5em;
 		}
-	}
-	.ctn1 {
-		
 	}
 }
 @media screen and (max-width: 800px){

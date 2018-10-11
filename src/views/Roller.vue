@@ -16,6 +16,7 @@ import Bet from "@/components/roller/bet"
 import Preview from "@/components/dice/preview"
 import Record from "@/components/roller/record"
 import FooterBar from "@/components/common/footer_bar"
+
 export default {
     computed: {
         betInfo() {

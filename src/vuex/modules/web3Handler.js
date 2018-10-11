@@ -23,7 +23,7 @@ const mutations = {
         let web3Copy = state.web3
         web3Copy.coinbase = payload.coinbase
         web3Copy.networkId = payload.networkId
-        web3Copy.balance = parseInt(payload.balance, 10)
+        web3Copy.balance = payload.web3.fromWei(parseInt(payload.balance, 10), "ether")
         web3Copy.isInjected = payload.injectedWeb3
         web3Copy.web3Instance = payload.web3
         state.web3 = web3Copy
@@ -35,14 +35,14 @@ const mutations = {
      * @author shanks
      */
     [types.UPDATE_WEB3_INSTANCE](state, payload) {
-
+        state.web3.coinbase = payload.coinbase
+        state.web3.balance = state.web3.web3Instance.fromWei(payload.balance, "ether")
     }
 }
 
 const actions = {
     registerWeb3({commit}) {
         getWeb3.then(result => {
-            console.log(result)
             commit(types.REGISTER_WEB3_INSTANCE, result)
         }).catch(e => {
             console.log('error in action registerWeb3', e)

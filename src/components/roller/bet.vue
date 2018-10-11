@@ -39,113 +39,113 @@
 <script>
 import {mapMutations} from "vuex"
 export default {
-	data() {
-		return {
-			amount: 0.12,
-			diceList: [
-				{
-					id: 1,
-					value: 1,
-					checked: true
-				},
-				{
-					id: 2,
-					value: 2,
-					checked: false
-				},
-				{
-					id: 3,
-					value: 3,
-					checked: false
-				},
-				{
-					id: 4,
-					value: 4,
-					checked: false
-				},
-				{
-					id: 5,
-					value: 5,
-					checked: false
-				},
-				{
-					id: 6,
-					value: 6,
-					checked: false
-				}
-			],
-			checkedNum: 1,
-			odds: 1
-		}
-	},
-	mounted() {
+    data() {
+        return {
+            amount: 0.12,
+            diceList: [
+                {
+                    id: 1,
+                    value: 1,
+                    checked: true
+                },
+                {
+                    id: 2,
+                    value: 2,
+                    checked: false
+                },
+                {
+                    id: 3,
+                    value: 3,
+                    checked: false
+                },
+                {
+                    id: 4,
+                    value: 4,
+                    checked: false
+                },
+                {
+                    id: 5,
+                    value: 5,
+                    checked: false
+                },
+                {
+                    id: 6,
+                    value: 6,
+                    checked: false
+                }
+            ],
+            checkedNum: 1,
+            odds: 1
+        }
+    },
+    mounted() {
 
-		this.setBetInfo({
-			diceList: this.diceList,
-			amount: this.amount
-		})
+        this.setBetInfo({
+            diceList: this.diceList,
+            amount: this.amount
+        })
 
-		window.onmouseup = function() {
-			window.onmousemove = null
-		}
+        window.onmouseup = function() {
+            window.onmousemove = null
+        }
 
-		this.setBetInfo({
-			odds: 1
-		})
-	},
-	methods: {
-		onHotkeys(amount) {
-			if(amount === 'max') {
-				this.amount = 888
-			}else {
-				this.amount = amount.toFixed(2)
-			}
-		},
-		onAdd() {
-			this.amount = (Number(this.amount) + 0.01).toFixed(2)
-		},
-		onMinus() {
-			this.amount = (Number(this.amount) - 0.01).toFixed(2)
-		},
-		...mapMutations({
-			setBetInfo: "SET_ROLLER_BET_INFO"
-		}),
-		onHandleTouchS(e) {
-			let that = this
-			const sliderOffsetL = this.$refs.slider.offsetLeft
-			const sliderWidth = this.$refs.slider.clientWidth - 20
-			const ofX = e.offsetX
-			let moveWidth = 0
-			window.onmousemove = function(e) {
-				moveWidth = e.clientX - sliderOffsetL - ofX
-				moveWidth = moveWidth <= 0 ? 0 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-				that.$refs.handle.style.left = moveWidth + "px"
-				that.$refs.bar.style.width = moveWidth + "px"
-				that.odds = (moveWidth / (sliderWidth / 97)).toFixed(2) < 1 ? 1 : (moveWidth / (sliderWidth / 97)).toFixed(2)
-				that.setBetInfo({
-					odds: that.odds,
-					amount: that.amount
-				})
-			}
-		}
-	},
-	watch: {
-		diceList: {
-			handler: function(newVal, oldVal) {
-				this.setBetInfo({
-					diceList: newVal,
-					amount: this.amount
-				})
-			},
-			deep: true
-		},
-		amount(newVal, oldVal) {
-			this.setBetInfo({
-				odds: this.odds,
-				amount: newVal
-			})
-		}
-	}
+        this.setBetInfo({
+            odds: 1
+        })
+    },
+    methods: {
+        onHotkeys(amount) {
+            if(amount === 'max') {
+                this.amount = 888
+            }else {
+                this.amount = amount.toFixed(2)
+            }
+        },
+        onAdd() {
+            this.amount = (Number(this.amount) + 0.01).toFixed(2)
+        },
+        onMinus() {
+            this.amount = (Number(this.amount) - 0.01).toFixed(2)
+        },
+        ...mapMutations({
+            setBetInfo: "SET_ROLLER_BET_INFO"
+        }),
+        onHandleTouchS(e) {
+            let that = this
+            const sliderOffsetL = this.$refs.slider.offsetLeft
+            const sliderWidth = this.$refs.slider.clientWidth - 20
+            const ofX = e.offsetX
+            let moveWidth = 0
+            window.onmousemove = function(e) {
+                moveWidth = e.clientX - sliderOffsetL - ofX
+                moveWidth = moveWidth <= 0 ? 0 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
+                that.$refs.handle.style.left = moveWidth + "px"
+                that.$refs.bar.style.width = moveWidth + "px"
+                that.odds = (moveWidth / (sliderWidth / 97)).toFixed(2) < 1 ? 1 : (moveWidth / (sliderWidth / 97)).toFixed(2)
+                that.setBetInfo({
+                    odds: that.odds,
+                    amount: that.amount
+                })
+            }
+        }
+    },
+    watch: {
+        diceList: {
+            handler: function(newVal, oldVal) {
+                this.setBetInfo({
+                    diceList: newVal,
+                    amount: this.amount
+                })
+            },
+            deep: true
+        },
+        amount(newVal, oldVal) {
+            this.setBetInfo({
+                odds: this.odds,
+                amount: newVal
+            })
+        }
+    }
 }
 </script>
 
@@ -217,9 +217,6 @@ export default {
 			display: flex;
 			justify-content: space-between;
 			margin: 10px 50px;
-			span {
-
-			}
 		}
 
 		.tip {
