@@ -1,12 +1,12 @@
 <template>
     <div class="headerbar">
         <div class="container flex-wrap">
-            <div class="logo">
+            <router-link tag="div" to="home" class="logo">
                 <img src="../../../public/img/LOGO.png" alt="">
-            </div>
+            </router-link>
             <menu>
-                <a href="javascript:;">首页</a>
-                <a href="javascript:;">Dice</a>
+                <router-link to="home">首页</router-link>
+                <router-link to="roller">Dice</router-link>
                 <a href="javascript:;">分红池</a>
                 <a href="javascript:;">邀请</a>
                 <a href="javascript:;">新手教程</a>
@@ -70,7 +70,7 @@ export default {
             margin-left: 40px;
             font-size: 16px;
             color: #fff;
-            &.active {
+            &.router-link-active {
                 color: #61C2FF;
             }
         }
