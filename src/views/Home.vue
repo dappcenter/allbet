@@ -127,7 +127,7 @@ import FooterBar from "@/components/common/footer_bar"
 			.middle {
 				background-color: #FFFFFF;
 				width: 1200px;
-				height: 250px;
+				// height: 250px;
 				margin: -100px auto 0 auto;
 				.fund-pool {
 					display: flex;
