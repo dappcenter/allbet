@@ -16,27 +16,29 @@ body {
 	min-height: 100%;
 	position: relative;
 	overflow-x: hidden;
+  overflow-y: auto;
 	&:before {
 	content: "";
 	display: block;
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	// height: 100%;
 	left: 0;
 	top: 0;
 	z-index: -1;
-	background-image: linear-gradient(135deg, #222c49 0%, #506ab4 100%);
+
+	// background-image: linear-gradient(135deg, #222c49 0%, #506ab4 100%);
 	}
 	&:after {
 	content: "";
 	display: block;
 	position: absolute;
 	width: 100%;
-	height: 100%;
+	// height: 100%;
 	left: 0;
 	top: 0;
 	z-index: -1;
-	background-image: url(../public/img/bg_icon.png);
+	// background-image: url(../public/img/bg_icon.png);
 	opacity: 0.02;
 	background-size: 10%;
 	transform: rotateZ(0deg);
