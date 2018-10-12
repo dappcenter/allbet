@@ -30,6 +30,9 @@
 </template>
 
 <script>
+/**
+ * @param {String} type 传入steep为沉浸模式
+ */
 export default {
     props: {
         type: {
@@ -142,14 +145,50 @@ export default {
             width: 90px;
             height: 30px;
             border-radius: 15px;
-            line-height: 26px;
+            line-height: 30px;
             color: #fff;
-            border: 2px solid #4373ed;
             text-align: center;
             margin-left: 20px;
+            transition: all 2s;
+            position: relative;
+            z-index: 1;
             img {
                 height: 15px;
                 vertical-align: sub;
+            }
+            &:hover {
+                &:after {
+                    opacity: 0;
+                }
+            }
+            &:before {
+                position: absolute;
+                -ms-border-radius: 23px;
+                border-radius: 23px;
+                left: 0;
+                top: 0;
+                content: "";
+                width: 100%;
+                height: 100%;
+                z-index: -2;
+                opacity: 1;
+                transition: all .5s ease;
+                background-image: -webkit-linear-gradient(left,#46bdf4 0%,#2b56f5 100%);
+                background-image: linear-gradient(to right,#46bdf4 0%,#2b56f5 100%);
+            }
+            &:after {
+                position: absolute;
+                -ms-border-radius: 23px;
+                border-radius: 23px;
+                left: 2px;
+                top: 2px;
+                content: "";
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                z-index: -1;
+                opacity: 1;
+                background: #051276;
+                transition: all .5s ease;
             }
         }
     }
