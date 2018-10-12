@@ -1,6 +1,6 @@
 <template>
 	<div class="home-page">
-	<HeaderBar></HeaderBar>
+	<HeaderBar type="steep"></HeaderBar>
 	<div class="main">
 		<div class="top">
 			<h1>Allbet</h1>
@@ -108,10 +108,11 @@ import FooterBar from "@/components/common/footer_bar"
 			// padding: 20px;
 			min-height: 1000px;
 			.top {
-				height: 500px;
+				height: 613px;
 				background:linear-gradient(180deg,rgba(0,6,54,1),rgba(57,94,236,1));
 				width: 100%;
 				text-align: center;
+				padding-top: 113px;
 				.total-bill {
 					width: 320px;
 					height: 48px;
@@ -125,13 +126,13 @@ import FooterBar from "@/components/common/footer_bar"
 				}
 			}
 			.middle {
-				background-color: #FFFFFF;
 				width: 1200px;
 				// height: 250px;
 				margin: -100px auto 0 auto;
 				.fund-pool {
 					display: flex;
 					justify-content: space-around;
+					background-color: #FFFFFF;
 					.three {
 						width: 95px;
 						height: 139px;
@@ -178,7 +179,9 @@ import FooterBar from "@/components/common/footer_bar"
 						background-color: #fff;
 						width: 48.3%;
 						font-size: 16px;
-						padding: 30px 30px 100px 30px;
+						padding: 30px 30px 0px 30px;
+						height: 425px;
+						position: relative;
 						.title{
 							font-size: 24px;
 							color: #C8C8C8;
@@ -195,8 +198,9 @@ import FooterBar from "@/components/common/footer_bar"
 								width: 78%;
 								border: none;
 								outline: none;
-								height: 98%;
-								text-align: center;
+								height: 100%;
+						    text-align: center;
+						    vertical-align: top;
 							}
 							.num {
 								width: 54px;
@@ -225,7 +229,7 @@ import FooterBar from "@/components/common/footer_bar"
 							line-height:54px;
 							text-align: center;
 							position: absolute;
-					    bottom: -125px;
+					    bottom: 30px;
 						}
 						.sell-button {
 							background-color: #E95B62;
