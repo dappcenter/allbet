@@ -1,6 +1,6 @@
 <template>
 	<div class="dice-page">
-		<HeaderBar></HeaderBar>
+		<HeaderBar type="steep"></HeaderBar>
 		<div class="main">
 			<Bet></Bet>
 			<Preview :betInfo="betInfo"></Preview>

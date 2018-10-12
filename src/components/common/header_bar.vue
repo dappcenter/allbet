@@ -1,5 +1,5 @@
 <template>
-    <div class="headerbar">
+    <div class="headerbar" :class="type">
         <div class="container flex-wrap">
             <router-link tag="div" to="home" class="logo">
                 <img src="../../../public/img/LOGO.png" alt="">
@@ -25,11 +25,18 @@
         <div class="container notice">
             <p>公告：Allbet 开启交易排名赛（北京时间 9 月 27 日 23 点整至 30 日 22:59:59），排名前十玩家会获得 ETH 返奖！</p>
         </div>
+        <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
     </div>
 </template>
 
 <script>
 export default {
+    props: {
+        type: {
+            default: "normal",
+            type: String
+        }
+    },
     data() {
         return {
             options: [
@@ -37,8 +44,32 @@ export default {
             ],
             normal: {
                 value1: '0xHDfasfdasdfjdiuhk'
+            },
+            shadeOpacity: 1
+        }
+    },
+    mounted() {
+        this.bindScrollEvent()
+    },
+    watch: {
+        type() {
+            this.bindScrollEvent()
+        }
+    },
+    methods: {
+        bindScrollEvent() {
+            let that = this
+            if(this.type === "steep") {
+                this.shadeOpacity = 0
+                document.body.onscroll = function(e) {
+                    that.shadeOpacity = this.scrollY/200
+                }
             }
         }
+    },
+    destroyed() {
+        //销毁事件
+        document.body.onscroll = null
     }
 }
 </script>
@@ -46,6 +77,21 @@ export default {
 
 <style lang="less" scoped>
 .headerbar {
+    position: relative;
+    width: 100%;
+    z-index: 12;
+    &.steep {
+        position: fixed;
+    }
+    .header-shade {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #09135E;
+        z-index: -1;
+    }
     .flex-wrap {
         display: flex;
         align-items: center;
