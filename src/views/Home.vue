@@ -141,7 +141,7 @@ import FooterBar from "@/components/common/footer_bar"
 				padding-top: 113px;
 				.total-bill {
                     position: relative;
-                    z-index: 12;
+                    z-index: 2;
 					width: 320px;
 					height: 48px;
 					line-height: 48px;
@@ -282,7 +282,7 @@ import FooterBar from "@/components/common/footer_bar"
 							font-family:PingFang-SC-Bold;
 							font-weight:bold;
 							color:rgba(255,255,255,1);
-							line-height:54px;
+							line-height:48px;
 							text-align: center;
 							position: absolute;
 					    bottom: 30px;

@@ -8,6 +8,7 @@ import getters from "./vuex/getters"
 import dice from "./vuex/modules/dice"
 import roller from "./vuex/modules/roller"
 import web3Handler from "./vuex/modules/web3Handler"
+import dialogs from "./vuex/modules/dialogs"
 
 Vue.use(Vuex);
 
@@ -16,14 +17,17 @@ const vuexLocal = new VuexPersistence({
 })
 
 export default new Vuex.Store({
-    state: {},
+    state: {
+        locale: "en-US"
+    },
     mutations,
     actions,
     getters,
     modules: {
         dice,
         roller,
-        web3Handler
+        web3Handler,
+        dialogs
     },
     // plugins: [vuexLocal.plugin]
 });

@@ -12,6 +12,7 @@ Vue.use(VueParticles)
 
 Vue.use(axios)
 Vue.use(MuseUI)
+Vue.prototype.$window = window
 Vue.config.productionTip = false;
 
 new Vue({

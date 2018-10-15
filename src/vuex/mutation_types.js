@@ -38,3 +38,9 @@ export const REGISTER_WEB3_INSTANCE = "REGISTER_WEB3_INSTANCE"
  * @module web3Handler
  */
 export const UPDATE_WEB3_INSTANCE = "UPDATE_WEB3_INSTANCE"
+
+/**
+ * 切换语言
+ * @author shanks
+ */
+export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE"
