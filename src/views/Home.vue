@@ -11,6 +11,25 @@
 			<div class="total-bill">
 				我的AT总量：100
 			</div>
+            <vue-particles
+                color="#2a46bb"
+                :particleOpacity="0.7"
+                :particlesNumber="60"
+                shapeType="circle"
+                :particleSize="4"
+                linesColor="#5c77e5"
+                :linesWidth="1"
+                :lineLinked="true"
+                :lineOpacity="0.4"
+                :linesDistance="150"
+                :moveSpeed="2"
+                :hoverEffect="true"
+                hoverMode="grab"
+                :clickEffect="true"
+                clickMode="push"
+                class="lizi"
+            >
+            </vue-particles>
 		</div>
 		<div class="middle">
 			<div class="fund-pool">
@@ -108,19 +127,21 @@ import FooterBar from "@/components/common/footer_bar"
  <style lang="less">
 	.home-page {
 		margin: 0 auto;
-		max-width: 1600px;
 		.main {
 			// display: flex;
 			// justify-content: space-around;
 			// padding: 20px;
 			min-height: 1000px;
 			.top {
+                position: relative;
 				height: 613px;
 				background:linear-gradient(180deg,rgba(0,6,54,1),rgba(57,94,236,1));
 				width: 100%;
 				text-align: center;
 				padding-top: 113px;
 				.total-bill {
+                    position: relative;
+                    z-index: 12;
 					width: 320px;
 					height: 48px;
 					line-height: 48px;
@@ -129,18 +150,28 @@ import FooterBar from "@/components/common/footer_bar"
 					border-radius:48px;
 					box-shadow:0px 1px 0px 0px rgba(136,201,255,1);
 					margin: auto;
-					font-weight: bold;
-				}
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+                .lizi {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
 			}
 			.middle {
 				width: 1200px;
-				// height: 250px;
-				margin: -100px auto 0 auto;
+                margin: -100px auto 0 auto;
+                position: relative;
 				.fund-pool {
 					display: flex;
 					justify-content: space-around;
 					background-color: #FFFFFF;
-					height: 250px;
+                    height: 250px;
+                    box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
+                    border-radius:6px;
 					.fund-number {
 						text-align:center;
 						position: relative;
@@ -180,7 +211,7 @@ import FooterBar from "@/components/common/footer_bar"
 					display: flex;
 					color: black;
 					justify-content: left;
-					margin: 50px 0 40px 0;
+                    margin: 50px 0 40px 0;
 					p {
 						margin: 10px 0;
 						position: relative;
@@ -202,7 +233,9 @@ import FooterBar from "@/components/common/footer_bar"
 						font-size: 16px;
 						padding: 30px 30px 0px 30px;
 						height: 425px;
-						position: relative;
+                        position: relative;
+                        box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
+                        border-radius:6px;
 						.title{
 							font-size: 24px;
 							color: #C8C8C8;
@@ -260,15 +293,19 @@ import FooterBar from "@/components/common/footer_bar"
 					}
 					.sell {
 						background-color: #fff;
-						margin-left: 40px;
+                        margin-left: 40px;
+                        box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
+                        border-radius:6px;
 					}
 				}
 				.list {
-					// height: 500px;
 					background-color: #FFFFFF;
 					color: #646464;
 					font-size: 18px;
-					margin-bottom: 123px;
+                    margin-bottom: 123px;
+                    box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
+                    border-radius:6px;
+                    
 					.top-button {
 						font-size: 24px;
 						font-weight: bold;
