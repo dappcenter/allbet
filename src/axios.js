@@ -4,7 +4,7 @@ import router from './router'
 
 
 axios.defaults.baseURL = window.SERVERPATH
-// axios.defaults.baseURL = "http://192.168.20.175:50006/"
+// axios.defaults.baseURL = "http://192.168.120.146"
 
 axios.interceptors.request.use(config => {
     let token = sessionStorage.getItem("TOKEN") || ""
@@ -15,11 +15,8 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(response => {
-    store.commit("closeWait")
+    // store.commit("closeWait")
     if(response.data.code == -2) {
-        store.state.userInfo = {}
-        sessionStorage.removeItem("USERINFO")
-        sessionStorage.removeItem("TOKEN")
         router.replace('home')
     }
     if(response.data.code != 200) {
@@ -30,7 +27,7 @@ axios.interceptors.response.use(response => {
     }
     return response.data
 }, err => {
-    store.commit("closeWait")
+    // store.commit("closeWait")
     if (err && err.response) {
         switch (err.response.status) {
         case 400:

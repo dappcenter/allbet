@@ -1,0 +1,1 @@
+window.SERVERPATH = "http://192.168.120.146"
