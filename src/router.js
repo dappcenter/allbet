@@ -35,6 +35,21 @@ export default new Router({
             path: "/roller",
             name: "roller",
             component: () => import("./views/Roller.vue")
+        },
+        {
+            path: "/invite",
+            name: "invite",
+            component: () => import("./views/Invite.vue")
+        },
+        {
+            path: "/my-assets",
+            name: "my-assets",
+            component: () => import("./views/My-assets.vue")
+        },
+        {
+            path: "/trading-record",
+            name: "trading-record",
+            component: () => import("./views/Trading-record.vue")
         }
     ]
 });
