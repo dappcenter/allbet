@@ -15,11 +15,13 @@
 		<div class="middle">
 			<div class="fund-pool">
 				<img src="../../public/home/three.png" class="three">
-				<div class="" style="text-align:center;">
+				<div class="fund-number">
+					<p>231.1ETH</p>
 					<img src="../../public/home/eth.png" class="eth"><br/>
 					<span>ETH 资金池</span>
 				</div>
-				<div class="" style="text-align:center;">
+				<div class="fund-number">
+					<p>231.1AT</p>
 					<img src="../../public/home/at.png" class="at"><br/>
 					<span>AT 通证池</span>
 				</div>
@@ -31,7 +33,7 @@
 					<p><span>可用：456 ETH</span><span>1 ETH = 2000000 AT</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<div class="price">19.23</div>
+						<input type="text" placeholder="请输入买入 ETH 数量" class="price" v-model="ethPrice">
 						<span class="num-right">CNY</span>
 					</div>
 					<div class="price-div">
@@ -86,6 +88,11 @@
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
  export default {
+	 data () {
+		 return {
+			 ethPrice: 15.3,
+		 }
+	 },
     computed: {
 	    betInfo() {
 		    return this.$store.getters.getBetRecordData
@@ -133,6 +140,20 @@ import FooterBar from "@/components/common/footer_bar"
 					display: flex;
 					justify-content: space-around;
 					background-color: #FFFFFF;
+					height: 250px;
+					.fund-number {
+						text-align:center;
+						position: relative;
+						font-weight: bold;
+						p {
+							left: 50%;
+							top: 45%;
+						 transform: translate(-50%,-50%);
+						 font-size: 28px;
+						 color: #486BF9;
+						 position: absolute;
+						}
+					}
 					.three {
 						width: 95px;
 						height: 139px;
@@ -201,6 +222,8 @@ import FooterBar from "@/components/common/footer_bar"
 								height: 100%;
 						    text-align: center;
 						    vertical-align: top;
+								color: #323232;
+								font-weight: bold;
 							}
 							.num {
 								width: 54px;
@@ -288,7 +311,7 @@ import FooterBar from "@/components/common/footer_bar"
 	}
 	@media screen and (max-width: 800px) {
 		.home-page {
-			.main {
+			.fund-pool {
 				flex-direction: column;
 				padding: 0;
 				&>section {
