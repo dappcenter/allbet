@@ -1,11 +1,11 @@
 <template>
     <div class="headerbar" :class="type">
         <div class="container flex-wrap">
-            <router-link tag="div" to="home" class="logo">
+            <router-link tag="div" to="index" class="logo">
                 <img src="../../../public/img/LOGO.png" alt="">
             </router-link>
             <menu>
-                <router-link to="home">首页</router-link>
+                <router-link to="index">首页</router-link>
                 <router-link to="roller">Dice</router-link>
                 <a href="javascript:;">分红池</a>
                 <a href="javascript:;">邀请</a>

@@ -10,11 +10,12 @@ export default new Router({
     routes: [
         {
             path: "/",
-            component: () => import("./views/Dice.vue")
+            component: () => import("./views/Dice.vue"),
+            redirect: "/index"
         },
         {
-            path: "/home",
-            name: "home",
+            path: "/index",
+            name: "index",
             component: () => import("./views/Home.vue")
         },
         {
