@@ -50,7 +50,7 @@
 			<div class="buy-sell">
 				<div class="buy">
 					<p class="title">买入 AT</p>
-					<p><span>可用：{{ethInfo}} ETH</span><span>1 ETH = 2000000 AT</span></p>
+					<p><span>可用：{{ethInfo.balance}} ETH</span><span>1 ETH = 2000000 AT</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
 						<input type="text" placeholder="请输入买入 ETH 数量" class="price" v-model="ethPrice">
@@ -116,7 +116,7 @@ import FooterBar from "@/components/common/footer_bar"
 	 },
     computed: {
 			ethInfo() {
-				return this.$store.state.web3Handler
+				return this.$store.state.web3Handler.web3
 			},
 			userInfo() {
 				return this.$store.state.user.userInfo
@@ -199,10 +199,10 @@ import FooterBar from "@/components/common/footer_bar"
 						p {
 							left: 50%;
 							top: 45%;
-						 transform: translate(-50%,-50%);
-						 font-size: 28px;
-						 color: #486BF9;
-						 position: absolute;
+							transform: translate(-50%,-50%);
+							font-size: 28px;
+							color: #486BF9;
+							position: absolute;
 						}
 					}
 					.three {
