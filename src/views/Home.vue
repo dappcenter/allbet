@@ -9,7 +9,8 @@
 				ETH 资金池，用户从通证池购买通证，花费的 ETH 会进入 ETH 资金池（非团队所有）。所有操作都是协议合约直接控制的，
 				区块链上信息可查。</div>
 			<div class="total-bill">
-				我的AT总量：100
+				我的AT总量：{{result.myDB}}
+				{{userInfo}}
 			</div>
             <vue-particles
                 color="#2a46bb"
@@ -35,12 +36,12 @@
 			<div class="fund-pool">
 				<img src="../../public/home/three.png" class="three">
 				<div class="fund-number">
-					<p>231.1ETH</p>
+					<p>{{result.ethPool}}ETH</p>
 					<img src="../../public/home/eth.png" class="eth"><br/>
 					<span>ETH 资金池</span>
 				</div>
 				<div class="fund-number">
-					<p>231.1AT</p>
+					<p>{{result.dbPool}}AT</p>
 					<img src="../../public/home/at.png" class="at"><br/>
 					<span>AT 通证池</span>
 				</div>
@@ -49,7 +50,7 @@
 			<div class="buy-sell">
 				<div class="buy">
 					<p class="title">买入 AT</p>
-					<p><span>可用：456 ETH</span><span>1 ETH = 2000000 AT</span></p>
+					<p><span>可用：{{ethInfo}} ETH</span><span>1 ETH = 2000000 AT</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
 						<input type="text" placeholder="请输入买入 ETH 数量" class="price" v-model="ethPrice">
@@ -110,17 +111,36 @@ import FooterBar from "@/components/common/footer_bar"
 	 data () {
 		 return {
 			 ethPrice: 15.3,
+			 result: {},
 		 }
 	 },
     computed: {
-	    betInfo() {
-		    return this.$store.getters.getBetRecordData
-	    }
+			ethInfo() {
+				return this.$store.state.web3Handler
+			},
+			userInfo() {
+				return this.$store.state.user.userInfo
+			}
      },
      components: {
 	    HeaderBar,
 	    FooterBar,
-     }
+		},
+		created () {
+			this.getInfo()
+		},
+		methods: {
+			getInfo () {
+				this.$http.get("/app/home/summary_basis",{
+
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.result = res.result || {}
+					}
+				})
+			},
+		}
  };
 </script>
 
@@ -305,7 +325,7 @@ import FooterBar from "@/components/common/footer_bar"
                     margin-bottom: 123px;
                     box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
                     border-radius:6px;
-                    
+
 					.top-button {
 						font-size: 24px;
 						font-weight: bold;
