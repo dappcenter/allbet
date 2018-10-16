@@ -8,17 +8,27 @@
                 <router-link to="index">{{$t("message.home")}}</router-link>
                 <router-link to="roller">Dice</router-link>
                 <a href="javascript:;">{{$t("message.bonusPool")}}</a>
-                <a href="javascript:;">{{$t("message.invitation")}}</a>
+                <router-link to="invite">{{$t("message.invitation")}}</router-link>
                 <a href="javascript:;">{{$t("message.course")}}</a>
             </menu>
             <div class="statusbar">
-                <div class="address-select">
+                <div class="address-select" v-show="addressList.length > 0">
                     <label>{{$t("message.address")}}：</label>
-                    <mu-select v-model="normal.value1">
-                        <mu-option v-for="option,index in options" :key="option" :label="option" :value="option" :solo="true"></mu-option>
+                    <mu-select v-model="currentAddr">
+                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddr" :value="item.coinAddr" :solo="true"></mu-option>
                     </mu-select>
                 </div>
-                <a href="javascript:;" class="button login" @click="loginSelect = true">{{$t("message.login")}}</a>
+                <div class="user-center">
+                    <img src="../../../public/img/user_icon.png" alt="">
+                    <span>155****4894</span>
+                    <i></i>
+                    <div class="router-list">
+                        <router-link to="my-assets">我的资产</router-link>
+                        <router-link to="account-security">账号安全</router-link>
+                        <a href="javascript:;" @click="removeUserInfo">退出登录</a>
+                    </div>
+                </div>
+                <a href="javascript:;" class="button login" @click="loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
                 <a href="javascript:;" class="button lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
             </div>
@@ -38,9 +48,9 @@
         <!-- 账号登录 -->
         <mu-dialog :open.sync="loginAccount" :append-body="false" class="login-accout">
             <h4>{{$t("message.login")}}</h4>    
-            <input type="text" placeholder="请输入您的手机号或者邮箱">
-            <input type="password" placeholder="请输入您登录密码">
-            <button>{{$t("message.login")}}</button>
+            <input type="text" v-model.trim="loginForm.account" placeholder="请输入您的手机号或者邮箱">
+            <input type="password" v-model.trim="loginForm.password" placeholder="请输入您登录密码">
+            <button @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
                 <p>没有账号？<a href="javascript:;" @click="registerAccount = true;loginAccount = false">现在注册</a></p>
                 <p><a href="javascript:;">忘记密码</a></p>
@@ -96,6 +106,7 @@
  * @param {String} type 传入steep为沉浸模式
  */
 import {mapMutations} from "vuex"
+import Md5 from "../../../public/js/md5.js"
 export default {
     props: {
         type: {
@@ -106,12 +117,7 @@ export default {
     data() {
         return {
             prefixs: ["+86", "+96", "+1234"],
-            options: [
-                '0xHDfasfdasdfjdiuhk', '0xHDdfagasdfajdiuhk'
-            ],
-            normal: {
-                value1: '0xHDfasfdasdfjdiuhk'
-            },
+            currentAddr: "",
             shadeOpacity: 1,
             loginSelect: false,   //登录对话框
             loginAccount: false,
@@ -126,16 +132,38 @@ export default {
                 "s": 60,
                 "btnText": "获取验证码",
                 "timer": null
+            },
+            loginForm: {
+                "account": "",
+                "password": "",
+                "emailLogin": {
+                    "email": ""
+                },
+                "loginPwd": "",
+                "loginType": "Phone",
+                "phoneLogin": {
+                    "phone": "",
+                    "prefix": "+86"
+                }
             }
         }
     },
     mounted() {
         this.bindScrollEvent()
 
+        if(this.currentAddr == "" && this.$store.state.user.currentAddr) {
+            this.currentAddr = this.$store.state.user.currentAddr.coinAddr
+        }
     },
     watch: {
         type() {
             this.bindScrollEvent()
+        },
+        addressList(newVal) {
+            if(newVal.length > 0) {
+                this.currentAddr = newVal[0].coinAddr
+                this.setCurrentAddr(newVal[0])
+            }
         }
     },
     methods: {
@@ -232,14 +260,52 @@ export default {
                 this.registerForm.btnText = '获取验证码'
             }
         },
+        //登录
+        loginDo() {
+            const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+            if(this.loginForm.account == "" || this.loginForm.password == "") {
+                this.alert({
+                    type: "info",
+                    msg: "账号密码不能为空"
+                })
+                return
+            }
+            if(reg.test(this.loginForm.account)) {
+                this.loginForm.loginType = "Email"
+                this.loginForm.emailLogin.email = this.loginForm.account
+            }else {
+                this.loginForm.loginType = "Phone"
+                this.loginForm.phoneLogin.phone = this.loginForm.account
+            }
+            this.loginForm.loginPwd = Md5(this.loginForm.password)
+            this.$http.post("/open/login", this.loginForm).then(res => {
+                if(res.code == 200) {
+                    this.alert({
+                        type: "success",
+                        msg: res.msg
+                    })
+                    this.loginAccount = false
+                    this.setUserInfo(res.result)
+                }
+            })
+        },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
-            alert: "alert"
+            alert: "alert",
+            setUserInfo: "SET_USERINFO",
+            setCurrentAddr: "SET_CURRENTADDR",
+            removeUserInfo: "REMOVE_USERINFO"
         })
     },
     computed: {
         locale() {
             return this.$store.state.locale
+        },
+        addressList() {
+            return this.$store.getters.getUserAddress
+        },
+        userInfo() {
+            return this.$store.state.user.userInfo
         }
     },
     destroyed() {
@@ -288,7 +354,7 @@ export default {
         margin: 0;
         padding: 0;
         a {
-            margin-left: 40px;
+            margin-left: 24px;
             font-size: 16px;
             color: #fff;
             &.router-link-active {
@@ -313,6 +379,60 @@ export default {
                 min-height: auto;
             }
         }
+        .user-center {
+            color: #fff;
+            margin-left: 30px;
+            position: relative;
+            cursor: pointer;
+            img {
+                height: 27px;
+                vertical-align: middle;
+            }
+            span {
+                display: inline-block;
+                font-size: 14px;
+                vertical-align: middle;
+                margin: 0 0 0 10px;
+            }
+            i {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background: url(../../../public/img/sanjiao.png) no-repeat center;
+                background-size: 80%;
+                vertical-align: middle;
+                transition: all .2s;
+            }
+            .router-list {
+                position: absolute;
+                top: 30px;
+                left: 0;
+                width: 178px;
+                background-color: #fff;
+                display: none;
+                a {
+                    display: block;
+                    line-height: 40px;
+                    font-size: 16px;
+                    color: #323232;
+                    padding: 0 17px;
+                    &.router-link-active {
+                        background-color: #C7DAFF;
+                    }
+                    &:hover {
+                        background-color: #C7DAFF;
+                    }
+                }
+            }
+            &:hover {
+                i {
+                    transform: rotate(180deg)
+                }
+                .router-list {
+                    display: block;
+                }
+            }
+        }
         .button {
             width: 90px;
             height: 30px;
@@ -327,6 +447,7 @@ export default {
             img {
                 height: 15px;
                 vertical-align: sub;
+                margin-right: 10px;
             }
             &:hover {
                 &:after {

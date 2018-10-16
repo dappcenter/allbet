@@ -9,11 +9,13 @@ import dice from "./vuex/modules/dice"
 import roller from "./vuex/modules/roller"
 import web3Handler from "./vuex/modules/web3Handler"
 import dialogs from "./vuex/modules/dialogs"
+import user from "./vuex/modules/user"
 
 Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
-    storage: window.sessionStorage
+    storage: window.sessionStorage,
+    modules: ["user"]
 })
 
 export default new Vuex.Store({
@@ -27,7 +29,8 @@ export default new Vuex.Store({
         dice,
         roller,
         web3Handler,
-        dialogs
+        dialogs,
+        user
     },
-    // plugins: [vuexLocal.plugin]
+    plugins: [vuexLocal.plugin]
 });

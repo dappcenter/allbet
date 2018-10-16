@@ -44,3 +44,24 @@ export const UPDATE_WEB3_INSTANCE = "UPDATE_WEB3_INSTANCE"
  * @author shanks
  */
 export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE"
+
+/**
+ * 设置用户信息
+ * @author shanks
+ * @module user
+ */
+export const SET_USERINFO = "SET_USERINFO"
+
+/**
+ * 清除用户信息
+ * @author shanks
+ * @module user
+ */
+export const REMOVE_USERINFO = "REMOVE_USERINFO"
+
+/**
+ * 设置当前启用的地址信息
+ * @author shanks
+ * @module user
+ */
+export const SET_CURRENTADDR = "SET_CURRENTADDR"
