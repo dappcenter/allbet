@@ -7,7 +7,7 @@ axios.defaults.baseURL = window.SERVERPATH
 // axios.defaults.baseURL = "http://192.168.120.146"
 
 axios.interceptors.request.use(config => {
-    let token = sessionStorage.getItem("TOKEN") || ""
+    let token = store.state.user.userInfo.token || ""
     config.headers.common['token'] = token
     return config
 }, error => {

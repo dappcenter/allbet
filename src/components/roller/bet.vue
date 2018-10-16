@@ -1,38 +1,66 @@
 <template>
 	<section class="module-bet">
-		<h2>
-			<span>过山车</span>
-		</h2>
-		<!-- 滑块 -->
-		<div class="slider-wrap">
-			<div class="slider" ref="slider">
-				<div class="bar" ref="bar"></div>
-				<div class="handle" @mousedown="onHandleTouchS" ref="handle"></div>
+		<div class="game-content">
+			<div class="ctn-top">
+				<div class="number-show">
+					<div>
+						<h3>49</h3>
+						<span>预测数</span>
+					</div>
+					<div>
+						<h3 class="green">00</h3>
+						<span>幸运数</span>
+					</div>
+				</div>
+				<!-- 滑块 -->
+				<div class="slider-wrap">
+					<div class="scale">
+						<span>1%</span>
+						<span>25%</span>
+						<span>50%</span>
+						<span>75%</span>
+						<span>97%</span>
+					</div>
+					<div class="slider" ref="slider">
+						<div class="bar" ref="bar"></div>
+						<div class="handle" @mousedown="onHandleTouchS" ref="handle"></div>
+					</div>
+					
+				</div>
 			</div>
-			<div class="scale">
-				<span>1%</span>
-				<span>25%</span>
-				<span>50%</span>
-				<span>75%</span>
-				<span>97%</span>
+			<!-- 赔率预览 -->
+			<ul class="ctn-mdl">
+				<li>
+					<label>赔率</label>
+					<span>{{odds}}</span>
+				</li>
+				<li>
+					<label>收益</label>
+					<span>{{odds}}</span>
+				</li>
+				<li>
+					<label>概率</label>
+					<span>{{odds}}</span>
+				</li>
+			</ul>
+			<!-- 下注 -->
+			<div class="hotkeys">
+				<span @click="onHotkeys(0.05)">0.05</span>
+				<span @click="onHotkeys(0.10)">0.10</span>
+				<span @click="onHotkeys(1.00)">1.00</span>
+				<span @click="onHotkeys('max')">最大</span>
 			</div>
-			<p class="tip">调整您的胜率</p>
+			<div class="input-wrap">
+				<span class="add" @click="onAdd"></span>
+				<input type="number" v-model="amount">
+				<span class="minus" @click="onMinus"></span>
+			</div>
+			<p class="tip">您的赌注</p>
+			{{web3.balance}}
+			<button class="bet-btn">下注！</button>
+			<p class="tip">建议的汽油价格(Gas Price): 14</p>
 		</div>
-		<!-- 下注 -->
-		<div class="hotkeys">
-			<span @click="onHotkeys(0.05)">0.05</span>
-			<span @click="onHotkeys(0.10)">0.10</span>
-			<span @click="onHotkeys(1.00)">1.00</span>
-			<span @click="onHotkeys('max')">最大</span>
-		</div>
-		<div class="input-wrap">
-			<span class="add" @click="onAdd"></span>
-			<input type="number" v-model="amount">
-			<span class="minus" @click="onMinus"></span>
-		</div>
-		<p class="tip">您的赌注</p>
-		<button class="bet-btn">下注！</button>
-		<p class="tip">建议的汽油价格(Gas Price): 14</p>
+		
 	</section>
 </template>
 
@@ -145,19 +173,75 @@ export default {
                 amount: newVal
             })
         }
-    }
+	},
+	computed: {
+		web3() {
+			return this.$store.state.web3Handler.web3
+		}
+	}
 }
 </script>
 
 <style lang="less">
 	.module-bet {
-		width: 410px;
 		text-align: center;
 		-moz-user-select:none; /*火狐*/
 		-webkit-user-select:none; /*webkit浏览器*/
 		-ms-user-select:none; /*IE10*/
-		-khtml-user-select:none; /*早期浏览器*/
 		user-select:none;
+		background: url(../../../public/img/game_bg01.png) no-repeat center;
+		background-size: cover;		
+		overflow: hidden;
+		.game-content {
+			width: 700px;
+			margin: 60px auto;
+			background-color: #214AA4;
+			border-radius:6px;
+			padding: 20px;
+			.ctn-top {
+				background-color: #183F96;
+				overflow: hidden;
+				border-radius:6px;
+				padding: 20px 40px;
+				.number-show {
+					display: flex;
+					justify-content: space-between;
+					div {
+						width: 48%;
+						height: 100px;
+						background-color: #12388D;
+						border-radius:6px;
+						h3 {
+							font-size: 36px;
+							&.green {
+								color: #99FF7E;
+							}
+						}
+						span {
+							font-size: 16px;
+						}
+					}
+				}
+			}
+			.ctn-mdl {
+				display: flex;
+
+				background-color: #183F96;
+				margin: 40px 0 0 0;
+				border-radius:6px;
+				padding: 5px 0;
+				li {
+					flex: 1;
+					border-right: 1px solid #0E3282;
+					&:last-child {
+						border: none;
+					}
+					label {
+						display: block;
+					}
+				}
+			}
+		}
 		h2 {
 			text-align: center;
 
@@ -177,15 +261,15 @@ export default {
 
 		.slider {
 			position: relative;
-			background-color: #667ab7;
-			height: 20px;
+			background-color: #F3434B;
+			height: 14px;
 			box-shadow: inset 0 1px 0 #2a365a;
 			border-radius: 5px;
-			margin: 30px 50px 0px 50px;
+			margin: 30px 0px 0px;
 			.handle {
 				position: absolute;
-				height: 38px;
-				width: 20px;
+				height: 30px;
+				width: 16px;
 				background: #ced4e8;
 				border-radius: 5px;
 				top: -9px;
@@ -193,7 +277,7 @@ export default {
 			}
 			.bar {
 				background-color: lime;
-				height: 20px;
+				height: 14px;
 				width: 0;
 				top: 0;
 				left: 0;
@@ -201,6 +285,7 @@ export default {
 				border-bottom-left-radius: 5px;
 				opacity: 0.75;
 				margin-right: 10px;
+				box-shadow: 0 0 10px #fff;
 			}
 			&:after {
 				content: ' ';
@@ -216,7 +301,7 @@ export default {
 		.scale {
 			display: flex;
 			justify-content: space-between;
-			margin: 10px 50px;
+			margin: 10px 0;
 		}
 
 		.tip {

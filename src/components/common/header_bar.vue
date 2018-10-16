@@ -25,7 +25,7 @@
                     <div class="router-list">
                         <router-link to="my-assets">我的资产</router-link>
                         <router-link to="account-security">账号安全</router-link>
-                        <a href="javascript:;" @click="removeUserInfo">退出登录</a>
+                        <a href="javascript:;" @click="removeUserInfo" v-show="userInfo">退出登录</a>
                     </div>
                 </div>
                 <a href="javascript:;" class="button login" @click="loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>

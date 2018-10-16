@@ -3,7 +3,6 @@
         <HeaderBar></HeaderBar>
         <div class="main">
             <Bet></Bet>
-			<Preview :betInfo="betInfo"></Preview>
 			<Record></Record>
         </div>
         <FooterBar></FooterBar>
@@ -37,12 +36,8 @@ export default {
 <style lang="less">
 .roller-page {
     margin: 0 auto;
-    padding: 0 20px;
     max-width: 1600px;
     .main {
-        display: flex;
-        justify-content: space-around;
-        padding: 20px;
         min-height: 1000px;
     }
 }
