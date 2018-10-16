@@ -42,6 +42,11 @@ export default new Router({
             path: "/trading-record",
             name: "trading-record",
             component: () => import("./views/Trading-record.vue")
+        },
+        {
+            path: "/account-security",
+            name: "account-security",
+            component: () => import("./views/Account-security.vue")
         }
     ]
 });
