@@ -18,7 +18,7 @@
 	</div>
 	<!-- 手机账号绑定 -->
 	<mu-dialog :open.sync="registerAccount" :append-body="false" class="register-accout">
-			<h4>绑定账号</h4>
+			<h4>绑定手机账号</h4>
 			<div class="input-wrap">
 					<label>账号</label>
 					<div class="input-flex prefix">
@@ -45,7 +45,7 @@
 	</mu-dialog>
 	<!-- 邮箱账号绑定 -->
 	<mu-dialog :open.sync="registerEmailAccount" :append-body="false" class="register-accout">
-			<h4>绑定账号</h4>
+			<h4>绑定邮箱账号</h4>
 			<div class="input-wrap">
 					<label>邮箱</label>
 					<div class="input-flex">
@@ -60,7 +60,7 @@
 					</div>
 			</div>
 			<button @click="registerDo">绑定</button>
-			<p><a href="javascript:;">绑定邮箱</a></p>
+			<p><a href="javascript:;" @click="registerAccount = true;registerEmailAccount = false;">绑定手机号</a></p>
 	</mu-dialog>
 	<!-- 账号已存在输入密码 -->
 	<mu-dialog :open.sync="confirmAccountExist" :append-body="false" class="register-accout">
