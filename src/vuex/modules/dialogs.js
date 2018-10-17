@@ -28,7 +28,8 @@ const state = {
                 }
             }
         ]
-    }
+    },
+    loginBox: false
 }
 
 const mutations = {
@@ -63,6 +64,12 @@ const mutations = {
      */
     [types.OPEN_CONFIRM](state, payload) {
         state.confirmOption = Object.assign({}, payload)
+    },
+    /**
+     * 打开login弹框
+     */
+    [types.OPEN_LOGIN](state) {
+        state.loginBox = !state.loginBox
     }
 }
 
