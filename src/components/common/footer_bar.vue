@@ -23,7 +23,7 @@
 <script>
 export default {
     created() {
-        this.$store.dispatch("registerWeb3")
+        
     },
     computed: {
         web3() {

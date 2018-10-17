@@ -12,26 +12,30 @@ const getters = {
      * @author shanks
      */
     getUserAddress(state, getters, rootState) {
-        let list = state.userInfo.address || []
+        let list = state.userInfo.assets || []
         let b = false
         if(rootState.web3Handler.web3.coinbase) {
             if(list.length > 0) {
                 list.forEach(value => {
-                    b = value.coinAddr == rootState.web3Handler.web3.coinbase
+                    b = value.coinAddress == rootState.web3Handler.web3.coinbase
                 })
                 if(!b) {
                     list.push({
-                        coinAddr: rootState.web3Handler.web3.coinbase
+                        coinAddress: rootState.web3Handler.web3.coinbase,
+                        eth: rootState.web3Handler.web3.balance,
+                        at: 0
                     })
                 }
-                
             }else {
                 list.push({
-                    coinAddr: rootState.web3Handler.web3.coinbase
+                    coinAddress: rootState.web3Handler.web3.coinbase,
+                    eth: rootState.web3Handler.web3.balance,
+                    at: 0
                 })
             }
             
         }
+        console.log(list)
         return list
     }
 }

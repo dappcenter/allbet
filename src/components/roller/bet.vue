@@ -43,6 +43,13 @@
 					<span>{{odds}}</span>
 				</li>
 			</ul>
+			<div class="ctn-btm">
+				<h4>竞猜数量</h4>
+				<div class="flex-wrap">
+					<div class=""></div>
+					<button>猜小于49</button>
+				</div>
+			</div>
 			<!-- 下注 -->
 			<div class="hotkeys">
 				<span @click="onHotkeys(0.05)">0.05</span>
@@ -55,10 +62,6 @@
 				<input type="number" v-model="amount">
 				<span class="minus" @click="onMinus"></span>
 			</div>
-			<p class="tip">您的赌注</p>
-			{{web3.balance}}
-			<button class="bet-btn">下注！</button>
-			<p class="tip">建议的汽油价格(Gas Price): 14</p>
 		</div>
 		
 	</section>
@@ -70,38 +73,6 @@ export default {
     data() {
         return {
             amount: 0.12,
-            diceList: [
-                {
-                    id: 1,
-                    value: 1,
-                    checked: true
-                },
-                {
-                    id: 2,
-                    value: 2,
-                    checked: false
-                },
-                {
-                    id: 3,
-                    value: 3,
-                    checked: false
-                },
-                {
-                    id: 4,
-                    value: 4,
-                    checked: false
-                },
-                {
-                    id: 5,
-                    value: 5,
-                    checked: false
-                },
-                {
-                    id: 6,
-                    value: 6,
-                    checked: false
-                }
-            ],
             checkedNum: 1,
             odds: 1
         }
@@ -219,6 +190,7 @@ export default {
 						}
 						span {
 							font-size: 16px;
+							
 						}
 					}
 				}
@@ -229,7 +201,7 @@ export default {
 				background-color: #183F96;
 				margin: 40px 0 0 0;
 				border-radius:6px;
-				padding: 5px 0;
+				padding: 10px 0;
 				li {
 					flex: 1;
 					border-right: 1px solid #0E3282;
@@ -238,6 +210,10 @@ export default {
 					}
 					label {
 						display: block;
+					}
+					span {
+						font-size: 16px;
+						font-weight: 700;
 					}
 				}
 			}

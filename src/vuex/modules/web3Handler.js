@@ -1,6 +1,7 @@
 import * as types from "../mutation_types"
 import getWeb3 from "../../util/getWeb3"
 import pollWeb3 from "../../util/pollWeb3"
+import {axios} from "../../axios"
 
 const state = {
     web3: {
@@ -44,6 +45,15 @@ const actions = {
     registerWeb3({commit}) {
         getWeb3.then(result => {
             commit(types.REGISTER_WEB3_INSTANCE, result)
+            //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+            axios.post("/open/login/coin", {
+                type: "ETH",
+                addr: result.coinbase
+            }).then(res => {
+                console.log(res)
+            }).catch(err => {
+    
+            })
         }).catch(e => {
             console.log('error in action registerWeb3', e)
         })

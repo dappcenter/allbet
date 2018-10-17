@@ -15,7 +15,7 @@
                 <div class="address-select" v-show="addressList.length > 0">
                     <label>{{$t("message.address")}}：</label>
                     <mu-select v-model="currentAddr">
-                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddr" :value="item.coinAddr" :solo="true"></mu-option>
+                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress" :value="item.coinAddress" :solo="true"></mu-option>
                     </mu-select>
                 </div>
                 <div class="user-center">
@@ -152,7 +152,7 @@ export default {
         this.bindScrollEvent()
 
         if(this.currentAddr == "" && this.$store.state.user.currentAddr) {
-            this.currentAddr = this.$store.state.user.currentAddr.coinAddr
+            this.currentAddr = this.$store.state.user.currentAddr.coinAddress
         }
     },
     watch: {
@@ -161,7 +161,7 @@ export default {
         },
         addressList(newVal) {
             if(newVal.length > 0) {
-                this.currentAddr = newVal[0].coinAddr
+                this.currentAddr = newVal[0].coinAddress
                 this.setCurrentAddr(newVal[0])
             }
         }

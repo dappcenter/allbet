@@ -42,9 +42,12 @@ let getWeb3 = new Promise(function(resolve, reject) {
         result.web3.eth.getCoinbase((err, coinbase) => {
             if(err) {
                 reject(new Error("无法检索到地址"))
-            }else {
+            }else if(coinbase){
                 result = Object.assign({}, result, {coinbase})
                 resolve(result)
+            }else {
+                console.log("未登录mateMask")
+                reject(new Error("无法检索到地址"))
             }
         })
     })

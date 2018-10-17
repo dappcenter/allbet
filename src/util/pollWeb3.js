@@ -14,6 +14,13 @@ let pollWeb3 = function() {
         storeWeb3 = store.state.web3Handler.web3
         if(web3 && storeWeb3.web3Instance) {
             // 检测地址变化
+            if(!web3.eth.coinbase) {  // 未获取到eth地址
+                store.dispatch("updateWeb3", {
+                    coinbase: null,
+                    balance: null
+                })
+                return
+            }
             if (web3.eth.coinbase !== storeWeb3.coinbase) {
                 let newCoinbase = web3.eth.coinbase
                 web3.eth.getBalance(web3.eth.coinbase, (err, newBalance) => {

@@ -89,6 +89,8 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error)
 })
 
+export {axios}
+
 export default {
     install(Vue) {
         Object.defineProperty(Vue.prototype, '$http', {
