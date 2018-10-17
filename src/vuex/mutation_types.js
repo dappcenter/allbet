@@ -67,8 +67,15 @@ export const REMOVE_USERINFO = "REMOVE_USERINFO"
 export const SET_CURRENTADDR = "SET_CURRENTADDR"
 
 /**
- * 开启confirm
+ * 打开confirm
  * @author shanks
  * @module dialogs
  */
 export const OPEN_CONFIRM = "OPEN_CONFIRM"
+
+/**
+ * 打开login弹框
+ * @author shanks
+ * @module dialogs
+ */
+export const OPEN_LOGIN = "OPEN_LOGIN"

@@ -171,6 +171,9 @@ export default {
                     this.setCurrentAddr(value)
                 }
             })
+        },
+        isShowLoginBox() {
+            this.loginSelect = true
         }
     },
     methods: {
@@ -302,7 +305,8 @@ export default {
             setUserInfo: "SET_USERINFO",
             setCurrentAddr: "SET_CURRENTADDR",
             removeUserInfo: "REMOVE_USERINFO",
-            openConfirm: "OPEN_CONFIRM"
+            openConfirm: "OPEN_CONFIRM",
+            openLogin: "OPEN_LOGIN"
         })
     },
     computed: {
@@ -314,6 +318,9 @@ export default {
         },
         userInfo() {
             return this.$store.state.user.userInfo
+        },
+        isShowLoginBox() {
+            return this.$store.state.dialogs.loginBox
         }
     },
     destroyed() {
