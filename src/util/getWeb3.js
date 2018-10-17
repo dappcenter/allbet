@@ -36,7 +36,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
                 resolve(result)
             }
         })
-    })  
+    })
 }).then(result => {
     return new Promise(function(resolve, reject) {
         result.web3.eth.getCoinbase((err, coinbase) => {

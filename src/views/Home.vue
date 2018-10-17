@@ -8,10 +8,13 @@
 			<div style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">AT 即 Allbet Token，固定总量1000 万。是 Allbet 生态中代表 Allbet 用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的 AT 通证池里（非团队所有），同时有一个对应的
 				ETH 资金池，用户从通证池购买通证，花费的 ETH 会进入 ETH 资金池（非团队所有）。所有操作都是协议合约直接控制的，
 				区块链上信息可查。</div>
-			<div class="total-bill">
+			<div class="total-bill" v-if="userInfo.token">
 				我的AT总量：{{result.myDB}}
-				{{userInfo}}
 			</div>
+			<div class="total-bill" v-else>
+				登陆
+			</div>
+
             <vue-particles
                 color="#2a46bb"
                 :particleOpacity="0.7"
@@ -50,51 +53,64 @@
 			<div class="buy-sell">
 				<div class="buy">
 					<p class="title">买入 AT</p>
-					<p><span>可用：{{ethInfo.balance}} ETH</span><span>1 ETH = 2000000 AT</span></p>
+					<p><span :class="[userInfo.token || ethInfo.balance?'':'transparent']">可用：{{ethInfo.balance}} ETH</span><span>1 ETH = {{(1/ethMarketPrice).toFixed(8)}} AT</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入买入 ETH 数量" class="price" v-model="ethPrice">
-						<span class="num-right">CNY</span>
+						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @change="changeAtNumber">
+						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="text" placeholder="请输入买入 ETH 数量" class="price">
+						<input type="text" placeholder="请输入买入 ETH 数量" class="price" v-model="buyEthNumber" @change="changeAtNumber">
 						<span class="num-right">ETH</span>
 					</div>
-					<p><span>您将获得 39349 AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
-					<div class="buy-button">
+					<p><span>您将获得 {{getAtNumber}} AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
+					<div class="buy-button" v-if="userInfo.token" @click="doTrade('买入')">
 						买入
+					</div>
+					<div class="buy-button" v-else>
+						登陆
 					</div>
 				</div>
 				<div class="buy sell">
 					<p class="title">卖出 AT</p>
-					<p><span>可用：456 ETH</span><span>1 ETH = 2000000 AT</span></p>
+					<p><span :class="[userInfo.token?'':'transparent']">可用：{{result.myDB}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<div class="price">19.23</div>
-						<span class="num-right">CNY</span>
+						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @change="changeEthNumber">
+						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="text" placeholder="请输入买入 AT数量" class="price">
+						<input type="text" placeholder="请输入买入 AT数量" class="price" v-model="buyAtNumber" @change="changeEthNumber">
 						<span class="num-right">AT</span>
 					</div>
-					<p><span>您将获得 39349 AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
+					<p><span>您将获得 {{getEthNumber}} ETH</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
 					<p style="text-align:center;color:#E95B62;">出售将收取 3% 手续费</p>
-					<div class="buy-button sell-button">
+					<div class="buy-button sell-button" v-if="userInfo.token" @click="doTrade('卖出')">
 						卖出
+					</div>
+					<div class="buy-button sell-button" v-else>
+						登陆
 					</div>
 				</div>
 			</div>
 			<div class="list">
 				<div class="top-button">
-					<span>近期交易</span>
-					<span>我的委托单</span>
+					<span @click="clickTap(0)" :class="[selectTap == 0?'selected':'']">近期交易</span>
+					<span @click="clickTap(1)" :class="[selectTap == 1?'selected':'']">我的委托单</span>
 				</div>
 				<div class="content">
-					<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>成交时间</span></li>
-					<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span></li>
-					<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span></li>
+					<div class="recent-order" v-if="selectTap == 0">
+						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>成交时间</span></li>
+						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span></li>
+						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span></li>
+					</div>
+					<div class="my-order" v-else>
+						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>创建时间</span><span>完成时间</span><span>状态</span><span>操作</span></li>
+						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span>撤单</span></li>
+						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span>撤单</span></li>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -110,8 +126,17 @@ import FooterBar from "@/components/common/footer_bar"
  export default {
 	 data () {
 		 return {
-			 ethPrice: 15.3,
+			 ethMarketPrice: '', // 市面上 1at=??eth
+			 ethPrice: "市价", // 1ETH=??At
+			 buyEthNumber: '', // 买入??ETh
+			 getAtNumber: 0, // 获得AT的数量
+
+			 sellAtPrice: '市价', // 1at=??eth
+			 buyAtNumber: '',// 买入??AT
+			 getEthNumber: 0,// 获得ETH的数量
+
 			 result: {},
+			 selectTap: 0,
 		 }
 	 },
     computed: {
@@ -128,8 +153,17 @@ import FooterBar from "@/components/common/footer_bar"
 		},
 		created () {
 			this.getInfo()
+			this.getBancorOrders(this.selectTap)
+			this.getMarketAtPrice()
 		},
 		methods: {
+			changeAtNumber() {
+					this.getAtNumber = this.ethPrice == '市价' ? (1/this.ethMarketPrice).toFixed(8) * this.buyEthNumber : this.ethPrice * this.buyEthNumber
+			},
+			changeEthNumber() {
+					this.getEthNumber = this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
+			},
+			// 获取奖金池&AT数量
 			getInfo () {
 				this.$http.get("/app/home/summary_basis",{
 
@@ -137,6 +171,64 @@ import FooterBar from "@/components/common/footer_bar"
 					console.log(res);
 					if (res.code == 200) {
 						this.result = res.result || {}
+					}
+				})
+			},
+			// 获取近期交易
+			getBancorOrders (selectTap) {
+				this.$http.get("/app/home/bancor_orders",{
+				params:{
+					"onlyMe": selectTap == 1?true:false,
+					"page": 1,
+					"pageSize":20,
+				}
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.result = res.result || {}
+					}
+				})
+			},
+			// 切换tap
+			clickTap (i) {
+				this.selectTap = i
+				this.getBancorOrders(this.selectTap)
+			},
+			// 获取AT市价
+			getMarketAtPrice () {
+				this.$http.get("/app/bancor/price",{
+
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.ethMarketPrice = res.result.toFixed(8)
+					}
+				})
+			},
+			// 买入卖出交易
+			doTrade (type) {
+				let postData
+				postData.address = ''
+				postData.tokenName = 'AT'
+				if (type == '买入') {
+					postData.amount = this.buyEthNumber
+					postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
+					if (this.ethPrice != '市价') {
+						postData.price = this.buyEthNumber
+					}
+				} else if (type == '卖出') {
+					postData.amount = this.buyAtNumber
+					postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
+					if (this.sellAtPrice != '市价') {
+						postData.price = this.sellAtPrice
+					}
+				}
+				this.$http.post("/app/bancor/buy_token",{
+
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.ethMarketPrice = res.result.toFixed(8)
 					}
 				})
 			},
@@ -313,9 +405,12 @@ import FooterBar from "@/components/common/footer_bar"
 					}
 					.sell {
 						background-color: #fff;
-                        margin-left: 40px;
-                        box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
-                        border-radius:6px;
+            margin-left: 40px;
+            box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
+            border-radius:6px;
+						.transparent {
+							color: transparent;
+						}
 					}
 				}
 				.list {
@@ -339,6 +434,9 @@ import FooterBar from "@/components/common/footer_bar"
 							display: inline-block;
 							width: 50%;
 							text-align: center;
+						}
+						.selected {
+							color: #323232;
 						}
 					}
 					.content {
