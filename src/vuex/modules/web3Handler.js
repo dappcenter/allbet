@@ -2,6 +2,7 @@ import * as types from "../mutation_types"
 import getWeb3 from "../../util/getWeb3"
 import pollWeb3 from "../../util/pollWeb3"
 import {axios} from "../../axios"
+import router from "../../router"
 
 const state = {
     web3: {
@@ -51,6 +52,26 @@ const actions = {
                 addr: result.coinbase
             }).then(res => {
                 console.log(res)
+                if(res.code == 200) {
+                    // 未绑定平台账号
+                    if(res.result.assets.length <= 1) {
+                        commit(types.OPEN_CONFIRM, {
+                            content: "绑定账号，赢取邀请奖励分ETH",
+                            btn: [
+                                {
+                                    text: "关闭"
+                                },
+                                {
+                                    type: "high",
+                                    text: "去绑定",
+                                    cb: () => {
+                                        router.push('account-security')
+                                    }
+                                }
+                            ]
+                        })
+                    }
+                }
             }).catch(err => {
     
             })

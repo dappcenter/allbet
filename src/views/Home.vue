@@ -9,6 +9,7 @@
 				ETH 资金池，用户从通证池购买通证，花费的 ETH 会进入 ETH 资金池（非团队所有）。所有操作都是协议合约直接控制的，
 				区块链上信息可查。</div>
 			<div class="total-bill">
+				{{currentAddr.at}}
 				我的AT总量：{{result.myDB}}
 				{{userInfo}}
 			</div>
@@ -120,6 +121,9 @@ import FooterBar from "@/components/common/footer_bar"
 			},
 			userInfo() {
 				return this.$store.state.user.userInfo
+			},
+			currentAddr() {
+				return this.$store.state.user.currentAddr
 			}
      },
      components: {

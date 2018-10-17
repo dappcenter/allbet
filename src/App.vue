@@ -6,10 +6,19 @@
 						{{alertOption.msg}}
 						<mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">关闭</mu-button>
 				</mu-snackbar>
+
+				<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
+            <h4>提示</h4>    
+            <p>{{confirmOption.content}}</p>
+            <div class="btn-wrap">
+								<button v-for="btn in confirmOption.btn" :class="btn.type" @click="onConfirmBtn(btn.cb)">{{btn.text}}</button>
+						</div>
+        </mu-dialog>
 		</div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
     name: "App",
 		data() {
@@ -20,7 +29,13 @@ export default {
 								message: "",
 								open: true,
 								timeout: 3000
-						}
+						},
+						isShowConfirm: false
+				}
+		},
+		watch: {
+				confirmOption() {
+						this.isShowConfirm = true
 				}
 		},
 		created() {
@@ -28,14 +43,19 @@ export default {
         this.$store.dispatch("registerWeb3")
 		},
   	computed: {
-    		alertOption() {
-      			return this.$store.state.dialogs.alertOption;
-    		},
-    		// loading() {
-      	// 		return this.$store.state.loading;
-    		// }
+				...mapState({
+						alertOption: state => state.dialogs.alertOption,
+						confirmOption: state => state.dialogs.confirmOption
+				})
   	},
-  	methods: {}
+  	methods: {
+				onConfirmBtn(cb) {
+						this.isShowConfirm = false
+						if(cb) {
+								cb()
+						}
+				}
+		}
 };
 </script>
 
@@ -57,7 +77,35 @@ body {
 #app {
 		font-family: "Poppins",sans-serif;
   	color: #fff;
-  	font-size: 14px;
+		font-size: 14px;
+		.confirm {
+				text-align: center;
+				h4 {
+						font-size: 20px;
+				}
+				p {
+						margin: 40px 0;
+						font-size: 16px;
+				}
+				.btn-wrap {
+						display: flex;
+						justify-content: space-around;
+						button {
+								width: 40%;
+								height: 40px;
+								text-align: center;
+								border: 1px solid #686d6d;
+								border-radius: 6px;
+								background-color: #fff;
+								color: #686d6d;
+								&.high {
+										background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+										color: #fff;
+										border: none;
+								}
+						}
+				}
+		}
 }
 #nav {
   	padding: 30px;
@@ -69,4 +117,5 @@ body {
     		}
   	}
 }
+
 </style>
