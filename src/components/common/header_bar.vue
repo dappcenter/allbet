@@ -164,6 +164,13 @@ export default {
                 this.currentAddr = newVal[0].coinAddress
                 this.setCurrentAddr(newVal[0])
             }
+        },
+        currentAddr(newVal) {
+            this.addressList.forEach(value => {
+                if(value.coinAddress == newVal) {
+                    this.setCurrentAddr(value)
+                }
+            })
         }
     },
     methods: {
@@ -294,7 +301,8 @@ export default {
             alert: "alert",
             setUserInfo: "SET_USERINFO",
             setCurrentAddr: "SET_CURRENTADDR",
-            removeUserInfo: "REMOVE_USERINFO"
+            removeUserInfo: "REMOVE_USERINFO",
+            openConfirm: "OPEN_CONFIRM"
         })
     },
     computed: {

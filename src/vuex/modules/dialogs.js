@@ -8,6 +8,26 @@ const state = {
         timeout: 3000,
         icon: 'info',
         msg: '提示'
+    },
+    confirmOption: {
+        title: "提示",
+        content: "绑定账号，赢取邀请奖励分ETH",
+        btn: [
+            {
+                text: "取消",
+                type: "",
+                cb: function() {
+                    console.log(111)
+                }
+            },
+            {
+                text: "确定",
+                type: "high",
+                cb: function() {
+                    console.log(222)
+                }
+            }
+        ]
     }
 }
 
@@ -35,6 +55,14 @@ const mutations = {
     },
     closeAlert(state) {
         state.alertOption.open = false
+    },
+    /**
+     * 显示confirm询问框
+     * @author shanks
+     * @param {Object} payload confirm配置参数 {content: "文字类容", btn: "按钮参数"}
+     */
+    [types.OPEN_CONFIRM](state, payload) {
+        state.confirmOption = Object.assign({}, payload)
     }
 }
 

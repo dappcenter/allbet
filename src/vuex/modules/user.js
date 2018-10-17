@@ -3,7 +3,7 @@ import * as types from "../mutation_types"
 const state = {
     userInfo: {},
     addressList: [],
-    currentAddr: null
+    currentAddr: {}
 }
 
 const getters = {
@@ -23,19 +23,18 @@ const getters = {
                     list.push({
                         coinAddress: rootState.web3Handler.web3.coinbase,
                         eth: rootState.web3Handler.web3.balance,
-                        at: 0
+                        at: 10
                     })
                 }
             }else {
                 list.push({
                     coinAddress: rootState.web3Handler.web3.coinbase,
                     eth: rootState.web3Handler.web3.balance,
-                    at: 0
+                    at: 10
                 })
             }
             
         }
-        console.log(list)
         return list
     }
 }

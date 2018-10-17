@@ -145,6 +145,9 @@ import FooterBar from "@/components/common/footer_bar"
 			},
 			userInfo() {
 				return this.$store.state.user.userInfo
+			},
+			currentAddr() {
+				return this.$store.state.user.currentAddr
 			}
      },
      components: {
