@@ -108,7 +108,7 @@
 					</div>
 					<div class="my-order" v-else>
 						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>创建时间</span><span>完成时间</span><span>状态</span><span>操作</span></li>
-						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span>撤单</span></li>
+						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span @click="cancelOrder()">撤单</span></li>
 						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span>撤单</span></li>
 					</div>
 				</div>
@@ -146,7 +146,7 @@ import FooterBar from "@/components/common/footer_bar"
 			userInfo() {
 				return this.$store.state.user.userInfo
 			},
-			currentAddr() {
+			getCurrentAddr() {
 				return this.$store.state.user.currentAddr
 			}
      },
@@ -208,33 +208,48 @@ import FooterBar from "@/components/common/footer_bar"
 					}
 				})
 			},
-			// 买入卖出交易
+			// 买入卖出交易(此方法只能是用账号登陆时使用)
 			doTrade (type) {
-				let postData
-				postData.address = ''
+				if (!this.userInfo.token) return
+				let postData = {}
+				postData.address = this.getCurrentAddr.coinAddress
+				console.log('this.currentAddr.address',this.getCurrentAddr.coinAddress);
 				postData.tokenName = 'AT'
 				if (type == '买入') {
+					if (this.getAtNumber <= 0) return
 					postData.amount = this.buyEthNumber
 					postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
 					if (this.ethPrice != '市价') {
 						postData.price = this.buyEthNumber
 					}
 				} else if (type == '卖出') {
+					if (this.getEthNumber <= 0) return
 					postData.amount = this.buyAtNumber
 					postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
 					if (this.sellAtPrice != '市价') {
 						postData.price = this.sellAtPrice
 					}
 				}
-				this.$http.post("/app/bancor/buy_token",{
-
-				}).then((res) => {
+				this.$http.post("/app/bancor/buy_token", postData).then((res) => {
 					console.log(res);
 					if (res.code == 200) {
-						this.ethMarketPrice = res.result.toFixed(8)
+						// 买卖成功，更新各种币的数量
+
 					}
 				})
 			},
+			// 撤单
+			cancelOrder (recdId) {
+				this.$http.post("/app/bancor/order/cancel", {
+					'recdId': ''
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						// 撤单成功，更改状态&更新各种币的数量
+						this.getBancorOrders(this.selectTap)
+					}
+				})
+			}
 		}
  };
 </script>

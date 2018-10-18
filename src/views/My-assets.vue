@@ -5,22 +5,24 @@
 		<div class="content">
 			<p class="title"><span>我的资产</span><span>交易记录</span></p>
 			<li><div>币种</div><div>数量</div><div>操作</div></li>
-			<li><div>ETH</div><div>0.98</div><div class="operation"><span>充币</span><span>提币</span></div></li>
-			<div class="charge">
-				<img src="" alt="">
+			<li><div>ETH</div><div>{{myAssets.eth}}</div><div class="operation"><span @click="chargeBill">充币</span><span  @click="mentionBill">提币</span></div></li>
+			<div class="charge"  v-show="showChargeBill">
+				<div src="" alt="" id="qrcode1"></div>
 				<div>
 					<p>充币地址：</p>
-					<p class="address">0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98<span class="copy">复制</span></p>
+					<p class="address"><span id="copy_text">{{myAssets.coinAddress}}</span>
+						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">复制</span>
+					</p>
 					<p>温馨提示：请勿向上述地址充值任何非 ETH 资产，否则资产将不可找回。</p>
 				</div>
 			</div>
-			<div class="mention">
+			<div class="mention" v-show="showMentionBill">
 				<p>提币地址:</p>
 				<div class="input-div">
 					<input type="text" name="" value="">
 					ETH
 				</div>
-				<p>数量:<span>可用：0.456ETH</span></p>
+				<p>数量:<span>可用：{{myAssets.eth}} ETH</span></p>
 				<div class="input-div">
 					<input type="text" name="" value="">
 					ETH
@@ -45,8 +47,8 @@
 					<span>温馨提示：请确保提笔地址无误，否则资产将不可找回。</span><span class="take-out">提币</span>
 				</p>
 			</div>
-			<li><div>AT</div><div>0.9</div><div class="operation"><span>购买</span><span>出售</span></div></li>
-			<li><div>BET</div><div>0.9</div><div>--</div></li>
+			<li><div>AT</div><div>{{myAssets.at}}</div><div class="operation"><span>购买</span><span>出售</span></div></li>
+			<li><div>BET</div><div>{{myAssets.bet}}</div><div>--</div></li>
 		</div>
 	</div>
 	<FooterBar ref="ft"></FooterBar>
@@ -55,24 +57,66 @@
 </template>
 
 <script>
+import QRCode from 'qrcodejs2'
+import Clipboard from 'clipboard';
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
  export default {
 	 data () {
 		 return {
-			 ethPrice: 15.3,
+			 myAssets: {},
+			 showChargeBill: false,
+			 showMentionBill: false,
 		 }
 	 },
     computed: {
-	    betInfo() {
-		    return this.$store.getters.getBetRecordData
-	    }
      },
      components: {
 	    HeaderBar,
 	    FooterBar,
-     }
- };
+		},
+		created () {
+			this.getAssets()
+		},
+		mounted () {
+			this.copyBtn = new Clipboard(this.$refs.copy)
+		},
+		methods: {
+			// 获取我的资产
+			getAssets () {
+				this.$http.get("/app/user/assets",{}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						let assets = (res.result || {}).assets || []
+						console.log('assets',assets);
+						this.myAssets = assets[0] || {}
+						var qrcode = new QRCode(document.getElementById("qrcode1"), {
+						  width: 108,
+						  height: 108,
+						});
+						qrcode.makeCode(this.myAssets.coinAddress);
+					}
+				})
+			},
+			copy () {
+	      let clipboard = this.copyBtn
+	      clipboard.on('success', function () {
+	        alert('复制成功')
+	      })
+	      clipboard.on('error', function () {
+	        alert('复制失败，请手动复制')
+	      })
+		},
+		chargeBill() {
+			this.showChargeBill = !this.showChargeBill
+			this.showMentionBill = false
+		},
+		mentionBill() {
+			this.showMentionBill = !this.showMentionBill
+			this.showChargeBill = false
+		}
+ }
+}
 </script>
 
  <style lang="less">
@@ -117,6 +161,7 @@ import FooterBar from "@/components/common/footer_bar"
 						display: inline-block;
 						background-color: white;
 						margin-right: 19px;
+						border: 1px solid white;
 					}
 					.address {
 						font-size: 20px;
