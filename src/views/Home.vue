@@ -9,7 +9,7 @@
 				ETH 资金池，用户从通证池购买通证，花费的 ETH 会进入 ETH 资金池（非团队所有）。所有操作都是协议合约直接控制的，
 				区块链上信息可查。</div>
 			<div class="total-bill" v-if="userInfo.token">
-				我的AT总量：{{result.myDB}}
+				我的AT总量：{{this.getCurrentAddr.at}}
 			</div>
 			<div class="total-bill" v-else @click="openLogin">
 				登陆
@@ -53,7 +53,7 @@
 			<div class="buy-sell">
 				<div class="buy">
 					<p class="title">买入 AT</p>
-					<p><span :class="[userInfo.token || ethInfo.balance?'':'transparent']">可用：{{ethInfo.balance}} ETH</span><span>1 ETH = {{(1/ethMarketPrice).toFixed(8)}} AT</span></p>
+					<p><span :class="[userInfo.token || ethInfo.balance?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
 						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @change="changeAtNumber">
@@ -74,7 +74,7 @@
 				</div>
 				<div class="buy sell">
 					<p class="title">卖出 AT</p>
-					<p><span :class="[userInfo.token?'':'transparent']">可用：{{result.myDB}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[userInfo.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
 						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @change="changeEthNumber">
@@ -103,13 +103,28 @@
 				<div class="content">
 					<div class="recent-order" v-if="selectTap == 0">
 						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>成交时间</span></li>
-						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span></li>
-						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span></li>
+						<li v-for="item in recentOrderList">
+							<span>{{item.address}}</span>
+							<span>{{item.tradeType == 'MARKET_BUY'? '+ '+item.inAmount:'- '+item.outAmount}}</span>
+							<span>{{item.tradeType == 'MARKET_BUY'?'- '+item.outAmount:'+ '+item.inAmount}}</span>
+							<span>{{item.dbPrice}} ETH</span>
+							<span>{{item.tradeType == 'MARKET_BUY'?'买入':'卖出'}}</span>
+							<span>{{item.recdDoneTime}}</span>
+						</li>
 					</div>
 					<div class="my-order" v-else>
 						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>创建时间</span><span>完成时间</span><span>状态</span><span>操作</span></li>
-						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span @click="cancelOrder()">撤单</span></li>
-						<li><span>0xfd……kkdsee</span><span>+2.40000000</span><span>-43555.00</span><span>0.00090000 ETH</span><span>卖出</span><span>2018.09.12 17:32</span><span>2018.09.12 17:32</span><span>交易成功</span><span>撤单</span></li>
+						<li v-for="item in recentOrderList">
+							<span>{{item.address}}</span>
+							<span>{{filter(item)}}</span>
+							<span>{{filter1(item)}}</span>
+							<span>{{item.dbPrice}} ETH</span>
+							<span>{{item.tradeType == 'MARKET_BUY'?'买入':'卖出'}}</span>
+							<span>{{item.recdCreateTime}}</span>
+							<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
+							<span>{{filterState(item)}}</span>
+							<span @click="cancelOrder(item)">{{item.tradeStatus != 'DONE' && item.tradeStatus != 'CANCEL'?'撤单':'- -'}}</span>
+						</li>
 					</div>
 				</div>
 			</div>
@@ -138,6 +153,9 @@ import {mapMutations} from "vuex"
 
 			 result: {},
 			 selectTap: 0,
+
+			 recentOrderList: [], //近期交易列表
+			 // entrustOrderList: [], //委托单列表
 		 }
 	 },
     computed: {
@@ -161,8 +179,38 @@ import {mapMutations} from "vuex"
 			this.getMarketAtPrice()
 		},
 		methods: {
+			filter(item) {
+				if (item.tradeType == 'MARKET_BUY') {
+					return item.inAmount ? '+ '+item.inAmount:'- -'
+				} else {
+					return item.outAmount?'- '+item.outAmount:'--'
+				}
+			},
+			filter1(item) {
+				if (item.tradeType == 'MARKET_BUY') {
+					return item.outAmount ? '- '+item.outAmount:'- -'
+				} else {
+					return item.inAmount?'+ '+item.inAmount:'--'
+				}
+			},
+			filterState(item) {
+				switch (item.tradeStatus) {
+					case 'ENTRUST':
+					return '委托中'
+					break;
+					case 'DONE':
+					return '交易成功'
+					break;
+					case 'WAITING':
+					return '等待中'
+					break;
+					case 'CANCEL':
+					return '撤单成功'
+					break;
+				}
+			},
 			changeAtNumber() {
-					this.getAtNumber = this.ethPrice == '市价' ? (1/this.ethMarketPrice).toFixed(8) * this.buyEthNumber : this.ethPrice * this.buyEthNumber
+					this.getAtNumber = this.ethPrice == '市价' ? (1/this.ethMarketPrice).toFixed(8) * this.buyEthNumber : (1/this.ethPrice).toFixed(8) * this.buyEthNumber
 			},
 			changeEthNumber() {
 					this.getEthNumber = this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
@@ -189,7 +237,15 @@ import {mapMutations} from "vuex"
 				}).then((res) => {
 					console.log(res);
 					if (res.code == 200) {
-						this.result = res.result || {}
+						const recentOrderList = res.result.list
+						console.log('recentOrderList', recentOrderList);
+						recentOrderList.forEach((value,key) => {
+							console.log(value);
+							let addr = value.address
+							value.address = value.address.substr(0,4) + '.....' +addr.substr(addr.length - 6,addr)
+						})
+						this.recentOrderList = recentOrderList
+						console.log('this.recentOrderList', this.recentOrderList);
 					}
 				})
 			},
@@ -212,6 +268,7 @@ import {mapMutations} from "vuex"
 			// 买入卖出交易(此方法只能是用账号登陆时使用)
 			doTrade (type) {
 				console.log('this.getCurrentAddr', this.getCurrentAddr);
+				console.log('ethInfo', this.ethInfo);
 				if (!this.userInfo.token) return
 				let postData = {}
 				postData.address = this.getCurrentAddr.coinAddress
@@ -222,7 +279,7 @@ import {mapMutations} from "vuex"
 					postData.amount = this.buyEthNumber
 					postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
 					if (this.ethPrice != '市价') {
-						postData.price = this.buyEthNumber
+						postData.price = (1/this.ethPrice).toFixed(8)
 					}
 				} else if (type == '卖出') {
 					if (this.getEthNumber <= 0) return
@@ -237,21 +294,35 @@ import {mapMutations} from "vuex"
 					console.log(res);
 					if (res.code == 200) {
 						// 买卖成功，更新各种币的数量
-
+						if (res.platform == 'IMPORT') {
+							// 走去中心化平台
+							let orderId = res.orderId
+						} else {
+							this.$store.dispatch('updateProperty')
+						}
 					}
 				})
 			},
 			// 撤单
-			cancelOrder (recdId) {
-				this.$http.post("/app/bancor/order/cancel", {
-					'recdId': ''
-				}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						// 撤单成功，更改状态&更新各种币的数量
-						this.getBancorOrders(this.selectTap)
-					}
-				})
+			cancelOrder (item) {
+				if (item.tradeStatus == 'DONE' || item.tradeStatus == 'CANCEL') return
+				// 走中心化平台撤单
+				if (item.platform == 'DISPATCHER') {
+					this.$http.post("/app/bancor/order/cancel/"+item.entrustId).then((res) => {
+						console.log(res);
+						if (res.code == 200) {
+							this.alert({
+									type: "success",
+									msg: "撤单成功！"
+							})
+							// 撤单成功，更改状态&更新各种币的数量
+							this.getBancorOrders(this.selectTap)
+						}
+					})
+				} else {
+					// 走区块链平台撤单
+
+				}
 			},
 			...mapMutations({
 					alert: "alert",
