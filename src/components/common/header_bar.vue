@@ -53,47 +53,47 @@
             <button @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
                 <p>没有账号？<a href="javascript:;" @click="registerAccount = true;loginAccount = false">现在注册</a></p>
-                <p><a href="javascript:;">{{$t("message.forgetPassword")}}</a></p>
+                <p><a href="javascript:;" @click="findPassword = true; loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="registerAccount" :append-body="false" class="register-accout">
             <h4>注册</h4>    
             <div class="input-wrap">
-                <label>账号</label>
+                <label>手机号</label>
                 <div class="input-flex prefix">
                     <mu-menu cover :open.sync="prefixMenu">
-                        <span color="primary">{{registerForm.prefix}}</span>
+                        <span color="primary">{{formData.prefix}}</span>
                         <mu-list slot="content">
-                            <mu-list-item button v-for="item in prefixs" :key="item" @click="registerForm.prefix = item;prefixMenu = false">
+                            <mu-list-item button v-for="item in prefixs" :key="item" @click="formData.prefix = item;prefixMenu = false">
                                 <mu-list-item-title>{{item}}</mu-list-item-title>
                             </mu-list-item>
                         </mu-list>
                     </mu-menu>
-                    <input type="text" v-model.trim="registerForm.phone" placeholder="请输入您的手机号码">
+                    <input type="text" v-model.trim="formData.phone" placeholder="请输入您的手机号码">
                 </div>
             </div>
             <div class="input-wrap">
                 <label>图形码</label>
                 <div class="input-flex">
-                    <input type="text" v-model="registerForm.picCode" placeholder="请输入图形验证码">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+                    <input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
                 </div>
             </div>
             <div class="input-wrap">
                 <label>验证码</label>
                 <div class="input-flex">
-                    <input type="text" v-model="registerForm.captcha" placeholder="请输入短信验证码">
-                    <a href="javascript:;" @click="getSMScode">{{registerForm.btnText}}</a>
+                    <input type="text" v-model="formData.captcha" placeholder="请输入短信验证码">
+                    <a href="javascript:;" @click="getSMScode('REGISTER')">{{btnText}}</a>
                 </div>
             </div>
             <div class="input-wrap">
                 <label>密码</label>
-                <input type="password" v-model="registerForm.loginPwd" placeholder="字母数字组成，不超过12位">
+                <input type="password" v-model="formData.loginPwd" placeholder="字母数字组成，不超过12位">
             </div>
             <div class="input-wrap">
                 <label>确认密码</label>
-                <input type="text" v-model="registerForm.loginPwd2" placeholder="请再次输入您的密码">
+                <input type="text" v-model="formData.loginPwd2" placeholder="请再次输入您的密码">
             </div>
             <button @click="registerDo('phone')">注册</button>
             <p><a href="javascript:;" @click="emailRegisterAccount = true; registerAccount = false">邮箱注册</a></p>
@@ -102,30 +102,30 @@
         <mu-dialog :open.sync="emailRegisterAccount" :append-body="false" class="register-accout">
             <h4>注册</h4>    
             <div class="input-wrap">
-                <label>账号</label>
-                <input type="text" v-model.trim="emailRegisterForm.phone" placeholder="请输入您的邮箱">
+                <label>邮箱账号</label>
+                <input type="text" v-model.trim="formData.email" placeholder="请输入您的邮箱">
             </div>
             <div class="input-wrap">
                 <label>图形码</label>
                 <div class="input-flex">
-                    <input type="text" v-model="emailRegisterForm.picCode" placeholder="请输入图形验证码">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+                    <input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
                 </div>
             </div>
             <div class="input-wrap">
                 <label>验证码</label>
                 <div class="input-flex">
-                    <input type="text" v-model="emailRegisterForm.captcha" placeholder="请输入邮箱验证码">
-                    <a href="javascript:;" @click="getEmailCode">{{emailRegisterForm.btnText}}</a>
+                    <input type="text" v-model="formData.captcha" placeholder="请输入邮箱验证码">
+                    <a href="javascript:;" @click="getEmailCode">{{btnText}}</a>
                 </div>
             </div>
             <div class="input-wrap">
                 <label>密码</label>
-                <input type="password" v-model="emailRegisterForm.loginPwd" placeholder="字母数字组成，不超过12位">
+                <input type="password" v-model="formData.loginPwd" placeholder="字母数字组成，不超过12位">
             </div>
             <div class="input-wrap">
                 <label>确认密码</label>
-                <input type="text" v-model="emailRegisterForm.loginPwd2" placeholder="请再次输入您的密码">
+                <input type="text" v-model="formData.loginPwd2" placeholder="请再次输入您的密码">
             </div>
             <button @click="registerDo('email')">注册</button>
             <p><a href="javascript:;" @click="registerAccount = true; emailRegisterAccount = false">手机注册</a></p>
@@ -135,7 +135,17 @@
             <h4>找回密码</h4>    
             <div class="input-wrap" v-show="findPsdForm.resetType == 'PHONE'">
                 <label>手机号</label>
-                <input type="text" v-model.trim="findPsdForm.account" placeholder="请输入您的手机号">
+                <div class="input-flex prefix">
+                    <mu-menu cover :open.sync="prefixMenu">
+                        <span color="primary">{{findPsdForm.prefix}}</span>
+                        <mu-list slot="content">
+                            <mu-list-item button v-for="item in prefixs" :key="item" @click="findPsdForm.prefix = item;prefixMenu = false">
+                                <mu-list-item-title>{{item}}</mu-list-item-title>
+                            </mu-list-item>
+                        </mu-list>
+                    </mu-menu>
+                    <input type="text" v-model.trim="findPsdForm.account" placeholder="请输入您的手机号码">
+                </div>
             </div>
             <div class="input-wrap" v-show="findPsdForm.resetType == 'EMAIL'">
                 <label>邮箱号</label>
@@ -154,7 +164,7 @@
                 <label>验证码</label>
                 <div class="input-flex">
                     <input type="text" v-model="findPsdForm.captcha" placeholder="请输入短信验证码">
-                    <a href="javascript:;" @click="getEmailCode">{{findPsdForm.btnText}}</a>
+                    <a href="javascript:;" @click="getSMScode('findPsd')">{{findPsdForm.btnText}}</a>
                 </div>
             </div>
             <div class="input-wrap" v-show="findPsdForm.resetType == 'EMAIL'">
@@ -171,7 +181,7 @@
             </div>
             <div class="input-wrap">
                 <label>确认密码</label>
-                <input type="text" v-model="findPsdForm.pwd2" placeholder="请再次输入您的密码">
+                <input type="password" v-model="findPsdForm.pwd2" placeholder="请再次输入您的密码">
             </div>
             <button @click="findPasswordDo">确定</button>
             <p>
@@ -203,31 +213,10 @@ export default {
             shadeOpacity: 1,
             loginSelect: false,   //登录对话框
             loginAccount: false,
-            registerAccount: false,
+            registerAccount: true,
             emailRegisterAccount: false,  //邮箱注册账号
-            findPassword: true,   //找回密码
+            findPassword: false,   //找回密码
             prefixMenu: false,
-            registerForm: {  //手机号注册
-                "picCode": "",
-                "captcha": "",
-                "loginPwd": "",
-                "loginPwd2": "",
-                "phone": "",
-                "prefix": "+86",
-                "s": 60,
-                "btnText": "获取验证码",
-                "timer": null
-            },
-            emailRegisterForm: {  //邮箱注册
-                "picCode": "",
-                "captcha": "",
-                "loginPwd": "",
-                "loginPwd2": "",
-                "email": "",
-                "s": 60,
-                "btnText": "获取验证码",
-                "timer": null
-            },
             loginForm: {
                 "account": "",
                 "password": "",
@@ -243,15 +232,28 @@ export default {
             },
             findPsdForm: {
                 "account": "",
-                "captcha": "string",
+                "captcha": "",
                 "pwd2": "",
-                "pwd": "string",
+                "pwd": "",
                 "resetType": "PHONE",
                 "prefix": "+86",
                 "s": 60,
                 "btnText": "获取验证码",
                 "timer": null
-            }
+            },
+            formData: {
+                phone: "",   //手机号
+                prefix: "+86",  //区号
+                captcha: "",   //短信验证码
+                password: "",  //密码
+                password2: "",  //2次密码
+                email: "",  //邮箱账号
+                picCode: "",  //图形验证码
+            },
+            countDownTimer: null,   //短信倒计时
+            btnText: "获取验证码",  //发送短信按钮文字
+            s: 60,  //短信倒计时时间
+            macCode: "123456"
         }
     },
     mounted() {
@@ -285,7 +287,8 @@ export default {
     },
     methods: {
         getImgCode() {
-            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type=REGISTER&macCode=macCode&" + Math.random();
+            console.log(111)
+            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type=REGISTER&macCode="+ this.macCode +"&" + Math.random();
         },
         //页面滚动事件
         bindScrollEvent() {
@@ -298,108 +301,66 @@ export default {
             }
         },
         // 获取验证码
-        getSMScode(formData) {
-            if(this.registerForm.btnText != "获取验证码") return
-            if(this.registerForm.phone == "") {
-                this.alert({
-                    type: "info",
-                    msg: "手机号码不能为空"
-                })
-                return
-            }
-            if(this.registerForm.picCode == "") {
-                this.alert({
-                    type: "info",
-                    msg: "图像验证码不能为空"
-                })
-                return
-            }
-            this.registerSMScountDown()
+        getSMScode(type) {
+            if(this.btnText != "获取验证码") return
+            if(!this.verifyPhone() || !this.verifyPicCode()) return
+         
+            this.registerSMScountDown()  //开始倒计时
+
             this.$http.post("/open/captcha", {
-                "macCode": "macCode",
-                "phone": this.registerForm.phone,
-                "picCode": this.registerForm.picCode,
-                "prefix": this.registerForm.prefix,
-                "type": "REGISTER"
+                "macCode": this.macCode,
+                "phone": this.formData.phone,
+                "picCode": this.formData.picCode,
+                "prefix": this.formData.prefix,
+                "type": type
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
-                    clearTimeout(this.registerForm.timer)
-                    this.registerForm.btnText = '获取验证码'
+                    clearTimeout(this.countDownTimer)
+                    this.btnText = '获取验证码'
                 }
             }).catch(err => {
-                clearTimeout(this.registerForm.timer)
-                this.registerForm.btnText = '获取验证码'
+                clearTimeout(this.countDownTimer)
+                this.btnText = '获取验证码'
             })
         },
         //获取邮箱验证码
         getEmailCode() {
-            if(this.emailRegisterForm.btnText != "获取验证码") return
-            if(this.emailRegisterForm.email == "") {
-                this.alert({
-                    type: "info",
-                    msg: "邮箱账号不能为空"
-                })
-                return
-            }
-            if(this.emailRegisterForm.picCode == "") {
-                this.alert({
-                    type: "info",
-                    msg: "图像验证码不能为空"
-                })
-                return
-            }
-            this.emailRegisterCountDown()
+            if(this.btnText != "获取验证码") return
+            if(!this.verifyEmail() || !this.verifyPicCode()) return
+         
+            this.registerSMScountDown()  //开始倒计时
             this.$http.post("/open/email_captcha", {
-                "email": this.emailRegisterForm.email,
-                "picCode": this.emailRegisterForm.picCode,
+                "email": this.formData.email,
+                "picCode": this.formData.picCode,
                 "captchaType ": "REGISTER"
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
-                    clearTimeout(this.emailRegisterForm.timer)
-                    this.emailRegisterForm.btnText = '获取验证码'
+                    clearTimeout(this.countDownTimer)
+                    this.btnText = '获取验证码'
                 }
             }).catch(err => {
-                clearTimeout(this.emailRegisterForm.timer)
-                this.emailRegisterForm.btnText = '获取验证码'
+                clearTimeout(this.countDownTimer)
+                this.btnText = '获取验证码'
             })
         },
         // 发起注册
         registerDo(type) {
             let url = "/open/register/phone"
-            let obj = this.registerForm
+            let obj = {
+                "captcha": this.formData.captcha,
+                "loginPwd": Md5(this.formData.password),
+                "phone": this.formData.phone,
+                "prefix": this.formData.prefix
+            }
+            if(!this.verifyPassword()) return
             if(type == "email") {
                 url = "/open/register/email"
-                obj = this.emailRegisterForm
-            }
-            if(type == "phone" && obj.phone == "") {
-                this.alert({
-                    type: "info",
-                    msg: "手机号码不能为空"
-                })
-                return
-            }
-            if(type == "email" && obj.email == "") {
-                this.alert({
-                    type: "info",
-                    msg: "邮箱账号不能为空"
-                })
-                return
-            }
-            if(obj.captcha == "") {
-                this.alert({
-                    type: "info",
-                    msg: "验证码不能为空"
-                })
-                return
-            }
-            if(obj.loginPwd == "") {
-                this.alert({
-                    type: "info",
-                    msg: "密码不能为空"
-                })
-                return
+                if(!this.verifyEmail()) return
+                obj.email = this.formData.email
+            }else {
+                if(!this.verifyPhone()) return
             }
             
             this.$http.post(url, obj).then(res => {
@@ -417,27 +378,26 @@ export default {
         },
         //短信验证码倒计时
         registerSMScountDown() {
-            if(this.registerForm.s > 0) {
-                this.registerForm.s--
-                this.registerForm.btnText = this.registerForm.s + 's'
-                this.registerForm.timer = setTimeout(this.registerSMScountDown, 1000);
+            if(this.s > 0) {
+                this.s--
+                this.btnText = this.s + 's'
+                this.countDownTimer = setTimeout(this.registerSMScountDown, 1000);
             }else {
-                this.registerForm.s = 60
-                this.registerForm.btnText = '获取验证码'
+                this.s = 60
+                this.btnText = '获取验证码'
             }
         },
-        //邮箱验证码倒计时
-        emailRegisterCountDown() {
-            if(this.emailRegisterForm.s > 0) {
-                this.emailRegisterForm.s--
-                this.emailRegisterForm.btnText = this.emailRegisterForm.s + 's'
-                this.emailRegisterForm.timer = setTimeout(this.emailRegisterCountDown, 1000);
+        //找回密码短信验证码倒计时
+        findPadCountDown() {
+            if(this.findPsdForm.s > 0) {
+                this.findPsdForm.s--
+                this.findPsdForm.btnText = this.findPsdForm.s + 's'
+                this.findPsdForm.timer = setTimeout(this.findPadCountDown, 1000);
             }else {
-                this.emailRegisterForm.s = 60
-                this.emailRegisterForm.btnText = '获取验证码'
+                this.findPsdForm.s = 60
+                this.findPsdForm.btnText = '获取验证码'
             }
         },
-
         //登录
         loginDo() {
             const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
@@ -468,11 +428,68 @@ export default {
             })
         },
         findPasswordDo() {
-            console.log(this.findPsdForm)
-            return
             this.$http.post("/open/password", this.findPsdForm).then(res => {
                 console.log(res)
+                if(res.code == "200") {
+                    this.alert({
+                        type: "success",
+                        msg: res.msg
+                    })
+                    this.findPassword = false
+                }
             })
+        },
+        // 二次密码验证
+        verifyPassword() {
+            var regx =/^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{8,12}$/
+            if(!regx.test(this.formData.password)) {
+                this.alert({
+                    type: "info",
+                    msg: "密码必须为8-12位数字字母的组合"
+                })
+                return false
+            }
+            if(this.formData.password !== this.formData.password2) {
+                this.alert({
+                    type: "info",
+                    msg: "两次密码输入不一致"
+                })
+                return false
+            }
+            return true
+        },
+        //手机号验证
+        verifyPhone() {
+            if(this.formData.phone == "") {
+                this.alert({
+                    type: "info",
+                    msg: "手机号不能为空"
+                })
+                return false
+            }
+            return true
+        },
+        //图形验证码验证
+        verifyPicCode() {
+            if(this.formData.picCode == "") {
+                this.alert({
+                    type: "info",
+                    msg: "图形验证码不能为空"
+                })
+                return false
+            }
+            return true
+        },
+        //邮箱验证
+        verifyEmail() {
+            if(this.formData.email == "") {
+                this.alert({
+                    type: "info",
+                    msg: "邮箱输入有误"
+                })
+                return false
+            }
+            return true
         },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
