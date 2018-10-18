@@ -8,7 +8,7 @@
 			<div style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">AT 即 Allbet Token，固定总量1000 万。是 Allbet 生态中代表 Allbet 用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的 AT 通证池里（非团队所有），同时有一个对应的
 				ETH 资金池，用户从通证池购买通证，花费的 ETH 会进入 ETH 资金池（非团队所有）。所有操作都是协议合约直接控制的，
 				区块链上信息可查。</div>
-			<div class="total-bill" v-if="userInfo.token">
+			<div class="total-bill" v-if="getCurrentAddr.token">
 				我的AT总量：{{this.getCurrentAddr.at}}
 			</div>
 			<div class="total-bill" v-else @click="openLogin">
@@ -53,7 +53,7 @@
 			<div class="buy-sell">
 				<div class="buy">
 					<p class="title">买入 AT</p>
-					<p><span :class="[userInfo.token || ethInfo.balance?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
 						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @change="changeAtNumber">
@@ -65,7 +65,7 @@
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>您将获得 {{getAtNumber}} AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
-					<div class="buy-button" v-if="userInfo.token" @click="doTrade('买入')">
+					<div class="buy-button" v-if="getCurrentAddr.token" @click="doTrade('买入')">
 						买入
 					</div>
 					<div class="buy-button" v-else @click="openLogin">
@@ -74,7 +74,7 @@
 				</div>
 				<div class="buy sell">
 					<p class="title">卖出 AT</p>
-					<p><span :class="[userInfo.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
 						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @change="changeEthNumber">
@@ -87,7 +87,7 @@
 					</div>
 					<p><span>您将获得 {{getEthNumber}} ETH</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
 					<p style="text-align:center;color:#E95B62;">出售将收取 3% 手续费</p>
-					<div class="buy-button sell-button" v-if="userInfo.token" @click="doTrade('卖出')">
+					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
 						卖出
 					</div>
 					<div class="buy-button sell-button" v-else @click="openLogin">
@@ -269,7 +269,6 @@ import {mapMutations} from "vuex"
 			doTrade (type) {
 				console.log('this.getCurrentAddr', this.getCurrentAddr);
 				console.log('ethInfo', this.ethInfo);
-				if (!this.userInfo.token) return
 				let postData = {}
 				postData.address = this.getCurrentAddr.coinAddress
 				console.log('this.currentAddr.address',this.getCurrentAddr.coinAddress);

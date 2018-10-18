@@ -34,8 +34,8 @@
 					<p class="right">钱包处理时间：<span>2018.10.13 15:38:34</span></p>
 				</div>
 			</div>
-			<li><div>AT</div><div>0.9</div><div class="operation"><span>购买</span><span>出售</span></div></li>
-			<li><div>BET</div><div>0.9</div><div>--</div></li>
+			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
+			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
 		</div>
 	</div>
 	<FooterBar ref="ft"></FooterBar>

@@ -3,7 +3,7 @@
 	<HeaderBar></HeaderBar>
 	<div class="main">
 		<div class="content">
-			<p class="title"><span>我的资产</span><span>交易记录</span></p>
+			<p class="title"><span>我的资产</span><span @click="goRecord">交易记录</span></p>
 			<li><div>币种</div><div>数量</div><div>操作</div></li>
 			<li><div>ETH</div><div>{{myAssets.eth}}</div><div class="operation"><span @click="chargeBill">充币</span><span  @click="mentionBill">提币</span></div></li>
 			<div class="charge"  v-show="showChargeBill">
@@ -47,7 +47,7 @@
 					<span>温馨提示：请确保提笔地址无误，否则资产将不可找回。</span><span class="take-out">提币</span>
 				</p>
 			</div>
-			<li><div>AT</div><div>{{myAssets.at}}</div><div class="operation"><span>购买</span><span>出售</span></div></li>
+			<li><div>AT</div><div>{{myAssets.at}}</div><div class="operation"><span @click="goHome">购买</span><span @click="goHome">出售</span></div></li>
 			<li><div>BET</div><div>{{myAssets.bet}}</div><div>--</div></li>
 		</div>
 	</div>
@@ -61,6 +61,7 @@ import QRCode from 'qrcodejs2'
 import Clipboard from 'clipboard';
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
+import {mapMutations} from "vuex"
  export default {
 	 data () {
 		 return {
@@ -82,6 +83,12 @@ import FooterBar from "@/components/common/footer_bar"
 			this.copyBtn = new Clipboard(this.$refs.copy)
 		},
 		methods: {
+			goRecord () {
+				this.$router.push('trading-record')
+			},
+			goHome(){
+				this.$router.push('index')
+			},
 			// 获取我的资产
 			getAssets () {
 				this.$http.get("/app/user/assets",{}).then((res) => {
@@ -100,11 +107,17 @@ import FooterBar from "@/components/common/footer_bar"
 			},
 			copy () {
 	      let clipboard = this.copyBtn
-	      clipboard.on('success', function () {
-	        alert('复制成功')
+	      clipboard.on('success', () => {
+					this.alert({
+							type: "success",
+							msg: "复制成功！"
+					})
 	      })
-	      clipboard.on('error', function () {
-	        alert('复制失败，请手动复制')
+	      clipboard.on('error', () => {
+					this.alert({
+							type: "success",
+							msg: "复制失败，请手动复制！"
+					})
 	      })
 		},
 		chargeBill() {
@@ -114,7 +127,10 @@ import FooterBar from "@/components/common/footer_bar"
 		mentionBill() {
 			this.showMentionBill = !this.showMentionBill
 			this.showChargeBill = false
-		}
+		},
+		...mapMutations({
+				alert: "alert",
+		})
  }
 }
 </script>
