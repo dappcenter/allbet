@@ -39,7 +39,8 @@ const getters = {
                         eth: rootState.web3Handler.web3.balance,
                         at: rootState.web3Handler.web3.at,
                         userName: rootState.web3Handler.web3.userName,
-                        token: rootState.web3Handler.web3.token
+                        token: rootState.web3Handler.web3.token,
+                        platform: rootState.web3Handler.web3.platform,
                     })
                 }
             }else {
@@ -48,7 +49,8 @@ const getters = {
                     eth: rootState.web3Handler.web3.balance,
                     at: rootState.web3Handler.web3.at,
                     userName: rootState.web3Handler.web3.userName,
-                    token: rootState.web3Handler.web3.token
+                    token: rootState.web3Handler.web3.token,
+                    platform: rootState.web3Handler.web3.platform
                 })
             }
             
