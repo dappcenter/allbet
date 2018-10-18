@@ -19,7 +19,8 @@ export default {
         nowRegister: "现在就去",
         logout: "退出登录",
         accountSecurity: "账户安全",
-        property: "我的资产"
+        property: "我的资产",
+        forgetPassword: "忘记密码"
     }
 }
 

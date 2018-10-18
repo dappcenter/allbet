@@ -53,7 +53,7 @@
             <button @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
                 <p>没有账号？<a href="javascript:;" @click="registerAccount = true;loginAccount = false">现在注册</a></p>
-                <p><a href="javascript:;">忘记密码</a></p>
+                <p><a href="javascript:;">{{$t("message.forgetPassword")}}</a></p>
             </div>
         </mu-dialog>
         <!-- 手机注册账号 -->
@@ -130,6 +130,55 @@
             <button @click="registerDo('email')">注册</button>
             <p><a href="javascript:;" @click="registerAccount = true; emailRegisterAccount = false">手机注册</a></p>
         </mu-dialog>
+        <!-- 找回密码 -->
+        <mu-dialog :open.sync="findPassword" :append-body="false" class="register-accout">
+            <h4>找回密码</h4>    
+            <div class="input-wrap" v-show="findPsdForm.resetType == 'PHONE'">
+                <label>手机号</label>
+                <input type="text" v-model.trim="findPsdForm.account" placeholder="请输入您的手机号">
+            </div>
+            <div class="input-wrap" v-show="findPsdForm.resetType == 'EMAIL'">
+                <label>邮箱号</label>
+                <input type="text" v-model.trim="findPsdForm.account" placeholder="请输入您的邮箱账号">
+            </div>
+
+            <div class="input-wrap">
+                <label>图形码</label>
+                <div class="input-flex">
+                    <input type="text" v-model="findPsdForm.picCode" placeholder="请输入图形验证码">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+                </div>
+            </div>
+
+            <div class="input-wrap" v-show="findPsdForm.resetType == 'PHONE'">
+                <label>验证码</label>
+                <div class="input-flex">
+                    <input type="text" v-model="findPsdForm.captcha" placeholder="请输入短信验证码">
+                    <a href="javascript:;" @click="getEmailCode">{{findPsdForm.btnText}}</a>
+                </div>
+            </div>
+            <div class="input-wrap" v-show="findPsdForm.resetType == 'EMAIL'">
+                <label>验证码</label>
+                <div class="input-flex">
+                    <input type="text" v-model="findPsdForm.captcha" placeholder="请输入邮箱验证码">
+                    <a href="javascript:;" @click="getEmailCode">{{findPsdForm.btnText}}</a>
+                </div>
+            </div>
+
+            <div class="input-wrap">
+                <label>新密码</label>
+                <input type="password" v-model="findPsdForm.pwd" placeholder="字母数字组成，不超过12位">
+            </div>
+            <div class="input-wrap">
+                <label>确认密码</label>
+                <input type="text" v-model="findPsdForm.pwd2" placeholder="请再次输入您的密码">
+            </div>
+            <button @click="findPasswordDo">确定</button>
+            <p>
+                <a href="javascript:;" @click="findPsdForm.resetType = 'EMAIL'" v-show="findPsdForm.resetType == 'PHONE'">邮箱找回</a>
+                <a href="javascript:;" @click="findPsdForm.resetType = 'PHONE'" v-show="findPsdForm.resetType == 'EMAIL'">手机号找回</a>
+            </p>
+        </mu-dialog>
     </div>
 </template>
 
@@ -149,13 +198,14 @@ export default {
     },
     data() {
         return {
-            prefixs: ["+86", "+96", "+1234"],
+            prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
             currentAddr: "",
             shadeOpacity: 1,
             loginSelect: false,   //登录对话框
             loginAccount: false,
             registerAccount: false,
             emailRegisterAccount: false,  //邮箱注册账号
+            findPassword: true,   //找回密码
             prefixMenu: false,
             registerForm: {  //手机号注册
                 "picCode": "",
@@ -190,6 +240,17 @@ export default {
                     "phone": "",
                     "prefix": "+86"
                 }
+            },
+            findPsdForm: {
+                "account": "",
+                "captcha": "string",
+                "pwd2": "",
+                "pwd": "string",
+                "resetType": "PHONE",
+                "prefix": "+86",
+                "s": 60,
+                "btnText": "获取验证码",
+                "timer": null
             }
         }
     },
@@ -237,7 +298,7 @@ export default {
             }
         },
         // 获取验证码
-        getSMScode() {
+        getSMScode(formData) {
             if(this.registerForm.btnText != "获取验证码") return
             if(this.registerForm.phone == "") {
                 this.alert({
@@ -404,6 +465,13 @@ export default {
                     this.loginAccount = false
                     this.setUserInfo(res.result)
                 }
+            })
+        },
+        findPasswordDo() {
+            console.log(this.findPsdForm)
+            return
+            this.$http.post("/open/password", this.findPsdForm).then(res => {
+                console.log(res)
             })
         },
         ...mapMutations({

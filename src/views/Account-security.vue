@@ -7,41 +7,48 @@
 				<span>账户安全</span>
 				<span>
 				</span>
-		</p>
-			<li><div>账号：</div><div>165****7845</div></li>
-      <li><div>账号：</div><div class="operation">暂未绑定<span @click="registerAccount = true">去绑定</span></div></li>
-			<li><div>MetaMask地址：</div><div>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</div></li>
-      <li><div>MetaMask地址：</div><div>暂未绑定，请登录MetaMask将自动绑定，若已登录请刷新页面</div></li>
-			<li><div>登录密码：</div><div class="operation">********<span @click="resetPassDialog = true">修改</span></div></li>
-      <li><div>登录密码：</div><div>暂无</div></li>
+			</p>
+			<li v-if="pageData.haveTrustee"><div>平台账号：</div><div>{{currentAddr.userName}}</div></li>
+			<li v-else><div>平台账号：</div><div class="operation">暂未绑定<span @click="registerAccount = true">去绑定</span></div></li>
+			<li v-for="item in pageData.MetaMaskAddress"><div>MetaMask地址：</div><div>{{item.coinAddress}}</div></li>
+			<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>MetaMask地址：</div><div>暂未绑定，请登录MetaMask将自动绑定，若已登录请刷新页面</div></li>
+			<li v-if="pageData.haveTrustee"><div>登录密码：</div><div class="operation">********<span @click="resetPassDialog = true">修改</span></div></li>
+			<li v-else><div>登录密码：</div><div>暂无</div></li>
 		</div>
 	</div>
 	<!-- 手机账号绑定 -->
 	<mu-dialog :open.sync="registerAccount" :append-body="false" class="register-accout">
-			<h4>绑定手机账号</h4>
-			<div class="input-wrap">
-					<label>账号</label>
-					<div class="input-flex prefix">
-							<mu-menu cover :open.sync="prefixMenu">
-									<span color="primary">{{registerForm.prefix}}</span>
-									<mu-list slot="content">
-											<mu-list-item button v-for="item in prefixs" :key="item" @click="registerForm.prefix = item;prefixMenu = false">
-													<mu-list-item-title>{{item}}</mu-list-item-title>
-											</mu-list-item>
-									</mu-list>
-							</mu-menu>
-							<input type="text" v-model.trim="registerForm.phone" placeholder="请输入您的手机号码">
-					</div>
+		<h4>绑定手机账号</h4>
+		<div class="input-wrap">
+			<label>账号</label>
+			<div class="input-flex prefix">
+				<mu-menu cover :open.sync="prefixMenu">
+					<span color="primary">{{bindAccountForm.prefix}}</span>
+					<mu-list slot="content">
+						<mu-list-item button v-for="item in prefixs" :key="item" @click="bindAccountForm.prefix = item;prefixMenu = false">
+							<mu-list-item-title>{{item}}</mu-list-item-title>
+						</mu-list-item>
+					</mu-list>
+				</mu-menu>
+				<input type="text" v-model.trim="bindAccountForm.phone" placeholder="请输入您的手机号码">
 			</div>
-			<div class="input-wrap">
-					<label>验证码</label>
-					<div class="input-flex">
-							<input type="text" v-model="registerForm.captcha" placeholder="请输入短信验证码">
-							<a href="javascript:;" @click="getSMScode">{{registerForm.btnText}}</a>
-					</div>
+		</div>
+		<div class="input-wrap">
+			<label>图形码</label>
+			<div class="input-flex">
+				<input type="text" v-model="bindAccountForm.picCode" placeholder="请输入图形验证码">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
 			</div>
-			<button @click="registerDo">绑定</button>
-			<p><a href="javascript:;" @click="registerAccount = false;registerEmailAccount = true;">绑定邮箱</a></p>
+		</div>
+		<div class="input-wrap">
+			<label>验证码</label>
+			<div class="input-flex">
+				<input type="text" v-model="bindAccountForm.captcha" placeholder="请输入短信验证码">
+				<a href="javascript:;" @click="getSMScode">{{bindAccountForm.btnText}}</a>
+			</div>
+		</div>
+		<button @click="registerDo">绑定</button>
+		<p><a href="javascript:;" @click="registerAccount = false;registerEmailAccount = true;">绑定邮箱</a></p>
 	</mu-dialog>
 	<!-- 邮箱账号绑定 -->
 	<mu-dialog :open.sync="registerEmailAccount" :append-body="false" class="register-accout">
@@ -49,14 +56,14 @@
 			<div class="input-wrap">
 					<label>邮箱</label>
 					<div class="input-flex">
-							<input type="text" v-model.trim="registerForm.email" placeholder="请输入您的邮箱账号">
+							<input type="text" v-model.trim="bindAccountForm.email" placeholder="请输入您的邮箱账号">
 					</div>
 			</div>
 			<div class="input-wrap">
 					<label>验证码</label>
 					<div class="input-flex">
-							<input type="text" v-model="registerForm.emailCaptcha" placeholder="请输入短信验证码">
-							<a href="javascript:;" @click="getSMScode">{{registerForm.btnText}}</a>
+							<input type="text" v-model="bindAccountForm.emailCaptcha" placeholder="请输入短信验证码">
+							<a href="javascript:;" @click="getSMScode">{{bindAccountForm.btnText}}</a>
 					</div>
 			</div>
 			<button @click="registerDo">绑定</button>
@@ -67,7 +74,7 @@
 			<h4>绑定账号</h4>
 			<div class="input-wrap"  style="width:338px;">
 					<label>密码</label>
-					<input type="password" v-model="registerForm.loginPwdCheck" placeholder="字母数字组成，不超过12位">
+					<input type="password" v-model="bindAccountForm.loginPwdCheck" placeholder="字母数字组成，不超过12位">
 			</div>
 			<button @click="confirmPass1">确认</button>
 	</mu-dialog>
@@ -76,11 +83,11 @@
 			<h4>绑定账号</h4>
 			<div class="input-wrap" style="width:338px;">
 					<label>密码</label>
-					<input type="password" v-model="registerForm.loginPwd" placeholder="字母数字组成，不超过12位">
+					<input type="password" v-model="bindAccountForm.loginPwd" placeholder="字母数字组成，不超过12位">
 			</div>
 			<div class="input-wrap" style="width:338px;">
 					<label>确认密码</label>
-					<input type="text" v-model="registerForm.loginPwd2" placeholder="请再次输入您的密码">
+					<input type="text" v-model="bindAccountForm.loginPwd2" placeholder="请再次输入您的密码">
 			</div>
 			<button @click="confirmPass2">确认</button>
 	</mu-dialog>
@@ -88,22 +95,29 @@
 	<mu-dialog :open.sync="resetPassDialog" :append-body="false" class="register-accout">
 			<h4>重置登陆密码</h4>
 			<div class="input-wrap">
-					<p>手机号码：176****2325</p>
+				<p>账号:　　{{currentAddr.userName}}</p>
 			</div>
 			<div class="input-wrap">
-					<label>验证码</label>
-					<div class="input-flex">
-							<input type="text" v-model="registerForm.resetCaptcha" placeholder="请输入短信验证码">
-							<a href="javascript:;" @click="getSMScode">{{registerForm.btnText}}</a>
-					</div>
+				<label>图形码</label>
+				<div class="input-flex">
+					<input type="text" v-model="bindAccountForm.picCode" placeholder="请输入图形验证码">
+					<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+				</div>
+			</div>
+			<div class="input-wrap">
+				<label>验证码</label>
+				<div class="input-flex">
+					<input type="text" v-model="bindAccountForm.resetCaptcha" placeholder="请输入验证码">
+					<a href="javascript:;" @click="getSMScode">{{bindAccountForm.btnText}}</a>
+				</div>
 			</div>
 			<div class="input-wrap">
 					<label>新的密码</label>
-					<input type="password" v-model="registerForm.resetLoginPwd" placeholder="字母数字组成，不超过12位">
+					<input type="password" v-model="bindAccountForm.resetLoginPwd" placeholder="字母数字组成，不超过12位">
 			</div>
 			<div class="input-wrap">
 					<label>确认密码</label>
-					<input type="text" v-model="registerForm.resetLoginPwd2" placeholder="请再次输入您的密码">
+					<input type="text" v-model="bindAccountForm.resetLoginPwd2" placeholder="请再次输入您的密码">
 			</div>
 			<button @click="passResetDo">确认修改</button>
 	</mu-dialog>
@@ -116,220 +130,271 @@
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
 import Md5 from "../../public/js/md5.js"
-import {mapMutations} from "vuex"
+import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
-			 ethPrice: 15.3,
-			 registerAccount: false,
-			 registerEmailAccount: false,
-			 confirmAccountExist: false,
-			 confirmAccountNotExist: false,
-			 resetPassDialog: false,
-			 prefixs: ["+86", "+96", "+1234"],
-			 prefixMenu: false,
-			 registerForm: {
-					 "phone": "",
-					 "prefix": "+86",
-					 "captcha": "",
+			ethPrice: 15.3,
+			registerAccount: false,
+			registerEmailAccount: false,
+			confirmAccountExist: false,
+			confirmAccountNotExist: false,
+			resetPassDialog: false,
+			prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
+			prefixMenu: false,
+			bindAccountForm: {
+					"phone": "",
+					"prefix": "+86",
+					"captcha": "",
+					"picCode": "",
+					"loginPwdCheck": "",
 
-					 "loginPwdCheck": "",
+					"loginPwd": "",
+					"loginPwd2": "",
 
-					 "loginPwd": "",
-					 "loginPwd2": "",
+					"s": 60,
+					"btnText": "获取验证码",
+					"timer": null,
+					"email": "",
+					"emailCaptcha": "",
 
-					 "s": 60,
-					 "btnText": "获取验证码",
-					 "timer": null,
-					 "email": "",
-					 "emailCaptcha": "",
-
-					 "resetCaptcha": "", // 重置登陆密码
-					 "resetLoginPwd": "",
-					 "resetLoginPwd2": "",
-			 }
-		 }
-	 },
+					"resetCaptcha": "", // 重置登陆密码
+					"resetLoginPwd": "",
+					"resetLoginPwd2": "",
+			},
+			pageData: {
+				isBind: false,  //是否有绑定关系
+				haveTrustee: false,   //是否绑定平台账号或者本身就是平台账号
+				MetaMaskAddress: []
+			}
+		}
+	},
+	watch: {
+		// 检测地址切换
+		currentAddr() {
+			this.pageData = {
+				isBind: false,
+				haveTrustee: false,
+				MetaMaskAddress: []
+			}
+			this.getAssets()
+		}
+	},
+	mounted() {
+		this.getAssets()
+	},
     computed: {
-
-     },
-     components: {
-	    HeaderBar,
-	    FooterBar,
+		...mapState({
+			currentAddr: state => state.user.currentAddr
+		})
+    },
+    components: {
+		HeaderBar,
+		FooterBar,
+	},
+	methods: {
+		getImgCode() {
+            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type=REGISTER&macCode=macCode&" + Math.random();
+        },
+		// 获取验证码(区分是重置登陆密码还是绑定的)
+		getSMScode() {
+			if(this.bindAccountForm.phone == "") {
+				this.alert({
+					type: "info",
+					msg: "手机号码不能为空"
+				})
+				return
+			}
+			if(this.bindAccountForm.picCode == "") {
+				this.alert({
+					type: "info",
+					msg: "图形验证码不能为空"
+				})
+				return
+			}
+			this.registerSMScountDown()
+			this.$http.post("/open/captcha", {
+				"macCode": "macCode",
+				"picCode": this.bindAccountForm.picCode,
+				"phone": this.bindAccountForm.phone,
+				"prefix": this.bindAccountForm.prefix,
+				"type": "ACCOUNT_BINDING"
+			}).then(res => {
+				console.log(res)
+				if(res.code != 200) {
+					clearTimeout(this.bindAccountForm.timer)
+					this.bindAccountForm.btnText = '获取验证码'
+				}
+			}).catch(err => {
+				clearTimeout(this.bindAccountForm.timer)
+				this.bindAccountForm.btnText = '获取验证码'
+			})
 		},
-		 methods: {
-			 // 获取验证码(区分是重置登陆密码还是绑定的)
-			 getSMScode() {
-					 if(this.registerForm.phone == "") {
-							 this.alert({
-									 type: "info",
-									 msg: "手机号码不能为空"
-							 })
-							 return
-					 }
-					 this.registerSMScountDown()
-					 this.$http.post("/open/captcha", {
-							 "macCode": "macCode",
-							 "phone": this.registerForm.phone,
-							 "prefix": this.registerForm.prefix,
-							 "type": "REGISTER"
-					 }).then(res => {
-							 console.log(res)
-							 if(res.code != 200) {
-									 clearTimeout(this.registerForm.timer)
-									 this.registerForm.btnText = '获取验证码'
-							 }
-					 }).catch(err => {
-							 clearTimeout(this.registerForm.timer)
-							 this.registerForm.btnText = '获取验证码'
-					 })
-			 },
-			 //短信验证码倒计时
-			 registerSMScountDown() {
-					 if(this.registerForm.s > 0) {
-							 this.registerForm.s--
-							 this.registerForm.btnText = this.registerForm.s + 's'
-							 this.registerForm.timer = setTimeout(this.registerSMScountDown, 1000);
-					 }else {
-							 this.registerForm.s = 60
-							 this.registerForm.btnText = '获取验证码'
-					 }
-			 },
-			 // 判定账号是否已经存在(判断是账号绑定还是邮箱绑定)
-			 registerDo() {
-					 if(this.registerForm.phone == "") {
-							 this.alert({
-									 type: "info",
-									 msg: "手机号码不能为空"
-							 })
-							 return
-					 }
-					 if(this.registerForm.captcha == "") {
-							 this.alert({
-									 type: "info",
-									 msg: "短信验证码不能为空"
-							 })
-							 return
-					 }
-					 this.registerAccount = false
-					 // this.confirmAccountExist = true
-					 this.confirmAccountNotExist = true
-					 // this.$http.post("/open/register/phone", this.registerForm).then(res => {
-						// 	 console.log(res)
-						// 	 if(res.code == 200) {
-						// 			 this.alert({
-						// 					 type: "success",
-						// 					 msg: res.msg
-						// 			 })
-						// 			 this.registerAccount = false
-						// 			 if (res.code) {
-						// 				 // 如果账号已经存在
-						// 				 this.confirmAccountExist = true
-						// 			 } else {
-						// 				 // 如果账号不存在
-						// 				 this.confirmAccountNotExist = true
-						// 			 }
-						// 	 }
-					 // })
-			 },
-			 // 账号已存在确认密码
-			 confirmPass1 () {
-				 if(this.registerForm.loginPwd == "") {
-						 this.alert({
-								 type: "info",
-								 msg: "密码不能为空"
-						 })
-						 return
-				 }
-				 this.$http.post("/open/register/phone", this.registerForm).then(res => {
-						 console.log(res)
-						 if(res.code == 200) {
-								 this.alert({
-										 type: "success",
-										 msg: res.msg
-								 })
-							this.confirmAccountExist = false
-							// 已登陆上平台账号，跟hearder组建通信
-						 }
-				 })
-			 },
-			 // 账号不存在设置密码
-			 confirmPass2() {
-				 if(this.registerForm.loginPwd == "") {
-						 this.alert({
-								 type: "info",
-								 msg: "密码不能为空"
-						 })
-						 return
-				 }
-				 if(this.registerForm.loginPwd2 == "") {
-						 this.alert({
-								 type: "info",
-								 msg: "再次确认密码不能为空"
-						 })
-						 return
-				 }
-				 this.$http.post("/open/register/phone", this.registerForm).then(res => {
-						 console.log(res)
-						 if(res.code == 200) {
-								 this.alert({
-										 type: "success",
-										 msg: res.msg
-								 })
-								 this.confirmAccountNotExist = false
-							// 已登陆上平台账号，跟hearder组建通信
-						 }
-				 })
-			 },
-			 // 确认重置密码
-			 passResetDo () {
-				 if(this.registerForm.resetCaptcha == "") {
-						 this.alert({
-								 type: "info",
-								 msg: "短信验证码不能为空"
-						 })
-						 return
-				 }
-				 if(this.registerForm.resetLoginPwd == "") {
-						 this.alert({
-								 type: "info",
-								 msg: "密码不能为空"
-						 })
-						 return
-				 }
-				 if(this.registerForm.resetLoginPwd2 == "") {
+		//短信验证码倒计时
+		registerSMScountDown() {
+			if(this.bindAccountForm.s > 0) {
+				this.bindAccountForm.s--
+				this.bindAccountForm.btnText = this.bindAccountForm.s + 's'
+				this.bindAccountForm.timer = setTimeout(this.registerSMScountDown, 1000);
+			}else {
+				this.bindAccountForm.s = 60
+				this.bindAccountForm.btnText = '获取验证码'
+			}
+		},
+		// 判定账号是否已经存在(判断是账号绑定还是邮箱绑定)
+		registerDo() {
+				if(this.bindAccountForm.phone == "") {
 						this.alert({
 								type: "info",
-								msg: "再次确认密码不能为空"
+								msg: "手机号码不能为空"
 						})
 						return
 				}
-				if(this.registerForm.resetLoginPwd != this.registerForm.resetLoginPwd2) {
+				if(this.bindAccountForm.captcha == "") {
 						this.alert({
 								type: "info",
-								msg: "两次输入的密码不一致"
+								msg: "短信验证码不能为空"
 						})
 						return
 				}
-				 this.$http.post("/app/user/password", {
-					 'captcha': this.registerForm.resetCaptcha,
-					 'pwd': Md5(this.registerForm.resetLoginPwd)
-				 }).then(res => {
-						 console.log(res)
-						 if(res.code == 200) {
-								 this.alert({
-										 type: "success",
-										 msg: res.msg
-								 })
-								 this.resetPassDialog = false
-						 }
-				 })
-			 },
-			 ...mapMutations({
-					 changeLanguage: "CHANGE_LANGUAGE",
-					 alert: "alert"
-			 })
-		 }
+				this.registerAccount = false
+				// this.confirmAccountExist = true
+				this.confirmAccountNotExist = true
+				// this.$http.post("/open/register/phone", this.bindAccountForm).then(res => {
+				// 	 console.log(res)
+				// 	 if(res.code == 200) {
+				// 			 this.alert({
+				// 					 type: "success",
+				// 					 msg: res.msg
+				// 			 })
+				// 			 this.registerAccount = false
+				// 			 if (res.code) {
+				// 				 // 如果账号已经存在
+				// 				 this.confirmAccountExist = true
+				// 			 } else {
+				// 				 // 如果账号不存在
+				// 				 this.confirmAccountNotExist = true
+				// 			 }
+				// 	 }
+				// })
+		},
+		// 账号已存在确认密码
+		confirmPass1 () {
+			if(this.bindAccountForm.loginPwd == "") {
+					this.alert({
+							type: "info",
+							msg: "密码不能为空"
+					})
+					return
+			}
+			this.$http.post("/open/register/phone", this.bindAccountForm).then(res => {
+					console.log(res)
+					if(res.code == 200) {
+							this.alert({
+									type: "success",
+									msg: res.msg
+							})
+					this.confirmAccountExist = false
+					// 已登陆上平台账号，跟hearder组建通信
+					}
+			})
+		},
+		// 账号不存在设置密码
+		confirmPass2() {
+			if(this.bindAccountForm.loginPwd == "") {
+					this.alert({
+							type: "info",
+							msg: "密码不能为空"
+					})
+					return
+			}
+			if(this.bindAccountForm.loginPwd2 == "") {
+					this.alert({
+							type: "info",
+							msg: "再次确认密码不能为空"
+					})
+					return
+			}
+			this.$http.post("/open/register/phone", this.bindAccountForm).then(res => {
+					console.log(res)
+					if(res.code == 200) {
+							this.alert({
+									type: "success",
+									msg: res.msg
+							})
+							this.confirmAccountNotExist = false
+					// 已登陆上平台账号，跟hearder组建通信
+					}
+			})
+		},
+		// 确认重置密码
+		passResetDo () {
+			if(this.bindAccountForm.resetCaptcha == "") {
+				this.alert({
+						type: "info",
+						msg: "短信验证码不能为空"
+				})
+				return
+			}
+			if(this.bindAccountForm.resetLoginPwd == "") {
+				this.alert({
+						type: "info",
+						msg: "密码不能为空"
+				})
+				return
+			}
+			if(this.bindAccountForm.resetLoginPwd2 == "") {
+				this.alert({
+						type: "info",
+						msg: "再次确认密码不能为空"
+				})
+				return
+			}
+			if(this.bindAccountForm.resetLoginPwd != this.bindAccountForm.resetLoginPwd2) {
+				this.alert({
+						type: "info",
+						msg: "两次输入的密码不一致"
+				})
+				return
+			}
+			this.$http.post("/app/user/password", {
+				'captcha': this.bindAccountForm.resetCaptcha,
+				'pwd': Md5(this.bindAccountForm.resetLoginPwd)
+			}).then(res => {
+					console.log(res)
+					if(res.code == 200) {
+							this.alert({
+									type: "success",
+									msg: res.msg
+							})
+							this.resetPassDialog = false
+					}
+			})
+		},
+		// 获取地址相关信息
+		getAssets() {
+			this.$http.get("/app/user/assets").then(res => {
+				if(res.code == 200) {
+					let addressList = res.result.assets
+					if(addressList.length > 1) {   //有绑定平台账号
+						this.pageData.isBind = true
+
+					}
+					addressList.forEach(val => {
+						if(val.platform == "IMPORT") {
+							this.pageData.MetaMaskAddress.push(val)
+						}else {
+							this.pageData.haveTrustee = true //有绑定平台账号或者本身就是平台账号
+						}
+					})
+				}
+			})
+		},
+		...mapMutations({
+				changeLanguage: "CHANGE_LANGUAGE",
+				alert: "alert"
+		})
+	}
  };
 </script>
 

@@ -19,7 +19,8 @@ export default {
         nowRegister: "Not to creat",
         logout: "Logout",
         accountSecurity: "Account Security",
-        property: "Property"
+        property: "Property",
+        forgetPassword: "Forget Password"
         //home
         
     }

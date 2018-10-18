@@ -50,11 +50,12 @@ const mutations = {
      */
     [types.UPDATE_WEB3_AT](state, playload) {
         state.web3 = Object.assign(state.web3, playload)
+        console.log(state.web3)
     }
 }
 
 const actions = {
-    registerWeb3({commit}) {
+    registerWeb3({commit, rootState}) {
         getWeb3.then(result => {
             commit(types.REGISTER_WEB3_INSTANCE, result)
             //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
@@ -65,21 +66,23 @@ const actions = {
                 if(res.code == 200) {
                     // 未绑定平台账号
                     if(res.result.assets.length <= 1) {
-                        commit(types.OPEN_CONFIRM, {
-                            content: "绑定账号，赢取邀请奖励分ETH",
-                            btn: [
-                                {
-                                    text: "关闭"
-                                },
-                                {
-                                    type: "high",
-                                    text: "去绑定",
-                                    cb: () => {
-                                        router.push('account-security')
+                        if(rootState.user.currentAddr.coinAddress == result.coinbase) {
+                            commit(types.OPEN_CONFIRM, {
+                                content: "绑定账号，赢取邀请奖励分ETH",
+                                btn: [
+                                    {
+                                        text: "关闭"
+                                    },
+                                    {
+                                        type: "high",
+                                        text: "去绑定",
+                                        cb: () => {
+                                            router.push('account-security')
+                                        }
                                     }
-                                }
-                            ]
-                        })
+                                ]
+                            })
+                        }
                         commit(types.UPDATE_WEB3_AT, {
                             at: res.result.assets[0].at,
                             userName: res.result.assets[0].userName,
