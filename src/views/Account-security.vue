@@ -67,7 +67,7 @@
 			<h4>绑定账号</h4>
 			<div class="input-wrap"  style="width:338px;">
 					<label>密码</label>
-					<input type="password" v-model="registerForm.loginPwd" placeholder="字母数字组成，不超过12位">
+					<input type="password" v-model="registerForm.loginPwdCheck" placeholder="字母数字组成，不超过12位">
 			</div>
 			<button @click="confirmPass1">确认</button>
 	</mu-dialog>
@@ -115,6 +115,7 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
+import Md5 from "../../public/js/md5.js"
 import {mapMutations} from "vuex"
  export default {
 	 data () {
@@ -128,20 +129,24 @@ import {mapMutations} from "vuex"
 			 prefixs: ["+86", "+96", "+1234"],
 			 prefixMenu: false,
 			 registerForm: {
-					 "picCode": "",
-					 "captcha": "",
-					 "loginPwd": "",
-					 "loginPwd2": "",
 					 "phone": "",
 					 "prefix": "+86",
+					 "captcha": "",
+
+					 "loginPwdCheck": "",
+
+					 "loginPwd": "",
+					 "loginPwd2": "",
+
 					 "s": 60,
 					 "btnText": "获取验证码",
 					 "timer": null,
-					 "resetCaptcha": "",
-					 "resetLoginPwd": "",
-					 "resetLoginPwd2": "",
 					 "email": "",
 					 "emailCaptcha": "",
+
+					 "resetCaptcha": "", // 重置登陆密码
+					 "resetLoginPwd": "",
+					 "resetLoginPwd2": "",
 			 }
 		 }
 	 },
@@ -166,7 +171,6 @@ import {mapMutations} from "vuex"
 					 this.$http.post("/open/captcha", {
 							 "macCode": "macCode",
 							 "phone": this.registerForm.phone,
-							 "picCode": this.registerForm.picCode,
 							 "prefix": this.registerForm.prefix,
 							 "type": "REGISTER"
 					 }).then(res => {
@@ -279,7 +283,47 @@ import {mapMutations} from "vuex"
 			 },
 			 // 确认重置密码
 			 passResetDo () {
-
+				 if(this.registerForm.resetCaptcha == "") {
+						 this.alert({
+								 type: "info",
+								 msg: "短信验证码不能为空"
+						 })
+						 return
+				 }
+				 if(this.registerForm.resetLoginPwd == "") {
+						 this.alert({
+								 type: "info",
+								 msg: "密码不能为空"
+						 })
+						 return
+				 }
+				 if(this.registerForm.resetLoginPwd2 == "") {
+						this.alert({
+								type: "info",
+								msg: "再次确认密码不能为空"
+						})
+						return
+				}
+				if(this.registerForm.resetLoginPwd != this.registerForm.resetLoginPwd2) {
+						this.alert({
+								type: "info",
+								msg: "两次输入的密码不一致"
+						})
+						return
+				}
+				 this.$http.post("/app/user/password", {
+					 'captcha': this.registerForm.resetCaptcha,
+					 'pwd': Md5(this.registerForm.resetLoginPwd)
+				 }).then(res => {
+						 console.log(res)
+						 if(res.code == 200) {
+								 this.alert({
+										 type: "success",
+										 msg: res.msg
+								 })
+								 this.resetPassDialog = false
+						 }
+				 })
 			 },
 			 ...mapMutations({
 					 changeLanguage: "CHANGE_LANGUAGE",

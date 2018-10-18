@@ -11,7 +11,7 @@
 			<div class="total-bill" v-if="userInfo.token">
 				我的AT总量：{{result.myDB}}
 			</div>
-			<div class="total-bill" v-else>
+			<div class="total-bill" v-else @click="openLogin">
 				登陆
 			</div>
 
@@ -68,7 +68,7 @@
 					<div class="buy-button" v-if="userInfo.token" @click="doTrade('买入')">
 						买入
 					</div>
-					<div class="buy-button" v-else>
+					<div class="buy-button" v-else @click="openLogin">
 						登陆
 					</div>
 				</div>
@@ -90,7 +90,7 @@
 					<div class="buy-button sell-button" v-if="userInfo.token" @click="doTrade('卖出')">
 						卖出
 					</div>
-					<div class="buy-button sell-button" v-else>
+					<div class="buy-button sell-button" v-else @click="openLogin">
 						登陆
 					</div>
 				</div>
@@ -123,6 +123,7 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
+import {mapMutations} from "vuex"
  export default {
 	 data () {
 		 return {
@@ -210,6 +211,7 @@ import FooterBar from "@/components/common/footer_bar"
 			},
 			// 买入卖出交易(此方法只能是用账号登陆时使用)
 			doTrade (type) {
+				console.log('this.getCurrentAddr', this.getCurrentAddr);
 				if (!this.userInfo.token) return
 				let postData = {}
 				postData.address = this.getCurrentAddr.coinAddress
@@ -230,7 +232,8 @@ import FooterBar from "@/components/common/footer_bar"
 						postData.price = this.sellAtPrice
 					}
 				}
-				this.$http.post("/app/bancor/buy_token", postData).then((res) => {
+				console.log('postData',postData);
+				this.$http.post("/app/bancor/order", postData).then((res) => {
 					console.log(res);
 					if (res.code == 200) {
 						// 买卖成功，更新各种币的数量
@@ -249,7 +252,11 @@ import FooterBar from "@/components/common/footer_bar"
 						this.getBancorOrders(this.selectTap)
 					}
 				})
-			}
+			},
+			...mapMutations({
+					alert: "alert",
+					openLogin: "OPEN_LOGIN"
+			})
 		}
  };
 </script>
