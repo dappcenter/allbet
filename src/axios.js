@@ -7,7 +7,7 @@ axios.defaults.baseURL = window.SERVERPATH
 // axios.defaults.baseURL = "http://192.168.120.146"
 
 axios.interceptors.request.use(config => {
-    let token = store.state.user.userInfo.token || ""
+    let token = store.state.user.currentAddr.token || ""
     config.headers.common['token'] = token
     return config
 }, error => {
@@ -17,7 +17,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     // store.commit("closeWait")
     if(response.data.code == -2) {
-        router.replace('home')
+        router.replace('index')
     }
     if(response.data.code != 200) {
         store.commit('alert', {

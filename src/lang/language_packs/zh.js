@@ -16,7 +16,10 @@ export default {
         accountLogin: "账号登录",
         hdWalletLogin: "HD钱包登录",
         notRegister: "没有注册?",
-        nowRegister: "现在就去"
+        nowRegister: "现在就去",
+        logout: "退出登录",
+        accountSecurity: "账户安全",
+        property: "我的资产"
     }
 }
 

@@ -11,7 +11,10 @@ const state = {
         networkId: null,
         coinbase: null,
         balance: null,
-        error: null
+        error: null,
+        at: 0,   //平台游戏币
+        userName: "",  //平台账号名
+        token: ""  //平台账号token
     },
     contractInstance: null
 }
@@ -39,6 +42,13 @@ const mutations = {
     [types.UPDATE_WEB3_INSTANCE](state, payload) {
         state.web3.coinbase = payload.coinbase
         state.web3.balance = state.web3.web3Instance.fromWei(payload.balance, "ether")
+    },
+    /**
+     * 更新web3平台币以及账户名
+     * @author shanks
+     */
+    [types.UPDATE_WEB3_AT](state, playload) {
+        state.web3 = Object.assign(state.web3, playload)
     }
 }
 
@@ -51,7 +61,6 @@ const actions = {
                 type: "ETH",
                 addr: result.coinbase
             }).then(res => {
-                console.log(res)
                 if(res.code == 200) {
                     // 未绑定平台账号
                     if(res.result.assets.length <= 1) {
@@ -70,6 +79,14 @@ const actions = {
                                 }
                             ]
                         })
+                        commit(types.UPDATE_WEB3_AT, {
+                            at: res.result.assets[0].at,
+                            userName: res.result.assets[0].userName,
+                            token: res.result.token
+                        })
+                    }else {
+                        // 已绑定平台账号
+                        commit(types.SET_USERINFO, res.result)
                     }
                 }
             }).catch(err => {

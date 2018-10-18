@@ -17,6 +17,9 @@ export default {
         hdWalletLogin: "HD Wallet Login",
         notRegister: "Not registered yet?",
         nowRegister: "Not to creat",
+        logout: "Logout",
+        accountSecurity: "Account Security",
+        property: "Property"
         //home
         
     }
