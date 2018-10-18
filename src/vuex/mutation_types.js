@@ -40,6 +40,13 @@ export const REGISTER_WEB3_INSTANCE = "REGISTER_WEB3_INSTANCE"
 export const UPDATE_WEB3_INSTANCE = "UPDATE_WEB3_INSTANCE"
 
 /**
+ * 更新web3平台币以及账户名
+ * @author shanks
+ * @module web3Handler
+ */
+export const UPDATE_WEB3_AT = "UPDATE_WEB3_AT"
+
+/**
  * 切换语言
  * @author shanks
  */
@@ -79,3 +86,10 @@ export const OPEN_CONFIRM = "OPEN_CONFIRM"
  * @module dialogs
  */
 export const OPEN_LOGIN = "OPEN_LOGIN"
+
+/**
+ * 更新我的（userinfo）资产
+ * @author shanks
+ * @module user
+ */
+export const UPDATE_USERINFO_PROPERTY = "UPDATE_PROPERTY"

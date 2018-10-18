@@ -18,14 +18,14 @@
                         <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress" :value="item.coinAddress" :solo="true"></mu-option>
                     </mu-select>
                 </div>
-                <div class="user-center">
+                <div class="user-center" v-show="storeCurrentAddr.userName">
                     <img src="../../../public/img/user_icon.png" alt="">
-                    <span>155****4894</span>
+                    <span>{{storeCurrentAddr.userName}}</span>
                     <i></i>
                     <div class="router-list">
-                        <router-link to="my-assets">我的资产</router-link>
-                        <router-link to="account-security">账号安全</router-link>
-                        <a href="javascript:;" @click="removeUserInfo" v-show="userInfo">退出登录</a>
+                        <router-link to="my-assets">{{$t("message.property")}}</router-link>
+                        <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
+                        <a href="javascript:;" @click="removeUserInfo" v-show="userInfo.assets">{{$t("message.logout")}}</a>
                     </div>
                 </div>
                 <a href="javascript:;" class="button login" @click="loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
@@ -56,7 +56,7 @@
                 <p><a href="javascript:;">忘记密码</a></p>
             </div>
         </mu-dialog>
-        <!-- 账号注册 -->
+        <!-- 手机注册账号 -->
         <mu-dialog :open.sync="registerAccount" :append-body="false" class="register-accout">
             <h4>注册</h4>    
             <div class="input-wrap">
@@ -95,8 +95,40 @@
                 <label>确认密码</label>
                 <input type="text" v-model="registerForm.loginPwd2" placeholder="请再次输入您的密码">
             </div>
-            <button @click="registerDo">注册</button>
-            <p><a href="javascript:;">邮箱注册</a></p>
+            <button @click="registerDo('phone')">注册</button>
+            <p><a href="javascript:;" @click="emailRegisterAccount = true; registerAccount = false">邮箱注册</a></p>
+        </mu-dialog>
+        <!-- 邮箱注册账号 -->
+        <mu-dialog :open.sync="emailRegisterAccount" :append-body="false" class="register-accout">
+            <h4>注册</h4>    
+            <div class="input-wrap">
+                <label>账号</label>
+                <input type="text" v-model.trim="emailRegisterForm.phone" placeholder="请输入您的邮箱">
+            </div>
+            <div class="input-wrap">
+                <label>图形码</label>
+                <div class="input-flex">
+                    <input type="text" v-model="emailRegisterForm.picCode" placeholder="请输入图形验证码">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+                </div>
+            </div>
+            <div class="input-wrap">
+                <label>验证码</label>
+                <div class="input-flex">
+                    <input type="text" v-model="emailRegisterForm.captcha" placeholder="请输入邮箱验证码">
+                    <a href="javascript:;" @click="getEmailCode">{{emailRegisterForm.btnText}}</a>
+                </div>
+            </div>
+            <div class="input-wrap">
+                <label>密码</label>
+                <input type="password" v-model="emailRegisterForm.loginPwd" placeholder="字母数字组成，不超过12位">
+            </div>
+            <div class="input-wrap">
+                <label>确认密码</label>
+                <input type="text" v-model="emailRegisterForm.loginPwd2" placeholder="请再次输入您的密码">
+            </div>
+            <button @click="registerDo('email')">注册</button>
+            <p><a href="javascript:;" @click="registerAccount = true; emailRegisterAccount = false">手机注册</a></p>
         </mu-dialog>
     </div>
 </template>
@@ -107,6 +139,7 @@
  */
 import {mapMutations} from "vuex"
 import Md5 from "../../../public/js/md5.js"
+import { setTimeout } from 'timers';
 export default {
     props: {
         type: {
@@ -122,13 +155,25 @@ export default {
             loginSelect: false,   //登录对话框
             loginAccount: false,
             registerAccount: false,
+            emailRegisterAccount: false,  //邮箱注册账号
             prefixMenu: false,
-            registerForm: {
+            registerForm: {  //手机号注册
                 "picCode": "",
                 "captcha": "",
                 "loginPwd": "",
+                "loginPwd2": "",
                 "phone": "",
                 "prefix": "+86",
+                "s": 60,
+                "btnText": "获取验证码",
+                "timer": null
+            },
+            emailRegisterForm: {  //邮箱注册
+                "picCode": "",
+                "captcha": "",
+                "loginPwd": "",
+                "loginPwd2": "",
+                "email": "",
                 "s": 60,
                 "btnText": "获取验证码",
                 "timer": null
@@ -154,6 +199,7 @@ export default {
         if(this.currentAddr == "" && this.$store.state.user.currentAddr) {
             this.currentAddr = this.$store.state.user.currentAddr.coinAddress
         }
+
     },
     watch: {
         type() {
@@ -192,6 +238,7 @@ export default {
         },
         // 获取验证码
         getSMScode() {
+            if(this.registerForm.btnText != "获取验证码") return
             if(this.registerForm.phone == "") {
                 this.alert({
                     type: "info",
@@ -224,30 +271,77 @@ export default {
                 this.registerForm.btnText = '获取验证码'
             })
         },
+        //获取邮箱验证码
+        getEmailCode() {
+            if(this.emailRegisterForm.btnText != "获取验证码") return
+            if(this.emailRegisterForm.email == "") {
+                this.alert({
+                    type: "info",
+                    msg: "邮箱账号不能为空"
+                })
+                return
+            }
+            if(this.emailRegisterForm.picCode == "") {
+                this.alert({
+                    type: "info",
+                    msg: "图像验证码不能为空"
+                })
+                return
+            }
+            this.emailRegisterCountDown()
+            this.$http.post("/open/email_captcha", {
+                "email": this.emailRegisterForm.email,
+                "picCode": this.emailRegisterForm.picCode,
+                "captchaType ": "REGISTER"
+            }).then(res => {
+                console.log(res)
+                if(res.code != 200) {
+                    clearTimeout(this.emailRegisterForm.timer)
+                    this.emailRegisterForm.btnText = '获取验证码'
+                }
+            }).catch(err => {
+                clearTimeout(this.emailRegisterForm.timer)
+                this.emailRegisterForm.btnText = '获取验证码'
+            })
+        },
         // 发起注册
-        registerDo() {
-            if(this.registerForm.phone == "") {
+        registerDo(type) {
+            let url = "/open/register/phone"
+            let obj = this.registerForm
+            if(type == "email") {
+                url = "/open/register/email"
+                obj = this.emailRegisterForm
+            }
+            if(type == "phone" && obj.phone == "") {
                 this.alert({
                     type: "info",
                     msg: "手机号码不能为空"
                 })
                 return
             }
-            if(this.registerForm.captcha == "") {
+            if(type == "email" && obj.email == "") {
                 this.alert({
                     type: "info",
-                    msg: "短信验证码不能为空"
+                    msg: "邮箱账号不能为空"
                 })
                 return
             }
-            if(this.registerForm.loginPwd == "") {
+            if(obj.captcha == "") {
+                this.alert({
+                    type: "info",
+                    msg: "验证码不能为空"
+                })
+                return
+            }
+            if(obj.loginPwd == "") {
                 this.alert({
                     type: "info",
                     msg: "密码不能为空"
                 })
                 return
             }
-            this.$http.post("/open/register/phone", this.registerForm).then(res => {
+            
+            this.$http.post(url, obj).then(res => {
                 console.log(res)
                 if(res.code == 200) {
                     this.alert({
@@ -255,6 +349,7 @@ export default {
                         msg: res.msg
                     })
                     this.registerAccount = false
+                    this.emailRegisterAccount = false
                     this.loginAccount = true
                 }
             })
@@ -270,6 +365,18 @@ export default {
                 this.registerForm.btnText = '获取验证码'
             }
         },
+        //邮箱验证码倒计时
+        emailRegisterCountDown() {
+            if(this.emailRegisterForm.s > 0) {
+                this.emailRegisterForm.s--
+                this.emailRegisterForm.btnText = this.emailRegisterForm.s + 's'
+                this.emailRegisterForm.timer = setTimeout(this.emailRegisterCountDown, 1000);
+            }else {
+                this.emailRegisterForm.s = 60
+                this.emailRegisterForm.btnText = '获取验证码'
+            }
+        },
+
         //登录
         loginDo() {
             const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
@@ -321,6 +428,9 @@ export default {
         },
         isShowLoginBox() {
             return this.$store.state.dialogs.loginBox
+        },
+        storeCurrentAddr() {
+            return this.$store.state.user.currentAddr
         }
     },
     destroyed() {
