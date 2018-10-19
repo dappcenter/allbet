@@ -20,7 +20,7 @@ export default {
         logout: "Logout",
         accountSecurity: "Account Security",
         property: "Property",
-        forgetPassword: "Forget Password"
+        forgetPassword: "忘记密码"
         //home
         
     }

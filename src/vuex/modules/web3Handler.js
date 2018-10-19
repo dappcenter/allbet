@@ -3,6 +3,7 @@ import getWeb3 from "../../util/getWeb3"
 import pollWeb3 from "../../util/pollWeb3"
 import {axios} from "../../axios"
 import router from "../../router"
+import {DappABI} from "../../util/constants/dapp.abi"
 
 const state = {
     web3: {
@@ -12,6 +13,7 @@ const state = {
         coinbase: null,
         balance: null,
         error: null,
+        apiHandle: null,
         at: 0,   //平台游戏币
         userName: "",  //平台账号名
         token: "",  //平台账号token
@@ -29,9 +31,10 @@ const mutations = {
         let web3Copy = state.web3
         web3Copy.coinbase = payload.coinbase
         web3Copy.networkId = payload.networkId
-        web3Copy.balance = payload.web3.fromWei(parseInt(payload.balance, 10), "ether")
+        web3Copy.balance = payload.web3.utils.fromWei(payload.balance, "ether")
         web3Copy.isInjected = payload.injectedWeb3
         web3Copy.web3Instance = payload.web3
+        web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, "0xce90d20306a9426c6447a01bf70062da32a4c802");
         state.web3 = web3Copy
         // 轮询
         pollWeb3()
@@ -42,7 +45,7 @@ const mutations = {
      */
     [types.UPDATE_WEB3_INSTANCE](state, payload) {
         state.web3.coinbase = payload.coinbase
-        state.web3.balance = state.web3.web3Instance.fromWei(payload.balance, "ether")
+        state.web3.balance = state.web3.web3Instance.utils.fromWei(payload.balance || "0", "ether")
     },
     /**
      * 更新web3平台币以及账户名

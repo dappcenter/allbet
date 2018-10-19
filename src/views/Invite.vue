@@ -1,28 +1,28 @@
 <template>
 	<div class="invite-page">
-	<HeaderBar></HeaderBar>
-	<div class="main">
-    <h3>支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受 ETH 分红</h3>
-    <p>平台已发放邀请奖励：2000000 AB</p>
-    <div class="white-div">
-      <p class="invite-title">邀请好友</p>
-      <div class="invite-detail">
-        <div class="">
-          <p class="title">成功邀请：</p>
-          <h4>23 人</h4>
+    <HeaderBar></HeaderBar>
+    <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
+      <h3>支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受 ETH 分红</h3>
+      <p>平台已发放邀请奖励：2000000 AB</p>
+      <div class="white-div">
+        <p class="invite-title">邀请好友</p>
+        <div class="invite-detail">
+          <div class="">
+            <p class="title">成功邀请：</p>
+            <h4>23 人</h4>
+          </div>
+          <div class="">
+            <p class="title">邀请奖励：</p>
+            <h4>5498 AB</h4>
+          </div>
         </div>
-        <div class="">
-          <p class="title">邀请奖励：</p>
-          <h4>5498 AB</h4>
+        <div class="qrcode">
+          <img src="" alt="">
+          <span>专属邀请码：Bwe43lo<br/>专属链接：https://allbet.io/bwe43lo<span class="copy">复制</span></span>
         </div>
-      </div>
-      <div class="qrcode">
-        <img src="" alt="">
-        <span>专属邀请码：Bwe43lo<br/>专属链接：https://allbet.io/bwe43lo<span class="copy">复制</span></span>
       </div>
     </div>
-	</div>
-	<FooterBar ref="ft"></FooterBar>
+    <FooterBar ref="ft"></FooterBar>
 </div>
 
 </template>
@@ -31,20 +31,20 @@
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
  export default {
-	 data () {
-		 return {
-			 ethPrice: 15.3,
-		 }
-	 },
+	  data () {
+		  return {
+			  ethPrice: 15.3,
+		  }
+	  },
     computed: {
 	    betInfo() {
 		    return this.$store.getters.getBetRecordData
 	    }
-     },
-     components: {
+    },
+    components: {
 	    HeaderBar,
 	    FooterBar,
-     }
+    }
  };
 </script>
 

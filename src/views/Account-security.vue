@@ -1,7 +1,7 @@
 <template>
 	<div class="account-security">
 	<HeaderBar></HeaderBar>
-	<div class="main">
+	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
 			<p class="title">
 				<span>账户安全</span>
@@ -9,7 +9,7 @@
 				</span>
 			</p>
 			<li v-if="pageData.haveTrustee"><div>平台账号：</div><div>{{currentAddr.userName}}</div></li>
-			<li v-else><div>平台账号：</div><div class="operation">暂未绑定<span @click="registerAccount = true">去绑定</span></div></li>
+			<li v-else><div>平台账号：</div><div class="operation">暂未绑定<span @click="phoneBind = true">去绑定</span></div></li>
 			<li v-for="item in pageData.MetaMaskAddress"><div>MetaMask地址：</div><div>{{item.coinAddress}}</div></li>
 			<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>MetaMask地址：</div><div>暂未绑定，请登录MetaMask将自动绑定，若已登录请刷新页面</div></li>
 			<li v-if="pageData.haveTrustee"><div>登录密码：</div><div class="operation">********<span @click="resetPassDialog = true">修改</span></div></li>
@@ -17,79 +17,79 @@
 		</div>
 	</div>
 	<!-- 手机账号绑定 -->
-	<mu-dialog :open.sync="registerAccount" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="phoneBind" :append-body="false" class="register-accout">
 		<h4>绑定手机账号</h4>
 		<div class="input-wrap">
 			<label>账号</label>
 			<div class="input-flex prefix">
 				<mu-menu cover :open.sync="prefixMenu">
-					<span color="primary">{{bindAccountForm.prefix}}</span>
+					<span color="primary">{{formData.prefix}}</span>
 					<mu-list slot="content">
-						<mu-list-item button v-for="item in prefixs" :key="item" @click="bindAccountForm.prefix = item;prefixMenu = false">
+						<mu-list-item button v-for="item in prefixs" :key="item" @click="formData.prefix = item;prefixMenu = false">
 							<mu-list-item-title>{{item}}</mu-list-item-title>
 						</mu-list-item>
 					</mu-list>
 				</mu-menu>
-				<input type="text" v-model.trim="bindAccountForm.phone" placeholder="请输入您的手机号码">
+				<input type="text" v-model.trim="formData.phone" placeholder="请输入您的手机号码">
 			</div>
 		</div>
 		<div class="input-wrap">
 			<label>图形码</label>
 			<div class="input-flex">
-				<input type="text" v-model="bindAccountForm.picCode" placeholder="请输入图形验证码">
-				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+				<input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=ACCOUNT_BINDING&macCode=macCode'" alt="" @click="getImgCode('ACCOUNT_BINDING')" ref="imgcode">
 			</div>
 		</div>
 		<div class="input-wrap">
 			<label>验证码</label>
 			<div class="input-flex">
-				<input type="text" v-model="bindAccountForm.captcha" placeholder="请输入短信验证码">
-				<a href="javascript:;" @click="getSMScode">{{bindAccountForm.btnText}}</a>
+				<input type="text" v-model="formData.captcha" placeholder="请输入短信验证码">
+				<a href="javascript:;" @click="getSMScode('ACCOUNT_BINDING')">{{formData.btnText}}</a>
 			</div>
 		</div>
-		<button @click="registerDo">绑定</button>
-		<p><a href="javascript:;" @click="registerAccount = false;registerEmailAccount = true;">绑定邮箱</a></p>
+		<button @click="bindingOneDo('PHONE')">绑定</button>
+		<p><a href="javascript:;" @click="phoneBind = false;registerEmailAccount = true;">绑定邮箱</a></p>
 	</mu-dialog>
 	<!-- 邮箱账号绑定 -->
 	<mu-dialog :open.sync="registerEmailAccount" :append-body="false" class="register-accout">
-			<h4>绑定邮箱账号</h4>
-			<div class="input-wrap">
-					<label>邮箱</label>
-					<div class="input-flex">
-							<input type="text" v-model.trim="bindAccountForm.email" placeholder="请输入您的邮箱账号">
-					</div>
+		<h4>绑定邮箱账号</h4>
+		<div class="input-wrap">
+			<label>邮箱</label>
+			<div class="input-flex">
+				<input type="text" v-model.trim="formData.email" placeholder="请输入您的邮箱账号">
 			</div>
-			<div class="input-wrap">
-					<label>验证码</label>
-					<div class="input-flex">
-							<input type="text" v-model="bindAccountForm.emailCaptcha" placeholder="请输入短信验证码">
-							<a href="javascript:;" @click="getSMScode">{{bindAccountForm.btnText}}</a>
-					</div>
+		</div>
+		<div class="input-wrap">
+			<label>验证码</label>
+			<div class="input-flex">
+				<input type="text" v-model="formData.emailCaptcha" placeholder="请输入短信验证码">
+				<a href="javascript:;" @click="getSMScode">{{formData.btnText}}</a>
 			</div>
-			<button @click="registerDo">绑定</button>
-			<p><a href="javascript:;" @click="registerAccount = true;registerEmailAccount = false;">绑定手机号</a></p>
+		</div>
+		<button @click="bindingOneDo">绑定</button>
+		<p><a href="javascript:;" @click="phoneBind = true;registerEmailAccount = false;">绑定手机号</a></p>
 	</mu-dialog>
 	<!-- 账号已存在输入密码 -->
 	<mu-dialog :open.sync="confirmAccountExist" :append-body="false" class="register-accout">
-			<h4>绑定账号</h4>
-			<div class="input-wrap"  style="width:338px;">
-					<label>密码</label>
-					<input type="password" v-model="bindAccountForm.loginPwdCheck" placeholder="字母数字组成，不超过12位">
-			</div>
-			<button @click="confirmPass1">确认</button>
+		<h4>绑定账号</h4>
+		<div class="input-wrap"  style="width:338px;">
+				<label>密码</label>
+				<input type="password" v-model="formData.loginPwdCheck" placeholder="字母数字组成，不超过12位">
+		</div>
+		<button @click="confirmPass1">确认</button>
 	</mu-dialog>
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="confirmAccountNotExist" :append-body="false" class="register-accout">
-			<h4>绑定账号</h4>
-			<div class="input-wrap" style="width:338px;">
-					<label>密码</label>
-					<input type="password" v-model="bindAccountForm.loginPwd" placeholder="字母数字组成，不超过12位">
-			</div>
-			<div class="input-wrap" style="width:338px;">
-					<label>确认密码</label>
-					<input type="text" v-model="bindAccountForm.loginPwd2" placeholder="请再次输入您的密码">
-			</div>
-			<button @click="confirmPass2">确认</button>
+		<h4>绑定账号</h4>
+		<div class="input-wrap" style="width:338px;">
+				<label>密码</label>
+				<input type="password" v-model="formData.loginPwd" placeholder="字母数字组成，不超过12位">
+		</div>
+		<div class="input-wrap" style="width:338px;">
+				<label>确认密码</label>
+				<input type="text" v-model="formData.loginPwd2" placeholder="请再次输入您的密码">
+		</div>
+		<button @click="bindingTwoDo('PHONE')">确认</button>
 	</mu-dialog>
 	<!-- 重置登陆密码 -->
 	<mu-dialog :open.sync="resetPassDialog" :append-body="false" class="register-accout">
@@ -100,24 +100,24 @@
 			<div class="input-wrap">
 				<label>图形码</label>
 				<div class="input-flex">
-					<input type="text" v-model="bindAccountForm.picCode" placeholder="请输入图形验证码">
+					<input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
 					<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
 				</div>
 			</div>
 			<div class="input-wrap">
 				<label>验证码</label>
 				<div class="input-flex">
-					<input type="text" v-model="bindAccountForm.resetCaptcha" placeholder="请输入验证码">
-					<a href="javascript:;" @click="getSMScode">{{bindAccountForm.btnText}}</a>
+					<input type="text" v-model="formData.resetCaptcha" placeholder="请输入验证码">
+					<a href="javascript:;" @click="getSMScode">{{formData.btnText}}</a>
 				</div>
 			</div>
 			<div class="input-wrap">
 					<label>新的密码</label>
-					<input type="password" v-model="bindAccountForm.resetLoginPwd" placeholder="字母数字组成，不超过12位">
+					<input type="password" v-model="formData.resetLoginPwd" placeholder="字母数字组成，不超过12位">
 			</div>
 			<div class="input-wrap">
 					<label>确认密码</label>
-					<input type="text" v-model="bindAccountForm.resetLoginPwd2" placeholder="请再次输入您的密码">
+					<input type="text" v-model="formData.resetLoginPwd2" placeholder="请再次输入您的密码">
 			</div>
 			<button @click="passResetDo">确认修改</button>
 	</mu-dialog>
@@ -135,32 +135,33 @@ import {mapMutations, mapState} from "vuex"
 	 data () {
 		 return {
 			ethPrice: 15.3,
-			registerAccount: false,
+			phoneBind: false,
 			registerEmailAccount: false,
 			confirmAccountExist: false,
 			confirmAccountNotExist: false,
 			resetPassDialog: false,
 			prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
 			prefixMenu: false,
-			bindAccountForm: {
-					"phone": "",
-					"prefix": "+86",
-					"captcha": "",
-					"picCode": "",
-					"loginPwdCheck": "",
+			formData: {
+				"phone": "",
+				"prefix": "+86",
+				"captcha": "",
+				"picCode": "",
+				"loginPwdCheck": "",
 
-					"loginPwd": "",
-					"loginPwd2": "",
+				"loginPwd": "",
+				"loginPwd2": "",
 
-					"s": 60,
-					"btnText": "获取验证码",
-					"timer": null,
-					"email": "",
-					"emailCaptcha": "",
+				"s": 60,
+				"btnText": "获取验证码",
+				"timer": null,
+				"email": "",
+				"emailCaptcha": "",
 
-					"resetCaptcha": "", // 重置登陆密码
-					"resetLoginPwd": "",
-					"resetLoginPwd2": "",
+				"resetCaptcha": "", // 重置登陆密码
+				"resetLoginPwd": "",
+				"resetLoginPwd2": "",
+				"bindingType": "PHONE"
 			},
 			pageData: {
 				isBind: false,  //是否有绑定关系
@@ -185,7 +186,8 @@ import {mapMutations, mapState} from "vuex"
 	},
     computed: {
 		...mapState({
-			currentAddr: state => state.user.currentAddr
+			currentAddr: state => state.user.currentAddr,
+			storeWeb3: state => state.web3Handler.web3
 		})
     },
     components: {
@@ -193,101 +195,101 @@ import {mapMutations, mapState} from "vuex"
 		FooterBar,
 	},
 	methods: {
-		getImgCode() {
-            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type=REGISTER&macCode=macCode&" + Math.random();
+		getImgCode(type) {
+            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type="+ type +"&macCode=macCode&" + Math.random();
         },
 		// 获取验证码(区分是重置登陆密码还是绑定的)
-		getSMScode() {
-			if(this.bindAccountForm.phone == "") {
-				this.alert({
-					type: "info",
-					msg: "手机号码不能为空"
-				})
-				return
-			}
-			if(this.bindAccountForm.picCode == "") {
-				this.alert({
-					type: "info",
-					msg: "图形验证码不能为空"
-				})
-				return
-			}
+		getSMScode(type) {
+			if(!this.verifyPhone() || !this.verifyPicCode()) return
+
 			this.registerSMScountDown()
 			this.$http.post("/open/captcha", {
 				"macCode": "macCode",
-				"picCode": this.bindAccountForm.picCode,
-				"phone": this.bindAccountForm.phone,
-				"prefix": this.bindAccountForm.prefix,
-				"type": "ACCOUNT_BINDING"
+				"picCode": this.formData.picCode,
+				"phone": this.formData.phone,
+				"prefix": this.formData.prefix,
+				"type": type
 			}).then(res => {
 				console.log(res)
 				if(res.code != 200) {
-					clearTimeout(this.bindAccountForm.timer)
-					this.bindAccountForm.btnText = '获取验证码'
+					clearTimeout(this.formData.timer)
+					this.formData.btnText = '获取验证码'
 				}
 			}).catch(err => {
-				clearTimeout(this.bindAccountForm.timer)
-				this.bindAccountForm.btnText = '获取验证码'
+				clearTimeout(this.formData.timer)
+				this.formData.btnText = '获取验证码'
 			})
 		},
 		//短信验证码倒计时
 		registerSMScountDown() {
-			if(this.bindAccountForm.s > 0) {
-				this.bindAccountForm.s--
-				this.bindAccountForm.btnText = this.bindAccountForm.s + 's'
-				this.bindAccountForm.timer = setTimeout(this.registerSMScountDown, 1000);
+			if(this.formData.s > 0) {
+				this.formData.s--
+				this.formData.btnText = this.formData.s + 's'
+				this.formData.timer = setTimeout(this.registerSMScountDown, 1000);
 			}else {
-				this.bindAccountForm.s = 60
-				this.bindAccountForm.btnText = '获取验证码'
+				this.formData.s = 60
+				this.formData.btnText = '获取验证码'
 			}
 		},
 		// 判定账号是否已经存在(判断是账号绑定还是邮箱绑定)
-		registerDo() {
-				if(this.bindAccountForm.phone == "") {
-						this.alert({
-								type: "info",
-								msg: "手机号码不能为空"
-						})
-						return
+		bindingOneDo(type) {
+			let postObj = {
+				"account": this.formData.phone,
+				"bindingType": type,
+				"captcha": this.formData.captcha
+			}
+			if(type == "PHONE") {
+				if(!this.verifyPhone() || !this.verifyCaptcha()) return
+			}else {
+				if(!this.verifyEmail() || !this.verifyCaptcha()) return
+			}
+			this.$http.post("/app/user/binding", postObj).then(res => {
+				this.phoneBind = false
+				console.log(res)
+				if(res.code == 200) {
+					if(res.result) {  //已注册
+						// this.confirmAccountExist = true  //验证密码
+						this.web3BindAddress(res.result)
+					}else {   //未注册
+						this.confirmAccountNotExist = true  //设置密码
+					}
 				}
-				if(this.bindAccountForm.captcha == "") {
-						this.alert({
-								type: "info",
-								msg: "短信验证码不能为空"
-						})
-						return
+			})
+		},
+		//绑定账号（账号不存在设置初始密码）
+		bindingTwoDo(type) {
+			let postObj = {
+				"account": "string",
+  				"password": "string"
+			}
+			if(type == "PHONE") {
+				if(!this.verifyPhone() || !this.verifyCaptcha()) return
+			}else {
+				if(!this.verifyEmail() || !this.verifyCaptcha()) return
+			}
+			this.$http.post("/app/user/binding", postObj).then(res => {
+				this.phoneBind = false
+				console.log(res)
+				if(res.code == 200) {
+					if(res.result) {  //已注册
+						// this.confirmAccountExist = true  //验证密码
+						this.web3BindAddress(res.result)
+					}else {   //未注册
+						this.confirmAccountNotExist = true  //设置密码
+					}
 				}
-				this.registerAccount = false
-				// this.confirmAccountExist = true
-				this.confirmAccountNotExist = true
-				// this.$http.post("/open/register/phone", this.bindAccountForm).then(res => {
-				// 	 console.log(res)
-				// 	 if(res.code == 200) {
-				// 			 this.alert({
-				// 					 type: "success",
-				// 					 msg: res.msg
-				// 			 })
-				// 			 this.registerAccount = false
-				// 			 if (res.code) {
-				// 				 // 如果账号已经存在
-				// 				 this.confirmAccountExist = true
-				// 			 } else {
-				// 				 // 如果账号不存在
-				// 				 this.confirmAccountNotExist = true
-				// 			 }
-				// 	 }
-				// })
+			})
 		},
 		// 账号已存在确认密码
 		confirmPass1 () {
-			if(this.bindAccountForm.loginPwd == "") {
+			if(this.formData.loginPwd == "") {
 					this.alert({
 							type: "info",
 							msg: "密码不能为空"
 					})
 					return
 			}
-			this.$http.post("/open/register/phone", this.bindAccountForm).then(res => {
+			this.$http.post("/open/register/phone", this.formData).then(res => {
 					console.log(res)
 					if(res.code == 200) {
 							this.alert({
@@ -301,21 +303,21 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 账号不存在设置密码
 		confirmPass2() {
-			if(this.bindAccountForm.loginPwd == "") {
+			if(this.formData.loginPwd == "") {
 					this.alert({
 							type: "info",
 							msg: "密码不能为空"
 					})
 					return
 			}
-			if(this.bindAccountForm.loginPwd2 == "") {
+			if(this.formData.loginPwd2 == "") {
 					this.alert({
 							type: "info",
 							msg: "再次确认密码不能为空"
 					})
 					return
 			}
-			this.$http.post("/open/register/phone", this.bindAccountForm).then(res => {
+			this.$http.post("/open/register/phone", this.formData).then(res => {
 					console.log(res)
 					if(res.code == 200) {
 							this.alert({
@@ -329,28 +331,28 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 确认重置密码
 		passResetDo () {
-			if(this.bindAccountForm.resetCaptcha == "") {
+			if(this.formData.resetCaptcha == "") {
 				this.alert({
 						type: "info",
 						msg: "短信验证码不能为空"
 				})
 				return
 			}
-			if(this.bindAccountForm.resetLoginPwd == "") {
+			if(this.formData.resetLoginPwd == "") {
 				this.alert({
 						type: "info",
 						msg: "密码不能为空"
 				})
 				return
 			}
-			if(this.bindAccountForm.resetLoginPwd2 == "") {
+			if(this.formData.resetLoginPwd2 == "") {
 				this.alert({
 						type: "info",
 						msg: "再次确认密码不能为空"
 				})
 				return
 			}
-			if(this.bindAccountForm.resetLoginPwd != this.bindAccountForm.resetLoginPwd2) {
+			if(this.formData.resetLoginPwd != this.formData.resetLoginPwd2) {
 				this.alert({
 						type: "info",
 						msg: "两次输入的密码不一致"
@@ -358,8 +360,8 @@ import {mapMutations, mapState} from "vuex"
 				return
 			}
 			this.$http.post("/app/user/password", {
-				'captcha': this.bindAccountForm.resetCaptcha,
-				'pwd': Md5(this.bindAccountForm.resetLoginPwd)
+				'captcha': this.formData.resetCaptcha,
+				'pwd': Md5(this.formData.resetLoginPwd)
 			}).then(res => {
 					console.log(res)
 					if(res.code == 200) {
@@ -390,9 +392,59 @@ import {mapMutations, mapState} from "vuex"
 				}
 			})
 		},
+		//手机号验证
+		verifyPhone() {
+			if(this.formData.phone == "" || !/^[0-9]*$/.test(this.formData.phone)) {
+                this.alert({
+                    type: "info",
+                    msg: "手机号输入有误"
+                })
+                return false
+            }
+            return true
+		},
+		//图形验证码验证
+        verifyPicCode() {
+            if(this.formData.picCode == "") {
+                this.alert({
+                    type: "info",
+                    msg: "图形验证码不能为空"
+                })
+                return false
+            }
+            return true
+		},
+		//短信验证码验证
+		verifyCaptcha() {
+			if(this.formData.captcha == "") {
+                this.alert({
+                    type: "info",
+                    msg: "验证码不能为空"
+                })
+                return false
+            }
+            return true
+		},
+		//区块链绑定确认
+		web3BindAddress(userId) {
+			var that = this
+			this.storeWeb3.apiHandle.methods.bindAddress("2001723").send({
+				from: this.currentAddr.coinAddress
+			}).on("receipt", function(receipt) {
+				that.alert({
+					type: "success",
+					msg: "操作成功"
+				})
+			}).on("error", function(error) {
+				that.alert({
+					type: "error",
+					msg: "操作失败"
+				})
+			})
+		},
 		...mapMutations({
-				changeLanguage: "CHANGE_LANGUAGE",
-				alert: "alert"
+			changeLanguage: "CHANGE_LANGUAGE",
+			alert: "alert"
 		})
 	}
  };
@@ -404,7 +456,6 @@ import {mapMutations, mapState} from "vuex"
 		.main {
 			background-color: #2F59B7;
 			padding: 40px 0;
-			min-height: 821px;
 			.content {
 				width: 1200px;
 				background-color: #1A439E;
@@ -416,7 +467,7 @@ import {mapMutations, mapState} from "vuex"
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
 					font-size: 16px;
-          font-weight: bold;
+          			font-weight: bold;
 				}
 				li {
 					display: flex;
@@ -424,23 +475,24 @@ import {mapMutations, mapState} from "vuex"
 					justify-content: center;
 					border-bottom: 1px solid #123990;
 					line-height: 3.5;
-          font-size: 16px;
+          			font-size: 16px;
 					div {
-            text-align: left;
+            			text-align: left;
 					}
 					div:first-child {
 						width: 30%;
 					}
 					div:last-child {
-            width: 70%;
+            			width: 70%;
 					}
 					 .operation {
 					 	position: relative;
 						span {
 							margin-left: 10px;
-              color: #FFDB5B;
-              position: absolute;
-              right: 0;
+							color: #FFDB5B;
+							position: absolute;
+							right: 0;
+							cursor: pointer;
 						}
 					 }
 				}

@@ -29,7 +29,8 @@ const state = {
             }
         ]
     },
-    loginBox: false
+    loginBox: false,
+    loading: false
 }
 
 const mutations = {
@@ -70,6 +71,12 @@ const mutations = {
      */
     [types.OPEN_LOGIN](state) {
         state.loginBox = !state.loginBox
+    },
+    openWait(state) {
+        state.loading = true
+    },
+    closeWait(state) {
+        state.loading = false
     }
 }
 

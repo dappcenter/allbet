@@ -3,7 +3,7 @@
  * @author shanks
  * @date 2018/10/9
  */
-import Web3 from "web3"
+// import Web3 from "web3"
 
 /*
 * 1. 检查注入web3
@@ -19,7 +19,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
     if(typeof web3js !== "undefined") {
         let web3 = new Web3(web3js.currentProvider)
         resolve({
-            injectedWeb3: web3.isConnected(),
+            // injectedWeb3: web3.isConnected(),
             web3
         })
     }else {
@@ -28,14 +28,17 @@ let getWeb3 = new Promise(function(resolve, reject) {
 }).then(result => {
     return new Promise(function(resolve, reject) {
         // 检测networkID
-        result.web3.version.getNetwork((err, networkId) => {
-            if(err) {
-                reject(new Error("无法检索网络ID"))
-            }else {
-                result = Object.assign({}, result, {networkId})
-                resolve(result)
-            }
-        })
+        // result.web3.version.getNetwork((err, networkId) => {
+        //     if(err) {
+        //         reject(new Error("无法检索网络ID"))
+        //     }else {
+        //         result = Object.assign({}, result, {networkId})
+        //         resolve(result)
+        //     }
+        // })
+
+        result = Object.assign({}, result, {networkId: 1})
+        resolve(result)
     })
 }).then(result => {
     return new Promise(function(resolve, reject) {

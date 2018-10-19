@@ -1,11 +1,11 @@
 <template>
 	<div class="my-assets">
 	<HeaderBar></HeaderBar>
-	<div class="main">
+	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
 			<p class="title"><span>我的资产</span><span @click="goRecord">交易记录</span></p>
 			<li><div>币种</div><div>数量</div><div>操作</div></li>
-			<li><div>ETH</div><div>{{myAssets.eth}}</div><div class="operation"><span @click="chargeBill">充币</span><span  @click="mentionBill">提币</span></div></li>
+			<li><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">充币</span><span  @click="mentionBill">提币</span></div></li>
 			<div class="charge"  v-show="showChargeBill">
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
@@ -47,7 +47,7 @@
 					<span>温馨提示：请确保提笔地址无误，否则资产将不可找回。</span><span class="take-out">提币</span>
 				</p>
 			</div>
-			<li><div>AT</div><div>{{myAssets.at}}</div><div class="operation"><span @click="goHome">购买</span><span @click="goHome">出售</span></div></li>
+			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="goHome">购买</span><span @click="goHome">出售</span></div></li>
 			<li><div>BET</div><div>{{myAssets.bet}}</div><div>--</div></li>
 		</div>
 	</div>
@@ -61,7 +61,7 @@ import QRCode from 'qrcodejs2'
 import Clipboard from 'clipboard';
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
-import {mapMutations} from "vuex"
+import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
@@ -71,66 +71,69 @@ import {mapMutations} from "vuex"
 		 }
 	 },
     computed: {
-     },
+		...mapState({
+			currentAddr: state => state.user.currentAddr
+		})
+    },
      components: {
 	    HeaderBar,
 	    FooterBar,
+	},
+	created () {
+		this.getAssets()
+	},
+	mounted () {
+		this.copyBtn = new Clipboard(this.$refs.copy)
+	},
+	methods: {
+		goRecord () {
+			this.$router.push('trading-record')
 		},
-		created () {
-			this.getAssets()
+		goHome(){
+			this.$router.push('index')
 		},
-		mounted () {
-			this.copyBtn = new Clipboard(this.$refs.copy)
+		// 获取我的资产
+		getAssets () {
+			this.$http.get("/app/user/assets",{}).then((res) => {
+				console.log(res);
+				if (res.code == 200) {
+					let assets = (res.result || {}).assets || []
+					console.log('assets',assets);
+					this.myAssets = assets[0] || {}
+					var qrcode = new QRCode(document.getElementById("qrcode1"), {
+						width: 108,
+						height: 108,
+					});
+					qrcode.makeCode(this.myAssets.coinAddress);
+				}
+			})
 		},
-		methods: {
-			goRecord () {
-				this.$router.push('trading-record')
-			},
-			goHome(){
-				this.$router.push('index')
-			},
-			// 获取我的资产
-			getAssets () {
-				this.$http.get("/app/user/assets",{}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						let assets = (res.result || {}).assets || []
-						console.log('assets',assets);
-						this.myAssets = assets[0] || {}
-						var qrcode = new QRCode(document.getElementById("qrcode1"), {
-						  width: 108,
-						  height: 108,
-						});
-						qrcode.makeCode(this.myAssets.coinAddress);
-					}
+		copy () {
+		let clipboard = this.copyBtn
+		clipboard.on('success', () => {
+				this.alert({
+						type: "success",
+						msg: "复制成功！"
 				})
-			},
-			copy () {
-	      let clipboard = this.copyBtn
-	      clipboard.on('success', () => {
-					this.alert({
-							type: "success",
-							msg: "复制成功！"
-					})
-	      })
-	      clipboard.on('error', () => {
-					this.alert({
-							type: "success",
-							msg: "复制失败，请手动复制！"
-					})
-	      })
-		},
-		chargeBill() {
-			this.showChargeBill = !this.showChargeBill
-			this.showMentionBill = false
-		},
-		mentionBill() {
-			this.showMentionBill = !this.showMentionBill
-			this.showChargeBill = false
-		},
-		...mapMutations({
-				alert: "alert",
 		})
+		clipboard.on('error', () => {
+				this.alert({
+						type: "success",
+						msg: "复制失败，请手动复制！"
+				})
+		})
+	},
+	chargeBill() {
+		this.showChargeBill = !this.showChargeBill
+		this.showMentionBill = false
+	},
+	mentionBill() {
+		this.showMentionBill = !this.showMentionBill
+		this.showChargeBill = false
+	},
+	...mapMutations({
+		alert: "alert",
+	})
  }
 }
 </script>

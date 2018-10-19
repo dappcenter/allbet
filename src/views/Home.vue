@@ -139,25 +139,31 @@
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
 import {mapMutations} from "vuex"
+import {DappABI} from "../util/constants/dapp.abi.js"
+import { setTimeout, clearInterval } from 'timers';
  export default {
 	 data () {
 		 return {
-			 ethMarketPrice: '', // 市面上 1at=??eth
-			 ethPrice: "市价", // 1ETH=??At
-			 buyEthNumber: '', // 买入??ETh
-			 getAtNumber: 0, // 获得AT的数量
+			ethMarketPrice: '', // 市面上 1at=??eth
+			ethPrice: "市价", // 1ETH=??At
+			buyEthNumber: '', // 买入??ETh
+			getAtNumber: 0, // 获得AT的数量
 
-			 sellAtPrice: '市价', // 1at=??eth
-			 buyAtNumber: '',// 买入??AT
-			 getEthNumber: 0,// 获得ETH的数量
+			sellAtPrice: '市价', // 1at=??eth
+			buyAtNumber: '',// 买入??AT
+			getEthNumber: 0,// 获得ETH的数量
 
-			 result: {},
-			 selectTap: 0,
+			result: {},
+			selectTap: 0,
 
-			 recentOrderList: [], //近期交易列表
-			 // entrustOrderList: [], //委托单列表
-		 }
-	 },
+			recentOrderList: [], //近期交易列表
+			// entrustOrderList: [], //委托单列表
+			timer: null
+		}
+	},
+	mounted() {
+
+	},
     computed: {
 			ethInfo() {
 				return this.$store.state.web3Handler.web3
@@ -168,166 +174,211 @@ import {mapMutations} from "vuex"
 			getCurrentAddr() {
 				return this.$store.state.user.currentAddr
 			}
-     },
-     components: {
+    },
+    components: {
 	    HeaderBar,
 	    FooterBar,
+	},
+	created () {
+		this.getInfo()
+		this.getBancorOrders(this.selectTap)
+		this.getMarketAtPrice()
+	},
+	mounted() {
+
+	},
+	methods: {
+		filter(item) {
+			if (item.tradeType == 'MARKET_BUY') {
+				return item.inAmount ? '+ '+item.inAmount:'- -'
+			} else {
+				return item.outAmount?'- '+item.outAmount:'--'
+			}
 		},
-		created () {
-			this.getInfo()
-			this.getBancorOrders(this.selectTap)
-			this.getMarketAtPrice()
+		filter1(item) {
+			if (item.tradeType == 'MARKET_BUY') {
+				return item.outAmount ? '- '+item.outAmount:'- -'
+			} else {
+				return item.inAmount?'+ '+item.inAmount:'--'
+			}
 		},
-		methods: {
-			filter(item) {
-				if (item.tradeType == 'MARKET_BUY') {
-					return item.inAmount ? '+ '+item.inAmount:'- -'
-				} else {
-					return item.outAmount?'- '+item.outAmount:'--'
-				}
-			},
-			filter1(item) {
-				if (item.tradeType == 'MARKET_BUY') {
-					return item.outAmount ? '- '+item.outAmount:'- -'
-				} else {
-					return item.inAmount?'+ '+item.inAmount:'--'
-				}
-			},
-			filterState(item) {
-				switch (item.tradeStatus) {
-					case 'ENTRUST':
-					return '委托中'
-					break;
-					case 'DONE':
-					return '交易成功'
-					break;
-					case 'WAITING':
-					return '等待中'
-					break;
-					case 'CANCEL':
-					return '撤单成功'
-					break;
-				}
-			},
-			changeAtNumber() {
-					this.getAtNumber = this.ethPrice == '市价' ? (1/this.ethMarketPrice).toFixed(8) * this.buyEthNumber : (1/this.ethPrice).toFixed(8) * this.buyEthNumber
-			},
-			changeEthNumber() {
-					this.getEthNumber = this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
-			},
-			// 获取奖金池&AT数量
-			getInfo () {
-				this.$http.get("/app/home/summary_basis",{
+		filterState(item) {
+			switch (item.tradeStatus) {
+				case 'ENTRUST':
+				return '委托中'
+				break;
+				case 'DONE':
+				return '交易成功'
+				break;
+				case 'WAITING':
+				return '等待中'
+				break;
+				case 'CANCEL':
+				return '撤单成功'
+				break;
+			}
+		},
+		changeAtNumber() {
+				this.getAtNumber = this.ethPrice == '市价' ? (1/this.ethMarketPrice).toFixed(8) * this.buyEthNumber : (1/this.ethPrice).toFixed(8) * this.buyEthNumber
+		},
+		changeEthNumber() {
+				this.getEthNumber = this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
+		},
+		// 获取奖金池&AT数量
+		getInfo () {
+			this.$http.get("/app/home/summary_basis",{
 
-				}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						this.result = res.result || {}
-					}
-				})
-			},
-			// 获取近期交易
-			getBancorOrders (selectTap) {
-				this.$http.get("/app/home/bancor_orders",{
-				params:{
-					"onlyMe": selectTap == 1?true:false,
-					"page": 1,
-					"pageSize":20,
+			}).then((res) => {
+				if (res.code == 200) {
+					this.result = res.result || {}
 				}
-				}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						const recentOrderList = res.result.list
-						console.log('recentOrderList', recentOrderList);
-						recentOrderList.forEach((value,key) => {
-							console.log(value);
-							let addr = value.address
-							value.address = value.address.substr(0,4) + '.....' +addr.substr(addr.length - 6,addr)
-						})
-						this.recentOrderList = recentOrderList
-						console.log('this.recentOrderList', this.recentOrderList);
-					}
-				})
-			},
-			// 切换tap
-			clickTap (i) {
-				this.selectTap = i
-				this.getBancorOrders(this.selectTap)
-			},
-			// 获取AT市价
-			getMarketAtPrice () {
-				this.$http.get("/app/bancor/price",{
-
-				}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						this.ethMarketPrice = res.result.toFixed(8)
-					}
-				})
-			},
-			// 买入卖出交易(此方法只能是用账号登陆时使用)
-			doTrade (type) {
-				console.log('this.getCurrentAddr', this.getCurrentAddr);
-				console.log('ethInfo', this.ethInfo);
-				let postData = {}
-				postData.address = this.getCurrentAddr.coinAddress
-				console.log('this.currentAddr.address',this.getCurrentAddr.coinAddress);
-				postData.tokenName = 'AT'
-				if (type == '买入') {
-					if (this.getAtNumber <= 0) return
-					postData.amount = this.buyEthNumber
-					postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
-					if (this.ethPrice != '市价') {
-						postData.price = (1/this.ethPrice).toFixed(8)
-					}
-				} else if (type == '卖出') {
-					if (this.getEthNumber <= 0) return
-					postData.amount = this.buyAtNumber
-					postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
-					if (this.sellAtPrice != '市价') {
-						postData.price = this.sellAtPrice
-					}
-				}
-				console.log('postData',postData);
-				this.$http.post("/app/bancor/order", postData).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						// 买卖成功，更新各种币的数量
-						if (res.platform == 'IMPORT') {
-							// 走去中心化平台
-							let orderId = res.orderId
-						} else {
-							this.$store.dispatch('updateProperty')
-						}
-					}
-				})
-			},
-			// 撤单
-			cancelOrder (item) {
-				if (item.tradeStatus == 'DONE' || item.tradeStatus == 'CANCEL') return
-				// 走中心化平台撤单
-				if (item.platform == 'DISPATCHER') {
-					this.$http.post("/app/bancor/order/cancel/"+item.entrustId).then((res) => {
-						console.log(res);
-						if (res.code == 200) {
-							this.alert({
-									type: "success",
-									msg: "撤单成功！"
-							})
-							// 撤单成功，更改状态&更新各种币的数量
-							this.getBancorOrders(this.selectTap)
-						}
-					})
-				} else {
-					// 走区块链平台撤单
-
-				}
-			},
-			...mapMutations({
-					alert: "alert",
-					openLogin: "OPEN_LOGIN"
 			})
-		}
+		},
+		// 获取近期交易
+		getBancorOrders (selectTap) {
+			this.$http.get("/app/home/bancor_orders",{
+			params:{
+				"onlyMe": selectTap == 1?true:false,
+				"page": 1,
+				"pageSize":20,
+			}
+			}).then((res) => {
+				if (res.code == 200) {
+					const recentOrderList = res.result.list
+					recentOrderList.forEach((value,key) => {
+						let addr = value.address
+						value.address = value.address.substr(0,4) + '.....' +addr.substr(addr.length - 6,addr)
+					})
+					this.recentOrderList = recentOrderList
+					// console.log('this.recentOrderList', this.recentOrderList);
+				}
+			})
+		},
+		// 切换tap
+		clickTap (i) {
+			this.selectTap = i
+			this.getBancorOrders(this.selectTap)
+		},
+		// 获取AT市价
+		getMarketAtPrice () {
+			this.$http.get("/app/bancor/price",{
+
+			}).then((res) => {
+				console.log(res);
+				if (res.code == 200) {
+					this.ethMarketPrice = res.result.toFixed(8)
+				}
+			})
+		},
+		// 买入卖出交易(此方法只能是用账号登陆时使用)
+		doTrade (type) {
+			let postData = {}
+			postData.address = this.getCurrentAddr.coinAddress
+			postData.tokenName = 'AT'
+			if (type == '买入') {
+				if (this.getAtNumber <= 0) return
+				postData.amount = this.buyEthNumber
+				postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
+				if (this.ethPrice != '市价') {
+					postData.price = (1/this.ethPrice).toFixed(8)
+				}
+			} else if (type == '卖出') {
+				if (this.getEthNumber <= 0) return
+				postData.amount = this.buyAtNumber
+				postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
+				if (this.sellAtPrice != '市价') {
+					postData.price = this.sellAtPrice
+				}
+			}
+			this.$http.post("/app/bancor/order", postData).then((res) => {
+				console.log(res);
+				if (res.code == 200) {
+					// 买卖成功，更新各种币的数量
+					if (res.result.platform == 'IMPORT') {
+						// 走去中心化平台
+						if(type == "买入") {
+							this.buyToken(res.result.orderId, postData.amount, this.getAtNumber, postData.address)
+						}else {
+							this.sellToken(res.result.orderId, this.getEthNumber, postData.amount, postData.address)
+						}
+					} else {
+						this.$store.dispatch('updateProperty')
+						this.alert({
+							type: "success",
+							msg: res.msg
+						})
+					}
+				}
+			})
+		},
+		// 撤单
+		cancelOrder (item) {
+			if (item.tradeStatus == 'DONE' || item.tradeStatus == 'CANCEL') return
+			// 走中心化平台撤单
+			if (item.platform == 'DISPATCHER') {
+				this.$http.post("/app/bancor/order/cancel/"+item.entrustId).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.alert({
+								type: "success",
+								msg: "撤单成功！"
+						})
+						// 撤单成功，更改状态&更新各种币的数量
+						this.getBancorOrders(this.selectTap)
+					}
+				})
+			} else {
+				// 走区块链平台撤单
+
+			}
+		},
+		// 区块链转账(实时成交)
+		buyToken(oid, ethAmount, atAmount, addr) {
+			let that = this
+			ethAmount = this.ethInfo.web3Instance.utils.toWei(ethAmount, "ether")
+			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount+"", "ether")
+			this.ethInfo.apiHandle.methods.buyToken(oid, ethAmount, atAmount).send({
+				from: addr,
+				value: ethAmount
+			}).on("receipt", function(receipt) {
+				that.alert({
+					type: "success",
+					msg: "交易成功"
+				})
+			})
+			.on("error", function(error) {
+				that.alert({
+					type: "error",
+					msg: "交易失败"
+				})
+			});
+		},
+		// 区块链卖at币(实时成交)
+		sellToken(oid, ethAmount, atAmount, addr) {
+			let that = this
+			ethAmount = this.ethInfo.web3Instance.utils.toWei(ethAmount+"", "ether")
+			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount, "ether")
+			
+			this.ethInfo.apiHandle.methods.sellToken(oid, atAmount, ethAmount).send({
+				from: addr,
+			}).on("receipt", function(receipt) {
+				that.alert({
+					type: "success",
+					msg: "交易成功"
+				})
+			})
+			.on("error", function(error) {
+				that.alert({
+					type: "error",
+					msg: "交易失败"
+				})
+			});
+		},
+		...mapMutations({
+			alert: "alert",
+			openLogin: "OPEN_LOGIN"
+		})
+	}
  };
 </script>
 
@@ -335,9 +386,6 @@ import {mapMutations} from "vuex"
 	.home-page {
 		margin: 0 auto;
 		.main {
-			// display: flex;
-			// justify-content: space-around;
-			// padding: 20px;
 			min-height: 1000px;
 			.top {
                 position: relative;
@@ -452,7 +500,7 @@ import {mapMutations} from "vuex"
 							border: 1px solid #DCDCDC;
 							border-radius: 6px;
 							height: 48px;
-					    line-height: 48px;
+					    	line-height: 48px;
 							margin-top: 20px;
 							.price {
 								display: inline-block;
@@ -460,8 +508,8 @@ import {mapMutations} from "vuex"
 								border: none;
 								outline: none;
 								height: 100%;
-						    text-align: center;
-						    vertical-align: top;
+								text-align: center;
+								vertical-align: top;
 								color: #323232;
 								font-weight: bold;
 							}
@@ -470,7 +518,7 @@ import {mapMutations} from "vuex"
 								display: inline-block;
 								text-align: center;
 								border-right: 1px solid #DCDCDC;
-								    height: 100%;
+								height: 100%;
 							}
 							.num-right {
 								border-left: 1px solid #DCDCDC;
@@ -492,7 +540,8 @@ import {mapMutations} from "vuex"
 							line-height:48px;
 							text-align: center;
 							position: absolute;
-					    bottom: 30px;
+							cursor: pointer;
+					    	bottom: 30px;
 						}
 						.sell-button {
 							background-color: #E95B62;
@@ -500,9 +549,9 @@ import {mapMutations} from "vuex"
 					}
 					.sell {
 						background-color: #fff;
-            margin-left: 40px;
-            box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
-            border-radius:6px;
+						margin-left: 40px;
+						box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
+						border-radius:6px;
 						.transparent {
 							color: transparent;
 						}
@@ -529,6 +578,7 @@ import {mapMutations} from "vuex"
 							display: inline-block;
 							width: 50%;
 							text-align: center;
+							cursor: pointer;
 						}
 						.selected {
 							color: #323232;

@@ -14,6 +14,13 @@
 								<button v-for="btn in confirmOption.btn" :class="btn.type" @click="onConfirmBtn(btn.cb)">{{btn.text}}</button>
 						</div>
         </mu-dialog>
+
+				<div class="loading-shade" v-show="loading">
+						<div class="loading-box">
+								<img src="../public/svg/loading.svg" alt="">
+						</div>
+				</div>
+
 		</div>
 </template>
 
@@ -45,7 +52,8 @@ export default {
   	computed: {
 				...mapState({
 						alertOption: state => state.dialogs.alertOption,
-						confirmOption: state => state.dialogs.confirmOption
+						confirmOption: state => state.dialogs.confirmOption,
+						loading: state => state.dialogs.loading
 				})
   	},
   	methods: {
@@ -106,6 +114,22 @@ body {
 						}
 				}
 		}
+		.loading-shade {
+			position: fixed;
+			z-index: 9999999;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			.loading-box {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 8%;
+			}
+		}
+
 }
 #nav {
   	padding: 30px;

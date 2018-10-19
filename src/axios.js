@@ -7,15 +7,17 @@ axios.defaults.baseURL = window.SERVERPATH
 // axios.defaults.baseURL = "http://192.168.120.146"
 
 axios.interceptors.request.use(config => {
+    store.commit("openWait")
     let token = store.state.user.currentAddr.token || ""
     config.headers.common['token'] = token
     return config
 }, error => {
+    store.commit("closeWait")
     return Promise.reject(error)
 })
 
 axios.interceptors.response.use(response => {
-    // store.commit("closeWait")
+    store.commit("closeWait")
     if(response.data.code == -2) {
         router.replace('index')
     }
@@ -27,7 +29,7 @@ axios.interceptors.response.use(response => {
     }
     return response.data
 }, err => {
-    // store.commit("closeWait")
+    store.commit("closeWait")
     if (err && err.response) {
         switch (err.response.status) {
         case 400:
@@ -86,7 +88,7 @@ axios.interceptors.response.use(response => {
             msg: '请求超时'
         })
     }
-    return Promise.reject(error)
+    return Promise.reject(err)
 })
 
 export {axios}
