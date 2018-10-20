@@ -297,9 +297,9 @@ import { setTimeout, clearInterval } from 'timers';
 					if (res.result.platform == 'IMPORT') {
 						// 走去中心化平台
 						if(type == "买入") {
-							this.buyToken(res.result.orderId, postData.amount, this.getAtNumber, postData.address)
+							this.buyToken(res.result.orderId, postData.price || this.ethMarketPrice, postData.amount, postData.address)
 						}else {
-							this.sellToken(res.result.orderId, this.getEthNumber, postData.amount, postData.address)
+							this.sellToken(res.result.orderId, postData.price || this.ethMarketPrice, postData.amount, postData.address)
 						}
 					} else {
 						this.$store.dispatch('updateProperty')
@@ -333,11 +333,10 @@ import { setTimeout, clearInterval } from 'timers';
 			}
 		},
 		// 区块链转账(实时成交)
-		buyToken(oid, ethAmount, atAmount, addr) {
+		buyToken(oid, atPrice, ethAmount, addr) {
 			let that = this
 			ethAmount = this.ethInfo.web3Instance.utils.toWei(ethAmount, "ether")
-			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount+"", "ether")
-			this.ethInfo.apiHandle.methods.buyToken(oid, ethAmount, atAmount).send({
+			this.ethInfo.apiHandle.methods.placeBuyOrder(oid, atPrice, ethAmount).send({
 				from: addr,
 				value: ethAmount
 			}).on("receipt", function(receipt) {
@@ -354,12 +353,11 @@ import { setTimeout, clearInterval } from 'timers';
 			});
 		},
 		// 区块链卖at币(实时成交)
-		sellToken(oid, ethAmount, atAmount, addr) {
+		sellToken(oid, atPrice, atAmount, addr) {
 			let that = this
-			ethAmount = this.ethInfo.web3Instance.utils.toWei(ethAmount+"", "ether")
 			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount, "ether")
 			
-			this.ethInfo.apiHandle.methods.sellToken(oid, atAmount, ethAmount).send({
+			this.ethInfo.apiHandle.methods.placeSellOrder(oid, atPrice, atAmount).send({
 				from: addr,
 			}).on("receipt", function(receipt) {
 				that.alert({
