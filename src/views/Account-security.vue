@@ -388,7 +388,7 @@ import {mapMutations, mapState} from "vuex"
 		//区块链绑定确认
 		web3BindAddress(userId) {
 			var that = this
-			this.storeWeb3.apiHandle.methods.bindAddress("2001723").send({
+			this.storeWeb3.apiHandle.methods.bindAddress(userId).send({
 				from: this.currentAddr.coinAddress
 			}).on("receipt", function(receipt) {
 				that.alert({

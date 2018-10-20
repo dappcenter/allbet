@@ -56,12 +56,12 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @change="changeAtNumber">
+						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @input="changeAtNumber">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="text" placeholder="请输入买入 ETH 数量" class="price" v-model="buyEthNumber" @change="changeAtNumber">
+						<input type="number" placeholder="请输入买入 ETH 数量" class="price" v-model="buyEthNumber" @input="changeAtNumber">
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>您将获得 {{getAtNumber}} AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
@@ -77,12 +77,12 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @change="changeEthNumber">
+						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @input="changeEthNumber">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="text" placeholder="请输入买入 AT数量" class="price" v-model="buyAtNumber" @change="changeEthNumber">
+						<input type="number" placeholder="请输入买入 AT数量" class="price" v-model="buyAtNumber" @input="changeEthNumber">
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>您将获得 {{getEthNumber}} ETH</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>

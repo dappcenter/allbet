@@ -1,1 +1,1 @@
-window.SERVERPATH = "http://192.168.150.156"
+window.SERVERPATH = "http://192.168.150.134"

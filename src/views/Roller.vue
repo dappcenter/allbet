@@ -3,6 +3,7 @@
         <HeaderBar></HeaderBar>
         <div class="main">
             <Bet></Bet>
+            <AEFcountDownBtn></AEFcountDownBtn>
 			<Record></Record>
         </div>
         <FooterBar></FooterBar>
@@ -15,6 +16,7 @@ import Bet from "@/components/roller/bet"
 import Preview from "@/components/dice/preview"
 import Record from "@/components/roller/record"
 import FooterBar from "@/components/common/footer_bar"
+import AEFcountDownBtn from "@/components/common/countDownBtn"
 
 export default {
     computed: {
@@ -27,7 +29,8 @@ export default {
         FooterBar,
         Bet,
         Preview,
-        Record
+        Record,
+        AEFcountDownBtn
     }
 }
 </script>

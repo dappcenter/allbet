@@ -28,7 +28,7 @@
                         <a href="javascript:;" @click="removeUserInfo" v-show="userInfo.assets">{{$t("message.logout")}}</a>
                     </div>
                 </div>
-                <a href="javascript:;" class="button login" @click="loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+                <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
                 <a href="javascript:;" class="button lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
             </div>
@@ -38,12 +38,12 @@
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <!-- 登录选择 -->
-        <mu-dialog :open.sync="loginSelect" :append-body="false" class="login-select">
+        <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>    
             <img src="../../../public/img/github.png" alt="">
-            <button @click="loginAccount = true;loginSelect = false">{{$t("message.accountLogin")}}</button>
+            <button @click="loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
             <button class="hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
-            <p>{{$t("message.notRegister")}}<a href="javascript:;" @click="registerAccount = true;loginSelect = false">{{$t("message.nowRegister")}}</a></p>
+            <p>{{$t("message.notRegister")}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a></p>
         </mu-dialog>
         <!-- 账号登录 -->
         <mu-dialog :open.sync="loginAccount" :append-body="false" class="login-accout">
@@ -52,12 +52,12 @@
             <input type="password" v-model.trim="loginForm.password" placeholder="请输入您登录密码">
             <button @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
-                <p>没有账号？<a href="javascript:;" @click="registerAccount = true;loginAccount = false">现在注册</a></p>
+                <p>没有账号？<a href="javascript:;" @click="displayStatus.registerAccount = true;loginAccount = false">现在注册</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
         </mu-dialog>
         <!-- 手机注册账号 -->
-        <mu-dialog :open.sync="registerAccount" :append-body="false" class="register-accout">
+        <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
             <h4>注册</h4>    
             <div class="input-wrap">
                 <label>手机号</label>
@@ -96,10 +96,10 @@
                 <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
             </div>
             <button @click="registerDo('phone')">注册</button>
-            <p><a href="javascript:;" @click="emailRegisterAccount = true; registerAccount = false">邮箱注册</a></p>
+            <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">邮箱注册</a></p>
         </mu-dialog>
         <!-- 邮箱注册账号 -->
-        <mu-dialog :open.sync="emailRegisterAccount" :append-body="false" class="register-accout">
+        <mu-dialog :open.sync="displayStatus.emailRegisterAccount" :append-body="false" class="register-accout">
             <h4>注册</h4>    
             <div class="input-wrap">
                 <label>邮箱账号</label>
@@ -128,7 +128,7 @@
                 <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
             </div>
             <button @click="registerDo('email')">注册</button>
-            <p><a href="javascript:;" @click="registerAccount = true; emailRegisterAccount = false">手机注册</a></p>
+            <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">手机注册</a></p>
         </mu-dialog>
         <!-- 找回密码 -->
         <mu-dialog :open.sync="findPassword" :append-body="false" class="register-accout">
@@ -211,12 +211,15 @@ export default {
             prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
             currentAddr: "",
             shadeOpacity: 1,
-            loginSelect: false,   //登录对话框
+            // loginSelect: false,   //登录对话框
             loginAccount: false,
-            registerAccount: false,
-            emailRegisterAccount: false,  //邮箱注册账号
             findPassword: false,   //找回密码
             prefixMenu: false,
+            displayStatus: {
+                loginSelect: false,   //登录对话框
+                registerAccount: false,  //手机注册账号
+                emaildisplayStatus: false,  //邮箱注册账号
+            },
             loginForm: {
                 "account": "",
                 "password": "",
@@ -272,7 +275,20 @@ export default {
             })
         },
         isShowLoginBox() {
-            this.loginSelect = true
+            this.displayStatus.loginSelect = true
+        },
+        displayStatus: {
+            handler: function() {
+                this.formData = Object.assign(this.formData, {
+                    phone: "",   //手机号
+                    captcha: "",   //短信验证码
+                    password: "",  //密码
+                    password2: "",  //2次密码
+                    email: "",  //邮箱账号
+                    picCode: "", //图形验证码
+                })
+            },
+            deep: true
         }
     },
     methods: {
@@ -292,7 +308,6 @@ export default {
         // 获取验证码
         getSMScode(type) {
             if(this.btnText != "获取验证码") return
-            console.log(type, this.formData.phone)
             if(!this.verifyPhone() || !this.verifyPicCode()) return
          
             this.registerSMScountDown()  //开始倒计时
@@ -306,11 +321,12 @@ export default {
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
-                    clearTimeout(this.countDownTimer)
+                    console.log(221222)
+                    window.clearTimeout(this.countDownTimer)
                     this.btnText = '获取验证码'
                 }
             }).catch(err => {
-                clearTimeout(this.countDownTimer)
+                window.clearTimeout(this.countDownTimer)
                 this.btnText = '获取验证码'
             })
         },
@@ -361,8 +377,8 @@ export default {
                         type: "success",
                         msg: res.msg
                     })
-                    this.registerAccount = false
-                    this.emailRegisterAccount = false
+                    this.displayStatus.registerAccount = false
+                    this.displayStatus.emailRegisterAccount = false
                     this.loginAccount = true
                 }
             })
@@ -372,6 +388,7 @@ export default {
             if(this.s > 0) {
                 this.s--
                 this.btnText = this.s + 's'
+                console.log(this.countDownTimer)
                 this.countDownTimer = setTimeout(this.registerSMScountDown, 1000);
             }else {
                 this.s = 60
@@ -528,7 +545,7 @@ export default {
                             type: "high",
                             text: "账号登录",
                             cb: () => {
-                                this.loginSelect = false
+                                this.displayStatus.loginSelect = false
                                 this.loginAccount = true
                             }
                         }
