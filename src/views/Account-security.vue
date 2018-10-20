@@ -69,15 +69,6 @@
 		<button @click="bindingOneDo">绑定</button>
 		<p><a href="javascript:;" @click="phoneBind = true;registerEmailAccount = false;">绑定手机号</a></p>
 	</mu-dialog>
-	<!-- 账号已存在输入密码 -->
-	<mu-dialog :open.sync="confirmAccountExist" :append-body="false" class="register-accout">
-		<h4>绑定账号</h4>
-		<div class="input-wrap"  style="width:338px;">
-				<label>密码</label>
-				<input type="password" v-model="formData.loginPwdCheck" placeholder="字母数字组成，不超过12位">
-		</div>
-		<button @click="confirmPass1">确认</button>
-	</mu-dialog>
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="confirmAccountNotExist" :append-body="false" class="register-accout">
 		<h4>绑定账号</h4>
@@ -259,74 +250,24 @@ import {mapMutations, mapState} from "vuex"
 		//绑定账号（账号不存在设置初始密码）
 		bindingTwoDo(type) {
 			let postObj = {
-				"account": "string",
-  				"password": "string"
+				"account": this.formData.phone,
+  				"password": Md5(this.formData.loginPwd)
 			}
 			if(type == "PHONE") {
 				if(!this.verifyPhone() || !this.verifyCaptcha()) return
 			}else {
 				if(!this.verifyEmail() || !this.verifyCaptcha()) return
 			}
-			this.$http.post("/app/user/binding", postObj).then(res => {
+			if(!this.verifyPassword()) return
+			this.$http.post("/app/user/binding_two", postObj).then(res => {
 				this.phoneBind = false
 				console.log(res)
 				if(res.code == 200) {
-					if(res.result) {  //已注册
-						// this.confirmAccountExist = true  //验证密码
+					if(res.result) {
+						this.confirmAccountNotExist = false
 						this.web3BindAddress(res.result)
-					}else {   //未注册
-						this.confirmAccountNotExist = true  //设置密码
 					}
 				}
-			})
-		},
-		// 账号已存在确认密码
-		confirmPass1 () {
-			if(this.formData.loginPwd == "") {
-					this.alert({
-							type: "info",
-							msg: "密码不能为空"
-					})
-					return
-			}
-			this.$http.post("/open/register/phone", this.formData).then(res => {
-					console.log(res)
-					if(res.code == 200) {
-							this.alert({
-									type: "success",
-									msg: res.msg
-							})
-					this.confirmAccountExist = false
-					// 已登陆上平台账号，跟hearder组建通信
-					}
-			})
-		},
-		// 账号不存在设置密码
-		confirmPass2() {
-			if(this.formData.loginPwd == "") {
-					this.alert({
-							type: "info",
-							msg: "密码不能为空"
-					})
-					return
-			}
-			if(this.formData.loginPwd2 == "") {
-					this.alert({
-							type: "info",
-							msg: "再次确认密码不能为空"
-					})
-					return
-			}
-			this.$http.post("/open/register/phone", this.formData).then(res => {
-					console.log(res)
-					if(res.code == 200) {
-							this.alert({
-									type: "success",
-									msg: res.msg
-							})
-							this.confirmAccountNotExist = false
-					// 已登陆上平台账号，跟hearder组建通信
-					}
 			})
 		},
 		// 确认重置密码
@@ -425,6 +366,25 @@ import {mapMutations, mapState} from "vuex"
             }
             return true
 		},
+		// 二次密码验证
+        verifyPassword() {
+            var regx =/^[a-zA-Z]\w{7,12}$/
+            if(!regx.test(this.formData.loginPwd)) {
+                this.alert({
+                    type: "info",
+                    msg: "密码必须为8-12位数字字母的组合"
+                })
+                return false
+            }
+            if(this.formData.loginPwd !== this.formData.loginPwd2) {
+                this.alert({
+                    type: "info",
+                    msg: "两次密码输入不一致"
+                })
+                return false
+            }
+            return true
+        },
 		//区块链绑定确认
 		web3BindAddress(userId) {
 			var that = this

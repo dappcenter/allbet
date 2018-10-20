@@ -280,16 +280,74 @@ import { setTimeout, clearInterval } from 'timers';
 				postData.amount = this.buyEthNumber
 				postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
 				if (this.ethPrice != '市价') {
-					postData.price = (1/this.ethPrice).toFixed(8)
+					if(!/^\d+(\.\d+)?$/.test(this.ethPrice)) {
+						this.alert({
+							type: "error",
+							msg: "价格输入有误"
+						})
+						return
+					}
+					postData.price = (this.ethPrice*1).toFixed(8)
 				}
 			} else if (type == '卖出') {
 				if (this.getEthNumber <= 0) return
 				postData.amount = this.buyAtNumber
 				postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
 				if (this.sellAtPrice != '市价') {
-					postData.price = this.sellAtPrice
+					if(!/^\d+(\.\d+)?$/.test(this.sellAtPrice)) {
+						this.alert({
+							type: "error",
+							msg: "价格输入有误"
+						})
+						return
+					}
+					postData.price = (this.sellAtPrice*1).toFixed(8)
 				}
 			}
+			if(postData.price) {
+				if(postData.price < this.ethMarketPrice*0.9) {
+					this.openConfirm({
+						content: "您输入的价格低于市价超过10%",
+						btn: [
+							{
+								text: "取消交易"
+							},
+							{
+								type: "high",
+								text: "继续交易",
+								cb: () => {
+									this.placeOrder(postData, type)
+								}
+							}
+						]
+					})
+				}else if(postData.price > this.ethMarketPrice*1.1) {
+					this.openConfirm({
+						content: "您输入的价格高于市价超过10%",
+						btn: [
+							{
+								text: "取消交易"
+							},
+							{
+								type: "high",
+								text: "继续交易",
+								cb: () => {
+									this.placeOrder(postData, type)
+								}
+							}
+						]
+					})
+				}else {
+					this.placeOrder(postData, type)
+				}
+			}else {
+				this.placeOrder(postData, type)
+			}
+			
+			
+		},
+		//下单
+		placeOrder(postData, type) {
 			this.$http.post("/app/bancor/order", postData).then((res) => {
 				console.log(res);
 				if (res.code == 200) {
@@ -374,7 +432,8 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		...mapMutations({
 			alert: "alert",
-			openLogin: "OPEN_LOGIN"
+			openLogin: "OPEN_LOGIN",
+			openConfirm: "OPEN_CONFIRM"
 		})
 	}
  };
