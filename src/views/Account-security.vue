@@ -236,10 +236,8 @@ import {mapMutations, mapState} from "vuex"
 			}
 			this.$http.post("/app/user/binding", postObj).then(res => {
 				this.phoneBind = false
-				console.log(res)
 				if(res.code == 200) {
 					if(res.result) {  //已注册
-						// this.confirmAccountExist = true  //验证密码
 						this.web3BindAddress(res.result)
 					}else {   //未注册
 						this.confirmAccountNotExist = true  //设置密码

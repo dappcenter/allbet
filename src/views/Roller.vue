@@ -43,7 +43,6 @@ export default {
 <style lang="less">
 .roller-page {
     margin: 0 auto;
-    max-width: 1600px;
     .main {
         min-height: 1000px;
     }

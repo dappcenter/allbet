@@ -29,8 +29,8 @@ const getters = {
         let list = filterAddr(state.userInfo.assets)
         let b = false
         if(rootState.web3Handler.web3.coinbase) {
-            if(list.length > 0) {
-                list.forEach(value => {
+            if(state.userInfo.assets && state.userInfo.assets.length > 1) {
+                state.userInfo.assets.forEach(value => {
                     b = value.coinAddress == rootState.web3Handler.web3.coinbase
                 })
                 if(!b) {
@@ -38,8 +38,8 @@ const getters = {
                         coinAddress: rootState.web3Handler.web3.coinbase,
                         eth: rootState.web3Handler.web3.balance,
                         at: rootState.web3Handler.web3.at,
-                        userName: rootState.web3Handler.web3.userName,
-                        token: rootState.web3Handler.web3.token,
+                        userName: list[0].userName,
+                        token: list[0].token,
                         platform: rootState.web3Handler.web3.platform,
                     })
                 }

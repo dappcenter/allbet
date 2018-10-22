@@ -53,7 +53,6 @@ const mutations = {
      */
     [types.UPDATE_WEB3_AT](state, playload) {
         state.web3 = Object.assign(state.web3, playload)
-        console.log(state.web3)
     }
 }
 
@@ -94,6 +93,15 @@ const actions = {
                     }else {
                         // 已绑定平台账号
                         commit(types.SET_USERINFO, res.result)
+                        res.result.assets.forEach(val => {
+                            if(val.coinAddress == result.coinbase) {
+                                commit(types.UPDATE_WEB3_AT, {
+                                    at: res.result.assets[0].at,
+                                    userName: res.result.assets[0].userName,
+                                    token: res.result.token
+                                })
+                            }
+                        })
                     }
                 }
             }).catch(err => {
