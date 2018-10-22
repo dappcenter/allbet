@@ -5,6 +5,12 @@
 </template>
 
 <script>
+/**
+ * 获取短信码倒计时组件
+ * @param {Boolean} model 按钮是否可点击
+ * @author shanks
+ * @date 2018-10-2
+ */
 export default {
     props: {
         disabled: {

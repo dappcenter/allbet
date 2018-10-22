@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M64.0000232,19 C61.5860751,18.9999995 59.1725601,19.9163804 57.3387257,21.7502279 L21.7507729,57.338396 C18.0830852,61.0061067 18.0830662,66.9934037 21.7507729,70.6610694 L57.3387257,106.249237 C61.0064039,109.916914 66.9936763,109.916927 70.6613188,106.249237 L106.249272,70.6610694 C109.916917,66.993398 109.916902,61.0061067 106.249272,57.338396 L70.6613188,21.7502279 C68.8274788,19.9163878 66.4139695,19.0000005 64.0000232,19 Z" id="path-1"></path>
+        <filter x="-12.2%" y="-14.4%" width="128.9%" height="128.9%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="2" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="One-Cube-Logo">
+            <g id="Shape" transform="translate(64.000000, 64.000000) rotate(45.000000) translate(-64.000000, -64.000000) ">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <circle id="Oval-2" fill="#4E4E4E" cx="77" cy="44" r="6"></circle>
+            <circle id="Oval-2" fill="#4E4E4E" cx="50" cy="44" r="6"></circle>
+            <circle id="Oval-2" fill="#4E4E4E" cx="77" cy="64" r="6"></circle>
+            <circle id="Oval-2" fill="#4E4E4E" cx="50" cy="64" r="6"></circle>
+            <circle id="Oval-2" fill="#4E4E4E" cx="77" cy="85" r="6"></circle>
+            <circle id="Oval-2" fill="#4E4E4E" cx="50" cy="85" r="6"></circle>
+        </g>
+    </g>
+</svg>

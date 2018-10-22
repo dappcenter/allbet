@@ -82,7 +82,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="number" placeholder="请输入买入 AT数量" class="price" v-model="buyAtNumber" @input="changeEthNumber">
+						<input type="number" placeholder="请输入卖出 AT数量" class="price" v-model="buyAtNumber" @input="changeEthNumber">
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>您将获得 {{getEthNumber}} ETH</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
@@ -250,7 +250,6 @@ import { setTimeout, clearInterval } from 'timers';
 						value.address = value.address.substr(0,4) + '.....' +addr.substr(addr.length - 6,addr)
 					})
 					this.recentOrderList = recentOrderList
-					// console.log('this.recentOrderList', this.recentOrderList);
 				}
 			})
 		},
