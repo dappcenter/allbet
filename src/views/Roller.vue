@@ -3,7 +3,6 @@
         <HeaderBar></HeaderBar>
         <div class="main">
             <Bet></Bet>
-            <AEFcountDownBtn v-model="disabled" @click.native="disabled = true"></AEFcountDownBtn>
 			<Record></Record>
         </div>
         <FooterBar></FooterBar>

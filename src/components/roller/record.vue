@@ -1,9 +1,5 @@
 <template>
 	<section class="module-record">
-		<div class="topbar">
-			<h3>历史游戏</h3>
-			<a href="javascript:;">只有我</a>
-		</div>
 		<div class="t-head">
 			<span>玩家</span>
 			<span>赌注</span>
@@ -111,28 +107,13 @@ export default {
     position: relative;
     display: flex;
 	flex-direction: column;
-	.topbar {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		color: #fff;
-		font-family: "San Francisco Display Thin";
-		margin: 30px 0 10px;
-		padding: 0 20px;
-		h3 {
-			font-weight: 200;
-			font-size: 25px;
-		}
-		a {
-			color: #fff;
-			font-size: 14px;
-		}
-	}
 	.t-head {
 		display: flex;
-		color: #b1adad;
-		padding: 0 20px 2px;
+		color: #D2D2D2;
+		font-size: 18px;
+		height: 90px;
 		border-bottom: 1px solid #b1adad;
+		background-color: #2F59B7;
 		span {
 			flex: 2;
 			&:nth-child(4) {

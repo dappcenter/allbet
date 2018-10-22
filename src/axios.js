@@ -4,7 +4,6 @@ import router from './router'
 
 
 axios.defaults.baseURL = window.SERVERPATH
-// axios.defaults.baseURL = "http://192.168.120.146"
 
 axios.interceptors.request.use(config => {
     store.commit("openWait")
