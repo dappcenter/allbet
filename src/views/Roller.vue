@@ -3,7 +3,7 @@
         <HeaderBar></HeaderBar>
         <div class="main">
             <Bet></Bet>
-            <AEFcountDownBtn></AEFcountDownBtn>
+            <AEFcountDownBtn v-model="disabled" @click.native="disabled = true"></AEFcountDownBtn>
 			<Record></Record>
         </div>
         <FooterBar></FooterBar>
@@ -19,6 +19,11 @@ import FooterBar from "@/components/common/footer_bar"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
 
 export default {
+    data() {
+        return {
+            disabled: false
+        }
+    },
     computed: {
         betInfo() {
             return this.$store.state.roller.betInfo

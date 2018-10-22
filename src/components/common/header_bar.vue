@@ -41,8 +41,8 @@
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>    
             <img src="../../../public/img/github.png" alt="">
-            <button @click="loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
-            <button class="hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
+            <button class="primary-btn" @click="loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
+            <button class="primary-btn hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
             <p>{{$t("message.notRegister")}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a></p>
         </mu-dialog>
         <!-- 账号登录 -->
@@ -50,7 +50,7 @@
             <h4>{{$t("message.login")}}</h4>    
             <input type="text" v-model.trim="loginForm.account" placeholder="请输入您的手机号或者邮箱">
             <input type="password" v-model.trim="loginForm.password" placeholder="请输入您登录密码">
-            <button @click="loginDo">{{$t("message.login")}}</button>
+            <button class="primary-btn" @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
                 <p>没有账号？<a href="javascript:;" @click="displayStatus.registerAccount = true;loginAccount = false">现在注册</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
@@ -84,7 +84,7 @@
                 <label>验证码</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.captcha" placeholder="请输入短信验证码">
-                    <a href="javascript:;" @click="getSMScode('REGISTER')">{{btnText}}</a>
+                    <AEFcountDownBtn v-model="captchaDisabled" @click.native="getSMScode('REGISTER')"></AEFcountDownBtn>
                 </div>
             </div>
             <div class="input-wrap">
@@ -95,7 +95,7 @@
                 <label>确认密码</label>
                 <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
             </div>
-            <button @click="registerDo('phone')">注册</button>
+            <button class="primary-btn" @click="registerDo('phone')">注册</button>
             <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">邮箱注册</a></p>
         </mu-dialog>
         <!-- 邮箱注册账号 -->
@@ -116,7 +116,7 @@
                 <label>验证码</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.captcha" placeholder="请输入邮箱验证码">
-                    <a href="javascript:;" @click="getEmailCode">{{btnText}}</a>
+                    <AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
                 </div>
             </div>
             <div class="input-wrap">
@@ -127,7 +127,7 @@
                 <label>确认密码</label>
                 <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
             </div>
-            <button @click="registerDo('email')">注册</button>
+            <button class="primary-btn" @click="registerDo('email')">注册</button>
             <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">手机注册</a></p>
         </mu-dialog>
         <!-- 找回密码 -->
@@ -156,7 +156,7 @@
                 <label>图形码</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
                 </div>
             </div>
 
@@ -164,14 +164,14 @@
                 <label>验证码</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.captcha" placeholder="请输入短信验证码">
-                    <a href="javascript:;" @click="getSMScode('CHANGE_PWD')">{{btnText}}</a>
+                    <AEFcountDownBtn v-model="captchaDisabled" @click.native="getSMScode('CHANGE_PWD')"></AEFcountDownBtn>
                 </div>
             </div>
             <div class="input-wrap" v-show="formData.resetType == 'EMAIL'">
                 <label>验证码</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.captcha" placeholder="请输入邮箱验证码">
-                    <a href="javascript:;" @click="getEmailCode">{{btnText}}</a>
+                    <AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('CHANGE_PWD')"></AEFcountDownBtn>
                 </div>
             </div>
 
@@ -183,7 +183,7 @@
                 <label>确认密码</label>
                 <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
             </div>
-            <button @click="findPasswordDo">确定</button>
+            <button class="primary-btn" @click="findPasswordDo">确定</button>
             <p>
                 <a href="javascript:;" @click="formData.resetType = 'EMAIL'" v-show="formData.resetType == 'PHONE'">邮箱找回</a>
                 <a href="javascript:;" @click="formData.resetType = 'PHONE'" v-show="formData.resetType == 'EMAIL'">手机号找回</a>
@@ -198,7 +198,7 @@
  */
 import {mapMutations, mapState} from "vuex"
 import Md5 from "../../../public/js/md5.js"
-import { setTimeout } from 'timers';
+import AEFcountDownBtn from "@/components/common/countDownBtn"
 export default {
     props: {
         type: {
@@ -246,7 +246,8 @@ export default {
             countDownTimer: null,   //短信倒计时
             btnText: "获取验证码",  //发送短信按钮文字
             s: 60,  //短信倒计时时间
-            macCode: "123456"
+            macCode: "123456",
+            captchaDisabled: false
         }
     },
     mounted() {
@@ -287,6 +288,7 @@ export default {
                     email: "",  //邮箱账号
                     picCode: "", //图形验证码
                 })
+                this.captchaDisabled = false
             },
             deep: true
         }
@@ -310,7 +312,7 @@ export default {
             if(this.btnText != "获取验证码") return
             if(!this.verifyPhone() || !this.verifyPicCode()) return
          
-            this.registerSMScountDown()  //开始倒计时
+            this.captchaDisabled = true  //开始倒计时
 
             this.$http.post("/open/captcha", {
                 "macCode": this.macCode,
@@ -319,38 +321,31 @@ export default {
                 "prefix": this.formData.prefix,
                 "type": type
             }).then(res => {
-                console.log(res)
                 if(res.code != 200) {
-                    console.log(221222)
-                    window.clearTimeout(this.countDownTimer)
-                    this.btnText = '获取验证码'
+                    this.captchaDisabled = false
                 }
             }).catch(err => {
-                window.clearTimeout(this.countDownTimer)
-                this.btnText = '获取验证码'
+                this.captchaDisabled = false
             })
         },
         //获取邮箱验证码
-        getEmailCode() {
-            if(this.btnText != "获取验证码") return
+        getEmailCode(type) {
             if(!this.verifyEmail() || !this.verifyPicCode()) return
          
-            this.registerSMScountDown()  //开始倒计时
+            this.captchaDisabled = true  //开始倒计时
             this.$http.get("/open/email_captcha", {
                 params: {
                     "email": this.formData.email,
                     "picCode": this.formData.picCode,
-                    "captchaType": "REGISTER"
+                    "captchaType": type
                 }
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
-                    clearTimeout(this.countDownTimer)
-                    this.btnText = '获取验证码'
+                    this.captchaDisabled = false
                 }
             }).catch(err => {
-                clearTimeout(this.countDownTimer)
-                this.btnText = '获取验证码'
+                this.captchaDisabled = false
             })
         },
         // 发起注册
@@ -382,29 +377,6 @@ export default {
                     this.loginAccount = true
                 }
             })
-        },
-        //短信验证码倒计时
-        registerSMScountDown() {
-            if(this.s > 0) {
-                this.s--
-                this.btnText = this.s + 's'
-                console.log(this.countDownTimer)
-                this.countDownTimer = setTimeout(this.registerSMScountDown, 1000);
-            }else {
-                this.s = 60
-                this.btnText = '获取验证码'
-            }
-        },
-        //找回密码短信验证码倒计时
-        findPadCountDown() {
-            if(this.findPsdForm.s > 0) {
-                this.findPsdForm.s--
-                this.findPsdForm.btnText = this.findPsdForm.s + 's'
-                this.findPsdForm.timer = setTimeout(this.findPadCountDown, 1000);
-            }else {
-                this.findPsdForm.s = 60
-                this.findPsdForm.btnText = '获取验证码'
-            }
         },
         //登录
         loginDo() {
@@ -451,7 +423,6 @@ export default {
             }
             if(!this.verifyPassword()) return
             this.$http.post("/open/password", obj).then(res => {
-                console.log(res)
                 if(res.code == "200") {
                     this.alert({
                         type: "success",
@@ -573,6 +544,9 @@ export default {
         addressList() {
             return this.$store.getters.getUserAddress
         },
+    },
+    components: {
+        AEFcountDownBtn
     },
     destroyed() {
         //销毁事件
@@ -772,7 +746,7 @@ export default {
         }
         .mu-dialog {
             max-width: initial !important;
-            button {
+            .primary-btn {
                 display: block;
                 width: 240px;
                 height: 40px;
@@ -905,7 +879,7 @@ export default {
                     color: #5480D9;
                 }
             }
-            button {
+            .primary-btn {
                 margin: 40px auto 0;
             }
         }
