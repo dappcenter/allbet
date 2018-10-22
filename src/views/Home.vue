@@ -56,7 +56,7 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @input="changeAtNumber">
+						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @input="changeAtNumber" onfocus="this.value = this.value == '市价' ? '' : this.value" onblur="this.value = this.value == '' ? '市价' : this.value">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
@@ -77,7 +77,7 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @input="changeEthNumber">
+						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @input="changeEthNumber" onfocus="this.value = this.value == '市价' ? '' : this.value" onblur="this.value = this.value == '' ? '市价' : this.value">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
@@ -429,6 +429,7 @@ import { setTimeout, clearInterval } from 'timers';
 				})
 			});
 		},
+		//input聚焦去除市价文字
 		...mapMutations({
 			alert: "alert",
 			openLogin: "OPEN_LOGIN",

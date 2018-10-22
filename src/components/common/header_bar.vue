@@ -41,19 +41,19 @@
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>    
             <img src="../../../public/img/github.png" alt="">
-            <button class="primary-btn" @click="loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
+            <button class="primary-btn" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
             <button class="primary-btn hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
             <p>{{$t("message.notRegister")}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a></p>
         </mu-dialog>
         <!-- 账号登录 -->
-        <mu-dialog :open.sync="loginAccount" :append-body="false" class="login-accout">
+        <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
             <h4>{{$t("message.login")}}</h4>    
             <input type="text" v-model.trim="loginForm.account" placeholder="请输入您的手机号或者邮箱">
             <input type="password" v-model.trim="loginForm.password" placeholder="请输入您登录密码">
             <button class="primary-btn" @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
-                <p>没有账号？<a href="javascript:;" @click="displayStatus.registerAccount = true;loginAccount = false">现在注册</a></p>
-                <p><a href="javascript:;" @click="findPassword = true; loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
+                <p>没有账号？<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">现在注册</a></p>
+                <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
         </mu-dialog>
         <!-- 手机注册账号 -->
@@ -211,14 +211,13 @@ export default {
             prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
             currentAddr: "",
             shadeOpacity: 1,
-            // loginSelect: false,   //登录对话框
             loginAccount: false,
             findPassword: false,   //找回密码
             prefixMenu: false,
             displayStatus: {
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号
-                emaildisplayStatus: false,  //邮箱注册账号
+                emailRegisterAccount: false,  //邮箱注册账号
             },
             loginForm: {
                 "account": "",
@@ -374,7 +373,7 @@ export default {
                     })
                     this.displayStatus.registerAccount = false
                     this.displayStatus.emailRegisterAccount = false
-                    this.loginAccount = true
+                    this.displayStatus.loginAccount = true
                 }
             })
         },
@@ -402,7 +401,7 @@ export default {
                         type: "success",
                         msg: res.msg
                     })
-                    this.loginAccount = false
+                    this.displayStatus.loginAccount = false
                     this.setUserInfo(res.result)
                 }
             })
@@ -517,7 +516,7 @@ export default {
                             text: "账号登录",
                             cb: () => {
                                 this.displayStatus.loginSelect = false
-                                this.loginAccount = true
+                                this.displayStatus.loginAccount = true
                             }
                         }
                     ]
