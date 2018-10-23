@@ -53,7 +53,17 @@ export default {
         return {
             unfold: -1
         }
-    }
+	},
+	methods: {
+		getData() {
+			this.$http.get('/app/dice/board', {
+				params: {
+					page: 1,
+					pageSize: 10
+				}
+			})
+		}
+	}
 }
 </script>
 

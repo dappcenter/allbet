@@ -4,7 +4,7 @@
 			<div class="ctn-top">
 				<div class="number-show">
 					<div>
-						<h3>49</h3>
+						<h3>{{(odds*1).toFixed()}}</h3>
 						<span>预测数</span>
 					</div>
 					<div>
@@ -32,51 +32,59 @@
 			<ul class="ctn-mdl">
 				<li>
 					<label>赔率</label>
-					<span>{{odds}}</span>
+					<span>{{peilv}}</span>
 				</li>
 				<li>
 					<label>收益</label>
-					<span>{{odds}}</span>
+					<span>{{Math.floor((amount*peilv-amount)*1000) / 1000}}</span>
 				</li>
 				<li>
 					<label>概率</label>
-					<span>{{odds}}</span>
+					<span>{{odds}}%</span>
 				</li>
 			</ul>
 			<div class="ctn-btm">
 				<h4>竞猜数量</h4>
 				<div class="flex-wrap">
-					<div class=""></div>
-					<button>猜小于49</button>
+					<div class="hotkeys">
+						<div class="input-wrap">
+							<input type="number" v-model="amount">
+							<span class="add" @click="onAdd"></span>
+							<span class="minus" @click="onMinus"></span>
+						</div>
+						<span @click="onHotkeys(0.05)">0.05</span>
+						<span @click="onHotkeys(0.10)">0.10</span>
+						<span @click="onHotkeys(1.00)">1.00</span>
+						<span @click="onHotkeys('max')">MAX</span>
+					</div>
+					<button class="enter">猜小于49</button>
+				</div>
+				<div class="tips">
+					<span class="fl">最小下注数量为 0.1 ETH</span>
+					<span class="fr">建议 Gas Price：9</span>
+					<span class="fr">余额：10 ETH</span>
 				</div>
 			</div>
-			<!-- 下注 -->
-			<div class="hotkeys">
-				<span @click="onHotkeys(0.05)">0.05</span>
-				<span @click="onHotkeys(0.10)">0.10</span>
-				<span @click="onHotkeys(1.00)">1.00</span>
-				<span @click="onHotkeys('max')">最大</span>
-			</div>
-			<div class="input-wrap">
-				<span class="add" @click="onAdd"></span>
-				<input type="number" v-model="amount">
-				<span class="minus" @click="onMinus"></span>
-			</div>
+			
 		</div>
 		
 	</section>
 </template>
 
 <script>
-import {mapMutations} from "vuex"
+import {mapMutations, mapState} from "vuex"
 export default {
     data() {
         return {
             amount: 0.12,
             checkedNum: 1,
-            odds: 1
+			odds: 1,
+			rule: {}
         }
-    },
+	},
+	created() {
+		this.getRule()
+	},
     mounted() {
 
         this.setBetInfo({
@@ -90,12 +98,12 @@ export default {
 
         this.setBetInfo({
             odds: 1
-        })
+		})
     },
     methods: {
         onHotkeys(amount) {
             if(amount === 'max') {
-                this.amount = 888
+                this.amount = 5
             }else {
                 this.amount = amount.toFixed(2)
             }
@@ -126,7 +134,15 @@ export default {
                     amount: that.amount
                 })
             }
-        }
+		},
+		getRule() {
+			this.$http.get('/app/dice/rule').then(res => {
+				console.log(res)
+				if(res.code == 200) {
+					this.rule = res.result
+				}
+			})
+		}
     },
     watch: {
         diceList: {
@@ -146,8 +162,11 @@ export default {
         }
 	},
 	computed: {
-		web3() {
-			return this.$store.state.web3Handler.web3
+		...mapState({
+			web3: state => state.web3Handler.web3
+		}),
+		peilv() {
+			return Math.floor(98.5/((this.odds*1).toFixed() - 1)*1000) /1000
 		}
 	}
 }
@@ -217,6 +236,70 @@ export default {
 					}
 				}
 			}
+			.ctn-btm {
+				margin-top: 20px;
+				h4 {
+					color: #C0CBFF;
+					text-align: left;
+				}
+				.flex-wrap {
+					display: flex;
+					.hotkeys {	
+						flex: 1;
+						display: flex;
+						align-items: center;
+						background-color: #183F96;
+						height: 40px;
+						border-radius:6px;
+						margin-right: 20px;
+						span {
+							flex: 1;
+							color: #B6C3FF;
+							font-size: 16px;
+						}
+						.input-wrap {
+							width: 120px;
+							background-color: #244EAB;
+							height: 34px;
+							border-radius: 6px;
+							overflow: hidden;
+							margin: 0 0 0 3px;
+							input {
+								width: 100%;
+								height: 100%;
+								background-color: transparent;
+								border: none;
+								color: #FEFEFE;
+								text-align: center;
+								outline: none;
+							}
+						}
+					}
+					.enter {
+						color: #614C00;
+						font-weight: 700;
+						height: 40px;
+						background-color: #eac82e;
+						border: none;
+						border-radius:6px;
+						width: 140px;
+						cursor: pointer;
+					}
+				}
+				.tips {
+					font-size: 14px;
+					color: #C0CBFF;
+					margin-top: 10px;
+					overflow: hidden;
+					.fl {
+						float: left;
+					}
+					.fr {
+						float: right;
+						margin-left: 40px;
+					}
+				}
+			}
 		}
 		h2 {
 			text-align: center;
@@ -241,7 +324,7 @@ export default {
 			height: 14px;
 			box-shadow: inset 0 1px 0 #2a365a;
 			border-radius: 5px;
-			margin: 30px 0px 0px;
+			margin: 20px 0px 0px;
 			.handle {
 				position: absolute;
 				height: 30px;
@@ -280,103 +363,7 @@ export default {
 			margin: 10px 0;
 		}
 
-		.tip {
-			text-align: center;
-			color: #9a9898;
-			font-size: 16px;
-			margin-top: 20px;
-		}
 
-		.hotkeys {
-			display: flex;
-			width: 80%;
-			margin: 40px auto 0;
-
-			span {
-				flex: 1;
-				margin: 0 10px;
-				width: 65px;
-				line-height: 35px;
-				border-radius: 6px;
-				text-align: center;
-				background-color: #5B74AE;
-			}
-		}
-
-		.input-wrap {
-			margin: 20px 0 0 0;
-
-			input {
-				background: none;
-				border: 1px solid white;
-				width: 215px;
-				height: 75px;
-				border-radius: 8px;
-				line-height: 75px;
-				text-align: center;
-				vertical-align: middle;
-				color: white;
-				font-family: "Tex Gyre Cursor";
-				font-weight: 200;
-				font-size: 40px;
-				-moz-appearance: textfield;
-
-				&::-webkit-outer-spin-button,
-				::-webkit-inner-spin-button {
-					-webkit-appearance: none !important;
-					margin: 0;
-				}
-			}
-
-			span {
-				border: none;
-				text-align: center;
-				display: inline-block;
-				width: 65px;
-				height: 75px;
-				vertical-align: middle;
-				-webkit-touch-callout: none;
-				-webkit-user-select: none;
-				color: #fff;
-				font-family: "San Francisco Display Thin";
-				font-weight: 200;
-				font-size: 40px;
-				
-				&.add {
-					background: url(../../../public/img/add.png) no-repeat center;
-					background-size: 60%;
-				}
-				&.minus {
-					background: url(../../../public/img/minus.png) no-repeat center;
-					background-size: 60%;
-				}
-			}
-		}
-
-		.bet-btn {
-			transition: background-position 1s ease, background-size 1s ease;
-			background-image: linear-gradient(30deg, #00ffbd 0%, #4cc6d3 20%, #af7bf0 50%, #4cc6d3 80%, #00ffbd 100%);
-			box-shadow: 0 0 30px 0 rgba(24, 31, 49, 0.5);
-			background-size: 200% 100%;
-			background-repeat: repeat;
-			transform: translateZ(0);
-			color: #fff;
-			font-family: "San Francisco Display Thin";
-			font-weight: 200;
-			font-size: 35px;
-			text-align: center;
-			border: none;
-			border-radius: 8px;
-			width: 310px;
-			height: 75px;
-			cursor: pointer;
-			margin-top: 40px;
-
-			&:hover {
-				background-position: 50% 0%;
-				background-size: 800% 100%;
-			}
-		}
 	}
 	@media screen and (max-width: 800px){
 		.module-bet {
