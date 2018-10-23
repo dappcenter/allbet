@@ -56,12 +56,12 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model="ethPrice" @input="changeAtNumber" onfocus="this.value = this.value == '市价' ? '' : this.value" onblur="this.value = this.value == '' ? '市价' : this.value">
+						<input type="text" placeholder="请输入 价格" class="price" v-model.trim="ethPrice" onfocus="this.value = this.value == '市价' ? '' : this.value" @blur="priceOnblur('ethPrice')">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="number" placeholder="请输入买入 ETH 数量" class="price" v-model="buyEthNumber" @input="changeAtNumber">
+						<input type="number" placeholder="请输入买入 ETH 数量" class="price" v-model="buyEthNumber">
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>您将获得 {{getAtNumber}} AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
@@ -77,12 +77,12 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model="sellAtPrice" @input="changeEthNumber" onfocus="this.value = this.value == '市价' ? '' : this.value" onblur="this.value = this.value == '' ? '市价' : this.value">
+						<input type="text" placeholder="请输入 价格" class="price" v-model.trim="sellAtPrice" onfocus="this.value = this.value == '市价' ? '' : this.value" @blur="priceOnblur('sellAtPrice')">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
 						<span class="num">数量</span>
-						<input type="number" placeholder="请输入卖出 AT数量" class="price" v-model="buyAtNumber" @input="changeEthNumber">
+						<input type="number" placeholder="请输入卖出 AT数量" class="price" v-model="buyAtNumber">
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>您将获得 {{getEthNumber}} ETH</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
@@ -97,8 +97,8 @@
 			</div>
 			<div class="list">
 				<div class="top-button">
-					<span @click="clickTap(0)" :class="[selectTap == 0?'selected':'']">近期交易</span>
-					<span @click="clickTap(1)" :class="[selectTap == 1?'selected':'']">我的委托单</span>
+					<span @click="getBancorOrders(0)" :class="[selectTap == 0?'selected':'']">近期交易</span>
+					<span @click="getBancorOrders(1)" :class="[selectTap == 1?'selected':'']">我的委托单</span>
 				</div>
 				<div class="content">
 					<div class="recent-order" v-if="selectTap == 0">
@@ -108,7 +108,7 @@
 							<span>{{item.tradeType == 'MARKET_BUY'? '+ '+item.inAmount:'- '+item.outAmount}}</span>
 							<span>{{item.tradeType == 'MARKET_BUY'?'- '+item.outAmount:'+ '+item.inAmount}}</span>
 							<span>{{item.dbPrice}} ETH</span>
-							<span>{{item.tradeType == 'MARKET_BUY'?'买入':'卖出'}}</span>
+							<span>{{tradeType[item.tradeType]}}</span>
 							<span>{{item.recdDoneTime}}</span>
 						</li>
 					</div>
@@ -119,11 +119,12 @@
 							<span>{{filter(item)}}</span>
 							<span>{{filter1(item)}}</span>
 							<span>{{item.dbPrice}} ETH</span>
-							<span>{{item.tradeType == 'MARKET_BUY'?'买入':'卖出'}}</span>
+							<span>{{tradeType[item.tradeType]}}</span>
 							<span>{{item.recdCreateTime}}</span>
 							<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
 							<span>{{filterState(item)}}</span>
-							<span @click="cancelOrder(item)">{{item.tradeStatus != 'DONE' && item.tradeStatus != 'CANCEL'?'撤单':'- -'}}</span>
+							<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">撤单</span>
+							<span v-else>- -</span>
 						</li>
 					</div>
 				</div>
@@ -147,52 +148,68 @@ import { setTimeout, clearInterval } from 'timers';
 			ethMarketPrice: '', // 市面上 1at=??eth
 			ethPrice: "市价", // 1ETH=??At
 			buyEthNumber: '', // 买入??ETh
-			getAtNumber: 0, // 获得AT的数量
 
 			sellAtPrice: '市价', // 1at=??eth
 			buyAtNumber: '',// 买入??AT
-			getEthNumber: 0,// 获得ETH的数量
 
 			result: {},
 			selectTap: 0,
 
 			recentOrderList: [], //近期交易列表
 			// entrustOrderList: [], //委托单列表
-			timer: null
+			timer: null,
+			tradeType: {
+				'MARKET_BUY': '买入',
+				'MARKET_SELL': '卖出',
+				'PUTUP_BUY': '买入',
+				'PUTUP_SELL': '卖出',
+			}
 		}
 	},
 	mounted() {
 
 	},
     computed: {
-			ethInfo() {
-				return this.$store.state.web3Handler.web3
-			},
-			userInfo() {
-				return this.$store.state.user.userInfo
-			},
-			getCurrentAddr() {
-				return this.$store.state.user.currentAddr
+		ethInfo() {
+			return this.$store.state.web3Handler.web3
+		},
+		userInfo() {
+			return this.$store.state.user.userInfo
+		},
+		getCurrentAddr() {
+			return this.$store.state.user.currentAddr
+		},
+		getAtNumber() {
+			if(this.ethPrice == "市价") {
+				return 1/this.ethMarketPrice * this.buyEthNumber
+			}else{
+				return 1/this.ethPrice * this.buyEthNumber	
 			}
+		},
+		getEthNumber() {
+			return this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
+		}
     },
-    components: {
-	    HeaderBar,
-	    FooterBar,
-	},
 	created () {
 		this.getInfo()
 		this.getBancorOrders(this.selectTap)
 		this.getMarketAtPrice()
 	},
-	mounted() {
-
+	watch: {
+		getCurrentAddr() {
+			this.getBancorOrders(this.selectTap)
+		}
 	},
 	methods: {
+		//价格输入框失焦判断
+		priceOnblur(type) {
+			this[type] = this[type] == "" ? "市价" : this[type]
+		},
 		filter(item) {
 			if (item.tradeType == 'MARKET_BUY') {
-				return item.inAmount ? '+ '+item.inAmount:'- -'
+				return item.inAmount ? '- '+item.inAmount:'- -'
 			} else {
-				return item.outAmount?'- '+item.outAmount:'--'
+				return item.outAmount?'+ '+item.outAmount:'--'
 			}
 		},
 		filter1(item) {
@@ -214,15 +231,11 @@ import { setTimeout, clearInterval } from 'timers';
 				return '等待中'
 				break;
 				case 'CANCEL':
-				return '撤单成功'
+				return '交易取消'
 				break;
+				case 'FAIL':
+				return '交易失败'
 			}
-		},
-		changeAtNumber() {
-				this.getAtNumber = this.ethPrice == '市价' ? (1/this.ethMarketPrice).toFixed(8) * this.buyEthNumber : (1/this.ethPrice).toFixed(8) * this.buyEthNumber
-		},
-		changeEthNumber() {
-				this.getEthNumber = this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
 		},
 		// 获取奖金池&AT数量
 		getInfo () {
@@ -234,8 +247,10 @@ import { setTimeout, clearInterval } from 'timers';
 				}
 			})
 		},
-		// 获取近期交易
+		// 获取交易记录
 		getBancorOrders (selectTap) {
+			this.recentOrderList = []
+			this.selectTap = selectTap
 			this.$http.get("/app/home/bancor_orders",{
 			params:{
 				"onlyMe": selectTap == 1?true:false,
@@ -252,11 +267,6 @@ import { setTimeout, clearInterval } from 'timers';
 					this.recentOrderList = recentOrderList
 				}
 			})
-		},
-		// 切换tap
-		clickTap (i) {
-			this.selectTap = i
-			this.getBancorOrders(this.selectTap)
 		},
 		// 获取AT市价
 		getMarketAtPrice () {
@@ -275,10 +285,16 @@ import { setTimeout, clearInterval } from 'timers';
 			postData.address = this.getCurrentAddr.coinAddress
 			postData.tokenName = 'AT'
 			if (type == '买入') {
-				if (this.getAtNumber <= 0) return
+				if (this.getAtNumber <= 0 || (this.ethPrice <= 0 && this.ethPrice != "")) {
+					this.alert({
+						type: "info",
+						msg: "输入有误"
+					})
+					return
+				}
 				postData.amount = this.buyEthNumber
 				postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
-				if (this.ethPrice != '市价') {
+				if (this.ethPrice != '市价' && this.ethPrice != "") {
 					if(!/^\d+(\.\d+)?$/.test(this.ethPrice)) {
 						this.alert({
 							type: "error",
@@ -289,10 +305,16 @@ import { setTimeout, clearInterval } from 'timers';
 					postData.price = (this.ethPrice*1).toFixed(8)
 				}
 			} else if (type == '卖出') {
-				if (this.getEthNumber <= 0) return
+				if (this.getEthNumber <= 0 || (this.sellAtPrice <= 0 && this.sellAtPrice != "")) {
+					this.alert({
+						type: "info",
+						msg: "输入有误"
+					})
+					return
+				}
 				postData.amount = this.buyAtNumber
 				postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
-				if (this.sellAtPrice != '市价') {
+				if (this.sellAtPrice != '市价' && this.sellAtPrice != "") {
 					if(!/^\d+(\.\d+)?$/.test(this.sellAtPrice)) {
 						this.alert({
 							type: "error",
@@ -371,23 +393,16 @@ import { setTimeout, clearInterval } from 'timers';
 		// 撤单
 		cancelOrder (item) {
 			if (item.tradeStatus == 'DONE' || item.tradeStatus == 'CANCEL') return
-			// 走中心化平台撤单
-			if (item.platform == 'DISPATCHER') {
-				this.$http.post("/app/bancor/order/cancel/"+item.entrustId).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						this.alert({
-								type: "success",
-								msg: "撤单成功！"
-						})
-						// 撤单成功，更改状态&更新各种币的数量
-						this.getBancorOrders(this.selectTap)
-					}
-				})
-			} else {
-				// 走区块链平台撤单
-
-			}
+			this.$http.post("/app/bancor/order/cancel/"+item.entrustId).then((res) => {
+				if (res.code == 200) {
+					this.alert({
+							type: "success",
+							msg: "撤单成功！"
+					})
+					// 撤单成功，更改状态&更新各种币的数量
+					this.getBancorOrders(this.selectTap)
+				}
+			})
 		},
 		// 区块链转账(实时成交)
 		buyToken(oid, atPrice, ethAmount, addr) {
@@ -435,6 +450,10 @@ import { setTimeout, clearInterval } from 'timers';
 			openLogin: "OPEN_LOGIN",
 			openConfirm: "OPEN_CONFIRM"
 		})
+	},
+	components: {
+	    HeaderBar,
+	    FooterBar,
 	}
  };
 </script>
@@ -653,6 +672,9 @@ import { setTimeout, clearInterval } from 'timers';
 							border-bottom: 1px solid #DCDCDC;
 							span {
 								width: 16.6%;
+								&.chedan {
+									cursor: pointer;
+								}
 							}
 						}
 						.unit {

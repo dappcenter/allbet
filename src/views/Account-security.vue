@@ -11,7 +11,7 @@
 			<li v-if="pageData.haveTrustee"><div>平台账号：</div><div>{{currentAddr.userName}}</div></li>
 			<li v-else><div>平台账号：</div><div class="operation">暂未绑定<span @click="phoneBind = true">去绑定</span></div></li>
 			<li v-for="item in pageData.MetaMaskAddress"><div>MetaMask地址：</div><div>{{item.coinAddress}}</div></li>
-			<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>MetaMask地址：</div><div>暂未绑定，请登录MetaMask将自动绑定，若已登录请刷新页面</div></li>
+			<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>MetaMask地址：</div><div>暂未绑定，请登录MetaMask后绑定，若已登录请刷新页面</div></li>
 			<li v-if="pageData.haveTrustee"><div>登录密码：</div><div class="operation">********<span @click="resetPassDialog = true">修改</span></div></li>
 			<li v-else><div>登录密码：</div><div>暂无</div></li>
 		</div>
@@ -60,6 +60,13 @@
 			</div>
 		</div>
 		<div class="input-wrap">
+			<label>图形码</label>
+			<div class="input-flex">
+				<input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=ACCOUNT_BINDING&macCode=macCode'" alt="" @click="getImgCode('ACCOUNT_BINDING')" ref="imgcode">
+			</div>
+		</div>
+		<div class="input-wrap">
 			<label>验证码</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.emailCaptcha" placeholder="请输入短信验证码">
@@ -78,7 +85,7 @@
 		</div>
 		<div class="input-wrap" style="width:338px;">
 				<label>确认密码</label>
-				<input type="text" v-model="formData.loginPwd2" placeholder="请再次输入您的密码">
+				<input type="password" v-model="formData.loginPwd2" placeholder="请再次输入您的密码">
 		</div>
 		<button @click="bindingTwoDo('PHONE')">确认</button>
 	</mu-dialog>
@@ -108,7 +115,7 @@
 			</div>
 			<div class="input-wrap">
 					<label>确认密码</label>
-					<input type="text" v-model="formData.resetLoginPwd2" placeholder="请再次输入您的密码">
+					<input type="password" v-model="formData.resetLoginPwd2" placeholder="请再次输入您的密码">
 			</div>
 			<button @click="passResetDo">确认修改</button>
 	</mu-dialog>
@@ -235,8 +242,8 @@ import {mapMutations, mapState} from "vuex"
 				if(!this.verifyEmail() || !this.verifyCaptcha()) return
 			}
 			this.$http.post("/app/user/binding", postObj).then(res => {
-				this.phoneBind = false
 				if(res.code == 200) {
+					this.phoneBind = false
 					if(res.result) {  //已注册
 						this.web3BindAddress(res.result)
 					}else {   //未注册

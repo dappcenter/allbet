@@ -211,10 +211,10 @@ export default {
             prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
             currentAddr: "",
             shadeOpacity: 1,
-            loginAccount: false,
             findPassword: false,   //找回密码
             prefixMenu: false,
             displayStatus: {
+                loginAccount: false,
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号
                 emailRegisterAccount: false,  //邮箱注册账号
@@ -263,8 +263,14 @@ export default {
         },
         addressList(newVal) {
             if(newVal.length > 0) {
-                this.currentAddr = newVal[0].coinAddress
-                this.setCurrentAddr(newVal[0])
+                let b = false
+                newVal.forEach(val => {
+                    b = val.coinAddress == this.storeCurrentAddr.coinAddress
+                })
+                if(!b) {
+                    this.currentAddr = newVal[0].coinAddress
+                    this.setCurrentAddr(newVal[0])
+                }
             }
         },
         currentAddr(newVal) {
@@ -287,6 +293,8 @@ export default {
                     email: "",  //邮箱账号
                     picCode: "", //图形验证码
                 })
+                this.loginForm.account = ""
+                this.loginForm.password = ""
                 this.captchaDisabled = false
             },
             deep: true

@@ -4,7 +4,7 @@
 			<div class="ctn-top">
 				<div class="number-show">
 					<div>
-						<h3>{{(odds*1).toFixed()}}</h3>
+						<h3>{{odds}}</h3>
 						<span>预测数</span>
 					</div>
 					<div>
@@ -19,7 +19,7 @@
 						<span>25%</span>
 						<span>50%</span>
 						<span>75%</span>
-						<span>97%</span>
+						<span>100%</span>
 					</div>
 					<div class="slider" ref="slider">
 						<div class="bar" ref="bar"></div>
@@ -53,16 +53,16 @@
 							<span class="minus" @click="onMinus"></span>
 						</div>
 						<span @click="onHotkeys(0.05)">0.05</span>
-						<span @click="onHotkeys(0.10)">0.10</span>
-						<span @click="onHotkeys(1.00)">1.00</span>
+						<span @click="onHotkeys(0.1)">0.1</span>
+						<span @click="onHotkeys(0.15)">0.15</span>
 						<span @click="onHotkeys('max')">MAX</span>
 					</div>
-					<button class="enter">猜小于49</button>
+					<button class="enter" @click="betDo">猜小于{{odds}}</button>
 				</div>
 				<div class="tips">
-					<span class="fl">最小下注数量为 0.1 ETH</span>
+					<span class="fl">最小下注数量为 {{rule.minInvest}} ETH</span>
 					<span class="fr">建议 Gas Price：9</span>
-					<span class="fr">余额：10 ETH</span>
+					<span class="fr">余额：{{currentAddr.eth}} ETH</span>
 				</div>
 			</div>
 			
@@ -73,29 +73,30 @@
 
 <script>
 import {mapMutations, mapState} from "vuex"
+import {RollerABI} from '../../util/constants/roller.abi'
 export default {
     data() {
         return {
             amount: 0.12,
-            checkedNum: 1,
-			odds: 1,
-			rule: {}
+			odds: 2,
+			rule: {},
+			apiHandle: null
         }
 	},
 	created() {
 		this.getRule()
+		setTimeout(() => {
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xb438c100a035eb5a66b37a977b990fdde6168ad2");
+		}, 2000)
 	},
     mounted() {
-
         this.setBetInfo({
             diceList: this.diceList,
             amount: this.amount
         })
-
         window.onmouseup = function() {
             window.onmousemove = null
         }
-
         this.setBetInfo({
             odds: 1
 		})
@@ -103,9 +104,9 @@ export default {
     methods: {
         onHotkeys(amount) {
             if(amount === 'max') {
-                this.amount = 5
+                this.amount = this.rule.maxInvest
             }else {
-                this.amount = amount.toFixed(2)
+                this.amount = amount
             }
         },
         onAdd() {
@@ -115,7 +116,8 @@ export default {
             this.amount = (Number(this.amount) - 0.01).toFixed(2)
         },
         ...mapMutations({
-            setBetInfo: "SET_ROLLER_BET_INFO"
+			setBetInfo: "SET_ROLLER_BET_INFO",
+			alert: "alert"
         }),
         onHandleTouchS(e) {
             let that = this
@@ -125,10 +127,10 @@ export default {
             let moveWidth = 0
             window.onmousemove = function(e) {
                 moveWidth = e.clientX - sliderOffsetL - ofX
-                moveWidth = moveWidth <= 0 ? 0 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
+                moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
                 that.$refs.bar.style.width = moveWidth + "px"
-                that.odds = (moveWidth / (sliderWidth / 97)).toFixed(2) < 1 ? 1 : (moveWidth / (sliderWidth / 97)).toFixed(2)
+                that.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
                     amount: that.amount
@@ -142,6 +144,43 @@ export default {
 					this.rule = res.result
 				}
 			})
+		},
+		//下注
+		betDo() {
+			this.$http.post("/app/dice/dice", {
+				"coinAddress": this.currentAddr.coinAddress,
+				"coinAmount": this.amount,
+				"guessNum": this.odds
+			}).then(res => {
+				console.log(res)
+				if(res.code == 200) {
+					this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount)
+				}
+			})
+		},
+		/**
+		 * 调用合约下注
+		 * @param {} rollUnder 下注的数值
+		 */
+		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount) {
+			let that = this
+			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
+			console.log(rollUnder, modulo, commitLastBlock, commit, sigData)
+			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
+				from: this.currentAddr.coinAddress,
+				value: amount
+			}).on("receipt", function(receipt) {
+				that.alert({
+					type: "success",
+					msg: "交易成功"
+				})
+			})
+			.on("error", function(error) {
+				that.alert({
+					type: "error",
+					msg: "交易失败"
+				})
+			});
 		}
     },
     watch: {
@@ -163,7 +202,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-			web3: state => state.web3Handler.web3
+			web3: state => state.web3Handler.web3,
+			currentAddr: state => state.user.currentAddr
 		}),
 		peilv() {
 			return Math.floor(98.5/((this.odds*1).toFixed() - 1)*1000) /1000
@@ -332,12 +372,13 @@ export default {
 				background: #ced4e8;
 				border-radius: 5px;
 				top: -9px;
+				left: 2px;
 				cursor: pointer;
 			}
 			.bar {
 				background-color: lime;
 				height: 14px;
-				width: 0;
+				width: 2px;
 				top: 0;
 				left: 0;
 				border-top-left-radius: 5px;

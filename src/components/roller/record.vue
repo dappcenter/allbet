@@ -54,6 +54,9 @@ export default {
             unfold: -1
         }
 	},
+	created() {
+		this.getData()
+	},
 	methods: {
 		getData() {
 			this.$http.get('/app/dice/board', {
@@ -61,6 +64,8 @@ export default {
 					page: 1,
 					pageSize: 10
 				}
+			}).then(res => {
+				console.log(res)
 			})
 		}
 	}
