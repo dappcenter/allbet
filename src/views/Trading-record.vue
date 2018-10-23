@@ -7,23 +7,32 @@
 				<span>我的资产 >交易记录</span>
 				<span>
 					交易类型:
-					<select class="" name="">
-						<option>Volvo</option>
-						 <option>Saab</option>
-						 <option>Mercedes</option>
-						 <option>Audi</option>
+					<select class="" name="" @change="getTradeRecord" v-model="operation">
+						<option value="ALL">全部</option>
+						 <option value="ETH_RECHARGE">ETH充币</option>
+						 <option value="ETH_WITHDRAW">ETH提币</option>
+						 <option value="BANCOR_BUY">BANCOR币买入</option>
+						 <option value="BANCOR_SELL">BANCOR币卖出</option>
+						 <option value="INVITE_BONUS_AB">邀请得币</option>
 					</select>
 					币种类型:
-					<select class="" name="">
-						<option>Volvo</option>
-					 <option>Saab</option>
-					 <option>Mercedes</option>
-					 <option>Audi</option>
+					<select class="" name="" @change="getTradeRecord" v-model="coinType">
+						<option value="ALL">全部</option>
+						 <option value="ETH">ETH</option>
+						 <option value="AT">AT</option>
+						 <option value="AB">AB</option>
 					</select>
 				</span>
 		</p>
 			<li><div>时间</div><div>币种</div><div>类型</div><div>数量</div><div>状态</div><div>操作</div></li>
-			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
+			<li v-for="item in list">
+				<div>{{item.createTime}}</div>
+				<div>{{item.coinType}}</div>
+				<div>平台提币</div>
+				<div>{{item.amount}}</div>
+				<div>已完成</div>
+				<div class="operation" v-show="item.platform !='DISPATCHER'">详情</div>
+			</li>
 			<div class="charge">
 				<div class="desc address">
 					<p class="left">提币地址：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</span></p>
@@ -36,6 +45,11 @@
 			</div>
 			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
 			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
+			<mu-container>
+			  <mu-flex justify-content="center">
+			    <mu-pagination :total="total" :current.sync="current" @change="getPaginationChange"></mu-pagination>
+			  </mu-flex>
+			</mu-container>
 		</div>
 	</div>
 	<FooterBar ref="ft"></FooterBar>
@@ -50,17 +64,46 @@ import FooterBar from "@/components/common/footer_bar"
 	 data () {
 		 return {
 			 ethPrice: 15.3,
+			 current: 1,
+			 list: [],
+			 total: 1,
+			 coinType: "ALL",
+			 operation: "ALL",
 		 }
 	 },
-    computed: {
-	    betInfo() {
-		    return this.$store.getters.getBetRecordData
-	    }
+    created() {
+	   this.getTradeRecord()
      },
      components: {
 	    HeaderBar,
 	    FooterBar,
-     }
+		},
+		methods: {
+			// 获取我的资产
+			getTradeRecord () {
+				this.$http.get("/app/user/trade_records",{
+					params: {
+							"coinType": this.coinType,
+							"operation": this.operation,
+							"page": this.current,
+							'pageSize': 20
+					}
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.list = res.result.list
+						this.total = Number(res.result.total)
+						this.current = res.result.pageNum
+					}
+				})
+			},
+			getPaginationChange(val, currentPage) {
+				console.log('currentPage',currentPage);
+        this.filterForm.pageSize = val;
+				this.current = currentPage
+        this.getTradeRecord();
+      },
+		}
  };
 </script>
 
