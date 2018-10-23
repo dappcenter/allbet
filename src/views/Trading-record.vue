@@ -43,7 +43,7 @@
 					<p class="right">钱包处理时间：<span>2018.10.13 15:38:34</span></p>
 				</div>
 			</div>
-			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
+			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation" @click="getTradeDetail(item.businessId)">详情</div></li>
 			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
 			<mu-container>
 			  <mu-flex justify-content="center">
@@ -69,6 +69,10 @@ import FooterBar from "@/components/common/footer_bar"
 			 total: 1,
 			 coinType: "ALL",
 			 operation: "ALL",
+			 address: "", //提币地址
+			 handlingFee: "", //手续费
+			 tradeId: "", //手续费
+			 dealingTime: "", //钱包处理时间
 		 }
 	 },
     created() {
@@ -94,6 +98,17 @@ import FooterBar from "@/components/common/footer_bar"
 						this.list = res.result.list
 						this.total = Number(res.result.total)
 						this.current = res.result.pageNum
+					}
+				})
+			},
+			// 交易详情
+			getTradeDetail (businessId) {
+				this.$http.get("/app/user/trade_records/" + businessId,{
+
+				}).then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+
 					}
 				})
 			},

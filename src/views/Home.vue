@@ -105,8 +105,8 @@
 						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>成交时间</span></li>
 						<li v-for="item in recentOrderList">
 							<span>{{item.address}}</span>
-							<span>{{item.tradeType == 'MARKET_BUY'? '+ '+item.inAmount:'- '+item.outAmount}}</span>
-							<span>{{item.tradeType == 'MARKET_BUY'?'- '+item.outAmount:'+ '+item.inAmount}}</span>
+							<span>{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
+							<span>{{item.tradeType == 'MARKET_BUY'? '+ '+item.outAmount:'- '+item.inAmount}}</span>
 							<span>{{item.dbPrice}} ETH</span>
 							<span>{{tradeType[item.tradeType]}}</span>
 							<span>{{item.recdDoneTime}}</span>
@@ -214,9 +214,9 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		filter1(item) {
 			if (item.tradeType == 'MARKET_BUY') {
-				return item.outAmount ? '- '+item.outAmount:'- -'
+				return item.outAmount ? '+ '+item.outAmount:'- -'
 			} else {
-				return item.inAmount?'+ '+item.inAmount:'--'
+				return item.inAmount?'- '+item.inAmount:'--'
 			}
 		},
 		filterState(item) {
@@ -364,8 +364,8 @@ import { setTimeout, clearInterval } from 'timers';
 			}else {
 				this.placeOrder(postData, type)
 			}
-			
-			
+
+
 		},
 		//下单
 		placeOrder(postData, type) {
@@ -428,7 +428,7 @@ import { setTimeout, clearInterval } from 'timers';
 		sellToken(oid, atPrice, atAmount, addr) {
 			let that = this
 			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount, "ether")
-			
+
 			this.ethInfo.apiHandle.methods.placeSellOrder(oid, atPrice, atAmount).send({
 				from: addr,
 			}).on("receipt", function(receipt) {
