@@ -159,6 +159,7 @@ export default {
         PopResetPass: "重置登录密码",
         PopConfirmChange: "确认修改",
         PopFindPass: "找回密码",
+        PopRegister: "注册",
         // 提示语
         PopCaptchaEmpty: "短信验证码不能为空",
         PopPassEmpty: "密码不能为空",

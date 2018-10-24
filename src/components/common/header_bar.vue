@@ -266,7 +266,10 @@ export default {
             if(newVal.length > 0) {
                 let b = false
                 newVal.forEach(val => {
-                    b = val.coinAddress == this.storeCurrentAddr.coinAddress
+                    if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
+                        b = true
+                        this.setCurrentAddr(val)
+                    }
                 })
                 if(!b) {
                     this.currentAddr = newVal[0].coinAddress
@@ -382,7 +385,8 @@ export default {
                     })
                     this.displayStatus.registerAccount = false
                     this.displayStatus.emailRegisterAccount = false
-                    this.displayStatus.loginAccount = true
+                    // 相当于直接登录
+                    this.setUserInfo(res.result)
                 }
             })
         },
@@ -591,7 +595,6 @@ export default {
     .logo {
         img {
           display: block;
-          width: 40px;
           height: 40px;
         }
     }
@@ -607,6 +610,7 @@ export default {
             color: #fff;
             &.router-link-active {
                 color: #61C2FF;
+                text-shadow: 0 0 20px #1371FF;
             }
         }
     }
@@ -828,7 +832,7 @@ export default {
                 font-size: 14px;
                 margin-top: 20px;
                 label {
-                    width: 60px;
+                    width: 80px;
                 }
                 input {
                     flex: 1;

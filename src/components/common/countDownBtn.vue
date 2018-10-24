@@ -1,6 +1,6 @@
 <template>
     <div class="aef-countdownbtn">
-        <button :disabled="disabled" :class="{'disabled' : disabled}">{{btnText}}</button>
+        <button :disabled="disabled" :class="{'disabled' : disabled}"><i v-show="disabled">{{btnText}}</i><i v-show="!disabled">{{$t('message.PopGetCaptcha')}}</i></button>
     </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            btnText: "获取验证码",
+            btnText: this.$t('message.PopGetCaptcha'),
             s: 61,
             timer: null
         }
@@ -36,7 +36,7 @@ export default {
             }else {
                 window.clearTimeout(this.timer)
                 this.s = 61
-                this.btnText = "获取验证码"
+                this.btnText = this.$t('message.PopGetCaptcha')
             }
         }
     },
@@ -50,7 +50,7 @@ export default {
             }else {
                 this.$emit("change", false)
                 this.s = 61
-                this.btnText = "获取验证码"
+                this.btnText = this.$t('message.PopGetCaptcha')
             }
         }
     }
@@ -75,6 +75,9 @@ export default {
         border: none;
         &.disabled {
             cursor: auto;
+        }
+        i {
+            font-style: normal;
         }
     }
 }
