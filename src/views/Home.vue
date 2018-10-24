@@ -54,7 +54,7 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">{{$t('message.homePrice')}}</span>
-						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="ethPrice" onfocus="this.value = this.value == $t('message.homeMarketPrice') ? '' : this.value" @blur="priceOnblur('ethPrice')">
+						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="ethPrice" @focus="priceFocus('ethPrice')" @blur="priceOnblur('ethPrice')">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
@@ -75,7 +75,7 @@
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">{{$t('message.homePrice')}}</span>
-						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="sellAtPrice" onfocus="this.value = this.value == $t('message.homeMarketPrice') ? '' : this.value" @blur="priceOnblur('sellAtPrice')">
+						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="sellAtPrice" @focus="priceFocus('sellAtPrice')" @blur="priceOnblur('sellAtPrice')">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
@@ -202,6 +202,10 @@ import { setTimeout, clearInterval } from 'timers';
 		//价格输入框失焦判断
 		priceOnblur(type) {
 			this[type] = this[type] == "" ? this.$t('message.homeMarketPrice') : this[type]
+		},
+		//价格输入聚焦判断
+		priceFocus(type) {
+			this[type] = this[type] == this.$t('message.homeMarketPrice') ? "" : this[type]
 		},
 		filter(item) {
 			if (item.tradeType == 'MARKET_BUY') {

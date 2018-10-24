@@ -86,7 +86,7 @@ export default {
 	created() {
 		this.getRule()
 		setTimeout(() => {
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xa05bcb2671c9fb50227eb10d82291dbc59c9d57c");
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xa3be2b57d1ff838b77875c964e4ee7fb70aaa81d");
 		}, 2000)
 	},
     mounted() {
