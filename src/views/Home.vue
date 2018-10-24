@@ -62,7 +62,7 @@
 						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" v-model="buyEthNumber">
 						<span class="num-right">ETH</span>
 					</div>
-					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt=""></span></p>
+					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
 					<div class="buy-button" v-if="getCurrentAddr.token" @click="doTrade('买入')">
 						{{$t('message.homeBuy')}}
 					</div>
@@ -83,7 +83,7 @@
 						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" v-model="buyAtNumber">
 						<span class="num-right">AT</span>
 					</div>
-					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt=""></span></p>
+					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
 					<p style="text-align:center;color:#E95B62;">{{$t('message.homeTokenFee')}}</p>
 					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
 						{{$t('message.homeSell')}}
@@ -104,10 +104,10 @@
 						<li v-for="item in recentOrderList">
 							<span>{{item.address}}</span>
 							<span>{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
-							<span>{{item.tradeType == 'MARKET_BUY'? '+ '+item.outAmount:'- '+item.inAmount}}</span>
+							<span>{{item.tradeType == 'MARKET_BUY'?'+ '+item.outAmount:'- '+item.inAmount}}</span>
 							<span>{{item.dbPrice}} ETH</span>
 							<span>{{tradeType[item.tradeType]}}</span>
-							<span>{{item.recdDoneTime}}</span>
+							<span>{{$fmtDate(item.recdDoneTime, "full")}}</span>
 						</li>
 					</div>
 					<div class="my-order" v-else>
@@ -118,7 +118,7 @@
 							<span>{{filter1(item)}}</span>
 							<span>{{item.dbPrice}} ETH</span>
 							<span>{{tradeType[item.tradeType]}}</span>
-							<span>{{item.recdCreateTime}}</span>
+							<span>{{$fmtDate(item.recdCreateTime, "full")}}</span>
 							<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
 							<span>{{filterState(item)}}</span>
 							<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
@@ -391,7 +391,7 @@ import { setTimeout, clearInterval } from 'timers';
 		// 撤单
 		cancelOrder (item) {
 			if (item.tradeStatus == 'DONE' || item.tradeStatus == 'CANCEL') return
-			this.$http.post("/app/bancor/order/cancel/"+item.entrustId).then((res) => {
+			this.$http.post("/app/bancor/order/cancel/"+item.entrustId+"/"+this.getCurrentAddr.coinAddress).then((res) => {
 				if (res.code == 200) {
 					this.alert({
 							type: "success",
@@ -441,6 +441,14 @@ import { setTimeout, clearInterval } from 'timers';
 					msg: "交易失败"
 				})
 			});
+		},
+		openHelp() {
+			this.openConfirm({
+				content: "若价格高于市价，系统将自动帮你挂单，待DB价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
+				btn: [{
+					text: "关闭"
+				}]
+			})
 		},
 		//input聚焦去除市价文字
 		...mapMutations({

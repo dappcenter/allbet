@@ -86,7 +86,7 @@ export default {
 	created() {
 		this.getRule()
 		setTimeout(() => {
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xb438c100a035eb5a66b37a977b990fdde6168ad2");
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xa05bcb2671c9fb50227eb10d82291dbc59c9d57c");
 		}, 2000)
 	},
     mounted() {
@@ -147,14 +147,27 @@ export default {
 		},
 		//下注
 		betDo() {
+			if(this.amount < this.rule.minInvest) {
+				this.alert({
+					type: "info",
+					msg: "下注金额不能低于" + this.rule.minInvest + "ETH"
+				})
+				return
+			}
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.coinAddress,
 				"coinAmount": this.amount,
 				"guessNum": this.odds
 			}).then(res => {
-				console.log(res)
 				if(res.code == 200) {
-					this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount)
+					if(res.result.resultType == "DISPATCHER") {  //平台账号
+						that.alert({
+							type: "success",
+							msg: res.msg
+						})
+					}else {   //合约账号
+						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount)
+					}
 				}
 			})
 		},
@@ -165,20 +178,20 @@ export default {
 		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount) {
 			let that = this
 			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
-			console.log(rollUnder, modulo, commitLastBlock, commit, sigData)
+			console.log(rollUnder, modulo, commitLastBlock, commit, sigData, this.currentAddr.coinAddress)
 			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amount
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",
-					msg: "交易成功"
+					msg: "下注成功"
 				})
 			})
 			.on("error", function(error) {
 				that.alert({
 					type: "error",
-					msg: "交易失败"
+					msg: "下注失败"
 				})
 			});
 		}

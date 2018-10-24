@@ -199,6 +199,7 @@
 import {mapMutations, mapState} from "vuex"
 import Md5 from "../../../public/js/md5.js"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
+import VERIFY from "../../util/verify"
 export default {
     props: {
         type: {
@@ -255,7 +256,7 @@ export default {
         if(this.currentAddr == "" && this.$store.state.user.currentAddr) {
             this.currentAddr = this.$store.state.user.currentAddr.coinAddress
         }
-
+        
     },
     watch: {
         type() {

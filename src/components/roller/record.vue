@@ -1,10 +1,10 @@
 <template>
 	<section class="module-record">
 		<div class="nav">
-			<a href="javascript:;">最新玩家</a>
-			<a href="javascript:;">大佬榜</a>
-			<a href="javascript:;">幸运榜</a>
-			<a href="javascript:;">我的战绩</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">最新玩家</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">大佬榜</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">幸运榜</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')">我的战绩</a>
 		</div>
 		<div class="t-head">
 			<span>时间</span>
@@ -17,30 +17,30 @@
 			<span>AB</span>
 		</div>
 		<div class="t-body">
-			<ul class="list-content" v-for="item in 10">
+			<ul class="list-content" v-for="item in recordsList">
 				<li class="">
-					<span>2018.09.12 17:32</span>
+					<span>{{$fmtDate(item.createTime, "full")}}</span>
 				</li>
-				<li class="green">
-					<span>0xfd……kkdsee</span>
-				</li>
-				<li class="">
-					<span>0.34 ETH</span>
+				<li class="user" :class="{'green': item.odds > rule.luckyManOdds, 'golden': item.coinAmount > rule.gangsterAmount}">
+					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
 				</li>
 				<li class="">
-					<span>53</span>
+					<span>{{item.coinAmount}} ETH</span>
 				</li>
 				<li class="">
-					<span>29</span>
+					<span>{{item.guess}}</span>
 				</li>
 				<li class="">
-					<span>10.6</span>
+					<span>{{item.luckyNum}}</span>
 				</li>
 				<li class="">
-					<span>0.4 ETH</span>
+					<span>{{item.odds}}</span>
 				</li>
 				<li class="">
-					<span>120 AB</span>
+					<span>{{item.rewards}} ETH</span>
+				</li>
+				<li class="">
+					<span>{{item.abNum}} AB</span>
 				</li>
 			</ul>
 		</div>
@@ -48,24 +48,51 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
     data() {
         return {
-            unfold: -1
+			unfold: -1,
+			recordsList: [],
+			boardType: "RECENT",
+			rule: {}
         }
 	},
 	created() {
-		this.getData()
+		this.getRule()
+		this.getData("RECENT")
+	},
+	watch: {
+		currentAddr() {
+			this.getData(this.boardType)
+		}
+	},
+	computed: {
+		...mapState({
+			currentAddr: state => state.user.currentAddr
+		})
 	},
 	methods: {
-		getData() {
+		getData(type) {
+			this.boardType = type
 			this.$http.get('/app/dice/board', {
 				params: {
+					boardType: type,
+					coinAddress: this.currentAddr.coinAddress,
 					page: 1,
 					pageSize: 10
 				}
 			}).then(res => {
-				console.log(res)
+				if(res.code == 200) {
+					this.recordsList = res.result.records.list
+				}
+			})
+		},
+		getRule() {
+			this.$http.get('/app/dice/rule').then(res => {
+				if(res.code == 200) {
+					this.rule = res.result
+				}
 			})
 		}
 	}
@@ -92,6 +119,10 @@ export default {
 			width: 100px;
 			margin: 0 60px;
 			text-align: center;
+			&.active {
+				color: #fff;
+				font-weight: 700;
+			}
 		}
 	}
 	.t-head {
@@ -132,10 +163,14 @@ export default {
 			&:nth-child(2n) {
 				background-color: #1A439E;
 			}
+			.user {
+				text-shadow: 0px 0px 6px #FFF;
+			}
 			li {
 				flex: 1;
 				text-align: center;
 				line-height: 64px;
+				overflow: hidden;
 				&:first-child {
 					flex: 1;
 					text-align: left;
@@ -148,8 +183,18 @@ export default {
 					text-shadow: 0px 0px 6px #FFF;
 				}
 				&.green {
-					color: #99FF7E;
-					text-shadow: 0px 0px 6px #99FF7E;
+					color: #99FF7E !important;
+					text-shadow: 0px 0px 6px #99FF7E !important;
+				}
+				&.golden {
+					color: #FFDB5B;
+					text-shadow: 0px 0px 6px #FFDB5B;
+				}
+				span {
+					display: block;
+					width: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 			}
 			&:hover {

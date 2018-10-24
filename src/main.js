@@ -8,9 +8,10 @@ import "muse-ui/dist/muse-ui.css";
 import i18n from "./lang"
 import VueParticles from 'vue-particles'
 import "./assets/less/base.less"
+import someMethods from "./util/extend_methods"
 
 Vue.use(VueParticles)
-
+Vue.use(someMethods)
 Vue.use(axios)
 Vue.use(MuseUI)
 Vue.prototype.$window = window

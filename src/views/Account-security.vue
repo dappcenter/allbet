@@ -70,10 +70,10 @@
 			<label>{{$t('message.PopCaptcha')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.emailCaptcha" :placeholder="$t('message.PopInputCaptcha')">
-				<a href="javascript:;" @click="getSMScode">{{formData.btnText}}</a>
+				<AEFcountDownBtn v-model="captchaDisabled" @click="getEmailCode('ACCOUNT_BINDING')"></AEFcountDownBtn>
 			</div>
 		</div>
-		<button @click="bindingOneDo">{{$t('message.PopBindBtn')}}</button>
+		<button class="primary-btn" @click="bindingOneDo('EMAIL')">{{$t('message.PopBindBtn')}}</button>
 		<p><a href="javascript:;" @click="phoneBind = true;registerEmailAccount = false;">{{$t('message.PopBindPhone')}}</a></p>
 	</mu-dialog>
 	<!-- 账号不存在输入密码 -->
@@ -87,7 +87,7 @@
 				<label>{{$t('message.PopPasswordConfirm')}}</label>
 				<input type="password" v-model="formData.loginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
 		</div>
-		<button @click="bindingTwoDo('PHONE')">{{$t('message.PopConfirm')}}</button>
+		<button class="primary-btn" @click="bindingTwoDo('PHONE')">{{$t('message.PopConfirm')}}</button>
 	</mu-dialog>
 	<!-- 重置登陆密码 -->
 	<mu-dialog :open.sync="resetPassDialog" :append-body="false" class="register-accout">
@@ -117,7 +117,7 @@
 					<label>{{$t('message.PopPasswordConfirm')}}</label>
 					<input type="password" v-model="formData.resetLoginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
 			</div>
-			<button @click="passResetDo">{{$t('message.PopConfirmChange')}}</button>
+			<button class="primary-btn" @click="passResetDo">{{$t('message.PopConfirmChange')}}</button>
 	</mu-dialog>
 	<FooterBar ref="ft"></FooterBar>
 </div>
@@ -127,12 +127,12 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
+import AEFcountDownBtn from "@/components/common/countDownBtn"
 import Md5 from "../../public/js/md5.js"
 import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
-			ethPrice: 15.3,
 			phoneBind: false,
 			registerEmailAccount: false,
 			confirmAccountExist: false,
@@ -165,7 +165,8 @@ import {mapMutations, mapState} from "vuex"
 				isBind: false,  //是否有绑定关系
 				haveTrustee: false,   //是否绑定平台账号或者本身就是平台账号
 				MetaMaskAddress: []
-			}
+			},
+			captchaDisabled: false
 		}
 	},
 	watch: {
@@ -191,6 +192,7 @@ import {mapMutations, mapState} from "vuex"
     components: {
 		HeaderBar,
 		FooterBar,
+		AEFcountDownBtn
 	},
 	methods: {
 		getImgCode(type) {
@@ -218,6 +220,26 @@ import {mapMutations, mapState} from "vuex"
 				this.formData.btnText = this.$t('message.PopGetCaptcha')
 			})
 		},
+		//获取邮箱验证码
+        getEmailCode(type) {
+            if(!this.verifyEmail() || !this.verifyPicCode()) return
+         
+            this.captchaDisabled = true  //开始倒计时
+            this.$http.get("/open/email_captcha", {
+                params: {
+                    "email": this.formData.email,
+                    "picCode": this.formData.picCode,
+                    "captchaType": type
+                }
+            }).then(res => {
+                console.log(res)
+                if(res.code != 200) {
+                    this.captchaDisabled = false
+                }
+            }).catch(err => {
+                this.captchaDisabled = false
+            })
+        },
 		//短信验证码倒计时
 		registerSMScountDown() {
 			if(this.formData.s > 0) {
@@ -231,6 +253,7 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 判定账号是否已经存在(判断是账号绑定还是邮箱绑定)
 		bindingOneDo(type) {
+			this.formData.bindingType = type
 			let postObj = {
 				"account": this.formData.phone,
 				"bindingType": type,
@@ -240,6 +263,7 @@ import {mapMutations, mapState} from "vuex"
 				if(!this.verifyPhone() || !this.verifyCaptcha()) return
 			}else {
 				if(!this.verifyEmail() || !this.verifyCaptcha()) return
+				postObj.account = this.formData.email
 			}
 			this.$http.post("/app/user/binding", postObj).then(res => {
 				if(res.code == 200) {
@@ -248,12 +272,14 @@ import {mapMutations, mapState} from "vuex"
 						this.web3BindAddress(res.result)
 					}else {   //未注册
 						this.confirmAccountNotExist = true  //设置密码
+
 					}
 				}
 			})
 		},
 		//绑定账号（账号不存在设置初始密码）
-		bindingTwoDo(type) {
+		bindingTwoDo() {
+			let type = this.formData.bindingType
 			let postObj = {
 				"account": this.formData.phone,
   				"password": Md5(this.formData.loginPwd)
@@ -389,6 +415,17 @@ import {mapMutations, mapState} from "vuex"
                 return false
             }
             return true
+		},
+		//邮箱验证
+        verifyEmail() {
+            if(this.formData.email == "" || !/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.formData.email)) {
+                this.alert({
+                    type: "info",
+                    msg: "邮箱输入有误"
+                })
+                return false
+            }
+            return true
         },
 		//区块链绑定确认
 		web3BindAddress(userId) {
@@ -476,7 +513,7 @@ import {mapMutations, mapState} from "vuex"
         }
         .mu-dialog {
             max-width: initial !important;
-            button {
+            .primary-btn {
                 display: block;
                 width: 240px;
                 height: 40px;
@@ -489,24 +526,6 @@ import {mapMutations, mapState} from "vuex"
                 border: none;
                 &.hd {
                     background:linear-gradient(90deg,rgba(84,190,202,1),rgba(61,143,242,1));
-                }
-            }
-        }
-
-        &.login-select {
-            .mu-dialog {
-                img {
-                    display: block;
-                    margin: 50px auto;
-                    height: 100px;
-                }
-
-                p {
-                    text-align: center;
-                    margin-top: 40px;
-                    a {
-                        color: #5480D9;
-                    }
                 }
             }
         }
@@ -609,7 +628,7 @@ import {mapMutations, mapState} from "vuex"
                     color: #5480D9;
                 }
             }
-            button {
+            .primary-btn {
                 margin: 40px auto 0;
             }
         }
