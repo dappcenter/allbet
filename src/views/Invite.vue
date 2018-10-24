@@ -2,24 +2,27 @@
 	<div class="invite-page">
     <HeaderBar></HeaderBar>
     <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-      <h3>支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受 ETH 分红</h3>
-      <p>平台已发放邀请奖励：2000000 AB</p>
+      <h3>{{$t('message.inviteRule')}}</h3>
+      <p>{{$t('message.inviteTotalBill')}}2000000 AB</p>
       <div class="white-div">
-        <p class="invite-title">邀请好友</p>
+        <p class="invite-title">{{$t('message.inviteFriend')}}</p>
         <div class="invite-detail">
           <div class="">
-            <p class="title">成功邀请：</p>
+            <p class="title">{{$t('message.invitationSuccessed')}}</p>
             <h4>23 人</h4>
           </div>
           <div class="">
-            <p class="title">邀请奖励：</p>
+            <p class="title">{{$t('message.tradeInvitationReward')}}：</p>
             <h4>5498 AB</h4>
           </div>
         </div>
         <div class="qrcode">
           <img src="" alt="">
-          <span>专属邀请码：Bwe43lo<br/>专属链接：https://allbet.io/bwe43lo<span class="copy">复制</span></span>
+          <span>{{$t('message.invitationCode')}}：Bwe43lo<br/>{{$t('message.invitationLink')}}：https://allbet.io/bwe43lo<span class="copy">{{$t('message.assetsCopy')}}</span></span>
         </div>
+				<p>{{$t('message.InvitationRules')}}</p>
+				<p>{{$t('message.InvitationRules1')}}</p>
+				<p>{{$t('message.InvitationRules2')}}</p>
       </div>
     </div>
     <FooterBar ref="ft"></FooterBar>

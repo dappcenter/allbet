@@ -4,43 +4,43 @@
 	<div class="main">
 		<div class="content">
 			<p class="title">
-				<span>我的资产 >交易记录</span>
+				<span>{{$t('message.assetsOfMine')}} > {{$t('message.tradeRecorde')}}</span>
 				<span>
-					交易类型:
+					{{$t('message.tradeType')}}:
 					<select class="" name="" @change="getTradeRecord" v-model="operation">
-						<option value="ALL">全部</option>
-						 <option value="ETH_RECHARGE">ETH充币</option>
-						 <option value="ETH_WITHDRAW">ETH提币</option>
-						 <option value="BANCOR_BUY">BANCOR币买入</option>
-						 <option value="BANCOR_SELL">BANCOR币卖出</option>
-						 <option value="INVITE_BONUS_AB">邀请得币</option>
+						<option value="ALL">{{$t('message.tradeAll')}}</option>
+						 <option value="ETH_RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
+						 <option value="ETH_WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
+						 <option value="BANCOR_BUY">{{$t('message.tradeBancorBuy')}}</option>
+						 <option value="BANCOR_SELL">{{$t('message.tradeBancorSell')}}</option>
+						 <option value="INVITE_BONUS_AB">{{$t('message.tradeInviteBancor')}}</option>
 					</select>
-					币种类型:
+					{{$t('message.tradeCoinType')}}:
 					<select class="" name="" @change="getTradeRecord" v-model="coinType">
-						<option value="ALL">全部</option>
+						<option value="ALL">{{$t('message.tradeAll')}}</option>
 						 <option value="ETH">ETH</option>
 						 <option value="AT">AT</option>
 						 <option value="AB">AB</option>
 					</select>
 				</span>
 		</p>
-			<li><div>时间</div><div>币种</div><div>类型</div><div>数量</div><div>状态</div><div>操作</div></li>
+			<li><div>{{$t('message.tradeTime')}}</div><div>{{$t('message.tradeCoinType')}}</div><div>{{$t('message.tradeType')}}</div><div>{{$t('message.homeVolume')}}</div><div>{{$t('message.homeState')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 			<li v-for="item in list">
 				<div>{{item.createTime}}</div>
 				<div>{{item.coinType}}</div>
 				<div>平台提币</div>
 				<div>{{item.amount}}</div>
 				<div>已完成</div>
-				<div class="operation" v-show="item.platform !='DISPATCHER'">详情</div>
+				<div class="operation" v-show="item.platform !='DISPATCHER'">{{$t('message.tradeDetail')}}</div>
 			</li>
 			<div class="charge">
 				<div class="desc address">
-					<p class="left">提币地址：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</span></p>
-					<p class="right">手续费：<span>0.00500000</span></p>
+					<p class="left">{{$t('message.assetsCoinAddress')}}：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</span></p>
+					<p class="right">{{$t('message.assetsHandlingFee')}}：<span>0.00500000</span></p>
 				</div>
 				<div class="desc time">
-					<p class="left">区块链交易ID：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520o093fsdfeinbla9324</span></p>
-					<p class="right">钱包处理时间：<span>2018.10.13 15:38:34</span></p>
+					<p class="left">{{$t('message.tradeBlockchain')}}：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520o093fsdfeinbla9324</span></p>
+					<p class="right">{{$t('message.tradeProcessingTime')}}：<span>2018.10.13 15:38:34</span></p>
 				</div>
 			</div>
 			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation" @click="getTradeDetail(item.businessId)">详情</div></li>

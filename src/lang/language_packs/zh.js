@@ -79,11 +79,18 @@ export default {
         assetsRechargeCurrency: "充币",
         assetsExtractCoins: "提币",
         assetsRechargeAddress: "充币地址",
+        assetsCoinAddress: "提币地址",
         assetsCopy: "复制",
         assetsTips: "温馨提示：请勿向上述地址充值任何非 ETH 资产，否则资产将不可找回。",
         assetsHandlingFee: "手续费",
         assetsArrivalAmount: "到账金额",
         assetsTips2: "温馨提示：请确保提笔地址无误，否则资产将不可找回。",
+        assetsBuy: "购买",
+        assetsSell: "出售",
+        assetsSuccessCopy: "复制成功!",
+        assetsFailCopy: "复制失败，请手动复制！",
+
+
         // 交易记录页
         tradeRecorde: "交易记录",
         tradeTime: "时间",

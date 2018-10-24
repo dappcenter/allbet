@@ -3,40 +3,40 @@
 	<HeaderBar></HeaderBar>
 	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
-			<p class="title"><span>我的资产</span><span @click="goRecord">交易记录</span></p>
-			<li><div>币种</div><div>数量</div><div>操作</div></li>
-			<li><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">充币</span><span  @click="mentionBill">提币</span></div></li>
+			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
+			<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
+			<li><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill">{{$t('message.assetsExtractCoins')}}</span></div></li>
 			<div class="charge"  v-show="showChargeBill">
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
-					<p>充币地址：</p>
+					<p>{{$t('message.assetsRechargeAddress')}}：</p>
 					<p class="address"><span id="copy_text">{{myAssets.coinAddress}}</span>
-						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">复制</span>
+						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
 					</p>
-					<p>温馨提示：请勿向上述地址充值任何非 ETH 资产，否则资产将不可找回。</p>
+					<p>{{$t('message.assetsTips')}}</p>
 				</div>
 			</div>
 			<div class="mention" v-show="showMentionBill">
-				<p>提币地址:</p>
+				<p>{{$t('message.assetsCoinAddress')}}:</p>
 				<div class="input-div">
 					<input type="text" name="" value="">
 					ETH
 				</div>
-				<p>数量:<span>可用：{{myAssets.eth}} ETH</span></p>
+				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{myAssets.eth}} ETH</span></p>
 				<div class="input-div">
 					<input type="text" name="" value="">
 					ETH
 				</div>
 				<div class="poundage">
 					<div class="">
-						<p>手续费</p>
+						<p>{{$t('message.assetsHandlingFee')}}</p>
 						<div class="input-div">
 							<input type="text" name="" value="">
 							ETH
 						</div>
 					</div>
 					<div class="">
-						<p>到账金额</p>
+						<p>{{$t('message.assetsArrivalAmount')}}</p>
 						<div class="input-div">
 							<input type="text" name="" value="">
 							ETH
@@ -44,10 +44,10 @@
 					</div>
 				</div>
 				<p class="attention">
-					<span>温馨提示：请确保提笔地址无误，否则资产将不可找回。</span><span class="take-out">提币</span>
+					<span>{{$t('message.assetsTips2')}}</span><span class="take-out">{{$t('message.assetsExtractCoins')}}</span>
 				</p>
 			</div>
-			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="goHome">购买</span><span @click="goHome">出售</span></div></li>
+			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="goHome">{{$t('message.assetsBuy')}}</span><span @click="goHome">{{$t('message.assetsSell')}}</span></div></li>
 			<li><div>BET</div><div>{{myAssets.bet}}</div><div>--</div></li>
 		</div>
 	</div>
@@ -113,13 +113,13 @@ import {mapMutations, mapState} from "vuex"
 		clipboard.on('success', () => {
 				this.alert({
 						type: "success",
-						msg: "复制成功！"
+						msg: this.$t('message.assetsSuccessCopy')
 				})
 		})
 		clipboard.on('error', () => {
 				this.alert({
 						type: "success",
-						msg: "复制失败，请手动复制！"
+						msg: this.$t('message.assetsFailCopy')
 				})
 		})
 	},
