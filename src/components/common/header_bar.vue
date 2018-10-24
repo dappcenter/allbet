@@ -58,9 +58,9 @@
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
-            <h4>注册</h4>
+            <h4>{{$t('message.PopRegister')}}</h4>
             <div class="input-wrap">
-                <label>手机号</label>
+                <label>{{$t('message.PopPhone')}}</label>
                 <div class="input-flex prefix">
                     <mu-menu cover :open.sync="prefixMenu">
                         <span color="primary">{{formData.prefix}}</span>
@@ -70,65 +70,65 @@
                             </mu-list-item>
                         </mu-list>
                     </mu-menu>
-                    <input type="text" v-model.trim="formData.phone" placeholder="请输入您的手机号码">
+                    <input type="text" v-model.trim="formData.phone" :placeholder="$t('message.PopRegisterPhone')">
                 </div>
             </div>
             <div class="input-wrap">
-                <label>图形码</label>
+                <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
-                    <input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
+                    <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
                     <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
                 </div>
             </div>
             <div class="input-wrap">
-                <label>验证码</label>
+                <label>{{$t('message.PopCaptcha')}}</label>
                 <div class="input-flex">
-                    <input type="text" v-model="formData.captcha" placeholder="请输入短信验证码">
+                    <input type="text" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <AEFcountDownBtn v-model="captchaDisabled" @click.native="getSMScode('REGISTER')"></AEFcountDownBtn>
                 </div>
             </div>
             <div class="input-wrap">
-                <label>密码</label>
-                <input type="password" v-model="formData.password" placeholder="字母数字组成，不超过12位">
+                <label>{{$t('message.PopPassword')}}</label>
+                <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
             </div>
             <div class="input-wrap">
-                <label>确认密码</label>
-                <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
+                <label>{{$t('message.PopPasswordConfirm')}}</label>
+                <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
             </div>
-            <button class="primary-btn" @click="registerDo('phone')">注册</button>
-            <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">邮箱注册</a></p>
+            <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
+            <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">{{$t('message.PopEmailRegister')}}</a></p>
         </mu-dialog>
         <!-- 邮箱注册账号 -->
         <mu-dialog :open.sync="displayStatus.emailRegisterAccount" :append-body="false" class="register-accout">
-            <h4>注册</h4>
+            <h4>{{$t('message.PopRegister')}}</h4>
             <div class="input-wrap">
-                <label>邮箱账号</label>
-                <input type="text" v-model.trim="formData.email" placeholder="请输入您的邮箱">
+                <label>{{$t('message.PopEmail')}}</label>
+                <input type="text" v-model.trim="formData.email" :placeholder="$t('message.PopRegisterEmail')">
             </div>
             <div class="input-wrap">
-                <label>图形码</label>
+                <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
-                    <input type="text" v-model="formData.picCode" placeholder="请输入图形验证码">
+                    <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
                     <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
                 </div>
             </div>
             <div class="input-wrap">
-                <label>验证码</label>
+                <label>{{$t('message.PopCaptcha')}}</label>
                 <div class="input-flex">
-                    <input type="text" v-model="formData.captcha" placeholder="请输入邮箱验证码">
+                    <input type="text" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
                 </div>
             </div>
             <div class="input-wrap">
-                <label>密码</label>
-                <input type="password" v-model="formData.password" placeholder="字母数字组成，不超过12位">
+                <label>{{$t('message.PopPassword')}}</label>
+                <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
             </div>
             <div class="input-wrap">
-                <label>确认密码</label>
-                <input type="password" v-model="formData.password2" placeholder="请再次输入您的密码">
+                <label>{{$t('message.PopPasswordConfirm')}}</label>
+                <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
             </div>
-            <button class="primary-btn" @click="registerDo('email')">注册</button>
-            <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">手机注册</a></p>
+            <button class="primary-btn" @click="registerDo('email')">{{$t('message.PopRegister')}}</button>
+            <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">{{$t('message.PopPhoneRegister')}}</a></p>
         </mu-dialog>
         <!-- 找回密码 -->
         <mu-dialog :open.sync="findPassword" :append-body="false" class="register-accout">
@@ -266,7 +266,10 @@ export default {
             if(newVal.length > 0) {
                 let b = false
                 newVal.forEach(val => {
-                    b = val.coinAddress == this.storeCurrentAddr.coinAddress
+                    if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
+                        b = true
+                        this.setCurrentAddr(val)
+                    }
                 })
                 if(!b) {
                     this.currentAddr = newVal[0].coinAddress
@@ -382,7 +385,8 @@ export default {
                     })
                     this.displayStatus.registerAccount = false
                     this.displayStatus.emailRegisterAccount = false
-                    this.displayStatus.loginAccount = true
+                    // 相当于直接登录
+                    this.setUserInfo(res.result)
                 }
             })
         },
@@ -591,7 +595,6 @@ export default {
     .logo {
         img {
           display: block;
-          width: 40px;
           height: 40px;
         }
     }
@@ -607,6 +610,7 @@ export default {
             color: #fff;
             &.router-link-active {
                 color: #61C2FF;
+                text-shadow: 0 0 20px #1371FF;
             }
         }
     }
@@ -828,7 +832,7 @@ export default {
                 font-size: 14px;
                 margin-top: 20px;
                 label {
-                    width: 60px;
+                    width: 80px;
                 }
                 input {
                     flex: 1;

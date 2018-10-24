@@ -62,7 +62,7 @@
 				<div class="tips">
 					<span class="fl">最小下注数量为 {{rule.minInvest}} ETH</span>
 					<span class="fr">建议 Gas Price：9</span>
-					<span class="fr">余额：{{currentAddr.eth}} ETH</span>
+					<span class="fr">余额：{{(currentAddr.eth*1).toFixed(3)}} ETH</span>
 				</div>
 			</div>
 			
@@ -86,7 +86,7 @@ export default {
 	created() {
 		this.getRule()
 		setTimeout(() => {
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xa3be2b57d1ff838b77875c964e4ee7fb70aaa81d");
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xd94d54cfd6100f1207802521bea738cfd13f3c27");
 		}, 2000)
 	},
     mounted() {
@@ -161,7 +161,7 @@ export default {
 			}).then(res => {
 				if(res.code == 200) {
 					if(res.result.resultType == "DISPATCHER") {  //平台账号
-						that.alert({
+						this.alert({
 							type: "success",
 							msg: res.msg
 						})
@@ -178,10 +178,10 @@ export default {
 		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount) {
 			let that = this
 			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
-			console.log(rollUnder, modulo, commitLastBlock, commit, sigData, this.currentAddr.coinAddress)
 			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
-				value: amount
+				value: amount,
+				gas: 1000000
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",

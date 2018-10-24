@@ -47,11 +47,11 @@
 				<a href="javascript:;" @click="getSMScode('ACCOUNT_BINDING')">{{formData.btnText}}</a>
 			</div>
 		</div>
-		<button @click="bindingOneDo('PHONE')">{{$t('message.PopBindBtn')}}</button>
-		<p><a href="javascript:;" @click="phoneBind = false;registerEmailAccount = true;">{{$t('message.PopBindEmail')}}</a></p>
+		<button class="primary-btn" @click="bindingOneDo('PHONE')">{{$t('message.PopBindBtn')}}</button>
+		<p><a href="javascript:;" @click="phoneBind = false;emailBind = true;">{{$t('message.PopBindEmail')}}</a></p>
 	</mu-dialog>
 	<!-- 邮箱账号绑定 -->
-	<mu-dialog :open.sync="registerEmailAccount" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="emailBind" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}</label>
@@ -70,11 +70,11 @@
 			<label>{{$t('message.PopCaptcha')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.emailCaptcha" :placeholder="$t('message.PopInputCaptcha')">
-				<AEFcountDownBtn v-model="captchaDisabled" @click="getEmailCode('ACCOUNT_BINDING')"></AEFcountDownBtn>
+				<AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('ACCOUNT_BINDING')"></AEFcountDownBtn>
 			</div>
 		</div>
 		<button class="primary-btn" @click="bindingOneDo('EMAIL')">{{$t('message.PopBindBtn')}}</button>
-		<p><a href="javascript:;" @click="phoneBind = true;registerEmailAccount = false;">{{$t('message.PopBindPhone')}}</a></p>
+		<p><a href="javascript:;" @click="phoneBind = true;emailBind = false;">{{$t('message.PopBindPhone')}}</a></p>
 	</mu-dialog>
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="confirmAccountNotExist" :append-body="false" class="register-accout">
@@ -91,33 +91,33 @@
 	</mu-dialog>
 	<!-- 重置登陆密码 -->
 	<mu-dialog :open.sync="resetPassDialog" :append-body="false" class="register-accout">
-			<h4>{{$t('message.PopResetPass')}}</h4>
-			<div class="input-wrap">
-				<p>{{$t('message.PopAccount')}}: {{currentAddr.userName}}</p>
+		<h4>{{$t('message.PopResetPass')}}</h4>
+		<div class="input-wrap">
+			<p>{{$t('message.PopAccount')}}: {{currentAddr.userName}}</p>
+		</div>
+		<div class="input-wrap">
+			<label>{{$t('message.PopGraphic')}}</label>
+			<div class="input-flex">
+				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
 			</div>
-			<div class="input-wrap">
-				<label>{{$t('message.PopGraphic')}}</label>
-				<div class="input-flex">
-					<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-					<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
-				</div>
+		</div>
+		<div class="input-wrap">
+			<label>{{$t('message.PopCaptcha')}}</label>
+			<div class="input-flex">
+				<input type="text" v-model="formData.resetCaptcha" :placeholder="$t('message.PopInputCaptcha')">
+				<a href="javascript:;" @click="getSMScode">{{formData.btnText}}</a>
 			</div>
-			<div class="input-wrap">
-				<label>{{$t('message.PopCaptcha')}}</label>
-				<div class="input-flex">
-					<input type="text" v-model="formData.resetCaptcha" :placeholder="$t('message.PopInputCaptcha')">
-					<a href="javascript:;" @click="getSMScode">{{formData.btnText}}</a>
-				</div>
-			</div>
-			<div class="input-wrap">
-					<label>{{$t('message.PopNewPassword')}}</label>
-					<input type="password" v-model="formData.resetLoginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
-			</div>
-			<div class="input-wrap">
-					<label>{{$t('message.PopPasswordConfirm')}}</label>
-					<input type="password" v-model="formData.resetLoginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
-			</div>
-			<button class="primary-btn" @click="passResetDo">{{$t('message.PopConfirmChange')}}</button>
+		</div>
+		<div class="input-wrap">
+			<label>{{$t('message.PopNewPassword')}}</label>
+			<input type="password" v-model="formData.resetLoginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
+		</div>
+		<div class="input-wrap">
+			<label>{{$t('message.PopPasswordConfirm')}}</label>
+			<input type="password" v-model="formData.resetLoginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
+		</div>
+		<button class="primary-btn" @click="passResetDo">{{$t('message.PopConfirmChange')}}</button>
 	</mu-dialog>
 	<FooterBar ref="ft"></FooterBar>
 </div>
@@ -134,7 +134,7 @@ import {mapMutations, mapState} from "vuex"
 	 data () {
 		 return {
 			phoneBind: false,
-			registerEmailAccount: false,
+			emailBind: true,
 			confirmAccountExist: false,
 			confirmAccountNotExist: false,
 			resetPassDialog: false,

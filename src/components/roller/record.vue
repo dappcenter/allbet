@@ -4,7 +4,7 @@
 			<a href="javascript:;" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">最新玩家</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">大佬榜</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">幸运榜</a>
-			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')">我的战绩</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">我的战绩</a>
 		</div>
 		<div class="t-head">
 			<span>时间</span>
@@ -21,7 +21,7 @@
 				<li class="">
 					<span>{{$fmtDate(item.createTime, "full")}}</span>
 				</li>
-				<li class="user" :class="{'green': item.odds > rule.luckyManOdds, 'golden': item.coinAmount > rule.gangsterAmount}">
+				<li class="user" :class="{'green': item.odds > rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount > rule.gangsterAmount}">
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
 				</li>
 				<li class="">
@@ -49,18 +49,23 @@
 
 <script>
 import {mapState} from 'vuex'
+import PollHttp from "../../util/pollHttp"
 export default {
     data() {
         return {
 			unfold: -1,
 			recordsList: [],
 			boardType: "RECENT",
-			rule: {}
+			rule: {},
+			timer: null
         }
 	},
 	created() {
 		this.getRule()
-		this.getData("RECENT")
+		this.getData(this.boardType)
+		this.timer = window.setInterval(() => {
+			this.getDataPoll()
+		}, 3000)
 	},
 	watch: {
 		currentAddr() {
@@ -94,7 +99,26 @@ export default {
 					this.rule = res.result
 				}
 			})
+		},
+		getDataPoll() {
+			PollHttp({
+				type: 'get',
+				url: '/app/dice/board',
+				data: {
+					boardType: this.boardType,
+					coinAddress: this.currentAddr.coinAddress,
+					page: 1,
+					pageSize: 10
+				}
+			}).then(res => {
+				if(res.code == 200) {
+					this.recordsList = res.result.records.list
+				}
+			})
 		}
+	},
+	destroyed() {
+		clearInterval(this.timer)
 	}
 }
 </script>

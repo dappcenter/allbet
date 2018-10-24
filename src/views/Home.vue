@@ -3,9 +3,9 @@
 	<HeaderBar type="steep"></HeaderBar>
 	<div class="main">
 		<div class="top">
-			<h1>Allbet</h1>
+			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>
-			<div style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
+			<div class="info" style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
 			<div class="total-bill" v-if="getCurrentAddr.token">
 				{{$t('message.homeTotalAt')}}{{this.getCurrentAddr.at}}
 			</div>
@@ -256,6 +256,7 @@ import { setTimeout, clearInterval } from 'timers';
 			this.$http.get("/app/home/bancor_orders",{
 			params:{
 				"onlyMe": selectTap == 1?true:false,
+				"coinAddress": this.getCurrentAddr.coinAddress,
 				"page": 1,
 				"pageSize":20,
 			}
@@ -480,6 +481,12 @@ import { setTimeout, clearInterval } from 'timers';
 				width: 100%;
 				text-align: center;
 				padding-top: 113px;
+				h1 {
+					margin: 0;
+					img {
+						height: 84px;
+					}
+				}
 				.total-bill {
                     position: relative;
                     z-index: 2;
@@ -487,9 +494,8 @@ import { setTimeout, clearInterval } from 'timers';
 					height: 48px;
 					line-height: 48px;
 					font-size: 20px;
-					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(26,40,217,1));
-					border-radius:48px;
-					box-shadow:0px 1px 0px 0px rgba(136,201,255,1);
+					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+					border-radius: 4px;
 					margin: auto;
                     font-weight: bold;
                     cursor: pointer;
