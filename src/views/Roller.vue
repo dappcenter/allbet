@@ -1,7 +1,7 @@
 <template>
     <div class="roller-page">
         <HeaderBar></HeaderBar>
-        <div class="main">
+        <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
             <Bet></Bet>
 			<Record></Record>
         </div>
@@ -44,7 +44,7 @@ export default {
 .roller-page {
     margin: 0 auto;
     .main {
-        min-height: 1000px;
+        background-color: #2F59B7;
     }
 }
 @media screen and (max-width: 800px) {
