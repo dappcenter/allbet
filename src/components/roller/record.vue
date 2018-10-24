@@ -37,7 +37,8 @@
 					<span>{{item.odds}}</span>
 				</li>
 				<li class="">
-					<span>{{item.rewards}} ETH</span>
+					<span v-if="item.rewards > 0">{{item.rewards}} ETH</span>
+					<span v-else></span>
 				</li>
 				<li class="">
 					<span>{{item.abNum}} AB</span>
