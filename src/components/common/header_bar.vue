@@ -39,7 +39,7 @@
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <!-- 登录选择 -->
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
-            <h4>{{$t("message.login")}}</h4>    
+            <h4>{{$t("message.login")}}</h4>
             <img src="../../../public/img/github.png" alt="">
             <button class="primary-btn" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
             <button class="primary-btn hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
@@ -47,18 +47,18 @@
         </mu-dialog>
         <!-- 账号登录 -->
         <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
-            <h4>{{$t("message.login")}}</h4>    
-            <input type="text" v-model.trim="loginForm.account" placeholder="请输入您的手机号或者邮箱">
-            <input type="password" v-model.trim="loginForm.password" placeholder="请输入您登录密码">
+            <h4>{{$t("message.login")}}</h4>
+            <input type="text" v-model.trim="loginForm.account" :placeholder="$t('message.PopLoginPlaceholder')">
+            <input type="password" v-model.trim="loginForm.password" :placeholder="$t('message.PopLoginPass')">
             <button class="primary-btn" @click="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
-                <p>没有账号？<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">现在注册</a></p>
+                <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
-            <h4>注册</h4>    
+            <h4>注册</h4>
             <div class="input-wrap">
                 <label>手机号</label>
                 <div class="input-flex prefix">
@@ -100,7 +100,7 @@
         </mu-dialog>
         <!-- 邮箱注册账号 -->
         <mu-dialog :open.sync="displayStatus.emailRegisterAccount" :append-body="false" class="register-accout">
-            <h4>注册</h4>    
+            <h4>注册</h4>
             <div class="input-wrap">
                 <label>邮箱账号</label>
                 <input type="text" v-model.trim="formData.email" placeholder="请输入您的邮箱">
@@ -132,7 +132,7 @@
         </mu-dialog>
         <!-- 找回密码 -->
         <mu-dialog :open.sync="findPassword" :append-body="false" class="register-accout">
-            <h4>找回密码</h4>    
+            <h4>找回密码</h4>
             <div class="input-wrap" v-show="formData.resetType == 'PHONE'">
                 <label>手机号</label>
                 <div class="input-flex prefix">
@@ -318,7 +318,7 @@ export default {
         getSMScode(type) {
             if(this.btnText != "获取验证码") return
             if(!this.verifyPhone() || !this.verifyPicCode()) return
-         
+
             this.captchaDisabled = true  //开始倒计时
 
             this.$http.post("/open/captcha", {
@@ -338,7 +338,7 @@ export default {
         //获取邮箱验证码
         getEmailCode(type) {
             if(!this.verifyEmail() || !this.verifyPicCode()) return
-         
+
             this.captchaDisabled = true  //开始倒计时
             this.$http.get("/open/email_captcha", {
                 params: {
@@ -614,7 +614,7 @@ export default {
         font-size: 14px;
         .address-select {
             label {
-                
+
             }
             .mu-input  {
                 margin: 0;
@@ -769,7 +769,7 @@ export default {
                 }
             }
         }
-        
+
         &.login-select {
             .mu-dialog {
                 img {
@@ -777,7 +777,7 @@ export default {
                     margin: 50px auto;
                     height: 100px;
                 }
-                
+
                 p {
                     text-align: center;
                     margin-top: 40px;
@@ -871,12 +871,12 @@ export default {
                         }
                         input {
                             border: none;
-                            
+
                         }
                     }
-                    
+
                 }
-                
+
             }
             p {
                 font-size: 14px;
@@ -893,6 +893,6 @@ export default {
     }
 }
 @media screen and (max-width: 800px){
-  
+
 }
 </style>

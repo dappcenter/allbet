@@ -4,15 +4,13 @@
 	<div class="main">
 		<div class="top">
 			<h1>Allbet</h1>
-			<h2>基于 Bancor 的实用增强型通证协议,多维 Dapp 游戏生态系统</h2>
-			<div style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">AT 即 Allbet Token，固定总量1000 万。是 Allbet 生态中代表 Allbet 用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的 AT 通证池里（非团队所有），同时有一个对应的
-				ETH 资金池，用户从通证池购买通证，花费的 ETH 会进入 ETH 资金池（非团队所有）。所有操作都是协议合约直接控制的，
-				区块链上信息可查。</div>
+			<h2>{{$t('message.homeAllet')}}</h2>
+			<div style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
 			<div class="total-bill" v-if="getCurrentAddr.token">
-				我的AT总量：{{this.getCurrentAddr.at}}
+				{{$t('message.homeTotalAt')}}{{this.getCurrentAddr.at}}
 			</div>
 			<div class="total-bill" v-else @click="openLogin">
-				登陆
+				{{$t('message.login')}}
 			</div>
 
             <vue-particles
@@ -41,68 +39,68 @@
 				<div class="fund-number">
 					<p>{{result.ethPool}}ETH</p>
 					<img src="../../public/home/eth.png" class="eth"><br/>
-					<span>ETH 资金池</span>
+					<span>{{$t('message.homeETHReserve')}}</span>
 				</div>
 				<div class="fund-number">
 					<p>{{result.dbPool}}AT</p>
 					<img src="../../public/home/at.png" class="at"><br/>
-					<span>AT 通证池</span>
+					<span>{{$t('message.homeATReserve')}}</span>
 				</div>
 				<img src="../../public/home/two.png" class="two">
 			</div>
 			<div class="buy-sell">
 				<div class="buy">
-					<p class="title">买入 AT</p>
-					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p class="title">{{$t('message.homeBuyAT')}}</p>
+					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
-						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model.trim="ethPrice" onfocus="this.value = this.value == '市价' ? '' : this.value" @blur="priceOnblur('ethPrice')">
+						<span class="num">{{$t('message.homePrice')}}</span>
+						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="ethPrice" onfocus="this.value = this.value == $t('message.homeMarketPrice') ? '' : this.value" @blur="priceOnblur('ethPrice')">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
-						<span class="num">数量</span>
-						<input type="number" placeholder="请输入买入 ETH 数量" class="price" v-model="buyEthNumber">
+						<span class="num">{{$t('message.homeVolume')}}</span>
+						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" v-model="buyEthNumber">
 						<span class="num-right">ETH</span>
 					</div>
-					<p><span>您将获得 {{getAtNumber}} AT</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
+					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt=""></span></p>
 					<div class="buy-button" v-if="getCurrentAddr.token" @click="doTrade('买入')">
-						买入
+						{{$t('message.homeBuy')}}
 					</div>
 					<div class="buy-button" v-else @click="openLogin">
-						登陆
+						{{$t('message.login')}}
 					</div>
 				</div>
 				<div class="buy sell">
-					<p class="title">卖出 AT</p>
-					<p><span :class="[getCurrentAddr.token?'':'transparent']">可用：{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p class="title">{{$t('message.homeSellAT')}}</p>
+					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
-						<span class="num">价格</span>
-						<input type="text" placeholder="请输入 价格" class="price" v-model.trim="sellAtPrice" onfocus="this.value = this.value == '市价' ? '' : this.value" @blur="priceOnblur('sellAtPrice')">
+						<span class="num">{{$t('message.homePrice')}}</span>
+						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="sellAtPrice" onfocus="this.value = this.value == $t('message.homeMarketPrice') ? '' : this.value" @blur="priceOnblur('sellAtPrice')">
 						<span class="num-right">ETH</span>
 					</div>
 					<div class="price-div">
-						<span class="num">数量</span>
-						<input type="number" placeholder="请输入卖出 AT数量" class="price" v-model="buyAtNumber">
+						<span class="num">{{$t('message.homeVolume')}}</span>
+						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" v-model="buyAtNumber">
 						<span class="num-right">AT</span>
 					</div>
-					<p><span>您将获得 {{getEthNumber}} ETH</span><span>系统自动交易<img src="../../public/home/quote.png" alt=""></span></p>
-					<p style="text-align:center;color:#E95B62;">出售将收取 3% 手续费</p>
+					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt=""></span></p>
+					<p style="text-align:center;color:#E95B62;">{{$t('message.homeTokenFee')}}</p>
 					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
-						卖出
+						{{$t('message.homeSell')}}
 					</div>
 					<div class="buy-button sell-button" v-else @click="openLogin">
-						登陆
+						{{$t('message.login')}}
 					</div>
 				</div>
 			</div>
 			<div class="list">
 				<div class="top-button">
-					<span @click="getBancorOrders(0)" :class="[selectTap == 0?'selected':'']">近期交易</span>
-					<span @click="getBancorOrders(1)" :class="[selectTap == 1?'selected':'']">我的委托单</span>
+					<span @click="getBancorOrders(0)" :class="[selectTap == 0?'selected':'']">{{$t('message.homeRecentPlayers')}}</span>
+					<span @click="getBancorOrders(1)" :class="[selectTap == 1?'selected':'']">{{$t('message.homeMyOrders')}}</span>
 				</div>
 				<div class="content">
 					<div class="recent-order" v-if="selectTap == 0">
-						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>成交时间</span></li>
+						<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeTransactionTime')}}</span></li>
 						<li v-for="item in recentOrderList">
 							<span>{{item.address}}</span>
 							<span>{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
@@ -113,7 +111,7 @@
 						</li>
 					</div>
 					<div class="my-order" v-else>
-						<li class="unit"><span>玩家</span><span>ETH</span><span>AT</span><span>AT价格</span><span>交易类型</span><span>创建时间</span><span>完成时间</span><span>状态</span><span>操作</span></li>
+						<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeCreateTime')}}</span><span>{{$t('message.homeTransactionTime')}}</span><span>{{$t('message.homeState')}}</span><span>{{$t('message.homeOperation')}}</span></li>
 						<li v-for="item in recentOrderList">
 							<span>{{item.address}}</span>
 							<span>{{filter(item)}}</span>
@@ -123,7 +121,7 @@
 							<span>{{item.recdCreateTime}}</span>
 							<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
 							<span>{{filterState(item)}}</span>
-							<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">撤单</span>
+							<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
 							<span v-else>- -</span>
 						</li>
 					</div>
@@ -146,10 +144,10 @@ import { setTimeout, clearInterval } from 'timers';
 	 data () {
 		 return {
 			ethMarketPrice: '', // 市面上 1at=??eth
-			ethPrice: "市价", // 1ETH=??At
+			ethPrice: this.$t('message.homeMarketPrice'), // 1ETH=??At
 			buyEthNumber: '', // 买入??ETh
 
-			sellAtPrice: '市价', // 1at=??eth
+			sellAtPrice: this.$t('message.homeMarketPrice'), // 1at=??eth
 			buyAtNumber: '',// 买入??AT
 
 			result: {},
@@ -159,10 +157,10 @@ import { setTimeout, clearInterval } from 'timers';
 			// entrustOrderList: [], //委托单列表
 			timer: null,
 			tradeType: {
-				'MARKET_BUY': '买入',
-				'MARKET_SELL': '卖出',
-				'PUTUP_BUY': '买入',
-				'PUTUP_SELL': '卖出',
+				'MARKET_BUY': this.$t('message.homeBuy'),
+				'MARKET_SELL': this.$t('message.homeSell'),
+				'PUTUP_BUY': this.$t('message.homeBuy'),
+				'PUTUP_SELL': this.$t('message.homeSell'),
 			}
 		}
 	},
@@ -180,14 +178,14 @@ import { setTimeout, clearInterval } from 'timers';
 			return this.$store.state.user.currentAddr
 		},
 		getAtNumber() {
-			if(this.ethPrice == "市价") {
+			if(this.ethPrice == this.$t('message.homeMarketPrice')) {
 				return 1/this.ethMarketPrice * this.buyEthNumber
 			}else{
-				return 1/this.ethPrice * this.buyEthNumber	
+				return 1/this.ethPrice * this.buyEthNumber
 			}
 		},
 		getEthNumber() {
-			return this.sellAtPrice == '市价' ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
+			return this.sellAtPrice == this.$t('message.homeMarketPrice') ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
 		}
     },
 	created () {
@@ -203,7 +201,7 @@ import { setTimeout, clearInterval } from 'timers';
 	methods: {
 		//价格输入框失焦判断
 		priceOnblur(type) {
-			this[type] = this[type] == "" ? "市价" : this[type]
+			this[type] = this[type] == "" ? this.$t('message.homeMarketPrice') : this[type]
 		},
 		filter(item) {
 			if (item.tradeType == 'MARKET_BUY') {
@@ -222,19 +220,19 @@ import { setTimeout, clearInterval } from 'timers';
 		filterState(item) {
 			switch (item.tradeStatus) {
 				case 'ENTRUST':
-				return '委托中'
+				return this.$t('message.homeEntrust')
 				break;
 				case 'DONE':
-				return '交易成功'
+				return this.$t('message.homeDone')
 				break;
 				case 'WAITING':
-				return '等待中'
+				return this.$t('message.homeWaiting')
 				break;
 				case 'CANCEL':
-				return '交易取消'
+				return this.$t('message.homeCancel')
 				break;
 				case 'FAIL':
-				return '交易失败'
+				return this.$t('message.homeFail')
 			}
 		},
 		// 获取奖金池&AT数量
@@ -293,8 +291,8 @@ import { setTimeout, clearInterval } from 'timers';
 					return
 				}
 				postData.amount = this.buyEthNumber
-				postData.tradeType = this.ethPrice == '市价'?'MARKET_BUY':'PUTUP_BUY'
-				if (this.ethPrice != '市价' && this.ethPrice != "") {
+				postData.tradeType = this.ethPrice == this.$t('message.homeMarketPrice') ? 'MARKET_BUY':'PUTUP_BUY'
+				if (this.ethPrice != this.$t('message.homeMarketPrice') && this.ethPrice != "") {
 					if(!/^\d+(\.\d+)?$/.test(this.ethPrice)) {
 						this.alert({
 							type: "error",
@@ -313,8 +311,8 @@ import { setTimeout, clearInterval } from 'timers';
 					return
 				}
 				postData.amount = this.buyAtNumber
-				postData.tradeType = this.sellAtPrice == '市价'?'MARKET_SELL':'PUTUP_SELL'
-				if (this.sellAtPrice != '市价' && this.sellAtPrice != "") {
+				postData.tradeType = this.sellAtPrice == this.$t('message.homeMarketPrice') ? 'MARKET_SELL':'PUTUP_SELL'
+				if (this.sellAtPrice != this.$t('message.homeMarketPrice') && this.sellAtPrice != "") {
 					if(!/^\d+(\.\d+)?$/.test(this.sellAtPrice)) {
 						this.alert({
 							type: "error",
