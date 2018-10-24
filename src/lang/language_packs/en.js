@@ -26,7 +26,7 @@ export default {
         //home
         homeAllet: "Bancor based Practical Enhanced Pass Agreement,Multidimensional DApp game ecosystem",
         homeAlletDesc: "DB is allbet Token, with a fixed total of 10 million. It is an application-based certificate that represents allbet users and developer rights in the allbet ecosystem. It is also an important link between wallets, users and project developers. After the issuance, all the certificates are stored in a contract-controlled DB card pool (non-team hold), and there is a corresponding ETH fund pool. The user purchases the pass from the pass pool, and the spent ETH will enter the ETH fund pool (non-team hold). All operations are directly controlled by the contract, and information on the blockchain can be checked.",
-        homeTotalAt: "My total AT amount: ",
+        homeTotalAt: "My total AT: ",
         homeReservePool:"Current Reserve Pool",
         homeETHReserve: "ETH Reserve",
         homeATReserve: "AT Reserve",
@@ -60,6 +60,14 @@ export default {
         homeCancel: "Cancel",
         homeFail: "Fail",
         homeWithdrawal: "Withdrawal",
+        homeHigher: "If the price is higher than the market price, the system will automatically help you to place a pending order. When the DB price reaches the unit price you are hanging, the system will automatically complete the transaction. As the price of the bancor algorithm changes over time, it is expected that there will be a certain amount of deviation.",
+        homeInputErro: "Incorrect input",
+        homePriceErro: "Incorrect price input",
+        homePriceLower: "The price you entered is less than 10% of the market price.",
+        homePriceHiger: "The price you entered is more than 10% above the market price.",
+        homeCancelTrade: "Cancel trading",
+        homeContinueTrade: "Continue trading",
+
         // 账号安全页
         accountSecurity: "Account Security",
         accountPlatform: "Platform Account",
@@ -70,6 +78,7 @@ export default {
         accountBindDesc: "Not bound yet, please log in to MetaMask and bind. If you have logged in, please refresh the page.",
         accountToBound: "To Bound",
         accountNotExist: "Not Exist",
+
         // 我的资产页
         assetsOfMine: "My Assets",
         assetsTransactionRecord: "Transaction Record",
@@ -119,6 +128,9 @@ export default {
         InvitationRules1: "1. Register for an account to get 500AB coins;",
         InvitationRules2: "2. Invite a friend to successfully system. The airdrop will be 10%. The invitee will hold the AB coin, 8% will be owned by the inviter, and 2% will be owned by the invitee.",
         // 所有弹框页
+        PopRegister: "Register",
+        PopEmailFind: 'Mailbox retrieval',
+        PopPhoneFind: 'Phone retrieved',
         PopLoginPlaceholder: "please input you phone or email",
         PopLoginPass: "Please input your password",
         PopAccount: "Account",
@@ -144,6 +156,7 @@ export default {
         PopBindBtn: "Binding",
         PopResetPass: "Reset Password",
         PopConfirmChange: "Confirm changes",
+        PopFindPass: "Find Password",
 
         // 提示语
         PopCaptchaEmpty: "Captcha can't be empty",
@@ -151,10 +164,13 @@ export default {
         PopPass2Empty: "Reconfirm password cannot be empty",
         PopPassDiff: "Inconsistent password entered twice",
         PopPhoneWrong: "The phone number is entered incorrectly",
+        PopEmailWrong: "The email is entered incorrectly",
         PopGraphicEmpty: "Graphic code cannot be empty",
         PopPassRequest: "The password must be a combination of 8-12 alphanumeric characters",
         Popsuccess: "Successful operation",
         PopFail: "Operation failed",
+        PopHdLogin: "Please log in in the MetaMask plugin in the upper right corner. If you have logged in, please refresh the page.",
+        PopAccountPassEmpty: "Account and password can't be empty",
 
         PopCoinVerify: "Coin verification",
         PopConfirm: "Confirm",

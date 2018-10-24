@@ -36,7 +36,7 @@ const state = {
 const mutations = {
     /**
      * 显示提示框
-     * @param {Object} state store状态 
+     * @param {Object} state store状态
      * @param {Object} data 传入数据 {type, msg}
      * @author shanks
      */
@@ -50,7 +50,7 @@ const mutations = {
             error: 'warning'
         }[data.type]
         state.alertOption.msg = data.msg || '提示'
-        state.alertOption.open = true            
+        state.alertOption.open = true
         state.alertOption.timer = setTimeout(() => {
             state.alertOption.open = false;
         }, state.alertOption.timeout);

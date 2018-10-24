@@ -20,9 +20,9 @@
           <img src="" alt="">
           <span>{{$t('message.invitationCode')}}：Bwe43lo<br/>{{$t('message.invitationLink')}}：https://allbet.io/bwe43lo<span class="copy">{{$t('message.assetsCopy')}}</span></span>
         </div>
-				<p>{{$t('message.InvitationRules')}}</p>
-				<p>{{$t('message.InvitationRules1')}}</p>
-				<p>{{$t('message.InvitationRules2')}}</p>
+				<h5>{{$t('message.InvitationRules')}}</h5>
+				<h5>{{$t('message.InvitationRules1')}}</h5>
+				<h5>{{$t('message.InvitationRules2')}}</h5>
       </div>
     </div>
     <FooterBar ref="ft"></FooterBar>
@@ -75,7 +75,7 @@ import FooterBar from "@/components/common/footer_bar"
       .white-div {
         width:1000px;
         height:460px;
-        background:rgba(255,255,255,1);
+        background:#1A439E;
         border-radius:6px;
         margin: 60px auto 0 auto;
         p {
@@ -133,6 +133,11 @@ import FooterBar from "@/components/common/footer_bar"
             }
           }
         }
+				h5 {
+					font-size: 14px;
+					color: #FFFFFF;
+					text-align: left;
+				}
       }
     }
 	}

@@ -290,7 +290,7 @@ import { setTimeout, clearInterval } from 'timers';
 				if (this.getAtNumber <= 0 || (this.ethPrice <= 0 && this.ethPrice != "")) {
 					this.alert({
 						type: "info",
-						msg: "输入有误"
+						msg: this.$t('message.homeInputErro')
 					})
 					return
 				}
@@ -300,7 +300,7 @@ import { setTimeout, clearInterval } from 'timers';
 					if(!/^\d+(\.\d+)?$/.test(this.ethPrice)) {
 						this.alert({
 							type: "error",
-							msg: "价格输入有误"
+							msg: this.$t('message.homePriceErro')
 						})
 						return
 					}
@@ -310,7 +310,7 @@ import { setTimeout, clearInterval } from 'timers';
 				if (this.getEthNumber <= 0 || (this.sellAtPrice <= 0 && this.sellAtPrice != "")) {
 					this.alert({
 						type: "info",
-						msg: "输入有误"
+						msg: this.$t('message.homeInputErro')
 					})
 					return
 				}
@@ -320,7 +320,7 @@ import { setTimeout, clearInterval } from 'timers';
 					if(!/^\d+(\.\d+)?$/.test(this.sellAtPrice)) {
 						this.alert({
 							type: "error",
-							msg: "价格输入有误"
+							msg: this.$t('message.homePriceErro')
 						})
 						return
 					}
@@ -330,14 +330,14 @@ import { setTimeout, clearInterval } from 'timers';
 			if(postData.price) {
 				if(postData.price < this.ethMarketPrice*0.9) {
 					this.openConfirm({
-						content: "您输入的价格低于市价超过10%",
+						content: this.$t('message.homePriceLower'),
 						btn: [
 							{
-								text: "取消交易"
+								text: this.$t('message.homeCancelTrade')
 							},
 							{
 								type: "high",
-								text: "继续交易",
+								text: this.$t('message.homeContinueTrade'),
 								cb: () => {
 									this.placeOrder(postData, type)
 								}
@@ -346,14 +346,14 @@ import { setTimeout, clearInterval } from 'timers';
 					})
 				}else if(postData.price > this.ethMarketPrice*1.1) {
 					this.openConfirm({
-						content: "您输入的价格高于市价超过10%",
+						content: this.$t('message.homePriceHiger'),
 						btn: [
 							{
-								text: "取消交易"
+								text: this.$t('message.homeCancelTrade')
 							},
 							{
 								type: "high",
-								text: "继续交易",
+								text: this.$t('message.homeContinueTrade'),
 								cb: () => {
 									this.placeOrder(postData, type)
 								}
@@ -399,7 +399,7 @@ import { setTimeout, clearInterval } from 'timers';
 				if (res.code == 200) {
 					this.alert({
 							type: "success",
-							msg: "撤单成功！"
+							msg: this.$t('message.homeCancel')
 					})
 					// 撤单成功，更改状态&更新各种币的数量
 					this.getBancorOrders(this.selectTap)
@@ -416,13 +416,13 @@ import { setTimeout, clearInterval } from 'timers';
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",
-					msg: "交易成功"
+					msg: this.$t('message.homeDone')
 				})
 			})
 			.on("error", function(error) {
 				that.alert({
 					type: "error",
-					msg: "交易失败"
+					msg: this.$t('message.homeFail')
 				})
 			});
 		},
@@ -436,21 +436,21 @@ import { setTimeout, clearInterval } from 'timers';
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",
-					msg: "交易成功"
+					msg: this.$t('message.homeDone')
 				})
 			})
 			.on("error", function(error) {
 				that.alert({
 					type: "error",
-					msg: "交易失败"
+					msg: this.$t('message.homeFail')
 				})
 			});
 		},
 		openHelp() {
 			this.openConfirm({
-				content: "若价格高于市价，系统将自动帮你挂单，待DB价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
+				content: this.$t('message.homeHigher'),
 				btn: [{
-					text: "关闭"
+					text: this.$t('message.PopClose')
 				}]
 			})
 		},
