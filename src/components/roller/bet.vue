@@ -1,6 +1,7 @@
 <template>
 	<section class="module-bet">
-		<div class="game-content">
+		<div class="mask"></div>
+		<div class="game-content" ref="gameContent">
 			<div class="ctn-top">
 				<div class="number-show">
 					<div>
@@ -12,21 +13,7 @@
 						<span>幸运数</span>
 					</div>
 				</div>
-				<!-- 滑块 -->
-				<div class="slider-wrap">
-					<div class="scale">
-						<span>1%</span>
-						<span>25%</span>
-						<span>50%</span>
-						<span>75%</span>
-						<span>100%</span>
-					</div>
-					<div class="slider" ref="slider">
-						<div class="bar" ref="bar"></div>
-						<div class="handle" @mousedown="onHandleTouchS" ref="handle"></div>
-					</div>
-					
-				</div>
+				
 			</div>
 			<!-- 赔率预览 -->
 			<ul class="ctn-mdl">
@@ -43,6 +30,18 @@
 					<span>{{odds-1}}%</span>
 				</li>
 			</ul>
+			<!-- 滑块 -->
+			<div class="slider-wrap">
+				<div class="scale">
+					<span>1</span>
+					<span>100</span>
+				</div>
+				<div class="slider" ref="slider">
+					<div class="bar" ref="bar"></div>
+					<div class="handle" @mousedown="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
+				</div>
+				
+			</div>
 			<div class="ctn-btm">
 				<h4>竞猜数量</h4>
 				<div class="flex-wrap">
@@ -65,7 +64,6 @@
 					<span class="fr">余额：{{(currentAddr.eth*1).toFixed(3)}} ETH</span>
 				</div>
 			</div>
-			
 		</div>
 		
 	</section>
@@ -78,7 +76,7 @@ export default {
     data() {
         return {
             amount: 0.12,
-			odds: 2,
+			odds: 50,
 			rule: {},
 			apiHandle: null
         }
@@ -121,13 +119,13 @@ export default {
         }),
         onHandleTouchS(e) {
             let that = this
-            const sliderOffsetL = this.$refs.slider.offsetLeft
+			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
             const sliderWidth = this.$refs.slider.clientWidth - 20
             const ofX = e.offsetX
             let moveWidth = 0
             window.onmousemove = function(e) {
                 moveWidth = e.clientX - sliderOffsetL - ofX
-                moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
+				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
                 that.$refs.bar.style.width = moveWidth + "px"
                 that.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
@@ -227,51 +225,61 @@ export default {
 
 <style lang="less">
 	.module-bet {
+		position: relative;
 		text-align: center;
 		-moz-user-select:none; /*火狐*/
 		-webkit-user-select:none; /*webkit浏览器*/
 		-ms-user-select:none; /*IE10*/
 		user-select:none;
-		background: url(../../../public/img/game_bg01.png) no-repeat center;
-		background-size: cover;		
+		background: url(../../../public/img/bg.png) repeat left;
+		background-size: 200px;
 		overflow: hidden;
+		.mask {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Safari 5.1 - 6.0 */
+			background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Opera 11.1 - 12.0 */
+			background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Firefox 3.6 - 15 */
+			background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* 标准的语法（必须放在最后） */
+		}
 		.game-content {
+			position: relative;
+			z-index: 2;
 			width: 700px;
 			margin: 60px auto;
-			background-color: #214AA4;
 			border-radius:6px;
 			padding: 20px;
 			.ctn-top {
-				background-color: #183F96;
+				background: url(../../../public/img/game_bg02.png) no-repeat center;
+				background-size: 100% 100%;
 				overflow: hidden;
 				border-radius:6px;
-				padding: 20px 40px;
 				.number-show {
 					display: flex;
 					justify-content: space-between;
 					div {
 						width: 48%;
-						height: 100px;
-						background-color: #12388D;
-						border-radius:6px;
 						h3 {
-							font-size: 36px;
+							font-size: 72px;
+							text-shadow: 0 0 10px #fff;
 							&.green {
 								color: #99FF7E;
 							}
 						}
 						span {
 							font-size: 16px;
-							
+							position: relative;
+							top: -17px;
 						}
 					}
 				}
 			}
 			.ctn-mdl {
 				display: flex;
-
-				background-color: #183F96;
-				margin: 40px 0 0 0;
+				background: url(../../../public/img/game_bg02.png) no-repeat center;
+				background-size: 100% 100%;
+				margin: 10px 0 0 0;
 				border-radius:6px;
 				padding: 10px 0;
 				li {
@@ -370,52 +378,69 @@ export default {
 				vertical-align: middle;
 			}
 		}
-
-		.slider {
-			position: relative;
-			background-color: #F3434B;
-			height: 14px;
-			box-shadow: inset 0 1px 0 #2a365a;
-			border-radius: 5px;
-			margin: 20px 0px 0px;
-			.handle {
-				position: absolute;
-				height: 30px;
-				width: 16px;
-				background: #ced4e8;
-				border-radius: 5px;
-				top: -9px;
-				left: 2px;
-				cursor: pointer;
+		.slider-wrap {
+			padding: 0 10px;
+			margin-top: 30px;
+			.scale {
+				display: flex;
+				justify-content: space-between;
+				margin: 5px 0;
 			}
-			.bar {
-				background-color: lime;
+			.slider {
+				position: relative;
+				background-color: #F3434B;
 				height: 14px;
-				width: 2px;
-				top: 0;
-				left: 0;
-				border-top-left-radius: 5px;
-				border-bottom-left-radius: 5px;
-				opacity: 0.75;
-				margin-right: 10px;
-				box-shadow: 0 0 10px #fff;
+				box-shadow: inset 0 1px 0 #2a365a;
+				border-radius: 5px;
+				margin: 5px 0px 0px;
+				.handle {
+					position: absolute;
+					height: 30px;
+					width: 16px;
+					background: #ced4e8;
+					border-radius: 5px;
+					top: -9px;
+					left: 50%;
+					cursor: pointer;
+					i {
+						position: absolute;
+						top: -31px;
+						left: -10px;
+						color: #1F47A0;
+						font-size: 17px;
+						font-style: normal;
+						width: 36px;
+						height: 28px;
+						background: url(../../../public/img/qipao.png) no-repeat center;
+						background-size: 100%;
+					}
+				}
+				.bar {
+					background-color: lime;
+					height: 14px;
+					width: 50%;
+					top: 0;
+					left: 0;
+					border-top-left-radius: 5px;
+					border-bottom-left-radius: 5px;
+					opacity: 0.75;
+					margin-right: 10px;
+					box-shadow: 0 0 10px #fff;
+				}
+				&:after {
+					content: ' ';
+					position: absolute;
+					bottom: -5px;
+					left: 5px;
+					width: calc(100% - 10px);
+					display: block;
+					height: 5px;
+					background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
+				}
 			}
-			&:after {
-				content: ' ';
-				position: absolute;
-				bottom: -5px;
-				left: 5px;
-				width: calc(100% - 10px);
-				display: block;
-				height: 5px;
-				background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
-			}
-		}
-		.scale {
-			display: flex;
-			justify-content: space-between;
-			margin: 10px 0;
-		}
+		}	
+		
+		
 
 
 	}

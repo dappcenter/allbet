@@ -36,7 +36,7 @@ export default {
 
 <style lang="less">
 .footerbar {
-    background-color: #191B29;
+    background-color: #041527;
     height: 60px;
     .container {
         display: flex;
