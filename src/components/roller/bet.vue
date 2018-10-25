@@ -21,7 +21,7 @@
 					<label>赔率</label>
 					<span>{{peilv}}</span>
 				</li>
-				<li>
+				<li class="green">
 					<label>收益</label>
 					<span>{{Math.floor((amount*peilv-amount)*1000) / 1000}}</span>
 				</li>
@@ -43,25 +43,27 @@
 				
 			</div>
 			<div class="ctn-btm">
-				<h4>竞猜数量</h4>
+				<h4>竞猜数量<span class="fl">最小下注数量为 {{rule.minInvest}} ETH</span></h4>
 				<div class="flex-wrap">
-					<div class="hotkeys">
-						<div class="input-wrap">
-							<input type="number" v-model="amount">
+					<div class="input-wrap">
+						<label></label>
+						<input type="text" v-model="amount">
+						<div class="amount-handle">
 							<span class="add" @click="onAdd"></span>
 							<span class="minus" @click="onMinus"></span>
 						</div>
+					</div>
+					<div class="hotkeys">
 						<span @click="onHotkeys(0.05)">0.05</span>
 						<span @click="onHotkeys(0.1)">0.1</span>
 						<span @click="onHotkeys(0.15)">0.15</span>
 						<span @click="onHotkeys('max')">MAX</span>
 					</div>
-					<button class="enter" @click="betDo">猜小于{{odds}}</button>
 				</div>
-				<div class="tips">
-					<span class="fl">最小下注数量为 {{rule.minInvest}} ETH</span>
-					<span class="fr">建议 Gas Price：9</span>
-					<span class="fr">余额：{{(currentAddr.eth*1).toFixed(3)}} ETH</span>
+				<div class="bet-wrap">
+					<span class="fr"><img src="../../../public/img/eth_icon.png"><i>{{(currentAddr.eth*1).toFixed(3)}}</i> ETH</span>
+					<button class="enter" @click="betDo">猜小于{{odds}}</button>
+					<span class="fr"><img src="../../../public/img/at_icon.png"><i>{{(currentAddr.at*1).toFixed(3)}}</i> AT</span>
 				</div>
 			</div>
 		</div>
@@ -84,6 +86,7 @@ export default {
 	created() {
 		this.getRule()
 		setTimeout(() => {
+			if(!this.web3.web3Instance) return
 			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xd94d54cfd6100f1207802521bea738cfd13f3c27");
 		}, 2000)
 	},
@@ -238,10 +241,10 @@ export default {
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Safari 5.1 - 6.0 */
-			background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Opera 11.1 - 12.0 */
-			background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Firefox 3.6 - 15 */
-			background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* 标准的语法（必须放在最后） */
+			background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Safari 5.1 - 6.0 */
+			background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Opera 11.1 - 12.0 */
+			background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Firefox 3.6 - 15 */
+			background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* 标准的语法（必须放在最后） */
 		}
 		.game-content {
 			position: relative;
@@ -259,7 +262,8 @@ export default {
 					display: flex;
 					justify-content: space-between;
 					div {
-						width: 48%;
+						flex: 1;
+						position: relative;
 						h3 {
 							font-size: 72px;
 							text-shadow: 0 0 10px #fff;
@@ -271,6 +275,18 @@ export default {
 							font-size: 16px;
 							position: relative;
 							top: -17px;
+						}
+						&:nth-child(1) {
+							&:after {
+								content: "";
+								position: absolute;
+								top: 20%;
+								right: 0;
+								height: 60%;
+								width: 1px;
+								background-color: #476FCA;
+								box-shadow: 0 0 5px #476FCA;
+							}
 						}
 					}
 				}
@@ -284,6 +300,7 @@ export default {
 				padding: 10px 0;
 				li {
 					flex: 1;
+					position: relative;
 					border-right: 1px solid #0E3282;
 					&:last-child {
 						border: none;
@@ -295,69 +312,120 @@ export default {
 						font-size: 16px;
 						font-weight: 700;
 					}
+					&:nth-child(1),&:nth-child(2) {
+						&:after {
+							content: "";
+							position: absolute;
+							top: 20%;
+							right: 0;
+							height: 60%;
+							width: 1px;
+							background-color: #476FCA;
+							box-shadow: 0 0 5px #476FCA;
+						}
+					}
+					&.green {
+						color: #99FF7E !important;
+						text-shadow: 0px 0px 6px #99FF7E !important;
+					}
 				}
 			}
 			.ctn-btm {
 				margin-top: 20px;
+				padding: 0 10px;
 				h4 {
 					color: #C0CBFF;
 					text-align: left;
+					width: 340px;
+					span {
+						float: right;
+					}
 				}
 				.flex-wrap {
 					display: flex;
+					.input-wrap {
+						display: flex;
+						background-color: #1D44B6;
+						height: 40px;
+						border-radius: 6px;
+						overflow: hidden;
+						margin: 0 0 0 3px;
+						label {
+							width: 40px;
+							background: url(../../../public/img/eth_icon02.png) no-repeat center;
+							background-size: 30%;
+						}
+						input {
+							width: 260px;
+							height: 100%;
+							background-color: transparent;
+							border: none;
+							color: #FEFEFE;
+							text-align: center;
+							outline: none;
+							border-left: 1px solid #4A78DC;
+							border-right: 1px solid #4A78DC;
+						}
+						.amount-handle {
+							width: 40px;
+							span {
+								display: block;
+								height: 20px;
+								cursor: pointer;
+								&.add {
+									background: url(../../../public/img/arrow_up.png) no-repeat center 13px;
+									background-size: 20%;
+								}
+								&.minus {
+									background: url(../../../public/img/arrow_down.png) no-repeat center 5px;
+									background-size: 20%;
+								}	
+							}
+						}
+					}
 					.hotkeys {	
 						flex: 1;
 						display: flex;
 						align-items: center;
-						background-color: #183F96;
 						height: 40px;
-						border-radius:6px;
-						margin-right: 20px;
+						margin-left: 20px;
 						span {
 							flex: 1;
+							background-color: #0F2A77;
 							color: #B6C3FF;
 							font-size: 16px;
+							line-height: 40px;
+							margin-left: 10px;
+							border-radius:6px;
+							cursor: pointer;
 						}
-						.input-wrap {
-							width: 120px;
-							background-color: #244EAB;
-							height: 34px;
-							border-radius: 6px;
-							overflow: hidden;
-							margin: 0 0 0 3px;
-							input {
-								width: 100%;
-								height: 100%;
-								background-color: transparent;
-								border: none;
-								color: #FEFEFE;
-								text-align: center;
-								outline: none;
-							}
-						}
-					}
-					.enter {
-						color: #614C00;
-						font-weight: 700;
-						height: 40px;
-						background-color: #eac82e;
-						border: none;
-						border-radius:6px;
-						width: 140px;
-						cursor: pointer;
 					}
 				}
-				.tips {
-					font-size: 14px;
-					color: #C0CBFF;
-					margin-top: 10px;
-					overflow: hidden;
-					.fl {
-						float: left;
+				.bet-wrap {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin-top: 30px;
+					button {
+						width: 300px;
+						height: 40px;
+						background-color: #346FEF;
+						color: #fff;
+						border: none;
+						border-radius:4px;
+						font-weight: 700;
 					}
-					.fr {
-						float: right;
-						margin-left: 40px;
+					span {
+						font-size: 16px;
+						img {
+							width: 24px;
+							vertical-align: top;
+							margin-right: 10px;
+						}
+						i {
+							color: #99FF7E;
+							font-style: normal;
+						}
 					}
 				}
 			}
@@ -400,7 +468,7 @@ export default {
 					background: #ced4e8;
 					border-radius: 5px;
 					top: -9px;
-					left: 50%;
+					left: 49%;
 					cursor: pointer;
 					i {
 						position: absolute;

@@ -15,7 +15,7 @@
                 <div class="address-select" v-show="addressList.length > 0">
                     <label>{{$t("message.address")}}：</label>
                     <mu-select v-model="currentAddr">
-                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress" :value="item.coinAddress" :solo="true"></mu-option>
+                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :solo="true"></mu-option>
                     </mu-select>
                 </div>
                 <div class="user-center" v-show="storeCurrentAddr.userName">
@@ -253,8 +253,11 @@ export default {
     mounted() {
         this.bindScrollEvent()
 
-        if(this.currentAddr == "" && this.$store.state.user.currentAddr) {
-            this.currentAddr = this.$store.state.user.currentAddr.coinAddress
+        if(this.currentAddr == "" && this.storeCurrentAddr) {
+            this.currentAddr = this.storeCurrentAddr.coinAddress
+            if(this.storeCurrentAddr.token) {
+                this.$store.dispatch('updateProperty')
+            }
         }
 
     },
@@ -609,6 +612,7 @@ export default {
             margin-left: 24px;
             font-size: 16px;
             color: #FEFEFE;
+            line-height: 60px;
             span {
                 position: relative;
                 z-index: 2;
@@ -617,6 +621,16 @@ export default {
                 color: #fff;
                 text-shadow: 0 0 20px #1371FF;
                 -webkit-text-stroke: 0.2px #1371FF;  
+                &:after {
+                    content: "";
+                    position: absolute;
+                    left: -25%;
+                    top: 0;
+                    width: 150%;
+                    height: 60px;
+                    background: url(../../../public/img/btn_bg01.png) no-repeat center;
+                    background-size: 100%;
+                }
             }
         }
     }
@@ -631,7 +645,7 @@ export default {
                 margin: 0;
                 padding: 0 13px;
                 background-color: #fff;
-                width: 198px;
+                width: 158px;
                 height: 30px;
                 border-radius: 15px;
                 min-height: auto;

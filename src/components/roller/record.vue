@@ -1,9 +1,9 @@
 <template>
 	<section class="module-record">
 		<div class="nav">
-			<a href="javascript:;" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">最新玩家</a>
-			<a href="javascript:;" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">大佬榜</a>
-			<a href="javascript:;" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">幸运榜</a>
+			<a href="javascript:;" class="white" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">最新玩家</a>
+			<a href="javascript:;" class="golden" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">大佬榜</a>
+			<a href="javascript:;" class="green" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">幸运榜</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">我的战绩</a>
 		</div>
 		<div class="t-head">
@@ -102,6 +102,7 @@ export default {
 			})
 		},
 		getDataPoll() {
+			if(!this.currentAddr.coinAddress) return
 			PollHttp({
 				type: 'get',
 				url: '/app/dice/board',
@@ -127,22 +128,19 @@ export default {
 
 <style lang="less">
 .module-record {
-	// background: #303f69;
-    // box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
 	position: relative;
-	background: #000;
-	background-image: -webkit-linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
-	background-image: -moz-linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
-	background-image: -o-linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
-	background-image: linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+	background: url(../../../public/img/game_bg03.jpg) repeat-y top;
+	background-size: 100%;
 	.nav {
 		display: flex;
 		justify-content: center;
 		font-size: 18px;
 		height: 90px;
-		border-bottom: 1px solid #1F388F;
-		background-color: #2F59B7;
+		background: -webkit-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Safari 5.1 - 6.0 */
+		background: -o-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Opera 11.1 - 12.0 */
+		background: -moz-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Firefox 3.6 - 15 */
+		background: linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* 标准的语法（必须放在最后） */
 		a {
 			color: #D2D2D2;
 			line-height: 90px;
@@ -153,6 +151,17 @@ export default {
 				color: #fff;
 				font-weight: 700;
 			}
+			&.white {
+				text-shadow: 0px 0px 6px #FFF;
+			}
+			&.green {
+				color: #99FF7E !important;
+				text-shadow: 0px 0px 6px #99FF7E !important;
+			}
+			&.golden {
+				color: #FFDB5B;
+				text-shadow: 0px 0px 6px #FFDB5B;
+			}
 		}
 	}
 	.t-head {
@@ -161,7 +170,6 @@ export default {
 		color: #D2D2D2;
 		font-size: 18px;
 		height: 64px;
-		background-color: #2F59B7;
 		padding: 0 120px;
 		span {
 			flex: 1;
@@ -189,10 +197,6 @@ export default {
 			font-size: 18px;
 			padding: 0px 120px;
 			position: relative;
-			background-color: #2F59B7;
-			&:nth-child(2n) {
-				background-color: #1A439E;
-			}
 			.user {
 				text-shadow: 0px 0px 6px #FFF;
 			}
@@ -225,10 +229,8 @@ export default {
 					width: 100%;
 					overflow: hidden;
 					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
-			}
-			&:hover {
-				background: rgba(91, 116, 174);
 			}
 		}
 	}
@@ -246,23 +248,7 @@ export default {
 }
 @media screen and (max-width: 800px){
 	.module-record {
-		background: transparent;
-    	box-shadow: initial;
-		.topbar {
-			padding: 0;
-		}
-		.t-head {
-			padding: 0;
-		}
-		.t-body {
-			padding: 0;
-			overflow: hidden;
-			border-bottom: 0;
-			.list-content {
-				width: 100%;
-				padding: 4px 0;
-			}
-		}
+		
 	}
 }
 </style>

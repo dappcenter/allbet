@@ -134,7 +134,7 @@ import {mapMutations, mapState} from "vuex"
 	 data () {
 		 return {
 			phoneBind: false,
-			emailBind: true,
+			emailBind: false,
 			confirmAccountExist: false,
 			confirmAccountNotExist: false,
 			resetPassDialog: false,

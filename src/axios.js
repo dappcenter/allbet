@@ -19,6 +19,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     store.commit("closeWait")
     if(response.data.code == -2) {
+        store.commit('REMOVE_USERINFO')
         router.replace('index')
     }
     if(response.data.code != 200) {

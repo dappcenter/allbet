@@ -19,12 +19,12 @@
 			<div class="mention" v-show="showMentionBill">
 				<p>{{$t('message.assetsCoinAddress')}}:</p>
 				<div class="input-div">
-					<input type="text" name="" value="">
+					<input type="text" v-model="formData.destAddress">
 					ETH
 				</div>
 				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{myAssets.eth}} ETH</span></p>
 				<div class="input-div">
-					<input type="text" name="" value="">
+					<input type="text" v-model="formData.amount">
 					ETH
 				</div>
 				<div class="poundage">
@@ -65,9 +65,14 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
-			 myAssets: {},
-			 showChargeBill: false,
-			 showMentionBill: false,
+			myAssets: {},
+			showChargeBill: false,
+			showMentionBill: false,
+			formData: {
+				"amount": 0,
+				"coinAddress": "string",
+				"destAddress": "string",
+			}
 		 }
 	 },
     computed: {
@@ -92,6 +97,15 @@ import {mapMutations, mapState} from "vuex"
 		goHome(){
 			this.$router.push('index')
 		},
+		//提币 
+		withdrawDo() {
+			this.$http.post('/app/transfer/withdraw', {
+				"amount": 0,
+				"coinAddress": "string",
+				"destAddress": "string",
+				"withdrawType": "AT"
+			})
+		},
 		// 获取我的资产
 		getAssets () {
 			this.$http.get("/app/user/assets",{}).then((res) => {
@@ -109,32 +123,32 @@ import {mapMutations, mapState} from "vuex"
 			})
 		},
 		copy () {
-		let clipboard = this.copyBtn
-		clipboard.on('success', () => {
-				this.alert({
-						type: "success",
-						msg: this.$t('message.assetsSuccessCopy')
-				})
+			let clipboard = this.copyBtn
+			clipboard.on('success', () => {
+					this.alert({
+							type: "success",
+							msg: this.$t('message.assetsSuccessCopy')
+					})
+			})
+			clipboard.on('error', () => {
+					this.alert({
+							type: "success",
+							msg: this.$t('message.assetsFailCopy')
+					})
+			})
+		},
+		chargeBill() {
+			this.showChargeBill = !this.showChargeBill
+			this.showMentionBill = false
+		},
+		mentionBill() {
+			this.showMentionBill = !this.showMentionBill
+			this.showChargeBill = false
+		},
+		...mapMutations({
+			alert: "alert",
 		})
-		clipboard.on('error', () => {
-				this.alert({
-						type: "success",
-						msg: this.$t('message.assetsFailCopy')
-				})
-		})
-	},
-	chargeBill() {
-		this.showChargeBill = !this.showChargeBill
-		this.showMentionBill = false
-	},
-	mentionBill() {
-		this.showMentionBill = !this.showMentionBill
-		this.showChargeBill = false
-	},
-	...mapMutations({
-		alert: "alert",
-	})
- }
+ 	}
 }
 </script>
 
