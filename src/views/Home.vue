@@ -2,6 +2,7 @@
 	<div class="home-page">
 	<HeaderBar type="steep"></HeaderBar>
 	<div class="main">
+		<div class="mask"></div>
 		<div class="top">
 			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>
@@ -12,44 +13,18 @@
 			<div class="total-bill" v-else @click="openLogin">
 				{{$t('message.login')}}
 			</div>
-
-            <vue-particles
-                color="#2a46bb"
-                :particleOpacity="0.7"
-                :particlesNumber="60"
-                shapeType="circle"
-                :particleSize="4"
-                linesColor="#5c77e5"
-                :linesWidth="1"
-                :lineLinked="true"
-                :lineOpacity="0.4"
-                :linesDistance="150"
-                :moveSpeed="2"
-                :hoverEffect="true"
-                hoverMode="grab"
-                :clickEffect="true"
-                clickMode="push"
-                class="lizi"
-            >
-            </vue-particles>
 		</div>
 		<div class="middle">
-			<div class="fund-pool">
-				<img src="../../public/home/three.png" class="three">
-				<div class="fund-number">
-					<p>{{result.ethPool}}ETH</p>
-					<img src="../../public/home/eth.png" class="eth"><br/>
-					<span>{{$t('message.homeETHReserve')}}</span>
-				</div>
-				<div class="fund-number">
-					<p>{{result.dbPool}}AT</p>
-					<img src="../../public/home/at.png" class="at"><br/>
-					<span>{{$t('message.homeATReserve')}}</span>
-				</div>
-				<img src="../../public/home/two.png" class="two">
-			</div>
+			<div class="middle-title">储备金</div>
 			<div class="buy-sell">
 				<div class="buy">
+					<div class="fund-number">
+						<img src="../../public/home/eth-icon.png" class="img1">
+						<div class="">
+							<p>{{result.ethPool}}ETH</p>
+							<span>{{$t('message.homeETHReserve')}}</span>
+						</div>
+					</div>
 					<p class="title">{{$t('message.homeBuyAT')}}</p>
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
@@ -71,6 +46,13 @@
 					</div>
 				</div>
 				<div class="buy sell">
+					<div class="fund-number">
+						<img src="../../public/home/at-icon.png" class="img2">
+						<div class="">
+							<p>{{result.dbPool}}AT</p>
+							<span>{{$t('message.homeATReserve')}}</span>
+						</div>
+					</div>
 					<p class="title">{{$t('message.homeSellAT')}}</p>
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
@@ -84,7 +66,7 @@
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
-					<p style="text-align:center;color:#E95B62;">{{$t('message.homeTokenFee')}}</p>
+					<p style="text-align:center;color:#97ADFF;font-size:16px;">{{$t('message.homeTokenFee')}}</p>
 					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
 						{{$t('message.homeSell')}}
 					</div>
@@ -93,38 +75,40 @@
 					</div>
 				</div>
 			</div>
-			<div class="list">
-				<div class="top-button">
-					<span @click="getBancorOrders(0)" :class="[selectTap == 0?'selected':'']">{{$t('message.homeRecentPlayers')}}</span>
-					<span @click="getBancorOrders(1)" :class="[selectTap == 1?'selected':'']">{{$t('message.homeMyOrders')}}</span>
+		</div>
+	</div>
+	<div class="list-wrapper">
+		<div class="list">
+			<div class="top-button">
+				<span @click="getBancorOrders(0)" :class="[selectTap == 0?'selected':'']">{{$t('message.homeRecentPlayers')}}</span>
+				<span @click="getBancorOrders(1)" :class="[selectTap == 1?'selected':'']">{{$t('message.homeMyOrders')}}</span>
+			</div>
+			<div class="content">
+				<div class="recent-order" v-if="selectTap == 0">
+					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeTransactionTime')}}</span></li>
+					<li v-for="item in recentOrderList">
+						<span>{{item.address}}</span>
+						<span>{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
+						<span>{{item.tradeType == 'MARKET_BUY'?'+ '+item.outAmount:'- '+item.inAmount}}</span>
+						<span>{{item.dbPrice}} ETH</span>
+						<span :class="[item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
+						<span>{{$fmtDate(item.recdDoneTime, "full")}}</span>
+					</li>
 				</div>
-				<div class="content">
-					<div class="recent-order" v-if="selectTap == 0">
-						<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeTransactionTime')}}</span></li>
-						<li v-for="item in recentOrderList">
-							<span>{{item.address}}</span>
-							<span>{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
-							<span>{{item.tradeType == 'MARKET_BUY'?'+ '+item.outAmount:'- '+item.inAmount}}</span>
-							<span>{{item.dbPrice}} ETH</span>
-							<span>{{tradeType[item.tradeType]}}</span>
-							<span>{{$fmtDate(item.recdDoneTime, "full")}}</span>
-						</li>
-					</div>
-					<div class="my-order" v-else>
-						<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeCreateTime')}}</span><span>{{$t('message.homeTransactionTime')}}</span><span>{{$t('message.homeState')}}</span><span>{{$t('message.homeOperation')}}</span></li>
-						<li v-for="item in recentOrderList">
-							<span>{{item.address}}</span>
-							<span>{{filter(item)}}</span>
-							<span>{{filter1(item)}}</span>
-							<span>{{item.dbPrice}} ETH</span>
-							<span>{{tradeType[item.tradeType]}}</span>
-							<span>{{$fmtDate(item.recdCreateTime, "full")}}</span>
-							<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
-							<span>{{filterState(item)}}</span>
-							<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
-							<span v-else>- -</span>
-						</li>
-					</div>
+				<div class="my-order" v-else>
+					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeCreateTime')}}</span><span>{{$t('message.homeTransactionTime')}}</span><span>{{$t('message.homeState')}}</span><span>{{$t('message.homeOperation')}}</span></li>
+					<li v-for="item in recentOrderList">
+						<span>{{item.address}}</span>
+						<span>{{filter(item)}}</span>
+						<span>{{filter1(item)}}</span>
+						<span>{{item.dbPrice}} ETH</span>
+						<span :class="[item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
+						<span>{{$fmtDate(item.recdCreateTime, "full")}}</span>
+						<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
+						<span>{{filterState(item)}}</span>
+						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
+						<span v-else>- -</span>
+					</li>
 				</div>
 			</div>
 		</div>
@@ -156,12 +140,7 @@ import { setTimeout, clearInterval } from 'timers';
 			recentOrderList: [], //近期交易列表
 			// entrustOrderList: [], //委托单列表
 			timer: null,
-			tradeType: {
-				'MARKET_BUY': this.$t('message.homeBuy'),
-				'MARKET_SELL': this.$t('message.homeSell'),
-				'PUTUP_BUY': this.$t('message.homeBuy'),
-				'PUTUP_SELL': this.$t('message.homeSell'),
-			}
+
 		}
 	},
 	mounted() {
@@ -207,6 +186,22 @@ import { setTimeout, clearInterval } from 'timers';
 		priceFocus(type) {
 			this[type] = this[type] == this.$t('message.homeMarketPrice') ? "" : this[type]
 		},
+		filterTradeType(item){
+			switch (item.tradeType) {
+				case 'MARKET_BUY':
+				return this.$t('message.homeBuy')
+				break;
+				case 'MARKET_SELL':
+				return this.$t('message.homeSell')
+				break;
+				case 'PUTUP_BUY':
+				return this.$t('message.homeBuy')
+				break;
+				case 'PUTUP_SELL':
+				return this.$t('message.homeSell')
+				break;
+			}
+		},
 		filter(item) {
 			if (item.tradeType == 'MARKET_BUY') {
 				return item.inAmount ? '- '+item.inAmount:'- -'
@@ -237,6 +232,7 @@ import { setTimeout, clearInterval } from 'timers';
 				break;
 				case 'FAIL':
 				return this.$t('message.homeFail')
+				break;
 			}
 		},
 		// 获取奖金池&AT数量
@@ -475,14 +471,31 @@ import { setTimeout, clearInterval } from 'timers';
 	.home-page {
 		margin: 0 auto;
 		.main {
-			min-height: 1000px;
+			position: relative;
+			text-align: center;
+			-moz-user-select:none; /*火狐*/
+			-webkit-user-select:none; /*webkit浏览器*/
+			-ms-user-select:none; /*IE10*/
+			user-select:none;
+			// min-height: 1300px;
+			background: url(../../public/img/bg.png) repeat left;
+			background-size: 200px;
+			.mask {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Safari 5.1 - 6.0 */
+				background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Opera 11.1 - 12.0 */
+				background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Firefox 3.6 - 15 */
+				background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* 标准的语法（必须放在最后） */
+			}
 			.top {
-                position: relative;
-				background:linear-gradient(180deg,rgba(0,6,54,1),rgba(57,94,236,1));
+        position: relative;
+				// background:linear-gradient(180deg,rgba(0,6,54,1),rgba(57,94,236,1));
 				width: 100%;
 				text-align: center;
 				padding-top: 113px;
-				padding-bottom: 180px;
+				padding-bottom: 72px;
 				h1 {
 					margin: 0;
 					img {
@@ -490,17 +503,16 @@ import { setTimeout, clearInterval } from 'timers';
 					}
 				}
 				.total-bill {
-                    position: relative;
-                    z-index: 2;
-					width: 320px;
-					height: 48px;
-					line-height: 48px;
-					font-size: 20px;
-					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
-					border-radius: 4px;
+          position: relative;
+          z-index: 2;
+					line-height: 64px;
+					font-size: 24px;
 					margin: auto;
-                    font-weight: bold;
-                    cursor: pointer;
+          cursor: pointer;
+					width:480px;
+					height:64px;
+					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+					border-radius:4px;
                 }
                 .lizi {
                     position: absolute;
@@ -512,58 +524,27 @@ import { setTimeout, clearInterval } from 'timers';
 			}
 			.middle {
 				width: 1200px;
-                margin: -100px auto 0 auto;
-                position: relative;
-				.fund-pool {
-					display: flex;
-					justify-content: space-around;
-					background-color: #FFFFFF;
-                    height: 250px;
-                    box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
-                    border-radius:6px;
-					.fund-number {
-						text-align:center;
-						position: relative;
-						font-weight: bold;
-						p {
-							left: 50%;
-							top: 45%;
-							transform: translate(-50%,-50%);
-							font-size: 28px;
-							color: #486BF9;
-							position: absolute;
-						}
-					}
-					.three {
-						width: 95px;
-						height: 139px;
-						margin-top: 29px;
-					}
-					.eth {
-						width: 252px;
-						height: 197px;
-					}
-					.at {
-						width: 271px;
-						height: 210px;
-					}
-					.two {
-						width: 64px;
-						height: 104px;
-						margin-top: 116px;
-					}
-					span {
-						    color: black;
-					}
+        margin: auto;
+        position: relative;
+				background:rgba(2,11,89,0.75);
+				border-radius:24px 24px 0px 0px;
+				padding-top: 42px;
+				height: 699px;
+				.middle-title {
+					font-size:28px;
+					font-family:PingFang-SC-Bold;
+					font-weight:bold;
+					color:rgba(255,255,255,1);
 				}
 				.buy-sell {
 					display: flex;
 					color: black;
 					justify-content: left;
-                    margin: 50px 0 40px 0;
 					p {
 						margin: 10px 0;
 						position: relative;
+						color: #97ADFF;
+						text-align: left;
 						img {
 							width: 17px;
 							height: 17px;
@@ -577,21 +558,53 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 					}
 					.buy {
-						background-color: #fff;
+						// background-color: #fff;
 						width: 48.3%;
 						font-size: 16px;
 						padding: 30px 30px 0px 30px;
 						height: 425px;
-                        position: relative;
-                        box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
-                        border-radius:6px;
+            position: relative;
+            border-radius:6px;
+						.fund-number {
+							text-align:center;
+							// position: relative;
+							font-weight: bold;
+							width:520px;
+							height:128px;
+							border:1px solid rgba(110, 141, 255, 1);
+							border-radius:4px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							.img1 {
+								width: 73px;
+								height: 96px;
+							}
+							.img2 {
+								width: 83px;
+								height: 85px;
+							}
+							div {
+								p {
+									font-size: 28px;
+									color: #fff;
+								}
+								span {
+											color: #6E7BDE;
+											color: 16px;
+								}
+							}
+						}
+
 						.title{
 							font-size: 24px;
 							color: #C8C8C8;
-							margin: 0 20px 20px 0;
+							margin: 60px 20px 20px 0;
+							text-align: left;
 						}
 						.price-div {
-							border: 1px solid #DCDCDC;
+							border: 1px solid #6E8DFF;
 							border-radius: 6px;
 							height: 48px;
 					    	line-height: 48px;
@@ -604,29 +617,32 @@ import { setTimeout, clearInterval } from 'timers';
 								height: 100%;
 								text-align: center;
 								vertical-align: top;
-								color: #323232;
+								color: #fff;
 								font-weight: bold;
+								background: transparent;
 							}
 							.num {
 								width: 54px;
 								display: inline-block;
 								text-align: center;
-								border-right: 1px solid #DCDCDC;
+								border-right: 1px solid #6E8DFF;
 								height: 100%;
+								color: #8A97FF;
 							}
 							.num-right {
-								border-left: 1px solid #DCDCDC;
+								border-left: 1px solid #6E8DFF;
 								width: 54px;
 								display: inline-block;
 								text-align: center;
 								height: 100%;
+								color: #8A97FF;
 							}
 						}
 						.buy-button {
 							width: 520px;
 							height: 48px;
 							background:rgba(93,200,136,1);
-							border-radius:24px;
+							border-radius:4px;
 							font-size:18px;
 							font-family:PingFang-SC-Bold;
 							font-weight:bold;
@@ -635,73 +651,83 @@ import { setTimeout, clearInterval } from 'timers';
 							text-align: center;
 							position: absolute;
 							cursor: pointer;
-					    	bottom: 30px;
+					    bottom: -149px;
 						}
 						.sell-button {
 							background-color: #E95B62;
 						}
 					}
 					.sell {
-						background-color: #fff;
+						// background-color: #fff;
 						margin-left: 40px;
-						box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
 						border-radius:6px;
 						.transparent {
 							color: transparent;
 						}
 					}
 				}
-				.list {
-					background-color: #FFFFFF;
-					color: #646464;
-					font-size: 18px;
-                    margin-bottom: 123px;
-                    box-shadow:0px 0px 2px 0px rgba(230,230,230,1);
-                    border-radius:6px;
 
-					.top-button {
-						font-size: 24px;
-						font-weight: bold;
-						color: #969696;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						// height: 90px;
-						padding: 20px 0;
-						span {
-							display: inline-block;
-							width: 50%;
-							text-align: center;
+			}
+		}
+		.list-wrapper {
+			padding: 30px 149px 5px 149px;
+			background: linear-gradient(to bottom, #142b73, #030713, #030713, #030713, #142b73);
+		}
+		.list {
+			color: #646464;
+			font-size: 18px;
+			margin-bottom: 123px;
+			border-radius:6px;
+
+			.top-button {
+				font-size: 20px;
+				font-weight: bold;
+				color: #6986F4;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				// height: 90px;
+				padding: 20px 0;
+				span {
+					display: inline-block;
+					width: 50%;
+					text-align: center;
+					cursor: pointer;
+				}
+				.selected {
+					color: #fff;
+				}
+			}
+			.content {
+				font-size: 16px;
+				padding: 0 0 50px 0;
+				li {
+					display: flex;
+					justify-content: center;
+					text-align: center;
+					align-items: center;
+					padding: 8px 0;
+					border-bottom: 1px solid #26276c;
+					color: #fff;
+					span {
+						width: 16.6%;
+						&.chedan {
 							cursor: pointer;
 						}
-						.selected {
-							color: #323232;
-						}
 					}
-					.content {
-						font-size: 16px;
-						padding: 0 0 50px 0;
-						li {
-							display: flex;
-							justify-content: center;
-							text-align: center;
-							align-items: center;
-							padding: 8px 0;
-							border-bottom: 1px solid #DCDCDC;
-							span {
-								width: 16.6%;
-								&.chedan {
-									cursor: pointer;
-								}
-							}
-						}
-						.unit {
-							padding: 18px 0;
-							border-top: 1px solid #DCDCDC;
-							border-bottom: 1px solid #DCDCDC;
-							text-align: center;
-						}
-					}
+				}
+				.unit {
+					padding: 18px 0;
+					border-top: 1px solid #26276c;
+					border-bottom: 1px solid #26276c;
+					text-align: center;
+					color: #6986F4;
+				}
+				.red {
+					color: #E95B62;
+				}
+				.green {
+					color: #5DC888;
 				}
 			}
 		}
