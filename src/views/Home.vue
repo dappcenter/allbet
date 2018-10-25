@@ -725,9 +725,11 @@ import { setTimeout, clearInterval } from 'timers';
 				}
 				.red {
 					color: #E95B62;
+			    text-shadow: 0px 0px 6px #E95B62;
 				}
 				.green {
 					color: #5DC888;
+			    text-shadow: 0px 0px 6px #5DC888;
 				}
 			}
 		}
