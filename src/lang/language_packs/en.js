@@ -27,7 +27,7 @@ export default {
         homeAllet: "Bancor based Practical Enhanced Pass Agreement,Multidimensional DApp game ecosystem",
         homeAlletDesc: "AT is allbet Token, with a fixed total of 10 million. It is an application-based certificate that represents allbet users and developer rights in the allbet ecosystem. It is also an important link between wallets, users and project developers. After the issuance, all the certificates are stored in a contract-controlled AT card pool (non-team hold), and there is a corresponding ETH fund pool. The user purchases the pass from the pass pool, and the spent ETH will enter the ETH fund pool (non-team hold). All operations are directly controlled by the contract, and information on the blockchain can be checked.",
         homeTotalAt: "My AT: ",
-        homeReservePool:"Current Reserve Pool",
+        homeReservePool:"Reserve Pool",
         homeETHReserve: "ETH Reserve",
         homeATReserve: "AT Reserve",
         homeBuyAT: "Buy AT",
@@ -134,6 +134,7 @@ export default {
         InvitationRules: "Invitation Rules: ",
         InvitationRules1: "1. Register for an account to get 500AB coins;",
         InvitationRules2: "2. Invite a friend to successfully system. The airdrop will be 10%. The invitee will hold the AB coin, 8% will be owned by the inviter, and 2% will be owned by the invitee.",
+        InvitePeople: "People",
         // 所有弹框页
         PopRegister: "Register",
         PopEmailFind: 'Mailbox retrieval',

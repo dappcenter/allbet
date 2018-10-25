@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="middle">
-			<div class="middle-title">储备金</div>
+			<div class="middle-title">{{$t('message.homeReservePool')}}</div>
 			<div class="buy-sell">
 				<div class="buy">
 					<div class="fund-number">
@@ -158,13 +158,13 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		getAtNumber() {
 			if(this.ethPrice == this.$t('message.homeMarketPrice')) {
-				return 1/this.ethMarketPrice * this.buyEthNumber
+				return (1/this.ethMarketPrice * this.buyEthNumber).toFixed(8)
 			}else{
-				return 1/this.ethPrice * this.buyEthNumber
+				return (1/this.ethPrice * this.buyEthNumber).toFixed(8)
 			}
 		},
 		getEthNumber() {
-			return this.sellAtPrice == this.$t('message.homeMarketPrice') ? this.ethMarketPrice * this.buyAtNumber : this.sellAtPrice * this.buyAtNumber
+			return this.sellAtPrice == this.$t('message.homeMarketPrice') ? (this.ethMarketPrice * this.buyAtNumber).toFixed(8) : (this.sellAtPrice * this.buyAtNumber).toFixed(8)
 		}
     },
 	created () {
@@ -249,6 +249,7 @@ import { setTimeout, clearInterval } from 'timers';
 		getBancorOrders(selectTap) {
 			this.recentOrderList = []
 			this.selectTap = selectTap
+			if (selectTap == 1 && !this.getCurrentAddr.token)  return
 			this.$http.get("/app/home/bancor_orders",{
 			params:{
 				"onlyMe": selectTap == 1?true:false,

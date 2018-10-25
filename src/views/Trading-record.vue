@@ -31,7 +31,7 @@
 		</p>
 			<li><div>{{$t('message.tradeTime')}}</div><div>{{$t('message.tradeCoinType')}}</div><div>{{$t('message.tradeType')}}</div><div>{{$t('message.homeVolume')}}</div><div>{{$t('message.homeState')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 			<li v-for="item in list">
-				<div>{{item.createTime}}</div>
+				<div>{{$fmtDate(item.createTime, "full")}}</div>
 				<div>{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
 				<div>{{filterAmount(item)}}</div>

@@ -3,22 +3,25 @@
     <HeaderBar></HeaderBar>
     <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
       <h3>{{$t('message.inviteRule')}}</h3>
-      <p>{{$t('message.inviteTotalBill')}}2000000 AB</p>
+      <p>{{$t('message.inviteTotalBill')}}{{platformBonus}} AB</p>
       <div class="white-div">
         <p class="invite-title">{{$t('message.inviteFriend')}}</p>
         <div class="invite-detail">
           <div class="">
             <p class="title">{{$t('message.invitationSuccessed')}}</p>
-            <h4>23 人</h4>
+            <h4>{{inviteCount}} {{$t('message.InvitePeople')}}</h4>
           </div>
           <div class="">
             <p class="title">{{$t('message.tradeInvitationReward')}}：</p>
-            <h4>5498 AB</h4>
+            <h4>{{inviteBonus}} AB</h4>
           </div>
         </div>
         <div class="qrcode">
-          <img src="" alt="">
-          <span>{{$t('message.invitationCode')}}：Bwe43lo<br/>{{$t('message.invitationLink')}}：https://allbet.io/bwe43lo<span class="copy">{{$t('message.assetsCopy')}}</span></span>
+					<div alt="" id="qrcode1"></div>
+          <span>{{$t('message.invitationCode')}}：<span id="copy_code">{{inviteCode}}</span>
+					<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span></span><br/>
+					{{$t('message.invitationLink')}}：<span id="copy_text">{{inviteUrl}}</span>
+					<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span></span>
         </div>
 				<h5>{{$t('message.InvitationRules')}}</h5>
 				<h5>{{$t('message.InvitationRules1')}}</h5>
@@ -33,21 +36,84 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
+import QRCode from 'qrcodejs2'
+import Clipboard from 'clipboard';
+import {mapMutations, mapState} from "vuex"
+
  export default {
 	  data () {
 		  return {
-			  ethPrice: 15.3,
+				inviteBonus: 0,
+		    inviteCount: 0,
+		    inviteUrl: 'aaaaaaaaaa',
+				inviteCode: '11111',
+		    platformBonus: 0,
 		  }
 	  },
-    computed: {
-	    betInfo() {
-		    return this.$store.getters.getBetRecordData
-	    }
+    created () {
+			this.getInvite()
     },
+		mounted () {
+			this.copyBtn = new Clipboard(this.$refs.copy)
+			this.copyBtn1 = new Clipboard(this.$refs.copy1)
+		},
     components: {
 	    HeaderBar,
 	    FooterBar,
-    }
+    },
+		methods: {
+			getInvite () {
+				this.$http.get("/app/user/invite",{
+
+				}).then((res) => {
+					if (res.code == 200) {
+						let result = res.result || {}
+						this.inviteBonus = res.inviteBonus
+						this.inviteCount = res.inviteCount
+						// this.inviteUrl = res.inviteUrl
+						this.platformBonus = res.platformBonus
+						var qrcode = new QRCode(document.getElementById("qrcode1"), {
+							width: 108,
+							height: 108,
+						});
+						qrcode.makeCode(this.inviteUrl);
+					}
+				})
+			},
+			copy1 () {
+				let clipboard = this.copyBtn1
+				clipboard.on('success', () => {
+						this.alert({
+								type: "success",
+								msg: this.$t('message.assetsSuccessCopy')
+						})
+				})
+				clipboard.on('error', () => {
+						this.alert({
+								type: "success",
+								msg: this.$t('message.assetsFailCopy')
+						})
+				})
+			},
+			copy () {
+				let clipboard = this.copyBtn
+				clipboard.on('success', () => {
+						this.alert({
+								type: "success",
+								msg: this.$t('message.assetsSuccessCopy')
+						})
+				})
+				clipboard.on('error', () => {
+						this.alert({
+								type: "success",
+								msg: this.$t('message.assetsFailCopy')
+						})
+				})
+			},
+			...mapMutations({
+				alert: "alert",
+			})
+		}
  };
 </script>
 
@@ -115,6 +181,7 @@ import FooterBar from "@/components/common/footer_bar"
             width: 108px;
             display: inline-block;
             margin-right: 29px;
+						border: 1px solid white;
           }
           span {
             color: #5480D9;
