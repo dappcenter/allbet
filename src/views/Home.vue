@@ -478,11 +478,11 @@ import { setTimeout, clearInterval } from 'timers';
 			min-height: 1000px;
 			.top {
                 position: relative;
-				height: 613px;
 				background:linear-gradient(180deg,rgba(0,6,54,1),rgba(57,94,236,1));
 				width: 100%;
 				text-align: center;
 				padding-top: 113px;
+				padding-bottom: 180px;
 				h1 {
 					margin: 0;
 					img {

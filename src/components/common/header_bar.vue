@@ -5,11 +5,11 @@
                 <img src="../../../public/img/LOGO.png" alt="">
             </router-link>
             <menu>
-                <router-link to="index">{{$t("message.home")}}</router-link>
-                <router-link to="roller">Dice</router-link>
-                <a href="javascript:;">{{$t("message.bonusPool")}}</a>
-                <router-link to="invite">{{$t("message.invitation")}}</router-link>
-                <a href="javascript:;">{{$t("message.course")}}</a>
+                <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
+                <router-link to="roller"><span>Dice</span></router-link>
+                <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
+                <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
+                <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
                 <div class="address-select" v-show="addressList.length > 0">
@@ -582,20 +582,20 @@ export default {
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: #09135E;
+        background-color: #030713;
         z-index: -1;
     }
     .flex-wrap {
         display: flex;
         align-items: center;
         color: #fff;
-        padding: 10px 0;
+        padding: 0px 0;
         margin: 0 auto;
     }
     .logo {
         img {
           display: block;
-          height: 40px;
+          height: 60px;
         }
     }
     menu {
@@ -605,12 +605,18 @@ export default {
         margin: 0;
         padding: 0;
         a {
+            position: relative;
             margin-left: 24px;
             font-size: 16px;
-            color: #fff;
+            color: #FEFEFE;
+            span {
+                position: relative;
+                z-index: 2;
+            }
             &.router-link-active {
-                color: #61C2FF;
+                color: #fff;
                 text-shadow: 0 0 20px #1371FF;
+                -webkit-text-stroke: 0.2px #1371FF;  
             }
         }
     }

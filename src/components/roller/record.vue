@@ -127,10 +127,15 @@ export default {
 
 <style lang="less">
 .module-record {
-	background: #303f69;
-    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
+	// background: #303f69;
+    // box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-    position: relative;
+	position: relative;
+	background: #000;
+	background-image: -webkit-linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+	background-image: -moz-linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+	background-image: -o-linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+	background-image: linear-gradient(top,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
 	.nav {
 		display: flex;
 		justify-content: center;
