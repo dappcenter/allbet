@@ -11,8 +11,13 @@
 						<option value="ALL">{{$t('message.tradeAll')}}</option>
 						 <option value="ETH_RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
 						 <option value="ETH_WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
-						 <option value="BANCOR_BUY">{{$t('message.tradeBancorBuy')}}</option>
-						 <option value="BANCOR_SELL">{{$t('message.tradeBancorSell')}}</option>
+						 <option value="BANCOR_BUY_AT">{{$t('message.tradeBancorBuyAT')}}</option>
+						 <option value="BANCOR_SELL_AT">{{$t('message.tradeBancorSellAT')}}</option>
+						 <option value="BANCOR_BUY_ETH">{{$t('message.tradeBancorBuyEth')}}</option>
+						 <option value="BANCOR_SELL_ETH">{{$t('message.tradeBancorSellEth')}}</option>
+						 <option value="DICE">{{$t('message.tradeDice')}}</option>
+						 <option value="DICE_REWARD">{{$t('message.tradeDiceReward')}}</option>
+						 <option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
 						 <option value="INVITE_BONUS_AB">{{$t('message.tradeInviteBancor')}}</option>
 					</select>
 					{{$t('message.tradeCoinType')}}:
@@ -28,12 +33,14 @@
 			<li v-for="item in list">
 				<div>{{item.createTime}}</div>
 				<div>{{item.coinType}}</div>
-				<div>平台提币</div>
-				<div>{{item.amount}}</div>
+				<div>{{filterState(item)}}</div>
+				<div>{{filterAmount(item)}}</div>
 				<div>已完成</div>
-				<div class="operation" v-show="item.platform !='DISPATCHER'">{{$t('message.tradeDetail')}}</div>
+				<!-- <div class="operation" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']">{{$t('message.tradeDetail')}}</div> -->
+				<div class="operation" @click="goDetail(item)">{{item.platform !='DISPATCHER' ? $t('message.tradeDetail'): '- -'}}</div>
+
 			</li>
-			<div class="charge">
+			<!-- <div class="charge">
 				<div class="desc address">
 					<p class="left">{{$t('message.assetsCoinAddress')}}：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</span></p>
 					<p class="right">{{$t('message.assetsHandlingFee')}}：<span>0.00500000</span></p>
@@ -42,9 +49,7 @@
 					<p class="left">{{$t('message.tradeBlockchain')}}：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520o093fsdfeinbla9324</span></p>
 					<p class="right">{{$t('message.tradeProcessingTime')}}：<span>2018.10.13 15:38:34</span></p>
 				</div>
-			</div>
-			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation" @click="getTradeDetail(item.businessId)">详情</div></li>
-			<li><div>2018.10.13 15:38:34</div><div>ETH</div><div>平台提币</div><div>-0.98000000</div><div>已完成</div><div class="operation">详情</div></li>
+			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
 			    <mu-pagination :total="total" :current.sync="current" @change="getPaginationChange"></mu-pagination>
@@ -83,6 +88,49 @@ import FooterBar from "@/components/common/footer_bar"
 	    FooterBar,
 		},
 		methods: {
+			// 交易类型的状态
+			filterState(item) {
+				switch (item.operation) {
+					case 'ETH_RECHARGE':
+					return this.$t('message.tradeEthRecharge')
+					break;
+					case 'ETH_WITHDRAW':
+					return this.$t('message.tradeEthWithdraw')
+					break;
+					case 'BANCOR_BUY_AT':
+					return this.$t('message.tradeBancorBuyAT')
+					break;
+					case 'BANCOR_SELL_AT':
+					return this.$t('message.tradeBancorSellAT')
+					break;
+					case 'BANCOR_BUY_ETH':
+					return this.$t('message.tradeBancorBuyEth')
+					break;
+					case 'BANCOR_SELL_ETH':
+					return this.$t('message.tradeBancorSellEth')
+					break;
+					case 'DICE':
+					return this.$t('message.tradeDice')
+					break;
+					case 'DICE_REWARD':
+					return this.$t('message.tradeDiceReward')
+					break;
+					case 'DICE_DIG':
+					return this.$t('message.tradeDiceDig')
+					break;
+					case 'INVITE_BONUS_AB':
+					return this.$t('message.tradeInviteBancor')
+					break;
+				}
+			},
+			// 数量金额
+			filterAmount(item) {
+				if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB'].indexOf(item.operation) > -1) {
+					return '+ ' + item.amount
+				} else {
+					return '- ' + item.amount
+				}
+			},
 			// 获取我的资产
 			getTradeRecord () {
 				this.$http.get("/app/user/trade_records",{
@@ -96,14 +144,20 @@ import FooterBar from "@/components/common/footer_bar"
 					console.log(res);
 					if (res.code == 200) {
 						this.list = res.result.list
-						this.total = Number(res.result.total)
-						this.current = res.result.pageNum
+						this.total = Number(res.result.total)*10
 					}
 				})
 			},
-			// 交易详情
-			getTradeDetail (businessId) {
-				this.$http.get("/app/user/trade_records/" + businessId,{
+
+			 // 点击分页
+			getPaginationChange() {
+				console.log('this.current ',this.current);
+        this.getTradeRecord();
+      },
+			// 详情
+			goDetail (item) {
+				if (item.platform =='DISPATCHER') return
+				this.$http.get("/app/user/trade_records/" + item.businessId,{
 
 				}).then((res) => {
 					console.log(res);
@@ -111,13 +165,7 @@ import FooterBar from "@/components/common/footer_bar"
 
 					}
 				})
-			},
-			getPaginationChange(val, currentPage) {
-				console.log('currentPage',currentPage);
-        this.filterForm.pageSize = val;
-				this.current = currentPage
-        this.getTradeRecord();
-      },
+			}
 		}
  };
 </script>
@@ -206,6 +254,9 @@ import FooterBar from "@/components/common/footer_bar"
 						span {
 							margin-left: 10px;
 						}
+					 }
+					 .transparent {
+					 	color: transparent;
 					 }
 				}
 			}
