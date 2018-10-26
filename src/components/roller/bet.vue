@@ -64,7 +64,7 @@
 					<span class="fr"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token">{{(currentAddr.eth*1).toFixed(3)}}</i><i v-else>0</i> ETH</span>
 					<button v-if="currentAddr.token" class="enter" @click="betDo">猜小于{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">登录</button>
-					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token">{{(currentAddr.bet*1).toFixed(3)}}</i><i v-else>0</i> AT</span>
+					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token">{{(currentAddr.bet*1).toFixed(3)}}</i><i v-else>0</i> AB</span>
 				</div>
 			</div>
 		</div>
@@ -237,13 +237,14 @@ export default {
 					url: '/app/dice/dice/' + recdId,
 					data: {}
 				}).then(res => {
+					console.log(res)
 					if(res.code == 200) {
-						if(res.tradeStatus != "ENTRUST") {
+						if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							clearInterval(this.timer)
 							clearInterval(this.getBetResultTimer)
 							this.luckyColor = "green"
-							if(res.tradeStatus == "DONE") {
-								this.luckyNum = res.result.UserDiceRecd.luckyNum
+							if(res.result.tradeStatus == "DONE") {
+								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
 							}
 						}
