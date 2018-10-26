@@ -61,10 +61,10 @@
 					</div>
 				</div>
 				<div class="bet-wrap">
-					<span class="fr"><img src="../../../public/img/eth_icon.png"><i>{{(currentAddr.eth*1).toFixed(3)}}</i> ETH</span>
+					<span class="fr"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token">{{(currentAddr.eth*1).toFixed(3)}}</i><i v-else>0</i> ETH</span>
 					<button v-if="currentAddr.token" class="enter" @click="betDo">猜小于{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">登录</button>
-					<span class="fr"><img src="../../../public/img/at_icon.png"><i>{{(currentAddr.at*1).toFixed(3)}}</i> AT</span>
+					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token">{{(currentAddr.at*1).toFixed(3)}}</i><i v-else>0</i> AT</span>
 				</div>
 			</div>
 		</div>
@@ -218,6 +218,7 @@ export default {
 					msg: "下注成功"
 				})
 				this.getBetResult(recdId)
+				this.luckyRun()
 			})
 			.on("error", function(error) {
 				that.alert({
@@ -298,7 +299,7 @@ export default {
 		-webkit-user-select:none; /*webkit浏览器*/
 		-ms-user-select:none; /*IE10*/
 		user-select:none;
-		background: url(../../../public/img/bg.png) repeat left;
+		background: url(../../../public/img/bg.jpg) repeat left;
 		background-size: 200px;
 		overflow: hidden;
 		.mask {

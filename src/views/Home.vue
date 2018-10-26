@@ -479,7 +479,7 @@ import { setTimeout, clearInterval } from 'timers';
 			-ms-user-select:none; /*IE10*/
 			user-select:none;
 			// min-height: 1300px;
-			background: url(../../public/img/bg.png) repeat left;
+			background: url(../../public/img/bg.jpg) repeat left;
 			background-size: 200px;
 			.mask {
 				position: absolute;

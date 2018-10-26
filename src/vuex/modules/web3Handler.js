@@ -17,7 +17,8 @@ const state = {
         at: 0,   //平台游戏币
         userName: "",  //平台账号名
         token: "",  //平台账号token
-        platform: "IMPORT" //账号标识（平台or mateMask）
+        platform: "IMPORT", //账号标识（平台or mateMask）
+        inviteCode: ""  //邀请码
     },
     contractInstance: null
 }
@@ -88,7 +89,8 @@ const actions = {
                         commit(types.UPDATE_WEB3_AT, {
                             at: res.result.assets[0].at,
                             userName: res.result.assets[0].userName,
-                            token: res.result.token
+                            token: res.result.token,
+                            inviteCode: res.result.assets[0].inviteCode
                         })
                     }else {
                         // 已绑定平台账号
@@ -98,7 +100,8 @@ const actions = {
                                 commit(types.UPDATE_WEB3_AT, {
                                     at: res.result.assets[0].at,
                                     userName: res.result.assets[0].userName,
-                                    token: res.result.token
+                                    token: res.result.token,
+                                    inviteCode: res.result.assets[0].inviteCode
                                 })
                             }
                         })

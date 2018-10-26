@@ -6,6 +6,7 @@
  */
 import store from "../store.js"
 import {axios} from "../axios"
+import * as types from "../vuex/mutation_types"
 let pollWeb3 = function() {
     let web3 = window.web3
     web3 = new Web3(web3.currentProvider)
@@ -59,17 +60,19 @@ let pollWeb3 = function() {
                                             store.commit(types.UPDATE_WEB3_AT, {
                                                 at: res.result.assets[0].at,
                                                 userName: res.result.assets[0].userName,
-                                                token: res.result.token
+                                                token: res.result.token,
+                                                inviteCode: res.result.assets[0].inviteCode
                                             })
                                         }else {
                                             // 已绑定平台账号
                                             store.commit(types.SET_USERINFO, res.result)
                                             res.result.assets.forEach(val => {
-                                                if(val.coinAddress == newCoinbase) {
+                                                if(val.coinAddress == newCoinbase) {  
                                                     store.commit(types.UPDATE_WEB3_AT, {
                                                         at: res.result.assets[0].at,
                                                         userName: res.result.assets[0].userName,
-                                                        token: res.result.token
+                                                        token: res.result.token,
+                                                        inviteCode: res.result.assets[0].inviteCode
                                                     })
                                                 }
                                             })

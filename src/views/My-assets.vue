@@ -48,7 +48,7 @@
 				</p>
 			</div>
 			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="goHome">{{$t('message.assetsBuy')}}</span><span @click="goHome">{{$t('message.assetsSell')}}</span></div></li>
-			<li><div>BET</div><div>{{myAssets.bet}}</div><div>--</div></li>
+			<li><div>AB</div><div>{{myAssets.bet}}</div><div>--</div></li>
 		</div>
 	</div>
 	<FooterBar ref="ft"></FooterBar>

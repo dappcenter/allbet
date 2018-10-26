@@ -28,12 +28,14 @@ const getters = {
     getUserAddress(state, getters, rootState) {
         let list = filterAddr(state.userInfo.assets)
         let b = false
-        if(rootState.web3Handler.web3.coinbase) {
-            if(state.userInfo.assets && state.userInfo.assets.length > 1) {
+        if(rootState.web3Handler.web3.coinbase) { //是否有HD钱包登录
+            if(state.userInfo.assets && state.userInfo.assets.length > 1) {  //平台账号是否有绑定HD钱包地址
                 state.userInfo.assets.forEach(value => {
-                    b = value.coinAddress == rootState.web3Handler.web3.coinbase
+                    if(value.coinAddress == rootState.web3Handler.web3.coinbase) {  //是否有绑定当前登录的HD钱包地址
+                        b = true
+                    }
                 })
-                if(!b) {
+                if(b) {  //有绑定当前HD钱包地址
                     list.push({
                         coinAddress: rootState.web3Handler.web3.coinbase,
                         eth: rootState.web3Handler.web3.balance,
@@ -41,6 +43,17 @@ const getters = {
                         userName: list[0].userName,
                         token: list[0].token,
                         platform: rootState.web3Handler.web3.platform,
+                        inviteCode: list[0].inviteCode   //优先给平台账号邀请码
+                    })
+                }else { //没有绑定当前HD钱包地址
+                    list.push({
+                        coinAddress: rootState.web3Handler.web3.coinbase,
+                        eth: rootState.web3Handler.web3.balance,
+                        at: rootState.web3Handler.web3.at,
+                        userName: rootState.web3Handler.web3.userName,
+                        token: rootState.web3Handler.web3.token,
+                        platform: rootState.web3Handler.web3.platform,
+                        inviteCode: rootState.web3Handler.web3.inviteCode
                     })
                 }
             }else {
@@ -50,7 +63,8 @@ const getters = {
                     at: rootState.web3Handler.web3.at,
                     userName: rootState.web3Handler.web3.userName,
                     token: rootState.web3Handler.web3.token,
-                    platform: rootState.web3Handler.web3.platform
+                    platform: rootState.web3Handler.web3.platform,
+                    inviteCode: rootState.web3Handler.web3.inviteCode
                 })
             }
             
@@ -58,6 +72,7 @@ const getters = {
         if(list.length == 0) {
             state.currentAddr = {}
         }
+        console.log(list)
         return list
     }
 }
