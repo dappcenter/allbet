@@ -104,7 +104,7 @@
 						<span>{{item.dbPrice}} ETH</span>
 						<span :class="[item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
 						<span>{{$fmtDate(item.recdCreateTime, "full")}}</span>
-						<span>{{item.recdDoneTime?item.recdDoneTime:'- -'}}</span>
+						<span>{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span>
 						<span>{{filterState(item)}}</span>
 						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
 						<span v-else>- -</span>
