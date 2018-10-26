@@ -33,14 +33,14 @@
                 <a href="javascript:;" class="button lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
             </div>
         </div>
-        <div class="container notice">
+        <div class="container notice" v-if="notice">
             <p>公告：Allbet 开启交易排名赛（北京时间 9 月 27 日 23 点整至 30 日 22:59:59），排名前十玩家会获得 ETH 返奖！</p>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <!-- 登录选择 -->
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>
-            <img src="../../../public/img/github.png" alt="">
+            <img src="../../../public/img/Logo02.png" alt="">
             <button class="primary-btn" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
             <button class="primary-btn hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
             <p>{{$t("message.notRegister")}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a></p>
@@ -205,6 +205,10 @@ export default {
         type: {
             default: "normal",
             type: String
+        },
+        notice: {
+            default: true,
+            type: Boolean
         }
     },
     data() {

@@ -15,6 +15,7 @@ const state = {
         error: null,
         apiHandle: null,
         at: 0,   //平台游戏币
+        bet: 0,
         userName: "",  //平台账号名
         token: "",  //平台账号token
         platform: "IMPORT", //账号标识（平台or mateMask）

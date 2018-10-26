@@ -1,6 +1,14 @@
 <template>
 	<section class="module-bet">
 		<div class="mask"></div>
+		<div class="game-status">
+			<div class="container">
+				<p v-if="diceStatistics.newcomers.length > 0">{{diceStatistics.newcomers[0].replace(/(.{4}).*(.{6})/, "$1....$2")}} 刚刚进入了游戏</p>
+				<p v-else></p>
+				<span>猜奖总次数：{{diceStatistics.guessCount}}</span>
+				<span>玩家总获得：{{diceStatistics.earned}} ETH</span>
+			</div>
+		</div>
 		<div class="game-content" ref="gameContent">
 			<div class="ctn-top">
 				<div class="number-show">
@@ -61,10 +69,10 @@
 					</div>
 				</div>
 				<div class="bet-wrap">
-					<span class="fr"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token">{{(currentAddr.eth*1).toFixed(3)}}</i><i v-else>0</i> ETH</span>
+					<span class="fl"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
 					<button v-if="currentAddr.token" class="enter" @click="betDo">猜小于{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">登录</button>
-					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token">{{(currentAddr.bet*1).toFixed(3)}}</i><i v-else>0</i> AB</span>
+					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
 		</div>
@@ -73,10 +81,23 @@
 </template>
 
 <script>
+import DigitalRoll from "@/components/common/digitalRoll"
 import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 export default {
+	props: {
+		diceStatistics: {
+			type: Object,
+			default: () => {
+				return {
+					earned: "",
+					guessCount: "",
+					newcomers: []
+				}
+			}
+		}
+	},
     data() {
         return {
             amount: 0.1,
@@ -112,7 +133,6 @@ export default {
     methods: {
 		//幸运数跳动
 		luckyRun() {
-
 			this.timer = setInterval(() => {
 				this.luckyNum = Math.floor(Math.random() * 89) + 10
 				this.luckyColor = ["green", "red", "golden"][Math.floor(Math.random() * 2)]
@@ -159,12 +179,19 @@ export default {
 				console.log(res)
 				if(res.code == 200) {
 					this.rule = res.result
+					this.luckyNum = res.result.lastLucky || "00"
 				}
 			})
 		},
 		//下注
 		betDo() {
-			
+			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
+				this.alert({
+					type: "info",
+					msg: "下注金额输入有误"
+				})
+				return
+			}
 			if(this.amount < this.rule.minInvest) {
 				this.alert({
 					type: "info",
@@ -237,7 +264,6 @@ export default {
 					url: '/app/dice/dice/' + recdId,
 					data: {}
 				}).then(res => {
-					console.log(res)
 					if(res.code == 200) {
 						if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							clearInterval(this.timer)
@@ -296,6 +322,9 @@ export default {
 			}
 		}
 	},
+	components: {
+		DigitalRoll
+	},
 	destroyed() {
 		clearInterval(this.timer)
 		this.luckyColor = "green"
@@ -323,6 +352,22 @@ export default {
 			background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Opera 11.1 - 12.0 */
 			background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Firefox 3.6 - 15 */
 			background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* 标准的语法（必须放在最后） */
+		}
+		.game-status {
+			background-color: #0A1536;
+			div {
+				display: flex;
+				line-height: 40px;
+				color: #fff;
+				p {
+					flex: 1;
+					text-align: left;
+				}
+				span {
+					margin-left: 40px;
+				}
+			}
+			
 		}
 		.game-content {
 			position: relative;
@@ -500,7 +545,9 @@ export default {
 						font-weight: 700;
 					}
 					span {
+						flex: 1;
 						font-size: 16px;
+						text-align: left;
 						img {
 							width: 24px;
 							vertical-align: top;
@@ -509,6 +556,9 @@ export default {
 						i {
 							color: #99FF7E;
 							font-style: normal;
+						}
+						&.fr {
+							text-align: right;
 						}
 					}
 				}

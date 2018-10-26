@@ -115,6 +115,7 @@ export default {
 			}).then(res => {
 				if(res.code == 200) {
 					this.recordsList = res.result.records.list
+					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}
 			})
 		}

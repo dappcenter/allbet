@@ -1,9 +1,9 @@
 <template>
     <div class="roller-page">
-        <HeaderBar></HeaderBar>
+        <HeaderBar :notice="false"></HeaderBar>
         <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-            <Bet></Bet>
-			<Record></Record>
+            <Bet :diceStatistics="diceStatistics"></Bet>
+			<Record @setDiceStatistics="setDiceStatistics"></Record>
         </div>
         <FooterBar></FooterBar>
     </div>
@@ -20,7 +20,21 @@ import AEFcountDownBtn from "@/components/common/countDownBtn"
 export default {
     data() {
         return {
-            disabled: false
+            disabled: false,
+            diceStatistics: {
+                earned: "",
+                guessCount: "",
+                newcomers: []
+            }
+        }
+    },
+    methods: {
+        setDiceStatistics(playload) {
+            this.diceStatistics = playload || {
+                earned: "",
+                guessCount: "",
+                newcomers: []
+            }
         }
     },
     computed: {
@@ -44,7 +58,8 @@ export default {
 .roller-page {
     margin: 0 auto;
     .main {
-        background-color: #2F59B7;
+        background: url(../../public/img/game_bg03.jpg) repeat-y top;
+	    background-size: 100%;
     }
 }
 @media screen and (max-width: 800px) {

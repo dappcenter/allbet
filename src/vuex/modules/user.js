@@ -75,7 +75,6 @@ const getters = {
         if(list.length == 0) {
             state.currentAddr = {}
         }
-        console.log(list)
         return list
     }
 }
@@ -113,6 +112,7 @@ const mutations = {
                 if(val.coinAddress == val2.coinAddress) {
                     state.userInfo.assets[idx2].at = val.at
                     state.userInfo.assets[idx2].eth = val.eth
+                    state.userInfo.assets[idx2].bet = val.bet
                 }
             })
         })
@@ -130,7 +130,7 @@ const actions = {
                 commit(types.UPDATE_USERINFO_PROPERTY, res.result.assets)
                 res.result.assets.forEach(val => {
                     if(val.coinAddress == rootState.web3Handler.web3.coinbase) {
-                        commit(types.UPDATE_WEB3_AT, {at: val.at})
+                        commit(types.UPDATE_WEB3_AT, {at: val.at, bet: val.bet})
                     }
                 })
             }
