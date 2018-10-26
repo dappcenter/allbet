@@ -9,7 +9,7 @@
 						<span>预测数</span>
 					</div>
 					<div>
-						<h3 class="green">00</h3>
+						<h3 :class="luckyColor">{{luckyNum}}</h3>
 						<span>幸运数</span>
 					</div>
 				</div>
@@ -19,11 +19,11 @@
 			<ul class="ctn-mdl">
 				<li>
 					<label>赔率</label>
-					<span>{{peilv}}</span>
+					<span>{{Math.floor(peilv*1000) / 1000}}</span>
 				</li>
 				<li class="green">
 					<label>收益</label>
-					<span>{{Math.floor((amount*peilv-amount)*1000) / 1000}}</span>
+					<span>{{bonus}}</span>
 				</li>
 				<li>
 					<label>概率</label>
@@ -62,7 +62,8 @@
 				</div>
 				<div class="bet-wrap">
 					<span class="fr"><img src="../../../public/img/eth_icon.png"><i>{{(currentAddr.eth*1).toFixed(3)}}</i> ETH</span>
-					<button class="enter" @click="betDo">猜小于{{odds}}</button>
+					<button v-if="currentAddr.token" class="enter" @click="betDo">猜小于{{odds}}</button>
+					<button v-else class="enter" @click="openLogin">登录</button>
 					<span class="fr"><img src="../../../public/img/at_icon.png"><i>{{(currentAddr.at*1).toFixed(3)}}</i> AT</span>
 				</div>
 			</div>
@@ -80,14 +81,18 @@ export default {
             amount: 0.12,
 			odds: 50,
 			rule: {},
-			apiHandle: null
+			apiHandle: null,
+			luckyColor: "green",
+			luckyNum: "00",
+			timer: null,
+			getBetResultTimer: null
         }
 	},
 	created() {
 		this.getRule()
 		setTimeout(() => {
 			if(!this.web3.web3Instance) return
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0xd94d54cfd6100f1207802521bea738cfd13f3c27");
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0x476af09b684494d101a640625f904b14e361a4bd");
 		}, 2000)
 	},
     mounted() {
@@ -101,8 +106,17 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
+		// this.luckyRun()
     },
     methods: {
+		//幸运数跳动
+		luckyRun() {
+
+			this.timer = setInterval(() => {
+				this.luckyNum = Math.floor(Math.random() * 89) + 10
+				this.luckyColor = ["green", "red", "golden"][Math.floor(Math.random() * 2)]
+			}, 50)
+		},
         onHotkeys(amount) {
             if(amount === 'max') {
                 this.amount = this.rule.maxInvest
@@ -118,7 +132,8 @@ export default {
         },
         ...mapMutations({
 			setBetInfo: "SET_ROLLER_BET_INFO",
-			alert: "alert"
+			alert: "alert",
+			openLogin: "OPEN_LOGIN"
         }),
         onHandleTouchS(e) {
             let that = this
@@ -155,6 +170,13 @@ export default {
 				})
 				return
 			}
+			if(this.amount > this.rule.maxInvest) {
+				this.alert({
+					type: "info",
+					msg: "下注金额不能大于" + this.rule.maxInvest + "ETH"
+				})
+				return
+			}
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.coinAddress,
 				"coinAmount": this.amount,
@@ -166,8 +188,15 @@ export default {
 							type: "success",
 							msg: res.msg
 						})
+						this.luckyRun()
+						setTimeout(() => {
+							clearInterval(this.timer)
+							this.luckyColor = "green"
+							this.luckyNum = res.result.diceResult.luckyNum
+							this.$store.dispatch('updateProperty')
+						}, 3000)
 					}else {   //合约账号
-						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount)
+						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
 					}
 				}
 			})
@@ -176,7 +205,7 @@ export default {
 		 * 调用合约下注
 		 * @param {} rollUnder 下注的数值
 		 */
-		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount) {
+		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount, recdId) {
 			let that = this
 			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
 			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
@@ -188,6 +217,7 @@ export default {
 					type: "success",
 					msg: "下注成功"
 				})
+				this.getBetResult(recdId)
 			})
 			.on("error", function(error) {
 				that.alert({
@@ -195,6 +225,27 @@ export default {
 					msg: "下注失败"
 				})
 			});
+		},
+		//查询下注结果
+		getBetResult(recdId) {
+			this.getBetResultTimer = setInterval(() => {
+				this.$http.get('/app/dice/dice/' + recdId).then(res => {
+					console.log(res)
+					clearInterval(this.timer)
+					clearInterval(this.getBetResultTimer)
+					this.luckyColor = "green"
+					if(res.code == 200) {
+						this.luckyNum = res.result.UserDiceRecd.luckyNum
+						this.$store.dispatch('updateProperty')
+					}
+				}).catch(err => {
+					clearInterval(this.timer)
+					clearInterval(this.getBetResultTimer)
+					this.luckyColor = "green"
+					this.luckyNum = "00"
+				})
+			}, 1000)
+			
 		}
     },
     watch: {
@@ -220,8 +271,21 @@ export default {
 			currentAddr: state => state.user.currentAddr
 		}),
 		peilv() {
-			return Math.floor(98.5/((this.odds*1).toFixed() - 1)*1000) /1000
+			return 98.5/((this.odds*1).toFixed() - 1)
+		},
+		// 奖金
+		bonus() {
+			if((this.amount * this.peilv * 0.01) <= 0.0003) {
+				return Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000
+			}else {
+				return Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000
+			}
 		}
+	},
+	destroyed() {
+		clearInterval(this.timer)
+		this.luckyColor = "green"
+		this.luckyNum = "00"
 	}
 }
 </script>
@@ -269,6 +333,12 @@ export default {
 							text-shadow: 0 0 10px #fff;
 							&.green {
 								color: #99FF7E;
+							}
+							&.red {
+								color: #c33;
+							}
+							&.golden {
+								color: #FFDB5B;
 							}
 						}
 						span {

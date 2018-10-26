@@ -5,7 +5,7 @@
 		<div class="content">
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
-			<li><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill">{{$t('message.assetsExtractCoins')}}</span></div></li>
+			<li><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
 			<div class="charge"  v-show="showChargeBill">
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
@@ -27,7 +27,7 @@
 					<input type="text" v-model="formData.amount">
 					ETH
 				</div>
-				<div class="poundage">
+				<!-- <div class="poundage">
 					<div class="">
 						<p>{{$t('message.assetsHandlingFee')}}</p>
 						<div class="input-div">
@@ -42,9 +42,9 @@
 							ETH
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<p class="attention">
-					<span>{{$t('message.assetsTips2')}}</span><span class="take-out">{{$t('message.assetsExtractCoins')}}</span>
+					<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
 				</p>
 			</div>
 			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="goHome">{{$t('message.assetsBuy')}}</span><span @click="goHome">{{$t('message.assetsSell')}}</span></div></li>
@@ -69,9 +69,8 @@ import {mapMutations, mapState} from "vuex"
 			showChargeBill: false,
 			showMentionBill: false,
 			formData: {
-				"amount": 0,
-				"coinAddress": "string",
-				"destAddress": "string",
+				"amount": "",
+				"destAddress": "",
 			}
 		 }
 	 },
@@ -98,12 +97,12 @@ import {mapMutations, mapState} from "vuex"
 			this.$router.push('index')
 		},
 		//提币 
-		withdrawDo() {
+		withdrawDo(type) {
 			this.$http.post('/app/transfer/withdraw', {
-				"amount": 0,
-				"coinAddress": "string",
-				"destAddress": "string",
-				"withdrawType": "AT"
+				"amount": this.formData.amount,
+				"coinAddress": this.currentAddr.coinAddress,
+				"destAddress": this.formData.destAddress,
+				"withdrawType": type
 			})
 		},
 		// 获取我的资产
@@ -280,6 +279,7 @@ import {mapMutations, mapState} from "vuex"
 							display: inline-block;
 							position: absolute;
 							right: 0;
+							cursor: pointer;
 						}
 					}
 				}

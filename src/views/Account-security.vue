@@ -80,12 +80,12 @@
 	<mu-dialog :open.sync="confirmAccountNotExist" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap" style="width:338px;">
-				<label>{{$t('message.PopPassword')}}</label>
-				<input type="password" v-model="formData.loginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
+			<label>{{$t('message.PopPassword')}}</label>
+			<input type="password" v-model="formData.loginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
 		</div>
 		<div class="input-wrap" style="width:338px;">
-				<label>{{$t('message.PopPasswordConfirm')}}</label>
-				<input type="password" v-model="formData.loginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
+			<label>{{$t('message.PopPasswordConfirm')}}</label>
+			<input type="password" v-model="formData.loginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
 		</div>
 		<button class="primary-btn" @click="bindingTwoDo('PHONE')">{{$t('message.PopConfirm')}}</button>
 	</mu-dialog>
@@ -99,7 +99,7 @@
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=macCode'" alt="" @click="getImgCode" ref="imgcode">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=macCode'" alt="" @click="getImgCode('CHANGE_PWD')" ref="imgcode">
 			</div>
 		</div>
 		<div class="input-wrap">
@@ -354,6 +354,7 @@ import {mapMutations, mapState} from "vuex"
 						this.pageData.isBind = true
 
 					}
+					this.pageData.MetaMaskAddress = []
 					addressList.forEach(val => {
 						if(val.platform == "IMPORT") {
 							this.pageData.MetaMaskAddress.push(val)
@@ -399,7 +400,7 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 二次密码验证
         verifyPassword() {
-            var regx =/^[a-zA-Z]\w{7,12}$/
+            var regx =/^[a-zA-Z0-9]{8,12}$/
             if(!regx.test(this.formData.loginPwd)) {
                 this.alert({
                     type: "info",

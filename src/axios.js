@@ -4,7 +4,7 @@ import router from './router'
 
 
 axios.defaults.baseURL = window.SERVERPATH
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 15000
 
 axios.interceptors.request.use(config => {
     store.commit("openWait")

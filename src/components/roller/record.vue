@@ -21,7 +21,7 @@
 				<li class="">
 					<span>{{$fmtDate(item.createTime, "full")}}</span>
 				</li>
-				<li class="user" :class="{'green': item.odds > rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount > rule.gangsterAmount}">
+				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
 				</li>
 				<li class="">

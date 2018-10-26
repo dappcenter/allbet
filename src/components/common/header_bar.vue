@@ -281,6 +281,7 @@ export default {
             }
         },
         currentAddr(newVal) {
+            console.log(this.addressList)
             this.addressList.forEach(value => {
                 if(value.coinAddress == newVal) {
                     this.setCurrentAddr(value)
@@ -303,6 +304,11 @@ export default {
                 this.loginForm.account = ""
                 this.loginForm.password = ""
                 this.captchaDisabled = false
+                if(this.displayStatus.loginSelect) {
+                    this.displayStatus.loginAccount = false   //登录对话框
+                    this.displayStatus.registerAccount = false  //手机注册账号
+                    this.displayStatus.emailRegisterAccount = false  //邮箱注册账号
+                }
             },
             deep: true
         }
@@ -449,7 +455,7 @@ export default {
         },
         // 二次密码验证
         verifyPassword() {
-            var regx =/^[a-zA-Z]\w{7,12}$/
+            var regx =/^[a-zA-Z0-9]{8,12}$/
             if(!regx.test(this.formData.password)) {
                 this.alert({
                     type: "info",
