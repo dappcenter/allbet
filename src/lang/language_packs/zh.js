@@ -40,7 +40,7 @@ export default {
         homeVolume: "数量",
         homeInputETH: "请输入ETH数量",
         homeInputAT: "请输入AT数量",
-        homeExpectedGet: "您将获得",
+        homeExpectedGet: "预计获得",
         homeAutomaticTrading: "系统自动交易",
         homeBuy: "买入",
         homeSell: "卖出",
