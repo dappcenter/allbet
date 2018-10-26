@@ -28,7 +28,7 @@ export default {
         homeAllet: "基于bancor的实用增强型通证协议,多维Dapp游戏生态系统",
         homeAlletDesc: "AT 即 allbet Token，固定总量1000万。是allbet生态中代表allbet用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的DB通证池里（非团队所有），同时有一个对应的ETH资金池，用户从通证池购买通证，花费的ETH会进入ETH资金池（非团队所有）。所有操作都是协议合约直接控制的，区块链上信息可查。",
         homeTotalAt: "我的总AT量：",
-        homeReservePool:"储备库",
+        homeReservePool:"储备金",
         homeETHReserve: "ETH 资金池",
         homeATReserve: "AT 资金池",
         homeBuyAT: "买入 AT",
@@ -136,6 +136,7 @@ export default {
         InvitationRules: "邀请规则：",
         InvitationRules1: "1、注册账号即可获得 500AB 币；",
         InvitationRules2: "2、邀请好友成功系统将空投 10% 被邀请者持有AB币，8% 归邀请者所有，2% 归被邀请者所有。",
+        InvitePeople: "人",
         // 所有弹框页
         PopRegister: "注册",
         PopEmailFind: '邮箱找回',
