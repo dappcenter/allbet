@@ -99,14 +99,14 @@
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=macCode'" alt="" @click="getImgCode('CHANGE_PWD')" ref="imgcode">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=RESET_PWD&macCode=macCode'" alt="" @click="getImgCode('RESET_PWD')" ref="imgcode">
 			</div>
 		</div>
 		<div class="input-wrap">
 			<label>{{$t('message.PopCaptcha')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.resetCaptcha" :placeholder="$t('message.PopInputCaptcha')">
-				<a href="javascript:;" @click="getSMScode">{{formData.btnText}}</a>
+				<a href="javascript:;" @click="getSMScode('RESET_PASS')">{{formData.btnText}}</a>
 			</div>
 		</div>
 		<div class="input-wrap">
@@ -200,25 +200,43 @@ import {mapMutations, mapState} from "vuex"
         },
 		// 获取验证码(区分是重置登陆密码还是绑定的)
 		getSMScode(type) {
-			if(!this.verifyPhone() || !this.verifyPicCode()) return
+			let postData = {
+				'macCode': "macCode",
+				'picCode': this.formData.picCode,
+			}
+			if (type == 'ACCOUNT_BINDING') {
+				if(!this.verifyPhone() || !this.verifyPicCode()) return
+				postData.phone = this.formData.phone
+				postData.prefix = this.formData.prefix
+				postData.type = type
 
-			this.registerSMScountDown()
-			this.$http.post("/open/captcha", {
-				"macCode": "macCode",
-				"picCode": this.formData.picCode,
-				"phone": this.formData.phone,
-				"prefix": this.formData.prefix,
-				"type": type
-			}).then(res => {
-				console.log(res)
-				if(res.code != 200) {
+				this.registerSMScountDown()
+				this.$http.post("/open/captcha", postData).then(res => {
+					console.log(res)
+					if(res.code != 200) {
+						clearTimeout(this.formData.timer)
+						this.formData.btnText = this.$t('message.PopGetCaptcha')
+					}
+				}).catch(err => {
 					clearTimeout(this.formData.timer)
 					this.formData.btnText = this.$t('message.PopGetCaptcha')
-				}
-			}).catch(err => {
-				clearTimeout(this.formData.timer)
-				this.formData.btnText = this.$t('message.PopGetCaptcha')
-			})
+				})
+			} else {
+				if(!this.verifyPicCode()) return
+				this.registerSMScountDown()
+				this.$http.get("/app/user/password/captcha", {
+					params: postData
+				}).then(res => {
+					console.log(res)
+					if(res.code != 200) {
+						clearTimeout(this.formData.timer)
+						this.formData.btnText = this.$t('message.PopGetCaptcha')
+					}
+				}).catch(err => {
+					clearTimeout(this.formData.timer)
+					this.formData.btnText = this.$t('message.PopGetCaptcha')
+				})
+			}
 		},
 		//获取邮箱验证码
         getEmailCode(type) {
@@ -333,7 +351,7 @@ import {mapMutations, mapState} from "vuex"
 				})
 				return
 			}
-			this.$http.post("/app/user/password", {
+			this.$http.post("/app/user/password/reset", {
 				'captcha': this.formData.resetCaptcha,
 				'pwd': Md5(this.formData.resetLoginPwd)
 			}).then(res => {
