@@ -223,7 +223,7 @@ import {mapMutations, mapState} from "vuex"
 		//获取邮箱验证码
         getEmailCode(type) {
             if(!this.verifyEmail() || !this.verifyPicCode()) return
-         
+
             this.captchaDisabled = true  //开始倒计时
             this.$http.get("/open/email_captcha", {
                 params: {
@@ -268,6 +268,7 @@ import {mapMutations, mapState} from "vuex"
 			this.$http.post("/app/user/binding", postObj).then(res => {
 				if(res.code == 200) {
 					this.phoneBind = false
+					this.emailBind = false
 					if(res.result) {  //已注册
 						this.web3BindAddress(res.result)
 					}else {   //未注册
@@ -292,6 +293,7 @@ import {mapMutations, mapState} from "vuex"
 			if(!this.verifyPassword()) return
 			this.$http.post("/app/user/binding_two", postObj).then(res => {
 				this.phoneBind = false
+				this.emailBind = false
 				console.log(res)
 				if(res.code == 200) {
 					if(res.result) {

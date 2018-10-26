@@ -50,6 +50,11 @@ import {mapMutations, mapState} from "vuex"
 		    platformBonus: 0,
 		  }
 	  },
+		computed: {
+			getCurrentAddr() {
+				return this.$store.state.user.currentAddr
+			},
+		},
     created () {
 			this.getInvite()
     },
@@ -81,6 +86,9 @@ import {mapMutations, mapState} from "vuex"
 				})
 			},
 			copy1 () {
+				console.log('getCurrentAddr', this.getCurrentAddr);
+
+				debugger
 				let clipboard = this.copyBtn1
 				clipboard.on('success', () => {
 						this.alert({

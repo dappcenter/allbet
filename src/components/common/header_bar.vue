@@ -155,7 +155,7 @@
             <div class="input-wrap">
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
-                    <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopPasswordPlaceholder')">
+                    <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
                     <img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
                 </div>
             </div>
@@ -626,7 +626,7 @@ export default {
             &.router-link-active {
                 color: #fff;
                 text-shadow: 0 0 20px #1371FF;
-                -webkit-text-stroke: 0.2px #1371FF;  
+                -webkit-text-stroke: 0.2px #1371FF;
                 &:after {
                     content: "";
                     position: absolute;

@@ -148,7 +148,7 @@ export default {
         PopGraphic: "Graphic code",
         PopGraphicEnter: "Pls enter graphic code",
         PopGetCaptcha: "Send",
-        PopInputCaptcha: "please input your captcha",
+        PopInputCaptcha: "Pls input captcha",
         PopPassword: "Password",
         PopNewPassword: "New Password",
         PopPasswordConfirm: "Password Confirm",

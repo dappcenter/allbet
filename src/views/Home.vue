@@ -128,10 +128,10 @@ import { setTimeout, clearInterval } from 'timers';
 	 data () {
 		 return {
 			ethMarketPrice: '', // 市面上 1at=??eth
-			ethPrice: this.$t('message.homeMarketPrice'), // 1ETH=??At
+			ethPrice: '', // 1ETH=??At
 			buyEthNumber: '', // 买入??ETh
 
-			sellAtPrice: this.$t('message.homeMarketPrice'), // 1at=??eth
+			sellAtPrice: '', // 1at=??eth
 			buyAtNumber: '',// 买入??AT
 
 			result: {},
@@ -144,9 +144,10 @@ import { setTimeout, clearInterval } from 'timers';
 		}
 	},
 	mounted() {
-
+		this.ethPrice = this.$t('message.homeMarketPrice')
+		this.sellAtPrice = this.$t('message.homeMarketPrice')
 	},
-    computed: {
+  computed: {
 		ethInfo() {
 			return this.$store.state.web3Handler.web3
 		},
@@ -165,8 +166,11 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		getEthNumber() {
 			return this.sellAtPrice == this.$t('message.homeMarketPrice') ? (this.ethMarketPrice * this.buyAtNumber).toFixed(8) : (this.sellAtPrice * this.buyAtNumber).toFixed(8)
+		},
+		locale () {
+			return this.$store.state.locale
 		}
-    },
+  },
 	created () {
 		this.getInfo()
 		this.getBancorOrders(this.selectTap)
@@ -175,6 +179,10 @@ import { setTimeout, clearInterval } from 'timers';
 	watch: {
 		getCurrentAddr() {
 			this.getBancorOrders(this.selectTap)
+		},
+		locale() {
+			this.ethPrice = this.$t('message.homeMarketPrice')
+			this.sellAtPrice = this.$t('message.homeMarketPrice')
 		}
 	},
 	methods: {
@@ -203,17 +211,17 @@ import { setTimeout, clearInterval } from 'timers';
 			}
 		},
 		filter(item) {
-			if (item.tradeType == 'MARKET_BUY') {
-				return item.inAmount ? '- '+item.inAmount:'- -'
+			if (item.tradeType == 'MARKET_BUY' || item.tradeType == 'PUTUP_BUY') {
+				return item.inAmount?'- '+item.inAmount:'--'
 			} else {
-				return item.outAmount?'+ '+item.outAmount:'--'
+				return item.outAmount ? '+ '+item.outAmount:'- -'
 			}
 		},
 		filter1(item) {
-			if (item.tradeType == 'MARKET_BUY') {
-				return item.outAmount ? '+ '+item.outAmount:'- -'
+			if (item.tradeType == 'MARKET_BUY' || item.tradeType == 'PUTUP_BUY') {
+				return item.outAmount?'+ '+item.outAmount:'--'
 			} else {
-				return item.inAmount?'- '+item.inAmount:'--'
+				return item.inAmount ? '- '+item.inAmount:'- -'
 			}
 		},
 		filterState(item) {
