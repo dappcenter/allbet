@@ -254,6 +254,7 @@ export default {
             captchaDisabled: false
         }
     },
+
     mounted() {
         this.bindScrollEvent()
 
@@ -315,7 +316,10 @@ export default {
                 }
             },
             deep: true
-        }
+        },
+        locale() {
+    			this.btnText = this.$t('message.PopGetCaptcha')
+    		}
     },
     methods: {
         getImgCode() {
@@ -569,6 +573,9 @@ export default {
         addressList() {
             return this.$store.getters.getUserAddress
         },
+        locale () {
+          return this.$store.state.locale
+        }
     },
     components: {
         AEFcountDownBtn
