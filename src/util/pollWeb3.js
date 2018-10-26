@@ -59,6 +59,7 @@ let pollWeb3 = function() {
                                             }
                                             store.commit(types.UPDATE_WEB3_AT, {
                                                 at: res.result.assets[0].at,
+                                                bet: res.result.assets[0].bet,
                                                 userName: res.result.assets[0].userName,
                                                 token: res.result.token,
                                                 inviteCode: res.result.assets[0].inviteCode
@@ -70,6 +71,7 @@ let pollWeb3 = function() {
                                                 if(val.coinAddress == newCoinbase) {  
                                                     store.commit(types.UPDATE_WEB3_AT, {
                                                         at: res.result.assets[0].at,
+                                                        bet: res.result.assets[0].bet,
                                                         userName: res.result.assets[0].userName,
                                                         token: res.result.token,
                                                         inviteCode: res.result.assets[0].inviteCode

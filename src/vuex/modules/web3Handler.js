@@ -88,6 +88,7 @@ const actions = {
                         }
                         commit(types.UPDATE_WEB3_AT, {
                             at: res.result.assets[0].at,
+                            bet: res.result.assets[0].bet,
                             userName: res.result.assets[0].userName,
                             token: res.result.token,
                             inviteCode: res.result.assets[0].inviteCode
@@ -99,6 +100,7 @@ const actions = {
                             if(val.coinAddress == result.coinbase) {
                                 commit(types.UPDATE_WEB3_AT, {
                                     at: res.result.assets[0].at,
+                                    bet: res.result.assets[0].bet,
                                     userName: res.result.assets[0].userName,
                                     token: res.result.token,
                                     inviteCode: res.result.assets[0].inviteCode

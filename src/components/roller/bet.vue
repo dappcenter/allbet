@@ -64,7 +64,7 @@
 					<span class="fr"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token">{{(currentAddr.eth*1).toFixed(3)}}</i><i v-else>0</i> ETH</span>
 					<button v-if="currentAddr.token" class="enter" @click="betDo">猜小于{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">登录</button>
-					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token">{{(currentAddr.at*1).toFixed(3)}}</i><i v-else>0</i> AT</span>
+					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token">{{(currentAddr.bet*1).toFixed(3)}}</i><i v-else>0</i> AT</span>
 				</div>
 			</div>
 		</div>
@@ -75,10 +75,11 @@
 <script>
 import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
+import PollHttp from "../../util/pollHttp"
 export default {
     data() {
         return {
-            amount: 0.12,
+            amount: 0.1,
 			odds: 50,
 			rule: {},
 			apiHandle: null,
@@ -163,6 +164,7 @@ export default {
 		},
 		//下注
 		betDo() {
+			
 			if(this.amount < this.rule.minInvest) {
 				this.alert({
 					type: "info",
@@ -170,7 +172,7 @@ export default {
 				})
 				return
 			}
-			if(this.amount > this.rule.maxInvest) {
+			if(this.amount*1 > this.rule.maxInvest*1) {
 				this.alert({
 					type: "info",
 					msg: "下注金额不能大于" + this.rule.maxInvest + "ETH"
@@ -217,8 +219,8 @@ export default {
 					type: "success",
 					msg: "下注成功"
 				})
-				this.getBetResult(recdId)
-				this.luckyRun()
+				that.luckyRun()
+				that.getBetResult(recdId)
 			})
 			.on("error", function(error) {
 				that.alert({
@@ -230,14 +232,25 @@ export default {
 		//查询下注结果
 		getBetResult(recdId) {
 			this.getBetResultTimer = setInterval(() => {
-				this.$http.get('/app/dice/dice/' + recdId).then(res => {
-					console.log(res)
-					clearInterval(this.timer)
-					clearInterval(this.getBetResultTimer)
-					this.luckyColor = "green"
+				PollHttp({
+					type: 'get',
+					url: '/app/dice/dice/' + recdId,
+					data: {}
+				}).then(res => {
 					if(res.code == 200) {
-						this.luckyNum = res.result.UserDiceRecd.luckyNum
-						this.$store.dispatch('updateProperty')
+						if(res.tradeStatus != "ENTRUST") {
+							clearInterval(this.timer)
+							clearInterval(this.getBetResultTimer)
+							this.luckyColor = "green"
+							if(res.tradeStatus == "DONE") {
+								this.luckyNum = res.result.UserDiceRecd.luckyNum
+								this.$store.dispatch('updateProperty')
+							}
+						}
+					}else {
+						clearInterval(this.timer)
+						clearInterval(this.getBetResultTimer)
+						this.luckyColor = "green"
 					}
 				}).catch(err => {
 					clearInterval(this.timer)
@@ -246,7 +259,6 @@ export default {
 					this.luckyNum = "00"
 				})
 			}, 1000)
-			
 		}
     },
     watch: {
