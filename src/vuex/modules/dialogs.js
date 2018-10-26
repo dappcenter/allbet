@@ -29,6 +29,10 @@ const state = {
             }
         ]
     },
+    winPopupOption: {
+        eth: 0,
+        ab: 0
+    },
     loginBox: false,
     loading: false
 }
@@ -77,6 +81,12 @@ const mutations = {
     },
     closeWait(state) {
         state.loading = false
+    },
+    /**
+     * 打开win弹框
+     */
+    [types.OPEN_WIN_POPUP](state, payload) {
+        state.winPopupOption = payload
     }
 }
 

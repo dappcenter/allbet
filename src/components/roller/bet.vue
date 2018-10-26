@@ -154,7 +154,8 @@ export default {
         ...mapMutations({
 			setBetInfo: "SET_ROLLER_BET_INFO",
 			alert: "alert",
-			openLogin: "OPEN_LOGIN"
+			openLogin: "OPEN_LOGIN",
+			openWinPopup: "OPEN_WIN_POPUP"
         }),
         onHandleTouchS(e) {
             let that = this
@@ -212,6 +213,7 @@ export default {
 				"guessNum": this.odds
 			}).then(res => {
 				if(res.code == 200) {
+					console.log(res)
 					if(res.result.resultType == "DISPATCHER") {  //平台账号
 						this.alert({
 							type: "success",
@@ -223,6 +225,12 @@ export default {
 							this.luckyColor = "green"
 							this.luckyNum = res.result.diceResult.luckyNum
 							this.$store.dispatch('updateProperty')
+							if(res.result.diceResult.winFlag == "WIN") {
+								this.openWinPopup({
+									ab: res.result.diceResult.abNum,
+									eth: res.result.diceResult.rewards
+								})
+							}
 						}, 3000)
 					}else {   //合约账号
 						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
@@ -272,6 +280,12 @@ export default {
 							if(res.result.tradeStatus == "DONE") {
 								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
+								if(res.result.winFlag == "WIN") {
+									this.openWinPopup({
+										ab: res.result.abNum,
+										eth: res.result.rewards
+									})
+								}
 							}
 						}
 					}else {

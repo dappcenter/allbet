@@ -93,3 +93,10 @@ export const OPEN_LOGIN = "OPEN_LOGIN"
  * @module user
  */
 export const UPDATE_USERINFO_PROPERTY = "UPDATE_PROPERTY"
+
+/**
+ * 打开win弹框
+ * @author shanks
+ * @module dialogs
+ */
+export const OPEN_WIN_POPUP = "OPEN_WIN_POPUP"
