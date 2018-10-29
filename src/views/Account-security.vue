@@ -69,7 +69,7 @@
 		<div class="input-wrap">
 			<label>{{$t('message.PopCaptcha')}}</label>
 			<div class="input-flex">
-				<input type="text" v-model="formData.emailCaptcha" :placeholder="$t('message.PopInputCaptcha')">
+				<input type="text" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
 				<AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('ACCOUNT_BINDING')"></AEFcountDownBtn>
 			</div>
 		</div>
@@ -154,7 +154,6 @@ import {mapMutations, mapState} from "vuex"
 				"btnText": this.$t('message.PopGetCaptcha'),
 				"timer": null,
 				"email": "",
-				"emailCaptcha": "",
 
 				"resetCaptcha": "", // 重置登陆密码
 				"resetLoginPwd": "",
@@ -178,6 +177,10 @@ import {mapMutations, mapState} from "vuex"
 				MetaMaskAddress: []
 			}
 			this.getAssets()
+		},
+		emailBind() {
+			this.formData.picCode = ""
+			this.formData.captcha = ""
 		}
 	},
 	mounted() {

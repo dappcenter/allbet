@@ -312,6 +312,7 @@ export default {
                     this.displayStatus.loginAccount = false   //登录对话框
                     this.displayStatus.registerAccount = false  //手机注册账号
                     this.displayStatus.emailRegisterAccount = false  //邮箱注册账号
+                    this.findPassword = false
                 }
             },
             deep: true
@@ -781,23 +782,28 @@ export default {
         right: 40px;
         top: 40px;
         padding: 30px;
+        .mu-dialog-body {
+            background-color: #214797;
+            color: #fff;
+        }
         h4 {
             text-align: center;
-            color: #646464;
             font-size: 20px;
         }
         .mu-dialog {
             max-width: initial !important;
+            border-radius: 4px;
+            overflow: hidden;
             .primary-btn {
                 display: block;
                 width: 240px;
                 height: 40px;
                 margin-top: 20px;
+                color: #fff;
                 cursor: pointer;
                 background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
                 box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
                 border-radius:4px;
-                color: #fff;
                 border: none;
                 &.hd {
                     background:linear-gradient(90deg,rgba(84,190,202,1),rgba(61,143,242,1));
@@ -829,7 +835,9 @@ export default {
             input {
                 display: block;
                 width: 100%;
-                border:1px solid rgba(220,220,220,1);
+                background:#173167;
+                border:1px solid #173167;
+                color: #fff;
                 border-radius:4px;
                 height: 40px;
                 margin-top: 20px;
@@ -867,10 +875,11 @@ export default {
                 input {
                     flex: 1;
                     height:40px;
-                    background:rgba(255,255,255,1);
-                    border:1px solid rgba(220,220,220,1);
+                    background:#173167;
+                    border:1px solid #173167;
                     border-radius:4px;
                     padding: 0 10px;
+                    color: #fff;
                 }
                 .input-flex {
                     flex: 1;
@@ -895,8 +904,8 @@ export default {
                         margin-left: 10px;
                     }
                     &.prefix {
-                        background:rgba(255,255,255,1);
-                        border:1px solid rgba(220,220,220,1);
+                        background:#173167;
+                        border:1px solid #173167;
                         border-radius:4px;
                         .mu-menu {
                             line-height: 40px;

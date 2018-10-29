@@ -31,6 +31,20 @@ const fmtDate = (obj, type) => {
 }
 
 /**
+ * 账号格式化
+ * @param {String} str
+ */
+const fmtAccount = (str) => {
+	if(/^[0-9]*$/.test(str)) {
+		return str.replace(/(.{3}).*(.{4})/, "$1****$2")
+	}else if(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(str)) {
+		return str.replace(/(.{2}).*(@.{6})/, "$1****$2")
+	}else {
+		return str.replace(/(.{4}).*(.{6})/, "$1....$2")
+	}
+}
+
+/**
  * 元素高度设置
  */
 const setHeight = elem => {
@@ -69,6 +83,7 @@ const downLoadApp = data => {
 const extendMethods = {
 	fmtNumber,
 	fmtDate,
+	fmtAccount,
 	setHeight,
 	downLoadApp
 }

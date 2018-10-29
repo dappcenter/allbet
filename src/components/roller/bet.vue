@@ -3,7 +3,7 @@
 		<div class="mask"></div>
 		<div class="game-status">
 			<div class="container">
-				<p v-if="diceStatistics.newcomers.length > 0">{{diceStatistics.newcomers[0].replace(/(.{4}).*(.{6})/, "$1....$2")}} 刚刚进入了游戏</p>
+				<p v-if="diceStatistics.newcomers.length > 0">{{$fmtAccount(diceStatistics.newcomers[0])}} 刚刚进入了游戏</p>
 				<p v-else></p>
 				<span>猜奖总次数：{{diceStatistics.guessCount}}</span>
 				<span>玩家总获得：{{diceStatistics.earned}} ETH</span>
@@ -133,6 +133,8 @@ export default {
     methods: {
 		//幸运数跳动
 		luckyRun() {
+			clearInterval(this.timer)
+			this.timer = null
 			this.timer = setInterval(() => {
 				this.luckyNum = Math.floor(Math.random() * 89) + 10
 				this.luckyColor = ["green", "red", "golden"][Math.floor(Math.random() * 2)]
@@ -186,6 +188,13 @@ export default {
 		},
 		//下注
 		betDo() {
+			if(this.timer) {
+				this.alert({
+					type: "info",
+					msg: "上一轮还在开奖中，请稍等"
+				})
+				return
+			}
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
 					type: "info",
@@ -207,6 +216,7 @@ export default {
 				})
 				return
 			}
+
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.coinAddress,
 				"coinAmount": this.amount,
@@ -222,6 +232,7 @@ export default {
 						this.luckyRun()
 						setTimeout(() => {
 							clearInterval(this.timer)
+							this.timer = null
 							this.luckyColor = "green"
 							this.luckyNum = res.result.diceResult.luckyNum
 							this.$store.dispatch('updateProperty')
@@ -275,6 +286,7 @@ export default {
 					if(res.code == 200) {
 						if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							clearInterval(this.timer)
+							this.timer = null
 							clearInterval(this.getBetResultTimer)
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
@@ -290,11 +302,13 @@ export default {
 						}
 					}else {
 						clearInterval(this.timer)
+						this.timer = null
 						clearInterval(this.getBetResultTimer)
 						this.luckyColor = "green"
 					}
 				}).catch(err => {
 					clearInterval(this.timer)
+					this.timer = null
 					clearInterval(this.getBetResultTimer)
 					this.luckyColor = "green"
 					this.luckyNum = "00"
@@ -341,6 +355,7 @@ export default {
 	},
 	destroyed() {
 		clearInterval(this.timer)
+		this.timer = null
 		this.luckyColor = "green"
 		this.luckyNum = "00"
 	}
@@ -607,15 +622,15 @@ export default {
 				background-color: #F3434B;
 				height: 14px;
 				box-shadow: inset 0 1px 0 #2a365a;
-				border-radius: 5px;
+				border-radius: 7px;
 				margin: 5px 0px 0px;
 				.handle {
 					position: absolute;
-					height: 30px;
+					height: 40px;
 					width: 16px;
 					background: #ced4e8;
-					border-radius: 5px;
-					top: -9px;
+					border-radius: 8px;
+					top: -13px;
 					left: 49%;
 					cursor: pointer;
 					i {
@@ -637,8 +652,8 @@ export default {
 					width: 50%;
 					top: 0;
 					left: 0;
-					border-top-left-radius: 5px;
-					border-bottom-left-radius: 5px;
+					border-top-left-radius: 7px;
+					border-bottom-left-radius: 7px;
 					opacity: 0.75;
 					margin-right: 10px;
 					box-shadow: 0 0 10px #fff;
@@ -655,10 +670,6 @@ export default {
 				}
 			}
 		}	
-		
-		
-
-
 	}
 	@media screen and (max-width: 800px){
 		.module-bet {

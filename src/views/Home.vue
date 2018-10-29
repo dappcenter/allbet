@@ -6,7 +6,7 @@
 		<div class="top">
 			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>
-			<div class="info" style="width:70%;margin:30px auto 40px auto;text-align:left;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
+			<div class="info" style="width:70%;margin:30px auto 40px auto;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
 			<div class="total-bill" v-if="getCurrentAddr.token">
 				{{$t('message.homeTotalAt')}}{{this.getCurrentAddr.at}}
 			</div>
@@ -106,7 +106,7 @@
 						<span>{{$fmtDate(item.recdCreateTime, "full")}}</span>
 						<span>{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span>
 						<span>{{filterState(item)}}</span>
-						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST' || item.tradeStatus == 'WAITING'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
+						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
 						<span v-else>- -</span>
 					</li>
 				</div>
@@ -372,8 +372,6 @@ import { setTimeout, clearInterval } from 'timers';
 			}else {
 				this.placeOrder(postData, type)
 			}
-
-
 		},
 		//下单
 		placeOrder(postData, type) {
@@ -437,7 +435,6 @@ import { setTimeout, clearInterval } from 'timers';
 		sellToken(oid, atPrice, atAmount, addr) {
 			let that = this
 			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount, "ether")
-
 			this.ethInfo.apiHandle.methods.placeSellOrder(oid, atPrice, atAmount).send({
 				from: addr,
 			}).on("receipt", function(receipt) {
@@ -486,7 +483,6 @@ import { setTimeout, clearInterval } from 'timers';
 			-webkit-user-select:none; /*webkit浏览器*/
 			-ms-user-select:none; /*IE10*/
 			user-select:none;
-			// min-height: 1300px;
 			background: url(../../public/img/bg.jpg) repeat left;
 			background-size: 200px;
 			.mask {
@@ -499,8 +495,7 @@ import { setTimeout, clearInterval } from 'timers';
 				background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* 标准的语法（必须放在最后） */
 			}
 			.top {
-        position: relative;
-				// background:linear-gradient(180deg,rgba(0,6,54,1),rgba(57,94,236,1));
+        		position: relative;
 				width: 100%;
 				text-align: center;
 				padding-top: 113px;
@@ -512,12 +507,12 @@ import { setTimeout, clearInterval } from 'timers';
 					}
 				}
 				.total-bill {
-          position: relative;
-          z-index: 2;
+          			position: relative;
+          			z-index: 2;
 					line-height: 64px;
 					font-size: 24px;
 					margin: auto;
-          cursor: pointer;
+          			cursor: pointer;
 					width:480px;
 					height:64px;
 					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
@@ -529,12 +524,15 @@ import { setTimeout, clearInterval } from 'timers';
                     left: 0;
                     width: 100%;
                     height: 100%;
-                }
+				}
+				.info {
+					text-align: justify;
+				}
 			}
 			.middle {
 				width: 1200px;
-        margin: auto;
-        position: relative;
+        		margin: auto;
+        		position: relative;
 				background:rgba(2,11,89,0.75);
 				border-radius:24px 24px 0px 0px;
 				padding-top: 42px;
@@ -567,16 +565,14 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 					}
 					.buy {
-						// background-color: #fff;
 						width: 48.3%;
 						font-size: 16px;
 						padding: 30px 30px 0px 30px;
 						height: 425px;
-            position: relative;
-            border-radius:6px;
+            			position: relative;
+            			border-radius:6px;
 						.fund-number {
 							text-align:center;
-							// position: relative;
 							font-weight: bold;
 							width:520px;
 							height:128px;
@@ -667,7 +663,6 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 					}
 					.sell {
-						// background-color: #fff;
 						margin-left: 40px;
 						border-radius:6px;
 						.transparent {
@@ -722,6 +717,12 @@ import { setTimeout, clearInterval } from 'timers';
 						width: 16.6%;
 						&.chedan {
 							cursor: pointer;
+						}
+						&:first-child {
+							text-align: left;
+						}
+						&:last-child {
+							text-align: right;
 						}
 					}
 				}

@@ -28,14 +28,14 @@ let getWeb3 = new Promise(function(resolve, reject) {
 }).then(result => {
     return new Promise(function(resolve, reject) {
         // 检测networkID
-        // result.web3.version.getNetwork((err, networkId) => {
-        //     if(err) {
-        //         reject(new Error("无法检索网络ID"))
-        //     }else {
-        //         result = Object.assign({}, result, {networkId})
-        //         resolve(result)
-        //     }
-        // })
+        result.web3.eth.net.getId((err, networkId) => {
+            if(err) {
+                reject(new Error("无法检索网络ID"))
+            }else {
+                result = Object.assign({}, result, {networkId})
+                resolve(result)
+            }
+        })
 
         result = Object.assign({}, result, {networkId: 1})
         resolve(result)
