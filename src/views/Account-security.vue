@@ -9,15 +9,15 @@
 				</span>
 			</p>
 			<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{currentAddr.userName}}</div></li>
-			<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
+			<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
 			<li v-for="item in pageData.MetaMaskAddress"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{item.coinAddress}}</div></li>
 			<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
-			<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
+			<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
 			<li v-else><div>{{$t('message.accountChange')}}：</div><div>{{$t('message.accountNotExist')}}</div></li>
 		</div>
 	</div>
 	<!-- 手机账号绑定 -->
-	<mu-dialog :open.sync="phoneBind" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.phoneBind" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}</label>
@@ -48,10 +48,10 @@
 			</div>
 		</div>
 		<button class="primary-btn" @click="bindingOneDo('PHONE')">{{$t('message.PopBindBtn')}}</button>
-		<p><a href="javascript:;" @click="phoneBind = false;emailBind = true;">{{$t('message.PopBindEmail')}}</a></p>
+		<p><a href="javascript:;" @click="displayStatus.phoneBind = false;displayStatus.emailBind = true;">{{$t('message.PopBindEmail')}}</a></p>
 	</mu-dialog>
 	<!-- 邮箱账号绑定 -->
-	<mu-dialog :open.sync="emailBind" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.emailBind" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}</label>
@@ -74,10 +74,10 @@
 			</div>
 		</div>
 		<button class="primary-btn" @click="bindingOneDo('EMAIL')">{{$t('message.PopBindBtn')}}</button>
-		<p><a href="javascript:;" @click="phoneBind = true;emailBind = false;">{{$t('message.PopBindPhone')}}</a></p>
+		<p><a href="javascript:;" @click="displayStatus.phoneBind = true;displayStatus.emailBind = false;">{{$t('message.PopBindPhone')}}</a></p>
 	</mu-dialog>
 	<!-- 账号不存在输入密码 -->
-	<mu-dialog :open.sync="confirmAccountNotExist" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap" style="width:338px;">
 			<label>{{$t('message.PopPassword')}}</label>
@@ -90,7 +90,7 @@
 		<button class="primary-btn" @click="bindingTwoDo('PHONE')">{{$t('message.PopConfirm')}}</button>
 	</mu-dialog>
 	<!-- 重置登陆密码 -->
-	<mu-dialog :open.sync="resetPassDialog" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.resetPassDialog" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopResetPass')}}</h4>
 		<div class="input-wrap">
 			<p>{{$t('message.PopAccount')}}: {{currentAddr.userName}}</p>
@@ -133,11 +133,12 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
-			phoneBind: false,
-			emailBind: false,
-			confirmAccountExist: false,
-			confirmAccountNotExist: false,
-			resetPassDialog: false,
+			 displayStatus: {
+					 phoneBind: false, //绑定手机号
+					 emailBind: false,   //绑定邮箱
+					 confirmAccountNotExist: false,  //绑定的账不存在
+					 resetPassDialog: false,  //重置密码
+			 },
 			prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
 			prefixMenu: false,
 			formData: {
@@ -178,10 +179,24 @@ import {mapMutations, mapState} from "vuex"
 			}
 			this.getAssets()
 		},
-		emailBind() {
-			this.formData.picCode = ""
-			this.formData.captcha = ""
-		}
+		displayStatus: {
+			handler: function() {
+				this.formData = Object.assign(this.formData, {
+					phone: "",   //手机号
+					picCode: "",
+					captcha: "",   //短信验证码
+					emailCaptcha: "",
+					resetCaptcha: "",
+					loginPwd: "",  //密码
+					loginPwd2: "",  //2次密码
+					email: "",  //邮箱账号
+					picCode: "", //图形验证码
+					resetLoginPwd: "",
+					resetLoginPwd2: "",
+				})
+			},
+			deep: true
+		},
 	},
 	mounted() {
 		this.getAssets()
@@ -288,12 +303,12 @@ import {mapMutations, mapState} from "vuex"
 			}
 			this.$http.post("/app/user/binding", postObj).then(res => {
 				if(res.code == 200) {
-					this.phoneBind = false
-					this.emailBind = false
+					this.displayStatus.phoneBind = false
+					this.displayStatus.emailBind = false
 					if(res.result) {  //已注册
 						this.web3BindAddress(res.result)
 					}else {   //未注册
-						this.confirmAccountNotExist = true  //设置密码
+						this.displayStatus.confirmAccountNotExist = true  //设置密码
 
 					}
 				}
@@ -313,12 +328,12 @@ import {mapMutations, mapState} from "vuex"
 			}
 			if(!this.verifyPassword()) return
 			this.$http.post("/app/user/binding_two", postObj).then(res => {
-				this.phoneBind = false
-				this.emailBind = false
+				this.displayStatus.phoneBind = false
+				this.displayStatus.emailBind = false
 				console.log(res)
 				if(res.code == 200) {
 					if(res.result) {
-						this.confirmAccountNotExist = false
+						this.displayStatus.confirmAccountNotExist = false
 						this.web3BindAddress(res.result)
 					}
 				}
@@ -354,6 +369,14 @@ import {mapMutations, mapState} from "vuex"
 				})
 				return
 			}
+			var regx =/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,12}$/
+			if(!regx.test(this.formData.resetLoginPwd)) {
+					this.alert({
+							type: "info",
+							msg: this.$t('message.PopPassRequest')
+					})
+					return false
+			}
 			this.$http.post("/app/user/password/reset", {
 				'captcha': this.formData.resetCaptcha,
 				'pwd': Md5(this.formData.resetLoginPwd)
@@ -364,7 +387,7 @@ import {mapMutations, mapState} from "vuex"
 									type: "success",
 									msg: res.msg
 							})
-							this.resetPassDialog = false
+							this.displayStatus.resetPassDialog = false
 					}
 			})
 		},

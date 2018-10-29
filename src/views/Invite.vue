@@ -2,8 +2,10 @@
 	<div class="invite-page">
     <HeaderBar></HeaderBar>
     <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-      <h3>{{$t('message.inviteRule')}}</h3>
-      <p>{{$t('message.inviteTotalBill')}}{{platformBonus}} AB</p>
+      <div class="top">
+				<h3>{{$t('message.inviteRule')}}</h3>
+	      <p>{{$t('message.inviteTotalBill')}}{{platformBonus}} AB</p>
+      </div>
       <div class="white-div">
         <p class="invite-title">{{$t('message.inviteFriend')}}</p>
         <div class="invite-detail">
@@ -17,15 +19,29 @@
           </div>
         </div>
         <div class="qrcode">
-					<div alt="" id="qrcode1"></div>
-          <span>{{$t('message.invitationCode')}}：<span id="copy_code">{{inviteCode}}</span>
-					<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span></span><br/>
-					{{$t('message.invitationLink')}}：<span id="copy_text">{{inviteUrl}}</span>
-					<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span></span>
+					<div class="qrcode-content">
+						<div alt="" id="qrcode1"></div>
+						<div class="">
+							<p>{{$t('message.invitationCode')}}</p>
+							<div class="copy-div1">
+								<span id="copy_code">{{getCurrentAddr.inviteCode}}</span>
+								<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
+							</div>
+						</div>
+						<div class="">
+							<p>{{$t('message.invitationLink')}}</p>
+							<div class="copy-div1 copy-div2">
+								<span id="copy_text">{{inviteUrl}}</span>
+								<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
+							</div>
+						</div>
+					</div>
         </div>
-				<h5>{{$t('message.InvitationRules')}}</h5>
-				<h5>{{$t('message.InvitationRules1')}}</h5>
-				<h5>{{$t('message.InvitationRules2')}}</h5>
+				<div class="buttom">
+					<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+					<h5>{{$t('message.InvitationRules1')}}</h5>
+					<h5>{{$t('message.InvitationRules2')}}</h5>
+				</div>
       </div>
     </div>
     <FooterBar ref="ft"></FooterBar>
@@ -73,10 +89,10 @@ import {mapMutations, mapState} from "vuex"
 				}).then((res) => {
 					if (res.code == 200) {
 						let result = res.result || {}
-						this.inviteBonus = res.inviteBonus
-						this.inviteCount = res.inviteCount
+						// this.inviteBonus = res.inviteBonus
+						// this.inviteCount = res.inviteCount
 						// this.inviteUrl = res.inviteUrl
-						this.platformBonus = res.platformBonus
+						// this.platformBonus = res.platformBonus
 						var qrcode = new QRCode(document.getElementById("qrcode1"), {
 							width: 108,
 							height: 108,
@@ -87,8 +103,6 @@ import {mapMutations, mapState} from "vuex"
 			},
 			copy1 () {
 				console.log('getCurrentAddr', this.getCurrentAddr);
-
-				debugger
 				let clipboard = this.copyBtn1
 				clipboard.on('success', () => {
 						this.alert({
@@ -131,8 +145,16 @@ import {mapMutations, mapState} from "vuex"
     .main {
       margin: auto;
       text-align: center;
-      background-color: #13207A;
-      padding-bottom: 79px;
+      background-color: #040810;
+      padding: 40px 0 79px 0;
+			.top {
+				width: 1200px;
+				height: 120px;
+				background: url(../../public/img/bg.jpg) repeat left;
+				background-size: 200px;
+				margin: 0px auto 30px auto;
+				padding-top: 33px;
+			}
       h3 {
         font-size:20px;
         font-family:PingFang-SC-Bold;
@@ -140,18 +162,24 @@ import {mapMutations, mapState} from "vuex"
         color:rgba(255,255,255,1);
         line-height:35px;
       }
-      .invite-title {
-        padding: 10px 199px;
-        font-size:16px;
-        color: #FFFFFF;
-        display:inline-block;
-      }
       .white-div {
-        width:1000px;
-        height:460px;
-        background:#1A439E;
+        width:1200px;
+        background:#172F61;
         border-radius:6px;
         margin: 60px auto 0 auto;
+				.invite-title {
+	        // padding: 10px 199px;
+	        font-size:16px;
+	        color: #FFFFFF;
+					text-align: left;
+					width:100%;
+					height:48px;
+					background:rgba(25,53,112,1);
+					box-shadow:0px 0px 0px 0px rgba(16,40,90,0.75);
+					padding: 0 40px;
+					font-weight:bold;
+					line-height: 48px;
+	      }
         p {
           font-size:28px;
           font-family:PingFang-SC-Bold;
@@ -160,58 +188,112 @@ import {mapMutations, mapState} from "vuex"
         }
         .invite-detail {
           display: flex;
-          width: 560px;
-          height: 150px;
           align-items: center;
           justify-content: center;
-          margin: 48px auto;
+          margin: auto;
+					width: 1120px;
+					border-bottom: 1px solid #1C3B7C;
+					height: 132px;
           div {
             width: 50%;
             .title {
-              color: #646464;
+              color: #A0ADFF;
               font-size:16px;
+							font-weight: normal;
             }
             h4 {
-              font-size: 28px;
-              color: #5480D9;
-              font-weight:bold;
+              font-size: 32px;
+              color: #fff;
+              font-weight:500;
             }
           }
+					div:first-child {
+						border-right: 1px solid #1C3B7C;
+					}
         }
         .qrcode {
-          display: flex;
-          align-items: flex-end;
-          justify-content:  center;
-          margin: auto;
-          img {
-            background-color: blue;
-            height: 108px;
-            width: 108px;
-            display: inline-block;
-            margin-right: 29px;
-						border: 1px solid white;
-          }
-          span {
-            color: #5480D9;
-            font-size: 18px;
-            text-align: left;
-            font-weight:bold;
-            .copy {
-              width:42px;
-              height:22px;
-              background:rgba(255,255,255,1);
-              border:2px solid rgba(105,149,239,1);
-              border-radius:2px;
-              font-size:14px;
-              padding: 4px 7px;
-              margin-left: 12px;
-            }
-          }
+					padding: 0px 40px;
+					#qrcode1 {
+						margin-right: 20px;
+					}
+					.qrcode-content {
+						border-bottom: 1px solid #1C3B7C;
+						display: flex;
+	          align-items: center;
+	          margin: auto;
+						justify-content: flex-start;
+						padding: 22px 0;
+						img {
+							background-color: blue;
+							height: 108px;
+							width: 108px;
+							display: inline-block;
+							margin-right: 29px;
+							border: 1px solid white;
+						}
+						p {
+							font-size:14px;
+							color: #A0ADFF;
+							text-align: left;
+							margin-bottom: 10px;
+						}
+						.copy-div1 {
+							width: 380px;
+							height: 48px;
+							border: 1px solid #1C3B7C;
+							border-radius: 4px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							margin-right: 40px;
+							justify-content: center;
+							#copy_code {
+								flex: 1;
+								color: #fff;
+							}
+							#copy_text {
+								flex: 1;
+								color: #fff;
+							}
+							span {
+								display: inline-block;
+								text-align: center;
+								border-left: 1px solid #1C3B7C;
+							}
+						.copy {
+							width:186px;
+							// height:22px;
+							font-size:16px;
+							color: #708FFF;
+							padding: 4px 7px;
+							margin-left: 12px;
+
+						}
+						}
+						.copy-div2 {
+							width: 540px;
+							height: 48px;
+						}
+						span {
+							color: #5480D9;
+							font-size: 18px;
+							text-align: left;
+							font-weight:bold;
+						}
+					}
         }
-				h5 {
-					font-size: 14px;
-					color: #FFFFFF;
-					text-align: left;
+				.buttom {
+					padding: 40px;
+					h5 {
+						font-size: 14px;
+						color: #FFFFFF;
+						text-align: left;
+						margin-bottom: 10px;
+					}
+					.title {
+						color: #A0ADFF;
+						margin-bottom: 20px;
+					}
 				}
       }
     }
