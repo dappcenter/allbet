@@ -10,7 +10,7 @@
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<p class="address"><span id="copy_text">{{myAssets.coinAddress}}</span>
+					<p class="address"><span id="copy_text">{{currentAddr.coinAddress}}</span>
 						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
 					</p>
 					<p>{{$t('message.assetsTips')}}</p>
