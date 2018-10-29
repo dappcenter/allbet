@@ -23,10 +23,11 @@ export default {
         forgetPassword: "忘记密码",
         noAccount: "没有账号？",
         registerNow: "现在注册",
+        loginSuccess: "登陆成功",
 
         // 首页
         homeAllet: "基于bancor的实用增强型通证协议,多维Dapp游戏生态系统",
-        homeAlletDesc: "AT 即 allbet Token，固定总量1000万。是allbet生态中代表allbet用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的DB通证池里（非团队所有），同时有一个对应的ETH资金池，用户从通证池购买通证，花费的ETH会进入ETH资金池（非团队所有）。所有操作都是协议合约直接控制的，区块链上信息可查。",
+        homeAlletDesc: "AT 即 allbet Token，固定总量1000万。是allbet生态中代表allbet用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的AT通证池里（非团队所有），同时有一个对应的ETH资金池，用户从通证池购买通证，花费的ETH会进入ETH资金池（非团队所有）。所有操作都是协议合约直接控制的，区块链上信息可查。",
         homeTotalAt: "我的总AT量：",
         homeReservePool:"储备金",
         homeETHReserve: "ETH 资金池",
@@ -61,7 +62,7 @@ export default {
         homeCancel: "撤单成功",
         homeFail: "交易失败",
         homeWithdrawal: "撤单",
-        homeHigher: "若价格高于市价，系统将自动帮你挂单，待DB价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
+        homeHigher: "若价格高于市价，系统将自动帮你挂单，待AT价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
         homeInputErro: "输入有误",
         homePriceErro: "价格输入有误",
         homePriceLower: "您输入的价格低于市价超过10%",

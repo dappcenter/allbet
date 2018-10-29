@@ -185,8 +185,8 @@
             </div>
             <button class="primary-btn" @click="findPasswordDo">{{$t('message.PopConfirm')}}</button>
             <p>
-                <a href="javascript:;" @click="formData.resetType = 'EMAIL'" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
-                <a href="javascript:;" @click="formData.resetType = 'PHONE'" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
+                <a href="javascript:;" @click="formData.resetType = 'EMAIL';formData.picCode = '';getImgCode();" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
+                <a href="javascript:;" @click="formData.resetType = 'PHONE';formData.picCode = '';getImgCode();" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
             </p>
         </mu-dialog>
     </div>
@@ -429,7 +429,7 @@ export default {
                 if(res.code == 200) {
                     this.alert({
                         type: "success",
-                        msg: res.msg
+                        msg: this.$t('message.loginSuccess')
                     })
                     this.displayStatus.loginAccount = false
                     this.setUserInfo(res.result)
@@ -463,7 +463,7 @@ export default {
         },
         // 二次密码验证
         verifyPassword() {
-            var regx =/^[a-zA-Z0-9]{8,12}$/
+            var regx =/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,12}$/
             if(!regx.test(this.formData.password)) {
                 this.alert({
                     type: "info",
@@ -482,6 +482,13 @@ export default {
         },
         //手机号验证
         verifyPhone() {
+            if (this.formData.prefix == '+86' && !(/^1[34578]\d{9}$/.test(this.formData.phone))) {
+              this.alert({
+                  type: "info",
+                  msg: this.$t('message.PopPhoneWrong')
+              })
+              return false
+            }
             if(this.formData.phone == "" || !/^[0-9]*$/.test(this.formData.phone)) {
                 this.alert({
                     type: "info",
