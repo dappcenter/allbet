@@ -62,6 +62,7 @@ export default {
         homeFail: "Fail",
         homeWithdrawal: "Withdrawal",
         homeHigher: "If the price is higher than the market price, the system will automatically help you to place a pending order. When the AT price reaches the unit price you are hanging, the system will automatically complete the transaction. As the price of the bancor algorithm changes over time, it is expected that there will be a certain amount of deviation.",
+        homeLower: "If the price is lower than the market price, the system will automatically help you to place a pending order. When the AT price reaches the unit price you are hanging, the system will automatically complete the transaction. As the price of the bancor algorithm changes over time, it is expected that there will be a certain amount of deviation.",
         homeInputErro: "Incorrect input",
         homePriceErro: "Incorrect price input",
         homePriceLower: "The price you entered is less than 10% of the market price.",

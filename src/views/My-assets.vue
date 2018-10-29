@@ -5,8 +5,8 @@
 		<div class="content">
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
-			<li><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
-			<div class="charge"  v-show="showChargeBill">
+			<li v-show="currentAddr.platform == 'DISPATCHER'"><div>ETH</div><div>{{currentAddr.eth}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
+			<div class="charge"  v-show="showChargeBill && currentAddr.platform == 'DISPATCHER'">
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
@@ -16,7 +16,7 @@
 					<p>{{$t('message.assetsTips')}}</p>
 				</div>
 			</div>
-			<div class="mention" v-show="showMentionBill">
+			<div class="mention" v-show="showMentionBill && currentAddr.platform == 'DISPATCHER'">
 				<p>{{$t('message.assetsCoinAddress')}}:</p>
 				<div class="input-div">
 					<input type="text" v-model="formData.destAddress">
@@ -96,7 +96,7 @@ import {mapMutations, mapState} from "vuex"
 		goHome(){
 			this.$router.push('index')
 		},
-		//提币 
+		//提币
 		withdrawDo(type) {
 			this.$http.post('/app/transfer/withdraw', {
 				"amount": this.formData.amount,

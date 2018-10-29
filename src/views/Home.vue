@@ -37,7 +37,7 @@
 						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" v-model="buyEthNumber">
 						<span class="num-right">ETH</span>
 					</div>
-					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
+					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp1"></span></p>
 					<div class="buy-button" v-if="getCurrentAddr.token" @click="doTrade('买入')">
 						{{$t('message.homeBuy')}}
 					</div>
@@ -453,6 +453,14 @@ import { setTimeout, clearInterval } from 'timers';
 				})
 				that.cancelOrder({entrustId: oid})
 			});
+		},
+		openHelp1() {
+			this.openConfirm({
+				content: this.$t('message.homeLower'),
+				btn: [{
+					text: this.$t('message.PopClose')
+				}]
+			})
 		},
 		openHelp() {
 			this.openConfirm({

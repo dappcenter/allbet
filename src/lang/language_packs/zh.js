@@ -63,6 +63,7 @@ export default {
         homeFail: "交易失败",
         homeWithdrawal: "撤单",
         homeHigher: "若价格高于市价，系统将自动帮你挂单，待AT价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
+        homeLower: "若价格低于市价，系统将自动帮你挂单，待AT价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
         homeInputErro: "输入有误",
         homePriceErro: "价格输入有误",
         homePriceLower: "您输入的价格低于市价超过10%",
