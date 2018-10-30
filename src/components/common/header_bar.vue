@@ -8,14 +8,14 @@
                 <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
                 <router-link to="roller"><span>Dice</span></router-link>
                 <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
-                <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
+                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
-                <div class="address-select" v-show="addressList.length > 0">
+                <div class="address-select" v-show="addressList.length > 1">
                     <label>{{$t("message.address")}}：</label>
                     <mu-select v-model="currentAddr">
-                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :solo="true"></mu-option>
+                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
                 </div>
                 <div class="user-center" v-show="storeCurrentAddr.userName">
@@ -88,6 +88,10 @@
                 </div>
             </div>
             <div class="input-wrap">
+                <label>{{$t('message.PopInviteCode')}}</label>
+                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
+            </div>
+            <div class="input-wrap">
                 <label>{{$t('message.PopPassword')}}</label>
                 <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
             </div>
@@ -118,6 +122,10 @@
                     <input type="text" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
                 </div>
+            </div>
+            <div class="input-wrap">
+                <label>{{$t('message.PopInviteCode')}}</label>
+                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
             </div>
             <div class="input-wrap">
                 <label>{{$t('message.PopPassword')}}</label>
@@ -219,6 +227,7 @@ export default {
             findPassword: false,   //找回密码
             prefixMenu: false,
             displayStatus: {
+                
                 loginAccount: false,
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号
@@ -239,6 +248,7 @@ export default {
             },
             formData: {
                 phone: "",   //手机号
+                inviteCode: "", //邀请码
                 prefix: "+86",  //区号
                 captcha: "",   //短信验证码
                 password: "",  //密码
@@ -254,7 +264,14 @@ export default {
             captchaDisabled: false
         }
     },
-
+    created() {
+        if(sessionStorage.getItem('inviteCode')) {
+            this.formData.inviteCode = sessionStorage.getItem('inviteCode')
+        }else {
+            sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
+            this.formData.inviteCode = this.$route.query.inviteCode || ""
+        }
+    },
     mounted() {
         this.bindScrollEvent()
 
@@ -264,7 +281,6 @@ export default {
                 this.$store.dispatch('updateProperty')
             }
         }
-
     },
     watch: {
         type() {
@@ -286,7 +302,6 @@ export default {
             }
         },
         currentAddr(newVal) {
-            console.log(this.addressList)
             this.addressList.forEach(value => {
                 if(value.coinAddress == newVal) {
                     this.setCurrentAddr(value)
@@ -319,8 +334,8 @@ export default {
             deep: true
         },
         locale() {
-    			this.btnText = this.$t('message.PopGetCaptcha')
-    		}
+            this.btnText = this.$t('message.PopGetCaptcha')
+        }
     },
     methods: {
         getImgCode() {
@@ -384,7 +399,8 @@ export default {
                 "captcha": this.formData.captcha,
                 "loginPwd": Md5(this.formData.password),
                 "phone": this.formData.phone,
-                "prefix": this.formData.prefix
+                "prefix": this.formData.prefix,
+                "inviteCode": this.formData.inviteCode
             }
             if(type == "email") {
                 url = "/open/register/email"

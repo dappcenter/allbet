@@ -12,7 +12,7 @@ import LangEn from "./language_packs/en"
 Vue.use(VueI18n)
 
 export default new VueI18n({
-    locale: "en-US",
+    locale: localStorage.getItem('locale') || "en-US",
     messages: {
         "zh-CN": LangZh,
         "en-US": LangEn

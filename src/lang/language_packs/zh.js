@@ -170,6 +170,8 @@ export default {
         PopConfirmChange: "确认修改",
         PopFindPass: "找回密码",
         PopRegister: "注册",
+        PopInviteCode: "邀请码",
+        PopInviteCodePlaceholder: "选填邀请码",
         // 提示语
         PopCaptchaEmpty: "短信验证码不能为空",
         PopPassEmpty: "密码不能为空",
@@ -207,10 +209,10 @@ export default {
         GameIncome: "收益",
         GameProbability: "概率",
         GameEnter: "刚刚进入了游戏",
-        GameTotalNumber: "竞猜总次数",
-        GameTotalIncome: "玩家总获得",
+        GameTotalNumber: "竞猜总次数：",
+        GameTotalIncome: "玩家总获得：",
         GameQiuz: "竞猜数量",
-        Gameminimum: "最少下注数量为0.1ETH",
+        Gameminimum: "最少下注数量为",
         GameBalance: '余额',
         GameLuckNum: "猜小于",
         GameSuggest: "建议",
@@ -222,7 +224,7 @@ export default {
         GameBig: "大佬榜",
         GameLuckyList: "幸运榜",
         GameRecord: "我的战绩",
-        GameParticipation: "参与次数",
+        GameParticipation: "参与次数：",
         GameProfit: "盈利",
 
 

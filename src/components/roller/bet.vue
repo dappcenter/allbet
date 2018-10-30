@@ -3,10 +3,10 @@
 		<div class="mask"></div>
 		<div class="game-status">
 			<div class="container">
-				<p v-if="diceStatistics.newcomers.length > 0">{{$fmtAccount(diceStatistics.newcomers[0])}} 刚刚进入了游戏</p>
+				<p v-if="diceStatistics.newcomers.length > 0">{{$fmtAccount(diceStatistics.newcomers[0])}} {{$t("message.GameEnter")}}</p>
 				<p v-else></p>
-				<span>猜奖总次数：{{diceStatistics.guessCount}}</span>
-				<span>玩家总获得：{{diceStatistics.earned}} ETH</span>
+				<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
+				<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
 			</div>
 		</div>
 		<div class="game-content" ref="gameContent">
@@ -14,27 +14,26 @@
 				<div class="number-show">
 					<div>
 						<h3>{{odds}}</h3>
-						<span>预测数</span>
+						<span>{{$t("message.GameForecast")}}</span>
 					</div>
 					<div>
 						<h3 :class="luckyColor">{{luckyNum}}</h3>
-						<span>幸运数</span>
+						<span>{{$t("message.GameLucky")}}</span>
 					</div>
 				</div>
-				
 			</div>
 			<!-- 赔率预览 -->
 			<ul class="ctn-mdl">
 				<li>
-					<label>赔率</label>
+					<label>{{$t("message.GameOdds")}}</label>
 					<span>{{Math.floor(peilv*1000) / 1000}}</span>
 				</li>
 				<li class="green">
-					<label>收益</label>
+					<label>{{$t("message.GameIncome")}}</label>
 					<span>{{bonus}}</span>
 				</li>
 				<li>
-					<label>概率</label>
+					<label>{{$t("message.GameProbability")}}</label>
 					<span>{{odds-1}}%</span>
 				</li>
 			</ul>
@@ -51,7 +50,7 @@
 				
 			</div>
 			<div class="ctn-btm">
-				<h4>竞猜数量<span class="fl">最小下注数量为 {{rule.minInvest}} ETH</span></h4>
+				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} ETH</span></h4>
 				<div class="flex-wrap">
 					<div class="input-wrap">
 						<label></label>
@@ -70,8 +69,8 @@
 				</div>
 				<div class="bet-wrap">
 					<span class="fl"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
-					<button v-if="currentAddr.token" class="enter" @click="betDo">猜小于{{odds}}</button>
-					<button v-else class="enter" @click="openLogin">登录</button>
+					<button v-if="currentAddr.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
+					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
@@ -510,8 +509,8 @@ export default {
 						margin: 0 0 0 3px;
 						label {
 							width: 40px;
-							background: url(../../../public/img/eth_icon02.png) no-repeat center;
-							background-size: 30%;
+							background: url(../../../public/img/eth_icon.png) no-repeat center;
+							background-size: 60%;
 						}
 						input {
 							width: 260px;
@@ -658,16 +657,16 @@ export default {
 					margin-right: 10px;
 					box-shadow: 0 0 10px #fff;
 				}
-				&:after {
-					content: ' ';
-					position: absolute;
-					bottom: -5px;
-					left: 5px;
-					width: calc(100% - 10px);
-					display: block;
-					height: 5px;
-					background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
-				}
+				// &:after {
+				// 	content: ' ';
+				// 	position: absolute;
+				// 	bottom: -5px;
+				// 	left: 5px;
+				// 	width: calc(100% - 10px);
+				// 	display: block;
+				// 	height: 5px;
+				// 	background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
+				// }
 			}
 		}	
 	}

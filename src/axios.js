@@ -10,6 +10,7 @@ axios.interceptors.request.use(config => {
     store.commit("openWait")
     let token = store.state.user.currentAddr.token || ""
     config.headers.common['token'] = token
+    config.headers.common['Accept-Language'] = store.state.locale
     return config
 }, error => {
     store.commit("closeWait")

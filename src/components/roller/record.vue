@@ -1,19 +1,24 @@
 <template>
 	<section class="module-record">
 		<div class="nav">
-			<a href="javascript:;" class="white" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">最新玩家</a>
-			<a href="javascript:;" class="golden" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">大佬榜</a>
-			<a href="javascript:;" class="green" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">幸运榜</a>
-			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">我的战绩</a>
+			<a href="javascript:;" class="white" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
+			<a href="javascript:;" class="golden" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
+			<a href="javascript:;" class="green" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
+		</div>
+		<div class="myinfo" v-show="boardType == 'ME'">
+			<span class="fl">{{$t("message.GameParticipation")}} <i>{{diceBasis.totalParticipate}}</i>次</span>
+			<span class="fr">AB: <i>{{diceBasis.totalAb}}</i></span>
+			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn}}</i>ETH</span>
 		</div>
 		<div class="t-head">
-			<span>时间</span>
-			<span>玩家</span>
-			<span>下注数量</span>
-			<span>预测数</span>
-			<span>幸运数</span>
-			<span>赔率</span>
-			<span>奖金</span>
+			<span>{{$t("message.GameTime")}}</span>
+			<span>{{$t("message.GamePlay")}}</span>
+			<span>{{$t("message.GameBetNum")}}</span>
+			<span>{{$t("message.GameForecast")}}</span>
+			<span>{{$t("message.GameLucky")}}</span>
+			<span>{{$t("message.GameOdds")}}</span>
+			<span>{{$t("message.GameReward")}}</span>
 			<span>AB</span>
 		</div>
 		<div class="t-body">
@@ -36,8 +41,8 @@
 				<li class="">
 					<span>{{item.odds}}</span>
 				</li>
-				<li class="">
-					<span v-if="item.rewards > 0">{{item.rewards}} ETH</span>
+				<li class="golden">
+					<span v-if="item.rewards > 0">{{item.realRewards}} ETH</span>
 					<span v-else></span>
 				</li>
 				<li class="">
@@ -58,7 +63,8 @@ export default {
 			recordsList: [],
 			boardType: "RECENT",
 			rule: {},
-			timer: null
+			timer: null,
+			diceBasis: {}
         }
 	},
 	created() {
@@ -91,6 +97,7 @@ export default {
 			}).then(res => {
 				if(res.code == 200) {
 					this.recordsList = res.result.records.list
+					this.diceBasis = res.result.diceBasis
 				}
 			})
 		},
@@ -115,6 +122,7 @@ export default {
 			}).then(res => {
 				if(res.code == 200) {
 					this.recordsList = res.result.records.list
+					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}
 			})
@@ -142,6 +150,7 @@ export default {
 		background: -o-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Opera 11.1 - 12.0 */
 		background: -moz-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Firefox 3.6 - 15 */
 		background: linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* 标准的语法（必须放在最后） */
+		border-bottom: 1px solid #101F4E;
 		a {
 			color: #D2D2D2;
 			line-height: 90px;
@@ -163,6 +172,24 @@ export default {
 				color: #FFDB5B;
 				text-shadow: 0px 0px 6px #FFDB5B;
 			}
+		}
+	}
+	.myinfo {
+		line-height: 40px;
+		background:rgba(17,28,66,.5);
+		overflow: hidden;
+		padding: 0px 120px;
+		.fl {
+			float: left;
+		}
+		.fr {
+			float: right;
+			margin-left: 40px;
+		}
+		i {
+			color: #99FF7E;
+			text-shadow: 0px 0px 6px #99FF7E !important;
+			font-style: normal;
 		}
 	}
 	.t-head {

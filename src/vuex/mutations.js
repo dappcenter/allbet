@@ -8,6 +8,7 @@ const mutations = {
      */
     [types.CHANGE_LANGUAGE](state, payload) {
         i18n.locale = payload
+        localStorage.setItem("locale", payload)
         state.locale = payload
     }
 }

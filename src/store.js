@@ -20,7 +20,7 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
     state: {
-        locale: "en-US"
+        locale: localStorage.getItem("locale") || "en-US"
     },
     mutations,
     actions,

@@ -1,6 +1,6 @@
 <template>
     <div class="roller-page">
-        <HeaderBar :notice="false"></HeaderBar>
+        <HeaderBar></HeaderBar>
         <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
             <Bet :diceStatistics="diceStatistics"></Bet>
 			<Record @setDiceStatistics="setDiceStatistics"></Record>

@@ -4,7 +4,7 @@
 		<mu-snackbar position="top" :color="alertOption.color" :open.sync="alertOption.open">
 			<mu-icon left :value="alertOption.icon"></mu-icon>
 				{{alertOption.msg}}
-			<mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">关闭</mu-button>
+			<mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">{{$t("message.PopClose")}}</mu-button>
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
@@ -13,7 +13,7 @@
             <div class="btn-wrap">
 				<button v-for="btn in confirmOption.btn" :class="btn.type" @click="onConfirmBtn(btn.cb)">{{btn.text}}</button>
 			</div>
-        </mu-dialog>
+    </mu-dialog>
 
 		<div class="loading-shade" v-show="loading">
 			<div class="loading-box">
