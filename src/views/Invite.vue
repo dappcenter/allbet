@@ -2,7 +2,7 @@
 	<div class="invite-page">
     <HeaderBar></HeaderBar>
     <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-      <div class="top">
+      <div class="top nominscreen">
 				<h3>{{$t('message.inviteRule')}}</h3>
 	      <p>{{$t('message.inviteTotalBill')}}{{platformBonus}} AB</p>
       </div>
@@ -19,16 +19,17 @@
           </div>
         </div>
         <div class="qrcode">
+					<p class="invite-code minscreen">专属邀请二维码：</p>
 					<div class="qrcode-content">
 						<div alt="" id="qrcode1"></div>
-						<div class="">
+						<div class="invite-div">
 							<p>{{$t('message.invitationCode')}}</p>
 							<div class="copy-div1">
 								<span id="copy_code">{{getCurrentAddr.inviteCode}}</span>
 								<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
 							</div>
 						</div>
-						<div class="">
+						<div class="invite-div">
 							<p>{{$t('message.invitationLink')}}</p>
 							<div class="copy-div1 copy-div2">
 								<span id="copy_text">{{inviteUrl}}</span>
@@ -299,11 +300,41 @@ import {mapMutations, mapState} from "vuex"
 	}
 	@media screen and (max-width: 800px) {
 		.invite-page {
-			.fund-pool {
-				flex-direction: column;
-				padding: 0;
-				&>section {
+			.main {
+				.white-div {
 					width: 100%;
+					margin: 20px auto 0 auto;
+					.invite-title {
+						 padding: 0 10px;
+					}
+					.invite-detail {
+						width: 100%;
+					}
+					.qrcode {
+						padding: 0 10px;
+						.invite-code {
+							font-size: 14px;
+					    color: #A0ADFF;
+					    text-align: left;
+							margin-top: 50px;
+						}
+						.qrcode-content {
+							flex-direction: column;
+						}
+						.invite-div {
+							width: 100%;
+							margin-top: 59px;
+							.copy-div1 {
+						    width: 100%;
+								.copy {
+									    width: 26%;
+								}
+							}
+						}
+					}
+					.buttom {
+					    padding: 40px 20px;
+					}
 				}
 			}
 		}

@@ -8,7 +8,7 @@
 			<li v-show="currentAddr.platform == 'DISPATCHER'"><div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
 			<div class="charge"  v-show="displayStatus.showChargeBill && currentAddr.platform == 'DISPATCHER'">
 				<div src="" alt="" id="qrcode1"></div>
-				<div>
+				<div class="charge-desc">
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
 					<p class="address"><span id="copy_text">{{currentAddr.coinAddress}}</span>
 						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
@@ -50,10 +50,10 @@
 			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span><span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span></div></li>
 			<div class="charge"  v-show="displayStatus.showChargeAt">
 				<div src="" alt="" id="qrcode2"></div>
-				<div>
+				<div class="charge-desc">
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<p class="address"><span id="copy_text">{{currentAddr.coinAddress}}</span>
-						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
+					<p class="address"><span id="copy_text2">{{currentAddr.coinAddress}}</span>
+						<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy2">{{$t('message.assetsCopy')}}</span>
 					</p>
 					<p>{{$t('message.assetsTips')}}</p>
 				</div>
@@ -149,6 +149,7 @@ import {mapMutations, mapState} from "vuex"
 	},
 	mounted () {
 		this.copyBtn = new Clipboard(this.$refs.copy)
+		this.copyBtn2 = new Clipboard(this.$refs.copy2)
 		this.makeQrCode()
 	},
 	methods: {
@@ -171,21 +172,21 @@ import {mapMutations, mapState} from "vuex"
 		withdrawDo(type) {
 			if ((this.formData.destAddress + '').trim() == '') {
 				this.alert({
-						type: "warning",
+						type: "error",
 						msg: this.$t('message.assetsDestAddEmpty')
 				})
 				return false
 			}
 			if ((this.formData.amount + '').trim() == '' || Number(this.formData.amount) <= 0) {
 				this.alert({
-						type: "warning",
+						type: "error",
 						msg: this.$t('message.assetsMentionAmount')
 				})
 				return false
 			}
 			if (Number(this.currentAddr.eth) < Number(this.formData.amount)) {
 				this.alert({
-						type: "warning",
+						type: "error",
 						msg: this.$t('message.assetsNotEnough')
 				})
 				return false
@@ -205,6 +206,21 @@ import {mapMutations, mapState} from "vuex"
 		},
 		copy () {
 			let clipboard = this.copyBtn
+			clipboard.on('success', () => {
+					this.alert({
+							type: "success",
+							msg: this.$t('message.assetsSuccessCopy')
+					})
+			})
+			clipboard.on('error', () => {
+					this.alert({
+							type: "success",
+							msg: this.$t('message.assetsFailCopy')
+					})
+			})
+		},
+		copy2 () {
+			let clipboard = this.copyBtn2
 			clipboard.on('success', () => {
 					this.alert({
 							type: "success",
@@ -411,11 +427,42 @@ import {mapMutations, mapState} from "vuex"
 	}
 	@media screen and (max-width: 800px) {
 		.my-assets {
-			.fund-pool {
-				flex-direction: column;
-				padding: 0;
-				&>section {
+			.main {
+				.content {
 					width: 100%;
+					padding: 0 10px;
+					.charge {
+						flex-direction: column;
+				    width: 100%;
+						align-items: flex-start;
+						padding: 27px 0 27px 10px;
+						.charge-desc {
+					    width: 100%;
+							p:first-child {
+								margin-top: 15px;
+							}
+							.address {
+								font-size: 16px;
+								width: 100%;
+								.copy {
+									margin-left: 0;
+								}
+							}
+						}
+					}
+					.mention {
+						padding: 0 10px 30px 10px;
+						.input-div {
+							input {
+								width: 87%;
+							}
+						}
+						.take-out {
+							width: 100% !important;
+							position: static !important;
+							margin-top: 20px;
+						}
+					}
 				}
 			}
 		}

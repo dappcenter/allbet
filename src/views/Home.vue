@@ -17,14 +17,23 @@
 		<div class="middle">
 			<div class="middle-title">{{$t('message.homeReservePool')}}</div>
 			<div class="buy-sell">
-				<div class="buy">
-					<div class="fund-number">
-						<img src="../../public/home/eth-icon.png" class="img1">
-						<div class="">
-							<p>{{result.ethPool}}ETH</p>
-							<span>{{$t('message.homeETHReserve')}}</span>
-						</div>
+				<div class="fund-number">
+					<img src="../../public/home/eth-icon.png" class="img1">
+					<div class="">
+						<p>{{result.ethPool}}ETH</p>
+						<span>{{$t('message.homeETHReserve')}}</span>
 					</div>
+				</div>
+				<div class="fund-number fund-sepc">
+					<img src="../../public/home/at-icon.png" class="img2">
+					<div class="">
+						<p>{{result.dbPool}}AT</p>
+						<span>{{$t('message.homeATReserve')}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="buy-sell">
+				<div class="buy">
 					<p class="title">{{$t('message.homeBuyAT')}}</p>
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
@@ -46,13 +55,6 @@
 					</div>
 				</div>
 				<div class="buy sell">
-					<div class="fund-number">
-						<img src="../../public/home/at-icon.png" class="img2">
-						<div class="">
-							<p>{{result.dbPool}}AT</p>
-							<span>{{$t('message.homeATReserve')}}</span>
-						</div>
-					</div>
 					<p class="title">{{$t('message.homeSellAT')}}</p>
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
@@ -66,7 +68,7 @@
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
-					<p style="text-align:center;color:#97ADFF;font-size:16px;">{{$t('message.homeTokenFee')}}</p>
+					<p style="text-align:center;color:#97ADFF;font-size:16px;margin-top: 34px;">{{$t('message.homeTokenFee')}}</p>
 					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
 						{{$t('message.homeSell')}}
 					</div>
@@ -85,13 +87,13 @@
 			</div>
 			<div class="content">
 				<div class="recent-order" v-if="selectTap == 0">
-					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeTransactionTime')}}</span></li>
+					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span class="nominscreen">{{$t('message.homeVolume')}}(ETH)</span><span>{{$t('message.homeVolume')}}(AT)</span><span>{{$t('message.homeAtPrice')}}</span><span class="nominscreen">{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeTransactionTime')}}</span></li>
 					<li v-for="item in recentOrderList">
 						<span>{{item.address}}</span>
-						<span>{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
+						<span class="nominscreen">{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
 						<span>{{item.tradeType == 'MARKET_BUY'?'+ '+item.outAmount:'- '+item.inAmount}}</span>
 						<span>{{item.dbPrice}} ETH</span>
-						<span :class="[item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
+						<span :class="['nominscreen',item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
 						<span>{{$fmtDate(item.recdDoneTime, "full")}}</span>
 					</li>
 				</div>
@@ -487,7 +489,7 @@ import { setTimeout, clearInterval } from 'timers';
 	.home-page {
 		margin: 0 auto;
 		.main {
-			position: relative;
+			// position: relative;
 			text-align: center;
 			-moz-user-select:none; /*火狐*/
 			-webkit-user-select:none; /*webkit浏览器*/
@@ -542,16 +544,17 @@ import { setTimeout, clearInterval } from 'timers';
 			.middle {
 				width: 1200px;
         		margin: auto;
-        		position: relative;
+        		// position: relative;
 				background:rgba(2,11,89,0.75);
 				border-radius:24px 24px 0px 0px;
 				padding-top: 42px;
-				height: 699px;
+				// height: 699px;
 				.middle-title {
 					font-size:28px;
 					font-family:PingFang-SC-Bold;
 					font-weight:bold;
 					color:rgba(255,255,255,1);
+					margin-bottom: 60px;
 				}
 				.buy-sell {
 					display: flex;
@@ -574,48 +577,52 @@ import { setTimeout, clearInterval } from 'timers';
 							right:0;
 						}
 					}
+					.fund-number {
+						text-align:center;
+						font-weight: bold;
+						width:520px;
+						height:128px;
+						border:1px solid rgba(110, 141, 255, 1);
+						border-radius:4px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin-left: 30px;
+
+						.img1 {
+							width: 73px;
+							height: 96px;
+						}
+						.img2 {
+							width: 83px;
+							height: 85px;
+						}
+						div {
+							p {
+								font-size: 28px;
+								color: #fff;
+							}
+							span {
+										color: #6E7BDE;
+										color: 16px;
+							}
+						}
+					}
+					.fund-sepc {
+						  margin-left: 97px;
+					}
 					.buy {
 						width: 48.3%;
 						font-size: 16px;
-						padding: 30px 30px 0px 30px;
-						height: 425px;
-            			position: relative;
-            			border-radius:6px;
-						.fund-number {
-							text-align:center;
-							font-weight: bold;
-							width:520px;
-							height:128px;
-							border:1px solid rgba(110, 141, 255, 1);
-							border-radius:4px;
-							display: flex;
-							align-items: center;
-							justify-content: center;
-
-							.img1 {
-								width: 73px;
-								height: 96px;
-							}
-							.img2 {
-								width: 83px;
-								height: 85px;
-							}
-							div {
-								p {
-									font-size: 28px;
-									color: #fff;
-								}
-								span {
-											color: #6E7BDE;
-											color: 16px;
-								}
-							}
-						}
+						padding: 30px 30px 48px 30px;
+						// height: 425px;
+            			// position: relative;
+            border-radius:6px;
 
 						.title{
 							font-size: 24px;
 							color: #C8C8C8;
-							margin: 60px 20px 20px 0;
+							margin: 20px 20px 20px 0;
 							text-align: left;
 						}
 						.price-div {
@@ -664,12 +671,14 @@ import { setTimeout, clearInterval } from 'timers';
 							color:rgba(255,255,255,1);
 							line-height:48px;
 							text-align: center;
-							position: absolute;
+							// position: absolute;
 							cursor: pointer;
-					    bottom: -149px;
+							margin-top: 67px;
+					    // bottom: -149px;
 						}
 						.sell-button {
 							background-color: #E95B62;
+							margin-top: 0px;
 						}
 					}
 					.sell {
@@ -756,11 +765,64 @@ import { setTimeout, clearInterval } from 'timers';
 	}
 	@media screen and (max-width: 800px) {
 		.home-page {
-			.fund-pool {
-				flex-direction: column;
-				padding: 0;
-				&>section {
+			.main {
+				.top {
+					h2 {
+						width: 80%;
+						margin: auto;
+					}
+					.info {
+						width: 90% !important;
+						margin: auto;
+					}
+					.total-bill {
+						width: 90%;
+					}
+				}
+				.middle {
 					width: 100%;
+					.buy-sell {
+						flex-wrap: wrap;
+						    justify-content: center;
+						.fund-number {
+							margin: 0;
+							width: 90%;
+						}
+						.fund-sepc {
+							margin:20px auto 0px !important;
+						}
+						.buy {
+							width: 100%;
+							padding: 30px 10px 48px 10px;
+							.price-div {
+								    width: 100%;
+										.num {
+											width: 15%;
+										}
+										.price {
+											width: 70%;
+										}
+										.num-right {
+											width: 15%;
+										}
+							}
+							.buy-button {
+								width: 100%;
+
+							}
+						}
+						.sell {
+							margin-left: 0;
+						}
+					}
+				}
+			}
+			.list-wrapper {
+				padding: 30px 10px 5px 10px;
+				.content {
+					li span {
+						width: 25% !important;
+					}
 				}
 			}
 		}
