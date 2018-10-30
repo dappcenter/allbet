@@ -174,6 +174,7 @@ export default {
         PopRegister: "注册",
         PopInviteCode: "邀请码",
         PopInviteCodePlaceholder: "选填邀请码",
+
         // 提示语
         PopCaptchaEmpty: "短信验证码不能为空",
         PopPassEmpty: "密码不能为空",
@@ -192,7 +193,7 @@ export default {
         PopConfirm: "确定",
         PopTips: "提示",
         PopTipsDesc: "您当前未安装MetaMask",
-        PopInstallation: "查看安装教程",
+        PopInstallation: "安装教程",
         PopAccountLogin: "账号登录",
         PopRegisterAccount: "注册账号",
         PopSellTips: "出售AT后将不能继续获得游戏分红，确认出售？",
@@ -204,6 +205,8 @@ export default {
         PopPlayAgain: "再玩一次",
         PopCancelAutor: "您取消了授权！",
         PopBindDesc: "使用账号登录赢取邀请奖励分ETH，玩游戏享受收益秒到账",
+
+        PopHttpTimeout: "请求超时",
         // 游戏页
         GameForecast: "预测数",
         GameLucky: "幸运数",

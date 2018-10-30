@@ -416,7 +416,8 @@ import { setTimeout, clearInterval } from 'timers';
 			ethAmount = this.ethInfo.web3Instance.utils.toWei(ethAmount, "ether")
 			this.ethInfo.apiHandle.methods.placeBuyOrder(oid, atPrice, ethAmount).send({
 				from: addr,
-				value: ethAmount
+				value: ethAmount,
+				gas: 1000000
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",
@@ -437,6 +438,7 @@ import { setTimeout, clearInterval } from 'timers';
 			atAmount = this.ethInfo.web3Instance.utils.toWei(atAmount, "ether")
 			this.ethInfo.apiHandle.methods.placeSellOrder(oid, atPrice, atAmount).send({
 				from: addr,
+				gas: 1000000
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",

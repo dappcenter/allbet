@@ -1,7 +1,14 @@
 import axios from 'axios'
 import store from './store'
 import router from './router'
+import LangZh from "./lang/language_packs/zh"
+import LangEn from "./lang/language_packs/en"
 
+const language = {
+    "zh-CN": LangZh,
+    "en-US": LangEn
+}
+console.log(language)
 
 axios.defaults.baseURL = window.SERVERPATH
 axios.defaults.timeout = 15000
@@ -87,7 +94,7 @@ axios.interceptors.response.use(response => {
     }else {
         store.commit('alert', {
             type: 'error',
-            msg: '请求超时'
+            msg: language[store.state.locale].message.PopHttpTimeout
         })
     }
     return Promise.reject(err)

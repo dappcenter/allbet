@@ -45,7 +45,7 @@
 				</div>
 				<div class="slider" ref="slider">
 					<div class="bar" ref="bar"></div>
-					<div class="handle" @mousedown="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
+					<div class="handle" @mousedown="onHandleMouseD" @touchstart="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
 				</div>
 				
 			</div>
@@ -126,6 +126,9 @@ export default {
         })
         window.onmouseup = function() {
             window.onmousemove = null
+		}
+		window.ontouchend = function() {
+            window.ontouchmove = null
         }
         this.setBetInfo({
             odds: 1
@@ -160,18 +163,36 @@ export default {
 			alert: "alert",
 			openLogin: "OPEN_LOGIN",
 			openWinPopup: "OPEN_WIN_POPUP"
-        }),
-        onHandleTouchS(e) {
-            let that = this
+		}),
+		onHandleMouseD(e) {
+			let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
             const sliderWidth = this.$refs.slider.clientWidth - 20
-            const ofX = e.offsetX
-            let moveWidth = 0
+			const ofX = e.offsetX
+			let moveWidth = 0
             window.onmousemove = function(e) {
                 moveWidth = e.clientX - sliderOffsetL - ofX
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
                 that.$refs.bar.style.width = moveWidth + "px"
+                that.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
+                that.setBetInfo({
+                    odds: that.odds,
+                    amount: that.amount
+                })
+			}
+		},
+        onHandleTouchS(e) {
+            let that = this
+			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
+            const sliderWidth = this.$refs.slider.clientWidth - 20
+			const ofX = e.touches[0].clientX - this.$refs.handle.offsetLeft
+			let moveWidth = 0
+			window.ontouchmove  = function(e) {
+                moveWidth = e.touches[0].clientX - sliderOffsetL
+				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
+                that.$refs.handle.style.left = moveWidth + "px"
+				that.$refs.bar.style.width = moveWidth + "px"
                 that.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,

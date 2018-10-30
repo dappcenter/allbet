@@ -3,7 +3,7 @@
 		<div class="nav">
 			<a href="javascript:;" class="white tl" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
 			<a href="javascript:;" class="golden" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
-			<a href="javascript:;" class="green tr" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
+			<a href="javascript:;" class="green" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
@@ -24,7 +24,8 @@
 		<div class="t-body">
 			<ul class="list-content" v-for="item in recordsList">
 				<li class="tl">
-					<span>{{$fmtDate(item.createTime, "full")}}</span>
+					<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
+					<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
 				</li>
 				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
@@ -291,8 +292,20 @@ export default {
 				line-height: 60px;
 			}
 		}
+		.myinfo {
+			padding: 0;
+		}
 		.t-head {
 			padding: 0;
+			height: 40px;
+		}
+		.t-body {
+			.list-content {
+				padding: 0;
+				li {
+					line-height: 40px;
+				}
+			}
 		}
 	}
 }

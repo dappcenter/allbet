@@ -56,6 +56,12 @@
                 <li>
                     <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
                 </li>
+                <li>
+                    <a href="javascript:;"><span>{{$t("message.address")}}</span></a>
+                    <mu-select v-model="currentAddr">
+                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
+                    </mu-select>
+                </li>
             </ul>
             <div class="lang-wrap">
                 <a href="javascript:;" class="button lang" :class="{'active': locale === 'zh-CN'}" @click="changeLanguage('zh-CN')"><img src="../../../public/img/CN.png" />CN</a>
@@ -666,7 +672,7 @@ export default {
     .logo {
         img {
           display: block;
-          height: 60px;
+          height: 50px;
         }
     }
     menu {
@@ -829,14 +835,14 @@ export default {
             height: 28px;
             background: url(../../../public/img/menu_icon.png) no-repeat center;
             background-size: 100%;
-            margin-left: 30px;
+            margin-left: 20px;
         }
         .fold-menu-off {
             width: 28px;
             height: 28px;
             background: url(../../../public/img/menu_icon_off.png) no-repeat center;
             background-size: 90%;
-            margin-left: 30px;
+            margin-left: 20px;
         }
     }
     .notice {
@@ -940,11 +946,13 @@ export default {
                 align-items: center;
                 font-size: 14px;
                 margin-top: 20px;
+                overflow: hidden;
                 label {
                     width: 80px;
                 }
                 input {
                     flex: 1;
+                    width: 60%;
                     height:40px;
                     background:#173167;
                     border:1px solid #173167;
@@ -955,9 +963,7 @@ export default {
                 .input-flex {
                     flex: 1;
                     display: flex;
-                    input {
-
-                    }
+                    overflow: hidden;
                     a {
                         background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
                         box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
@@ -1012,6 +1018,11 @@ export default {
         .logo {
             flex: 1;
         }
+        .statusbar {
+            .user-center {
+                margin-left: 0;
+            }
+        }
         .fold-menu {
             position: absolute;
             width: 100%;
@@ -1048,6 +1059,16 @@ export default {
                                 background-size: 100%;
                             }
                         }
+                    }
+                    .mu-input  {
+                        margin: 0;
+                        padding: 0 13px;
+                        background-color: #fff;
+                        width: 158px;
+                        height: 30px;
+                        border-radius: 15px;
+                        min-height: auto;
+                        margin-left: 20px;
                     }
                 }
             }
@@ -1109,6 +1130,25 @@ export default {
                         opacity: 1;
                         background: #051276;
                         transition: all .5s ease;
+                    }
+                }
+            }
+        }
+        .mu-dialog-wrapper {
+            left: 0;
+            bottom: 0;
+            right: 0;
+            top:0;
+            .mu-dialog-body {
+                padding: 10px;
+            }
+            &.register-accout {
+                h4 {
+                    margin-bottom: 20px;
+                }
+                .input-wrap {
+                    label {
+                        width: 70px;
                     }
                 }
             }

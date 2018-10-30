@@ -204,6 +204,7 @@ export default {
         PopPlayAgain: "Play again",
         PopCancelAutor: "You canceled the authorization!",
         PopBindDesc: "Use the account login to win the invitation bonus ETH, play the game and enjoy the income seconds.",
+        PopHttpTimeout: "Request timeout",
         // 游戏页
         GameForecast: "Forecast",
         GameLucky: "Lucky",

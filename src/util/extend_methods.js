@@ -25,8 +25,10 @@ const fmtDate = (obj, type) => {
 	let s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 	if(type == 'full') {
 		return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length) + " " + h + ":" + minutes + ":" + s
-	} else {
-		return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length);
+	}else if(type == 'time'){
+		return h + ":" + minutes + ":" + s
+	}else {
+		return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length)
 	}
 }
 
