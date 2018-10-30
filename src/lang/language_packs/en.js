@@ -99,6 +99,10 @@ export default {
         assetsSell: "Sell",
         assetsSuccessCopy: "Successfully copied",
         assetsFailCopy: "Replication failed, please copy manually",
+        assetsDestAddEmpty: "The coin address can't be empty!",
+        assetsNotEnough: "Insufficient balance",
+        assetsMentionAmount: "The amount of the coin must be a positive number!",
+
 
         // 交易记录页
         tradeRecorde: "Trade Recorde",

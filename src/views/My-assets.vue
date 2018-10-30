@@ -10,7 +10,7 @@
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<p class="address"><span id="copy_text">{{myAssets.coinAddress}}</span>
+					<p class="address"><span id="copy_text">{{currentAddr.coinAddress}}</span>
 						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
 					</p>
 					<p>{{$t('message.assetsTips')}}</p>
@@ -22,7 +22,7 @@
 					<input type="text" v-model="formData.destAddress">
 					ETH
 				</div>
-				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{myAssets.eth}} ETH</span></p>
+				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
 				<div class="input-div">
 					<input type="text" v-model="formData.amount">
 					ETH
@@ -98,11 +98,38 @@ import {mapMutations, mapState} from "vuex"
 		},
 		//提币
 		withdrawDo(type) {
+			if ((this.formData.destAddress + '').trim() == '') {
+				this.alert({
+						type: "warning",
+						msg: this.$t('message.assetsDestAddEmpty')
+				})
+				return false
+			}
+			if ((this.formData.amount + '').trim() == '' || Number(this.formData.amount) <= 0) {
+				this.alert({
+						type: "warning",
+						msg: this.$t('message.assetsMentionAmount')
+				})
+				return false
+			}
+			if (Number(this.currentAddr.eth) < Number(this.formData.amount)) {
+				this.alert({
+						type: "warning",
+						msg: this.$t('message.assetsNotEnough')
+				})
+				return false
+			}
 			this.$http.post('/app/transfer/withdraw', {
 				"amount": this.formData.amount,
 				"coinAddress": this.currentAddr.coinAddress,
 				"destAddress": this.formData.destAddress,
 				"withdrawType": type
+			}).then( res => {
+				if (res.code == 200) {
+					this.formData.destAddress = ''
+					this.formData.amount = ''
+					this.$store.dispatch('updateProperty')
+				}
 			})
 		},
 		// 获取我的资产

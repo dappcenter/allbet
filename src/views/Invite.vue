@@ -59,11 +59,10 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	  data () {
 		  return {
-				inviteBonus: 0,
-		    inviteCount: 0,
+				inviteBonus: '',
+		    inviteCount: '',
 		    inviteUrl: 'aaaaaaaaaa',
-				inviteCode: '11111',
-		    platformBonus: 0,
+		    platformBonus: '',
 		  }
 	  },
 		computed: {
@@ -89,10 +88,10 @@ import {mapMutations, mapState} from "vuex"
 				}).then((res) => {
 					if (res.code == 200) {
 						let result = res.result || {}
-						// this.inviteBonus = res.inviteBonus
-						// this.inviteCount = res.inviteCount
-						// this.inviteUrl = res.inviteUrl
-						// this.platformBonus = res.platformBonus
+						this.inviteBonus = result.inviteBonus || 0
+						this.inviteCount = result.inviteCount || 0
+						// this.inviteUrl = result.inviteUrl
+						this.platformBonus = result.platformBonus
 						var qrcode = new QRCode(document.getElementById("qrcode1"), {
 							width: 108,
 							height: 108,
