@@ -6,7 +6,7 @@
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 			<li v-show="currentAddr.platform == 'DISPATCHER'"><div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
-			<div class="charge"  v-show="showChargeBill && currentAddr.platform == 'DISPATCHER'">
+			<div class="charge"  v-show="displayStatus.showChargeBill && currentAddr.platform == 'DISPATCHER'">
 				<div src="" alt="" id="qrcode1"></div>
 				<div>
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
@@ -16,7 +16,7 @@
 					<p>{{$t('message.assetsTips')}}</p>
 				</div>
 			</div>
-			<div class="mention" v-show="showMentionBill && currentAddr.platform == 'DISPATCHER'">
+			<div class="mention" v-show="displayStatus.showMentionBill && currentAddr.platform == 'DISPATCHER'">
 				<p>{{$t('message.assetsCoinAddress')}}:</p>
 				<div class="input-div">
 					<input type="text" v-model="formData.destAddress">
@@ -47,7 +47,48 @@
 					<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
 				</p>
 			</div>
-			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="goHome">{{$t('message.assetsBuy')}}</span><span @click="goHome">{{$t('message.assetsSell')}}</span></div></li>
+			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span><span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span></div></li>
+			<div class="charge"  v-show="displayStatus.showChargeAt">
+				<div src="" alt="" id="qrcode2"></div>
+				<div>
+					<p>{{$t('message.assetsRechargeAddress')}}：</p>
+					<p class="address"><span id="copy_text">{{currentAddr.coinAddress}}</span>
+						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
+					</p>
+					<p>{{$t('message.assetsTips')}}</p>
+				</div>
+			</div>
+			<div class="mention" v-show="displayStatus.showMentionAt">
+				<p>{{$t('message.assetsCoinAddress')}}:</p>
+				<div class="input-div">
+					<input type="text" v-model="formData.destAddress">
+					AT
+				</div>
+				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+				<div class="input-div">
+					<input type="text" v-model="formData.amount">
+					AT
+				</div>
+				<!-- <div class="poundage">
+					<div class="">
+						<p>{{$t('message.assetsHandlingFee')}}</p>
+						<div class="input-div">
+							<input type="text" name="" value="">
+							ETH
+						</div>
+					</div>
+					<div class="">
+						<p>{{$t('message.assetsArrivalAmount')}}</p>
+						<div class="input-div">
+							<input type="text" name="" value="">
+							ETH
+						</div>
+					</div>
+				</div> -->
+				<p class="attention">
+					<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
+				</p>
+			</div>
 			<li><div>AB</div><div>{{currentAddr.bet}}</div><div>--</div></li>
 		</div>
 	</div>
@@ -65,9 +106,12 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
-			myAssets: {},
-			showChargeBill: false,
-			showMentionBill: false,
+			displayStatus: {
+				showChargeBill: false,
+				showMentionBill: false,
+				showChargeAt: false,
+				showMentionAt: false,
+			},
 			formData: {
 				"amount": "",
 				"destAddress": "",
@@ -83,18 +127,45 @@ import {mapMutations, mapState} from "vuex"
 	    HeaderBar,
 	    FooterBar,
 	},
+	watch: {
+		// 检测地址切换
+		currentAddr() {
+			document.getElementById("qrcode1").innerHTML = ''
+			document.getElementById("qrcode2").innerHTML = ''
+			this.makeQrCode()
+		},
+		displayStatus: {
+			handler: function() {
+				this.formData = Object.assign(this.formData, {
+					"amount": "",
+					"destAddress": "",
+				})
+			},
+			deep: true
+		},
+	},
 	created () {
-		this.getAssets()
+		// this.getAssets()
 	},
 	mounted () {
 		this.copyBtn = new Clipboard(this.$refs.copy)
+		this.makeQrCode()
 	},
 	methods: {
+		makeQrCode () {
+			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+				width: 108,
+				height: 108,
+			});
+			qrcode2.makeCode(this.currentAddr.coinAddress);
+			var qrcode = new QRCode(document.getElementById("qrcode1"), {
+				width: 108,
+				height: 108,
+			});
+			qrcode.makeCode(this.currentAddr.coinAddress);
+		},
 		goRecord () {
 			this.$router.push('trading-record')
-		},
-		goHome(){
-			this.$router.push('index')
 		},
 		//提币
 		withdrawDo(type) {
@@ -132,22 +203,6 @@ import {mapMutations, mapState} from "vuex"
 				}
 			})
 		},
-		// 获取我的资产
-		getAssets () {
-			this.$http.get("/app/user/assets",{}).then((res) => {
-				console.log(res);
-				if (res.code == 200) {
-					let assets = (res.result || {}).assets || []
-					console.log('assets',assets);
-					this.myAssets = assets[0] || {}
-					var qrcode = new QRCode(document.getElementById("qrcode1"), {
-						width: 108,
-						height: 108,
-					});
-					qrcode.makeCode(this.myAssets.coinAddress);
-				}
-			})
-		},
 		copy () {
 			let clipboard = this.copyBtn
 			clipboard.on('success', () => {
@@ -164,12 +219,29 @@ import {mapMutations, mapState} from "vuex"
 			})
 		},
 		chargeBill() {
-			this.showChargeBill = !this.showChargeBill
-			this.showMentionBill = false
+			this.displayStatus.showChargeBill = !this.displayStatus.showChargeBill
+			this.displayStatus.showMentionBill = false
+			this.displayStatus.showMentionAt = false
+			this.displayStatus.showChargeAt = false
 		},
 		mentionBill() {
-			this.showMentionBill = !this.showMentionBill
-			this.showChargeBill = false
+			this.displayStatus.showMentionBill = !this.displayStatus.showMentionBill
+			this.displayStatus.showChargeBill = false
+			this.displayStatus.showMentionAt = false
+			this.displayStatus.showChargeAt = false
+		},
+		chargeAt(){
+			this.displayStatus.showChargeAt = !this.displayStatus.showChargeAt
+			this.displayStatus.showMentionAt = false
+			this.displayStatus.showMentionBill = false
+			this.displayStatus.showChargeBill = false
+
+		},
+		mentionAt(){
+			this.displayStatus.showMentionAt = !this.displayStatus.showMentionAt
+			this.displayStatus.showChargeAt = false
+			this.displayStatus.showMentionBill = false
+			this.displayStatus.showChargeBill = false
 		},
 		...mapMutations({
 			alert: "alert",
