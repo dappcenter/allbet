@@ -56,7 +56,7 @@
                 <li>
                     <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
                 </li>
-                <li>
+                <li v-show="addressList.length > 1">
                     <a href="javascript:;"><span>{{$t("message.address")}}</span></a>
                     <mu-select v-model="currentAddr">
                         <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
