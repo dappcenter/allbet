@@ -4,7 +4,7 @@
             <router-link tag="div" to="index" class="logo">
                 <img src="../../../public/img/LOGO.png" alt="">
             </router-link>
-            <menu>
+            <menu class="nominscreen">
                 <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
                 <router-link to="roller"><span>Dice</span></router-link>
                 <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
@@ -12,7 +12,7 @@
                 <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
-                <div class="address-select" v-show="addressList.length > 1">
+                <div class="address-select nominscreen" v-show="addressList.length > 1">
                     <label>{{$t("message.address")}}：</label>
                     <mu-select v-model="currentAddr">
                         <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
@@ -29,14 +29,40 @@
                     </div>
                 </div>
                 <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
-                <a href="javascript:;" class="button lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
-                <a href="javascript:;" class="button lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
+                <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
+                <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
+                <a href="javascript:;" v-show="!isShowFoldMunu" class="fold-menu-on minscreen" @click="isShowFoldMunu = true"></a>
+                <a href="javascript:;" v-show="isShowFoldMunu" class="fold-menu-off minscreen" @click="isShowFoldMunu = false"></a>
             </div>
         </div>
         <div class="container notice" v-if="notice">
             <p>公告：Allbet 开启交易排名赛（北京时间 9 月 27 日 23 点整至 30 日 22:59:59），排名前十玩家会获得 ETH 返奖！</p>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
+        <div class="fold-menu minscreen" v-show="isShowFoldMunu">
+            <ul>
+                <li>
+                    <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
+                </li>
+                <li>
+                    <router-link to="roller"><span>Dice</span></router-link>
+                </li>
+                <li>
+                    <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
+                </li>
+                <li v-show="addressList.length > 0">
+                    <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
+                </li>
+                <li>
+                    <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
+                </li>
+            </ul>
+            <div class="lang-wrap">
+                <a href="javascript:;" class="button lang" :class="{'active': locale === 'zh-CN'}" @click="changeLanguage('zh-CN')"><img src="../../../public/img/CN.png" />CN</a>
+                <a href="javascript:;" class="button lang" :class="{'active': locale === 'en-US'}" @click="changeLanguage('en-US')"><img src="../../../public/img/US.png" />EN</a>
+            </div>
+        </div>
+
         <!-- 登录选择 -->
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>
@@ -227,7 +253,7 @@ export default {
             findPassword: false,   //找回密码
             prefixMenu: false,
             displayStatus: {
-                
+
                 loginAccount: false,
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号
@@ -261,7 +287,8 @@ export default {
             btnText: this.$t('message.PopGetCaptcha'),  //发送短信按钮文字
             s: 60,  //短信倒计时时间
             macCode: "123456",
-            captchaDisabled: false
+            captchaDisabled: false,
+            isShowFoldMunu: false
         }
     },
     created() {
@@ -797,6 +824,20 @@ export default {
                 transition: all .5s ease;
             }
         }
+        .fold-menu-on {
+            width: 28px;
+            height: 28px;
+            background: url(../../../public/img/menu_icon.png) no-repeat center;
+            background-size: 100%;
+            margin-left: 30px;
+        }
+        .fold-menu-off {
+            width: 28px;
+            height: 28px;
+            background: url(../../../public/img/menu_icon_off.png) no-repeat center;
+            background-size: 90%;
+            margin-left: 30px;
+        }
     }
     .notice {
         font-size: 12px;
@@ -967,6 +1008,111 @@ export default {
     }
 }
 @media screen and (max-width: 800px){
-
+    .headerbar {
+        .logo {
+            flex: 1;
+        }
+        .fold-menu {
+            position: absolute;
+            width: 100%;
+            top: 90px;
+            left: 0;
+            padding: 0 20px;
+            background-color: rgba(3,7,19,.9);
+            ul {
+                li {
+                    line-height: 50px;
+                    border-bottom: 1px solid #243FAB;
+                    a {
+                        position: relative;
+                        margin-left: 24px;
+                        font-size: 16px;
+                        color: #FEFEFE;
+                        line-height: 50px;
+                        span {
+                            position: relative;
+                            z-index: 2;
+                        }
+                        &.router-link-active {
+                            color: #fff;
+                            text-shadow: 0 0 20px #1371FF;
+                            -webkit-text-stroke: 0.2px #1371FF;
+                            &:after {
+                                content: "";
+                                position: absolute;
+                                left: -25%;
+                                top: 0;
+                                width: 150%;
+                                height: 50px;
+                                background: url(../../../public/img/btn_bg01.png) no-repeat center;
+                                background-size: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+            .lang-wrap {
+                display: flex;
+                justify-content: space-around;
+                padding: 30px 0;
+                .button {
+                    width: 90px;
+                    height: 30px;
+                    border-radius: 15px;
+                    line-height: 30px;
+                    color: #fff;
+                    text-align: center;
+                    margin-left: 20px;
+                    transition: all 2s;
+                    position: relative;
+                    z-index: 1;
+                    img {
+                        height: 15px;
+                        vertical-align: sub;
+                        margin-right: 10px;
+                    }
+                    &:hover {
+                        &:after {
+                            opacity: 0;
+                        }
+                    }
+                    &.active {
+                        &:after {
+                            opacity: 0;
+                        }
+                    }
+                    &:before {
+                        position: absolute;
+                        -ms-border-radius: 23px;
+                        border-radius: 23px;
+                        left: 0;
+                        top: 0;
+                        content: "";
+                        width: 100%;
+                        height: 100%;
+                        z-index: -2;
+                        opacity: 1;
+                        transition: all .5s ease;
+                        background-image: -webkit-linear-gradient(left,#46bdf4 0%,#2b56f5 100%);
+                        background-image: linear-gradient(to right,#46bdf4 0%,#2b56f5 100%);
+                    }
+                    &:after {
+                        position: absolute;
+                        -ms-border-radius: 23px;
+                        border-radius: 23px;
+                        left: 2px;
+                        top: 2px;
+                        content: "";
+                        width: calc(100% - 4px);
+                        height: calc(100% - 4px);
+                        z-index: -1;
+                        opacity: 1;
+                        background: #051276;
+                        transition: all .5s ease;
+                    }
+                }
+            }
+        }
+    }
 }
 </style>

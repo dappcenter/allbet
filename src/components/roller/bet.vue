@@ -1,7 +1,7 @@
 <template>
-	<section class="module-bet">
+	<section class="module-roller-bet">
 		<div class="mask"></div>
-		<div class="game-status">
+		<div class="game-status nominscreen">
 			<div class="container">
 				<p v-if="diceStatistics.newcomers.length > 0">{{$fmtAccount(diceStatistics.newcomers[0])}} {{$t("message.GameEnter")}}</p>
 				<p v-else></p>
@@ -53,7 +53,9 @@
 				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} ETH</span></h4>
 				<div class="flex-wrap">
 					<div class="input-wrap">
-						<label></label>
+						<label>
+							<!-- <img src="../../../public/img/eth_icon.png" alt=""> -->
+						</label>
 						<input type="text" v-model="amount">
 						<div class="amount-handle">
 							<span class="add" @click="onAdd"></span>
@@ -68,9 +70,10 @@
 					</div>
 				</div>
 				<div class="bet-wrap">
-					<span class="fl"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
+					<span class="fl nominscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
 					<button v-if="currentAddr.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
+					<span class="fl minscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
 					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
@@ -113,7 +116,7 @@ export default {
 		this.getRule()
 		setTimeout(() => {
 			if(!this.web3.web3Instance) return
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0x476af09b684494d101a640625f904b14e361a4bd");
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0x85f03a884c91fc57e3438532cda60fade63d6af3");
 		}, 2000)
 	},
     mounted() {
@@ -362,7 +365,7 @@ export default {
 </script>
 
 <style lang="less">
-	.module-bet {
+	.module-roller-bet {
 		position: relative;
 		text-align: center;
 		-moz-user-select:none; /*火狐*/
@@ -671,15 +674,56 @@ export default {
 		}	
 	}
 	@media screen and (max-width: 800px){
-		.module-bet {
+		.module-roller-bet {
+			.game-content {
+				width: auto;
+				margin: 10px auto;
+				.slider-wrap {
+					margin: 40px 0;
+				}
+				.ctn-btm {
+					h4 {
+						width: auto;
+					}
+					.flex-wrap {
+						flex-wrap: wrap;
+						.input-wrap {
+							width: 100%;
+							margin: 0;
+							label {
+							}
+							input {
+								flex: 1;
+								font-size: 17px;
+								width: 70%;
+							}
+						}
+						.hotkeys {
+							margin-left: 0;
+							justify-content: space-between;
+							width: 100%;
+							margin-top: 10px;
+							span {
+								flex: initial;
+								width: 24%;
+								margin-left: 0;
+							}
+						}
+					}
+					.bet-wrap {
+						flex-wrap: wrap;
+						margin-top: 40px;
+						.enter {
+							width: 100%;
+							margin-bottom: 18px;
+						}
+					}
+				}
+			}
 			h2 {
 				display: none;
 			}
-			.hotkeys {
-				margin: 0;
-				justify-content: space-around;
-				width: 100%;
-			}
+			
 			.tip {
 				margin-top: 0;
 			}

@@ -1,9 +1,9 @@
 <template>
-	<section class="module-record">
+	<section class="module-roller-record">
 		<div class="nav">
-			<a href="javascript:;" class="white" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
+			<a href="javascript:;" class="white tl" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
 			<a href="javascript:;" class="golden" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
-			<a href="javascript:;" class="green" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
+			<a href="javascript:;" class="green tr" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
@@ -12,40 +12,40 @@
 			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn}}</i>ETH</span>
 		</div>
 		<div class="t-head">
-			<span>{{$t("message.GameTime")}}</span>
+			<span class="tl">{{$t("message.GameTime")}}</span>
 			<span>{{$t("message.GamePlay")}}</span>
-			<span>{{$t("message.GameBetNum")}}</span>
-			<span>{{$t("message.GameForecast")}}</span>
-			<span>{{$t("message.GameLucky")}}</span>
-			<span>{{$t("message.GameOdds")}}</span>
-			<span>{{$t("message.GameReward")}}</span>
-			<span>AB</span>
+			<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
+			<span class="nominscreen">{{$t("message.GameForecast")}}</span>
+			<span class="nominscreen">{{$t("message.GameLucky")}}</span>
+			<span class="nominscreen">{{$t("message.GameOdds")}}</span>
+			<span class="tr">{{$t("message.GameReward")}}</span>
+			<span class="nominscreen">AB</span>
 		</div>
 		<div class="t-body">
 			<ul class="list-content" v-for="item in recordsList">
-				<li class="">
+				<li class="tl">
 					<span>{{$fmtDate(item.createTime, "full")}}</span>
 				</li>
 				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
 				</li>
-				<li class="">
+				<li class="nominscreen">
 					<span>{{item.coinAmount}} ETH</span>
 				</li>
-				<li class="">
+				<li class="nominscreen">
 					<span>{{item.guess}}</span>
 				</li>
-				<li class="">
+				<li class="nominscreen">
 					<span>{{item.luckyNum}}</span>
 				</li>
-				<li class="">
+				<li class="nominscreen">
 					<span>{{item.odds}}</span>
 				</li>
-				<li class="golden">
+				<li class="golden tr">
 					<span v-if="item.rewards > 0">{{item.realRewards}} ETH</span>
 					<span v-else></span>
 				</li>
-				<li class="">
+				<li class="nominscreen">
 					<span>{{item.abNum}} AB</span>
 				</li>
 			</ul>
@@ -136,7 +136,7 @@ export default {
 
 
 <style lang="less">
-.module-record {
+.module-roller-record {
     box-sizing: border-box;
 	position: relative;
 	background: url(../../../public/img/game_bg03.jpg) repeat-y top;
@@ -275,8 +275,25 @@ export default {
 	}
 }
 @media screen and (max-width: 800px){
-	.module-record {
-		
+	.module-roller-record {
+		padding: 0 20px;
+		.tl {
+			text-align: left !important;
+		}
+		.tr {
+			text-align: right !important;
+		}
+		.nav {
+			justify-content: space-between;
+			height: auto;
+			a {
+				margin: 0;
+				line-height: 60px;
+			}
+		}
+		.t-head {
+			padding: 0;
+		}
 	}
 }
 </style>

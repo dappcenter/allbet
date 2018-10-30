@@ -63,6 +63,27 @@ export default {
 }
 @media screen and (max-width: 800px){
     .footerbar {
+        padding: 22px 0;
+        height: auto;
+        .container {
+            flex-wrap: wrap;
+            height: auto;
+            .linklist {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0 40px;
+                a {
+                    margin-right: 0;
+                }
+            }
+            p {
+                width: 100%;
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+        
         ul {
             flex-wrap: wrap;
             padding-bottom: 30px;

@@ -8,7 +8,7 @@
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
-            <h4>提示</h4>    
+            <h4>{{$t("message.PopTips")}}</h4>    
             <p>{{confirmOption.content}}</p>
             <div class="btn-wrap">
 				<button v-for="btn in confirmOption.btn" :class="btn.type" @click="onConfirmBtn(btn.cb)">{{btn.text}}</button>

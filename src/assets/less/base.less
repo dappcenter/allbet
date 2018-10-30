@@ -14,6 +14,10 @@
     margin: 0 auto;
 }
 
+.minscreen {
+    display: none;
+}
+
 .mu-popover {
     z-index: 99999999 !important;
 }
@@ -26,4 +30,17 @@
     color: #1246BD;
     background-color: #DBE7FF;
     font-weight: 700;
+}
+
+
+@media screen and (max-width: 800px){
+    .nominscreen {
+        display: none !important;
+    }
+    .minscreen {
+        display: block;
+    }
+    .container {
+        width: 100%;
+    }
 }
