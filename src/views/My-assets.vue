@@ -22,7 +22,7 @@
 					<input type="text" v-model="formData.destAddress">
 					ETH
 				</div>
-				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{myAssets.eth}} ETH</span></p>
+				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
 				<div class="input-div">
 					<input type="text" v-model="formData.amount">
 					ETH
@@ -98,11 +98,38 @@ import {mapMutations, mapState} from "vuex"
 		},
 		//提币
 		withdrawDo(type) {
+			if ((this.formData.destAddress + '').trim() == '') {
+				this.alert({
+						type: "warning",
+						msg: this.$t('message.assetsDestAddEmpty')
+				})
+				return false
+			}
+			if ((this.formData.amount + '').trim() == '' || Number(this.formData.amount) <= 0) {
+				this.alert({
+						type: "warning",
+						msg: this.$t('message.assetsMentionAmount')
+				})
+				return false
+			}
+			if (Number(this.currentAddr.eth) < Number(this.formData.amount)) {
+				this.alert({
+						type: "warning",
+						msg: this.$t('message.assetsNotEnough')
+				})
+				return false
+			}
 			this.$http.post('/app/transfer/withdraw', {
 				"amount": this.formData.amount,
 				"coinAddress": this.currentAddr.coinAddress,
 				"destAddress": this.formData.destAddress,
 				"withdrawType": type
+			}).then( res => {
+				if (res.code == 200) {
+					this.formData.destAddress = ''
+					this.formData.amount = ''
+					this.$store.dispatch('updateProperty')
+				}
 			})
 		},
 		// 获取我的资产

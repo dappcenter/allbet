@@ -100,7 +100,9 @@ export default {
         assetsSell: "出售",
         assetsSuccessCopy: "复制成功!",
         assetsFailCopy: "复制失败，请手动复制！",
-
+        assetsDestAddEmpty: "提币地址不能为空！",
+        assetsNotEnough: "余额不足",
+        assetsMentionAmount: "提币金额必须为正数！",
 
         // 交易记录页
         tradeRecorde: "交易记录",
