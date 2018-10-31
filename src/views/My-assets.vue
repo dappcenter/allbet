@@ -4,92 +4,94 @@
 	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
-			<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
-			<li v-show="currentAddr.platform == 'DISPATCHER'"><div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
-			<div class="charge"  v-show="displayStatus.showChargeBill && currentAddr.platform == 'DISPATCHER'">
-				<div src="" alt="" id="qrcode1"></div>
-				<div class="charge-desc">
-					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<div class="address"><div id="copy_text">{{currentAddr.coinAddress}}</div>
-						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
-					</div>
-					<p>{{$t('message.assetsTips')}}</p>
-				</div>
-			</div>
-			<div class="mention" v-show="displayStatus.showMentionBill && currentAddr.platform == 'DISPATCHER'">
-				<p>{{$t('message.assetsCoinAddress')}}:</p>
-				<div class="input-div">
-					<input type="text" v-model="formData.destAddress">
-					ETH
-				</div>
-				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
-				<div class="input-div">
-					<input type="text" v-model="formData.amount">
-					ETH
-				</div>
-				<!-- <div class="poundage">
-					<div class="">
-						<p>{{$t('message.assetsHandlingFee')}}</p>
-						<div class="input-div">
-							<input type="text" name="" value="">
-							ETH
+			<ul>
+				<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
+				<li v-show="currentAddr.platform == 'DISPATCHER'"><div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
+				<div class="charge"  v-show="displayStatus.showChargeBill && currentAddr.platform == 'DISPATCHER'">
+					<div src="" alt="" id="qrcode1"></div>
+					<div class="charge-desc">
+						<p>{{$t('message.assetsRechargeAddress')}}：</p>
+						<div class="address"><div id="copy_text">{{currentAddr.coinAddress}}</div>
+							<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
 						</div>
+						<p>{{$t('message.assetsTips')}}</p>
 					</div>
-					<div class="">
-						<p>{{$t('message.assetsArrivalAmount')}}</p>
-						<div class="input-div">
-							<input type="text" name="" value="">
-							ETH
-						</div>
-					</div>
-				</div> -->
-				<p class="attention">
-					<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
-				</p>
-			</div>
-			<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span><span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span></div></li>
-			<div class="charge"  v-show="displayStatus.showChargeAt">
-				<div src="" alt="" id="qrcode2"></div>
-				<div class="charge-desc">
-					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<div class="address"><div id="copy_text2">{{currentAddr.coinAddress}}</div>
-						<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy2">{{$t('message.assetsCopy')}}</span>
-					</div>
-					<p>{{$t('message.assetsTips')}}</p>
 				</div>
-			</div>
-			<div class="mention" v-show="displayStatus.showMentionAt">
-				<p>{{$t('message.assetsCoinAddress')}}:</p>
-				<div class="input-div">
-					<input type="text" v-model="formData.destAddress">
-					AT
-				</div>
-				<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
-				<div class="input-div">
-					<input type="text" v-model="formData.amount">
-					AT
-				</div>
-				<!-- <div class="poundage">
-					<div class="">
-						<p>{{$t('message.assetsHandlingFee')}}</p>
-						<div class="input-div">
-							<input type="text" name="" value="">
-							ETH
-						</div>
+				<div class="mention" v-show="displayStatus.showMentionBill && currentAddr.platform == 'DISPATCHER'">
+					<p>{{$t('message.assetsCoinAddress')}}:</p>
+					<div class="input-div">
+						<input type="text" v-model="formData.destAddress">
+						ETH
 					</div>
-					<div class="">
-						<p>{{$t('message.assetsArrivalAmount')}}</p>
-						<div class="input-div">
-							<input type="text" name="" value="">
-							ETH
-						</div>
+					<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
+					<div class="input-div">
+						<input type="text" v-model="formData.amount">
+						ETH
 					</div>
-				</div> -->
-				<p class="attention">
-					<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
-				</p>
-			</div>
-			<li><div>AB</div><div>{{currentAddr.bet}}</div><div>--</div></li>
+					<!-- <div class="poundage">
+						<div class="">
+							<p>{{$t('message.assetsHandlingFee')}}</p>
+							<div class="input-div">
+								<input type="text" name="" value="">
+								ETH
+							</div>
+						</div>
+						<div class="">
+							<p>{{$t('message.assetsArrivalAmount')}}</p>
+							<div class="input-div">
+								<input type="text" name="" value="">
+								ETH
+							</div>
+						</div>
+					</div> -->
+					<p class="attention">
+						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
+					</p>
+				</div>
+				<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span><span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span></div></li>
+				<div class="charge"  v-show="displayStatus.showChargeAt">
+					<div src="" alt="" id="qrcode2"></div>
+					<div class="charge-desc">
+						<p>{{$t('message.assetsRechargeAddress')}}：</p>
+						<div class="address"><div id="copy_text2">{{currentAddr.coinAddress}}</div>
+							<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy2">{{$t('message.assetsCopy')}}</span>
+						</div>
+						<p>{{$t('message.assetsTips')}}</p>
+					</div>
+				</div>
+				<div class="mention" v-show="displayStatus.showMentionAt">
+					<p>{{$t('message.assetsCoinAddress')}}:</p>
+					<div class="input-div">
+						<input type="text" v-model="formData.destAddress">
+						AT
+					</div>
+					<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+					<div class="input-div">
+						<input type="text" v-model="formData.amount">
+						AT
+					</div>
+					<!-- <div class="poundage">
+						<div class="">
+							<p>{{$t('message.assetsHandlingFee')}}</p>
+							<div class="input-div">
+								<input type="text" name="" value="">
+								ETH
+							</div>
+						</div>
+						<div class="">
+							<p>{{$t('message.assetsArrivalAmount')}}</p>
+							<div class="input-div">
+								<input type="text" name="" value="">
+								ETH
+							</div>
+						</div>
+					</div> -->
+					<p class="attention">
+						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
+					</p>
+				</div>
+				<li><div>AB</div><div>{{currentAddr.bet}}</div><div>--</div></li>
+			</ul>
 		</div>
 	</div>
 	<FooterBar ref="ft"></FooterBar>
@@ -274,27 +276,29 @@ import {mapMutations, mapState} from "vuex"
 	.my-assets {
 		margin: 0 auto;
 		.main {
-			background-color: #13207A;
+			background-color: #040810;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #09135E;
+				background-color: #193570;
 				margin: auto;
-				padding: 0 40px;
 				.title {
 					position: relative;
-					padding: 15px 0;
+					padding: 15px 40px;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
 					font-size: 18px;
-
+					overflow: hidden;
 					span:last-child {
-						position: absolute;
-						right: 0;
+						float: right;
 						color: #75C1FF;
 						font-size: 16px;
 						cursor: pointer;
 					}
+				}
+				ul {
+					background-color: #172F61;
+					padding: 0 40px;
 				}
 				.charge {
 					display: flex;
@@ -439,7 +443,12 @@ import {mapMutations, mapState} from "vuex"
 			.main {
 				.content {
 					width: 100%;
-					padding: 0 10px;
+					.title {
+						padding: 10px;
+					}
+					ul {
+						padding: 0 10px;
+					}
 					.charge {
 						flex-direction: column;
 				    width: 100%;

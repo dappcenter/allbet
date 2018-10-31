@@ -128,6 +128,8 @@ export default {
 					this.recordsList = res.result.records.list
 					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
+				}else {
+					alert(res.msg)
 				}
 			})
 		}

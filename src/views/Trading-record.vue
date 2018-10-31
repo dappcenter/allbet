@@ -1,13 +1,13 @@
 <template>
 	<div class="trading-record">
 	<HeaderBar></HeaderBar>
-	<div class="main">
+	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
 			<p class="title">
 				<span><router-link to="my-assets">{{$t('message.assetsOfMine')}}</router-link> > {{$t('message.tradeRecorde')}}</span>
 				<span>
 					{{$t('message.tradeType')}}:
-					<select class="" name="" @change="getTradeRecord" v-model="operation">
+					<select class="" name="" @change="selectChange" v-model="operation">
 						<option value="ALL">{{$t('message.tradeAll')}}</option>
 						 <option value="ETH_RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
 						 <option value="ETH_WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
@@ -21,7 +21,7 @@
 						 <option value="INVITE_BONUS_AB">{{$t('message.tradeInviteBancor')}}</option>
 					</select>
 					{{$t('message.tradeCoinType')}}:
-					<select class="" name="" @change="getTradeRecord" v-model="coinType">
+					<select class="" name="" @change="selectChange" v-model="coinType">
 						<option value="ALL">{{$t('message.tradeAll')}}</option>
 						 <option value="ETH">ETH</option>
 						 <option value="AT">AT</option>
@@ -31,14 +31,13 @@
 		</p>
 			<li><div>{{$t('message.tradeTime')}}</div><div>{{$t('message.tradeCoinType')}}</div><div>{{$t('message.tradeType')}}</div><div>{{$t('message.homeVolume')}}</div><div>{{$t('message.homeState')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 			<li v-for="item in list">
-				<div>{{$fmtDate(item.createTime, "full")}}</div>
+				<div>{{$fmtDate(item.createTime, "full")}}</div> 
 				<div>{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
 				<div>{{filterAmount(item)}}</div>
 				<div>已完成</div>
 				<!-- <div class="operation" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']">{{$t('message.tradeDetail')}}</div> -->
 				<div class="operation" @click="goDetail(item)">{{item.platform !='DISPATCHER' ? $t('message.tradeDetail'): '- -'}}</div>
-
 			</li>
 			<!-- <div class="charge">
 				<div class="desc address">
@@ -52,7 +51,7 @@
 			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
-			    <mu-pagination :total="total" :page-size="20" :current.sync="current" @change="getPaginationChange"></mu-pagination>
+			    <mu-pagination :total="total" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
 		</div>
@@ -65,121 +64,131 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
- export default {
-	 data () {
-		 return {
-			 ethPrice: 15.3,
-			 current: 1,
-			 list: [],
-			 total: 1,
-			 coinType: "ALL",
-			 operation: "ALL",
-			 address: "", //提币地址
-			 handlingFee: "", //手续费
-			 tradeId: "", //手续费
-			 dealingTime: "", //钱包处理时间
-		 }
-	 },
-    created() {
-	   this.getTradeRecord()
-     },
-     components: {
-	    HeaderBar,
-	    FooterBar,
-		},
-		methods: {
-			// 交易类型的状态
-			filterState(item) {
-				switch (item.operation) {
-					case 'ETH_RECHARGE':
-					return this.$t('message.tradeEthRecharge')
-					break;
-					case 'ETH_WITHDRAW':
-					return this.$t('message.tradeEthWithdraw')
-					break;
-					case 'BANCOR_BUY_AT':
-					return this.$t('message.tradeBancorBuyAT')
-					break;
-					case 'BANCOR_SELL_AT':
-					return this.$t('message.tradeBancorSellAT')
-					break;
-					case 'BANCOR_BUY_ETH':
-					return this.$t('message.tradeBancorBuyEth')
-					break;
-					case 'BANCOR_SELL_ETH':
-					return this.$t('message.tradeBancorSellEth')
-					break;
-					case 'DICE':
-					return this.$t('message.tradeDice')
-					break;
-					case 'DICE_REWARD':
-					return this.$t('message.tradeDiceReward')
-					break;
-					case 'DICE_DIG':
-					return this.$t('message.tradeDiceDig')
-					break;
-					case 'INVITE_BONUS_AB':
-					return this.$t('message.tradeInviteBancor')
-					break;
-				}
-			},
-			// 数量金额
-			filterAmount(item) {
-				if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB'].indexOf(item.operation) > -1) {
-					return '+ ' + item.amount
-				} else {
-					return '- ' + item.amount
-				}
-			},
-			// 获取我的资产
-			getTradeRecord () {
-				this.$http.get("/app/user/trade_records",{
-					params: {
-							"coinType": this.coinType,
-							"operation": this.operation,
-							"page": this.current,
-							'pageSize': 20
-					}
-				}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-						this.list = res.result.list
-						this.total = res.result.total*1
-					}
-				})
-			},
-
-			 // 点击分页
-			getPaginationChange() {
-				console.log('this.current ',this.current);
-        this.getTradeRecord();
-      },
-			// 详情
-			goDetail (item) {
-				if (item.platform =='DISPATCHER') return
-				this.$http.get("/app/user/trade_records/" + item.businessId,{
-
-				}).then((res) => {
-					console.log(res);
-					if (res.code == 200) {
-
-					}
-				})
+export default {
+	data () {
+		return {
+			ethPrice: 15.3,
+			current: 1,
+			list: [],
+			total: 1,
+			coinType: "ALL",
+			operation: "ALL",
+			address: "", //提币地址
+			handlingFee: "", //手续费
+			tradeId: "", //手续费
+			dealingTime: "", //钱包处理时间
+		}
+	},
+	mounted() {
+		if(this.currentAddr.token) {
+			this.getTradeRecord()
+		}
+	},
+    components: {
+		HeaderBar,
+		FooterBar,
+	},
+	watch: {
+		currentAddr(newVal) {
+			if(newVal.token) {
+				this.getTradeRecord()
 			}
 		}
- };
+	},
+	computed: {
+		currentAddr() {
+			return this.$store.state.user.currentAddr
+		}
+	},
+	methods: {
+		// 交易类型的状态
+		filterState(item) {
+			switch (item.operation) {
+				case 'ETH_RECHARGE':
+				return this.$t('message.tradeEthRecharge')
+				break;
+				case 'ETH_WITHDRAW':
+				return this.$t('message.tradeEthWithdraw')
+				break;
+				case 'BANCOR_BUY_AT':
+				return this.$t('message.tradeBancorBuyAT')
+				break;
+				case 'BANCOR_SELL_AT':
+				return this.$t('message.tradeBancorSellAT')
+				break;
+				case 'BANCOR_BUY_ETH':
+				return this.$t('message.tradeBancorBuyEth')
+				break;
+				case 'BANCOR_SELL_ETH':
+				return this.$t('message.tradeBancorSellEth')
+				break;
+				case 'DICE':
+				return this.$t('message.tradeDice')
+				break;
+				case 'DICE_REWARD':
+				return this.$t('message.tradeDiceReward')
+				break;
+				case 'DICE_DIG':
+				return this.$t('message.tradeDiceDig')
+				break;
+				case 'INVITE_BONUS_AB':
+				return this.$t('message.tradeInviteBancor')
+				break;
+			}
+		},
+		// 数量金额
+		filterAmount(item) {
+			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB'].indexOf(item.operation) > -1) {
+				return '+ ' + item.amount
+			} else {
+				return '- ' + item.amount
+			}
+		},
+		// 获取我的交易记录
+		getTradeRecord () {
+			this.$http.get("/app/user/trade_records",{
+				params: {
+					"coinType": this.coinType,
+					"operation": this.operation,
+					"page": this.current,
+					'pageSize': 20
+				}
+			}).then((res) => {
+				if (res.code == 200) {
+					this.list = res.result.list
+					this.total = res.result.total*1
+				}
+			})
+		},
+		// 详情
+		goDetail (item) {
+			if (item.platform =='DISPATCHER') return
+			this.$http.get("/app/user/trade_records/" + item.businessId,{
+
+			}).then((res) => {
+				console.log(res);
+				if (res.code == 200) {
+
+				}
+			})
+		},
+		selectChange() {
+			this.current = 1
+			this.getTradeRecord()
+		}
+	}
+}
 </script>
 
- <style lang="less">
+<style lang="less">
 	.trading-record {
 		margin: 0 auto;
 		.main {
-			background-color: #2F59B7;
+			background-color: #040810;
 			padding: 40px 0;
-			min-height: 821px;
 			.content {
 				width: 1200px;
-				background-color: #1A439E;
+				background-color: #193570;
 				margin: auto;
 				padding: 0 40px;
 				.title {
@@ -194,7 +203,6 @@ import FooterBar from "@/components/common/footer_bar"
 						color: #75C1FF;
 						font-size: 16px;
 					}
-
 					span a {
 						color: #fff !important;
 					}
@@ -268,7 +276,6 @@ import FooterBar from "@/components/common/footer_bar"
 				}
 			}
 		}
-
 	}
 	@media screen and (max-width: 800px) {
 		.trading-record {

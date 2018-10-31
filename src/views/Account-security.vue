@@ -79,6 +79,10 @@
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="register-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
+		<div class="input-wrap">
+			<label>{{$t('message.PopInviteCode')}}</label>
+			<input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
+		</div>
 		<div class="input-wrap" style="width:338px;">
 			<label>{{$t('message.PopPassword')}}</label>
 			<input type="password" v-model="formData.loginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
@@ -147,7 +151,7 @@ import {mapMutations, mapState} from "vuex"
 				"captcha": "",
 				"picCode": "",
 				"loginPwdCheck": "",
-
+				"inviteCode": "", //邀请码
 				"loginPwd": "",
 				"loginPwd2": "",
 
@@ -321,7 +325,8 @@ import {mapMutations, mapState} from "vuex"
 			let type = this.formData.bindingType
 			let postObj = {
 				"account": this.formData.phone,
-  				"password": Md5(this.formData.loginPwd)
+				"password": Md5(this.formData.loginPwd),
+				"inviteCode": this.formData.inviteCode
 			}
 			if(type == "PHONE") {
 				if(!this.verifyPhone()) return
