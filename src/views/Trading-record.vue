@@ -29,13 +29,21 @@
 					</select>
 				</span>
 		</p>
-			<li><div>{{$t('message.tradeTime')}}</div><div>{{$t('message.tradeCoinType')}}</div><div>{{$t('message.tradeType')}}</div><div>{{$t('message.homeVolume')}}</div><div>{{$t('message.homeState')}}</div><div>{{$t('message.homeOperation')}}</div></li>
+			<li>
+				<div>{{$t('message.tradeTime')}}</div>
+				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
+				<div>{{$t('message.tradeType')}}</div>
+				<div class="nominscreen">{{$t('message.homeVolume')}}</div>
+				<div class="nominscreen">{{$t('message.homeState')}}</div>
+				<div>{{$t('message.homeOperation')}}</div>
+			</li>
 			<li v-for="item in list">
-				<div>{{$fmtDate(item.createTime, "full")}}</div> 
-				<div>{{item.coinType}}</div>
+				<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
+				<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
+				<div class="nominscreen">{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
-				<div>{{filterAmount(item)}}</div>
-				<div>已完成</div>
+				<div class="nominscreen">{{filterAmount(item)}}</div>
+				<div class="nominscreen">已完成</div>
 				<!-- <div class="operation" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']">{{$t('message.tradeDetail')}}</div> -->
 				<div class="operation" @click="goDetail(item)">{{item.platform !='DISPATCHER' ? $t('message.tradeDetail'): '- -'}}</div>
 			</li>
@@ -54,6 +62,26 @@
 			    <mu-pagination :total="total" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
+
+			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
+					<p>{{$t('message.tradeDetail')}}</p>
+					<li>
+						<span>{{$t('message.assetsCoinAddress')}}:</span>
+						<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
+					</li>
+					<li>
+						<span>{{$t('message.tradeBlockchain')}}:</span>
+						<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
+					</li>
+					<li>
+						<span>{{$t('message.tradePlatform')}}:</span>
+						<div>0.005 ETH</div>
+					</li>
+					<li>
+						<span>{{$t('message.tradeProcessingTime')}}:</span>
+						<div>2018.10.31 17:46:34</div>
+					</li>
+			</mu-dialog>
 		</div>
 	</div>
 	<FooterBar ref="ft"></FooterBar>
@@ -77,6 +105,8 @@ export default {
 			handlingFee: "", //手续费
 			tradeId: "", //手续费
 			dealingTime: "", //钱包处理时间
+			tradingDetail: false, // 交易详情
+			detailData: {},
 		}
 	},
 	mounted() {
@@ -168,7 +198,8 @@ export default {
 			}).then((res) => {
 				console.log(res);
 				if (res.code == 200) {
-
+					this.detailData = res.result
+					this.tradingDetail = true
 				}
 			})
 		},
@@ -192,14 +223,22 @@ export default {
 				margin: auto;
 				padding: 0 40px;
 				.title {
-					position: relative;
+					display: flex;
+			    align-items: center;
+			    justify-content: left;
 					padding: 15px 0;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
 					font-size: 18px;
+					span:first-child {
+						width: 30%;
+					}
 					span:last-child {
-						position: absolute;
-						right: 0;
+						flex: 1;
+						text-align: right;
+						select:last-child {
+							margin-right: 0;
+						}
 						color: #75C1FF;
 						font-size: 16px;
 					}
@@ -222,6 +261,9 @@ export default {
 							color: #fff;
 						}
 					}
+				}
+				li span {
+					width: 33.3%;
 				}
 				.charge {
 					background-color: #123789;
@@ -274,16 +316,83 @@ export default {
 					 	color: transparent;
 					 }
 				}
+				.mu-dialog-body {
+					background-color: #214797;
+					color: #fff;
+					p {
+						font-size:18px;
+						font-weight:bold;
+						text-align: center;
+						padding: 10px;
+					}
+					li {
+						font-size: 14px;
+						color: #fff;
+						display: flex;
+						justify-content: flex-start;
+						align-items: center;
+						border-bottom: none;
+						line-height: 4.5;
+						span {
+							color: #C8C8C8;
+							text-align: left;
+							width: 25%;
+						}
+						div {
+							text-align: right;
+							flex: 1;
+						}
+					}
+					// padding: 10px;
+				}
 			}
 		}
 	}
 	@media screen and (max-width: 800px) {
 		.trading-record {
-			.fund-pool {
-				flex-direction: column;
-				padding: 0;
-				&>section {
+			.main {
+				.content {
 					width: 100%;
+					padding: 0 10px;
+					.title {
+						font-size: 16px;
+				    flex-direction: column;
+						span:first-child {
+							width: 100%;
+						}
+						span:last-child {
+							margin-top: 20px;
+							width: 100%;
+							font-size: 14px;
+							text-align: left;
+							select {
+								width: 29%;
+							}
+							select:last-child {
+								margin-right: 0;
+							}
+						}
+					}
+					.mu-dialog  {
+						max-width: 85%;
+						.mu-dialog-body {
+							padding: 10px;
+							li {
+								flex-direction: column;
+								line-height: inherit;
+								span {
+									width: 100%;
+									 margin: 15px 0 5px 0;
+								}
+								div {
+									width: 100%;
+									text-align: left;
+									word-break: break-all;
+									line-height: 1.5;
+								}
+							}
+						}
+					}
 				}
 			}
 		}

@@ -107,8 +107,8 @@ export default {
         // 交易记录页
         tradeRecorde: "Trade Recorde",
         tradeTime: "Time",
-        tradeCoinType: "Coin Type",
-        tradeType: "Trade Type",
+        tradeCoinType: "CoinType",
+        tradeType: "TradeType",
 
         tradeAll: "All",
         tradeEthRecharge: "ETH RECHARGE",
