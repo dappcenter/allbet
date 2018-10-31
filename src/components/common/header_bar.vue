@@ -31,8 +31,7 @@
                 <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
-                <a href="javascript:;" v-show="!isShowFoldMunu" class="fold-menu-on minscreen" @click="isShowFoldMunu = true"></a>
-                <a href="javascript:;" v-show="isShowFoldMunu" class="fold-menu-off minscreen" @click="isShowFoldMunu = false"></a>
+                <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a>
             </div>
         </div>
         <div class="container notice" v-if="notice">
@@ -843,6 +842,10 @@ export default {
             background: url(../../../public/img/menu_icon_off.png) no-repeat center;
             background-size: 90%;
             margin-left: 20px;
+            &.on {
+                background: url(../../../public/img/menu_icon.png) no-repeat center;
+                background-size: 100%;
+            }
         }
     }
     .notice {

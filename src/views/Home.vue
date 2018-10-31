@@ -20,14 +20,14 @@
 				<div class="fund-number">
 					<img src="../../public/home/eth-icon.png" class="img1">
 					<div class="">
-						<p>{{result.ethPool}}ETH</p>
+						<p>{{Math.floor(result.ethPool*1000)/1000}}ETH</p>
 						<span>{{$t('message.homeETHReserve')}}</span>
 					</div>
 				</div>
 				<div class="fund-number fund-sepc">
 					<img src="../../public/home/at-icon.png" class="img2">
 					<div class="">
-						<p>{{result.dbPool}}AT</p>
+						<p>{{Math.floor(result.dbPool*1000)/1000}}AT</p>
 						<span>{{$t('message.homeATReserve')}}</span>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 			<div class="buy-sell">
 				<div class="buy">
 					<p class="title">{{$t('message.homeBuyAT')}}</p>
-					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.eth}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.eth*1000)/1000}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">{{$t('message.homePrice')}}</span>
 						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="ethPrice" @focus="priceFocus('ethPrice')" @blur="priceOnblur('ethPrice')">
@@ -56,7 +56,7 @@
 				</div>
 				<div class="buy sell">
 					<p class="title">{{$t('message.homeSellAT')}}</p>
-					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{this.getCurrentAddr.at}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">{{$t('message.homePrice')}}</span>
 						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="sellAtPrice" @focus="priceFocus('sellAtPrice')" @blur="priceOnblur('sellAtPrice')">
@@ -91,10 +91,10 @@
 					<li v-for="item in recentOrderList">
 						<span>{{item.address}}</span>
 						<span class="nominscreen">{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
-						<span>{{item.tradeType == 'MARKET_BUY'?'+ '+item.outAmount:'- '+item.inAmount}}</span>
+						<span>{{item.tradeType == 'MARKET_BUY'?'+ '+Math.floor(item.outAmount*1000)/1000:'- '+Math.floor(item.inAmount*1000)/1000}}</span>
 						<span>{{item.dbPrice}} ETH</span>
 						<span :class="['nominscreen',item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
-						<span>{{$fmtDate(item.recdDoneTime, "full")}}</span>
+						<span style="font-family: initial;">{{$fmtDate(item.recdDoneTime, "full")}}</span>
 					</li>
 				</div>
 				<div class="my-order" v-else>
@@ -105,7 +105,7 @@
 						<span>{{filter1(item)}}</span>
 						<span>{{item.dbPrice}} ETH</span>
 						<span :class="[item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
-						<span>{{$fmtDate(item.recdCreateTime, "full")}}</span>
+						<span style="font-family: initial;">{{$fmtDate(item.recdCreateTime, "full")}}</span>
 						<span>{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span>
 						<span>{{filterState(item)}}</span>
 						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
@@ -221,9 +221,9 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		filter1(item) {
 			if (item.tradeType == 'MARKET_BUY' || item.tradeType == 'PUTUP_BUY') {
-				return item.outAmount?'+ '+item.outAmount:'--'
+				return Math.floor(item.outAmount*1000)/1000 ? '+ '+Math.floor(item.outAmount*1000)/1000 : '--'
 			} else {
-				return item.inAmount ? '- '+item.inAmount:'- -'
+				return Math.floor(item.inAmount*1000)/1000 ? '- '+Math.floor(item.inAmount*1000)/1000 : '- -'
 			}
 		},
 		filterState(item) {

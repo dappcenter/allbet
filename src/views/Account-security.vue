@@ -177,19 +177,19 @@ import {mapMutations, mapState} from "vuex"
 				haveTrustee: false,
 				MetaMaskAddress: []
 			}
-			this.getAssets()
+			if(this.currentAddr.token) {
+				this.getAssets()
+			}
 		},
 		displayStatus: {
 			handler: function() {
 				this.formData = Object.assign(this.formData, {
-					phone: "",   //手机号
 					picCode: "",
 					captcha: "",   //短信验证码
 					emailCaptcha: "",
 					resetCaptcha: "",
 					loginPwd: "",  //密码
 					loginPwd2: "",  //2次密码
-					email: "",  //邮箱账号
 					picCode: "", //图形验证码
 					resetLoginPwd: "",
 					resetLoginPwd2: "",
@@ -199,7 +199,9 @@ import {mapMutations, mapState} from "vuex"
 		},
 	},
 	mounted() {
-		this.getAssets()
+		if(this.currentAddr.token) {
+			this.getAssets()
+		}
 	},
     computed: {
 		...mapState({
@@ -322,9 +324,10 @@ import {mapMutations, mapState} from "vuex"
   				"password": Md5(this.formData.loginPwd)
 			}
 			if(type == "PHONE") {
-				if(!this.verifyPhone() || !this.verifyCaptcha()) return
+				if(!this.verifyPhone()) return
 			}else {
-				if(!this.verifyEmail() || !this.verifyCaptcha()) return
+				postObj.account = this.formData.email
+				if(!this.verifyEmail()) return
 			}
 			if(!this.verifyPassword()) return
 			this.$http.post("/app/user/binding_two", postObj).then(res => {
@@ -446,7 +449,7 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 二次密码验证
         verifyPassword() {
-            var regx =/^[a-zA-Z0-9]{8,12}$/
+            var regx =/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,12}$/
             if(!regx.test(this.formData.loginPwd)) {
                 this.alert({
                     type: "info",
@@ -482,12 +485,12 @@ import {mapMutations, mapState} from "vuex"
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",
-					msg: this.$t('message.Popsuccess')
+					msg: that.$t('message.Popsuccess')
 				})
 			}).on("error", function(error) {
 				that.alert({
 					type: "error",
-					msg: this.$t('message.PopFail')
+					msg: that.$t('message.PopFail')
 				})
 			})
 		},

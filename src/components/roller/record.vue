@@ -7,9 +7,9 @@
 			<a href="javascript:;" class="tr" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
-			<span class="fl">{{$t("message.GameParticipation")}} <i>{{diceBasis.totalParticipate}}</i>次</span>
-			<span class="fr">AB: <i>{{diceBasis.totalAb}}</i></span>
-			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn}}</i>ETH</span>
+			<span class="fl">{{$t("message.GameParticipation")}} <i>{{diceBasis.totalParticipate || 0}}</i>次</span>
+			<span class="fr">AB: <i>{{diceBasis.totalAb || 0}}</i></span>
+			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn || 0}}</i>ETH</span>
 		</div>
 		<div class="t-head">
 			<span class="tl">{{$t("message.GameTime")}}</span>
@@ -44,7 +44,7 @@
 				</li>
 				<li class="golden tr">
 					<span v-if="item.rewards > 0">{{item.realRewards}} ETH</span>
-					<span v-else></span>
+					<span v-else>--</span>
 				</li>
 				<li class="nominscreen">
 					<span>{{item.abNum}} AB</span>
@@ -110,7 +110,10 @@ export default {
 			})
 		},
 		getDataPoll() {
-			if(!this.currentAddr.coinAddress) return
+			if(!this.currentAddr.coinAddress && this.boardType == "ME") {
+				this.boardType = "RECENT"
+				return
+			}
 			PollHttp({
 				type: 'get',
 				url: '/app/dice/board',
@@ -260,6 +263,9 @@ export default {
 					text-overflow: ellipsis;
 					white-space: nowrap;
 				}
+				.minscreen {
+					display: none;
+				}
 			}
 		}
 	}
@@ -304,6 +310,9 @@ export default {
 				padding: 0;
 				li {
 					line-height: 40px;
+					.minscreen {
+						display: block;
+					}
 				}
 			}
 		}

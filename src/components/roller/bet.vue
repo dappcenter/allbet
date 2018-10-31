@@ -225,7 +225,7 @@ export default {
 				})
 				return
 			}
-			if(this.amount < this.rule.minInvest) {
+			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
 					msg: "下注金额不能低于" + this.rule.minInvest + "ETH"

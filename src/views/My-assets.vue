@@ -132,7 +132,9 @@ import {mapMutations, mapState} from "vuex"
 		currentAddr() {
 			document.getElementById("qrcode1").innerHTML = ''
 			document.getElementById("qrcode2").innerHTML = ''
-			this.makeQrCode()
+			if(this.currentAddr.coinAddress) {
+				this.makeQrCode()
+			}
 		},
 		displayStatus: {
 			handler: function() {
@@ -150,7 +152,9 @@ import {mapMutations, mapState} from "vuex"
 	mounted () {
 		this.copyBtn = new Clipboard(this.$refs.copy)
 		this.copyBtn2 = new Clipboard(this.$refs.copy2)
-		this.makeQrCode()
+		if(this.currentAddr.coinAddress) {
+			this.makeQrCode()
+		}
 	},
 	methods: {
 		makeQrCode () {
