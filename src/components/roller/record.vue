@@ -43,7 +43,7 @@
 					<span>{{item.odds}}</span>
 				</li>
 				<li class="golden tr">
-					<span v-if="item.rewards > 0">{{item.realRewards}} ETH</span>
+					<span v-if="item.rewards > 0">{{item.rewards}} ETH</span>
 					<span v-else>--</span>
 				</li>
 				<li class="nominscreen">

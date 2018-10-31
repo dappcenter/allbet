@@ -4,7 +4,7 @@
 	<div class="main">
 		<div class="content">
 			<p class="title">
-				<span>{{$t('message.assetsOfMine')}} > {{$t('message.tradeRecorde')}}</span>
+				<span><router-link to="my-assets">{{$t('message.assetsOfMine')}}</router-link> > {{$t('message.tradeRecorde')}}</span>
 				<span>
 					{{$t('message.tradeType')}}:
 					<select class="" name="" @change="getTradeRecord" v-model="operation">
@@ -52,7 +52,7 @@
 			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
-			    <mu-pagination :total="total" :current.sync="current" @change="getPaginationChange"></mu-pagination>
+			    <mu-pagination :total="total" :page-size="20" :current.sync="current" @change="getPaginationChange"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
 		</div>
@@ -144,7 +144,7 @@ import FooterBar from "@/components/common/footer_bar"
 					console.log(res);
 					if (res.code == 200) {
 						this.list = res.result.list
-						this.total = Number(res.result.total)*10
+						this.total = res.result.total*1
 					}
 				})
 			},
@@ -199,12 +199,15 @@ import FooterBar from "@/components/common/footer_bar"
 							margin-right: 15px;
 							width: 120px;
 							background-color: #123789;
-					    border: 1px solid rgba(47,89,183,1);
-					    border-radius: 4px;
-					    outline: none;
-					    color: white;
+							border: 1px solid rgba(47,89,183,1);
+							border-radius: 4px;
+							outline: none;
+							color: white;
 							font-size: 12px;
 							height: 24px;
+						}
+						a {
+							color: #fff;
 						}
 					}
 				}
@@ -222,7 +225,7 @@ import FooterBar from "@/components/common/footer_bar"
 							color: #fff;
 						}
 						.left {
-								width: 60%;
+							width: 60%;
 						}
 						.right {
 							flex: 1;
@@ -239,7 +242,7 @@ import FooterBar from "@/components/common/footer_bar"
 					justify-content: center;
 					border-bottom: 1px solid #123990;
 					line-height: 3.5;
-					div {
+					&>div {
 						width: 33.3%;
 						text-align: center;
 					}
