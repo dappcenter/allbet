@@ -21,7 +21,7 @@
         <div class="qrcode">
 					<p class="invite-code minscreen">专属邀请二维码：</p>
 					<div class="qrcode-content">
-						<div alt="" id="qrcode1"></div>
+						<div alt="" id="qrcode1" ref="qrcode"></div>
 						<div class="invite-div">
 							<p>{{$t('message.invitationCode')}}</p>
 							<div class="copy-div1">
@@ -60,44 +60,51 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	  data () {
 		  return {
-				inviteBonus: '',
-		    inviteCount: '',
-		    inviteUrl: 'aaaaaaaaaa',
+				inviteBonus: '0',
+		    inviteCount: '0',
+		    inviteUrl: location.origin + "/index?inviteCode=",
 		    platformBonus: '',
 		  }
 	  },
 		computed: {
 			getCurrentAddr() {
+				this.inviteUrl = location.origin + "/index?inviteCode=" + this.$store.state.user.currentAddr.inviteCode
 				return this.$store.state.user.currentAddr
 			},
 		},
-    created () {
-			this.getInvite()
-    },
+		watch: {
+			getCurrentAddr(newVal) {
+				this.makeQRcode()
+				this.getInvite()
+			}
+		},
 		mounted () {
 			this.copyBtn = new Clipboard(this.$refs.copy)
 			this.copyBtn1 = new Clipboard(this.$refs.copy1)
+			this.makeQRcode()
+			this.getInvite()
 		},
     components: {
 	    HeaderBar,
 	    FooterBar,
     },
 		methods: {
+			makeQRcode() {
+				this.$refs.qrcode.innerHTML = ""
+				var qrcode = new QRCode(document.getElementById("qrcode1"), {
+						width: 108,
+						height: 108,
+				});
+				qrcode.makeCode(this.inviteUrl);
+			},
 			getInvite () {
-				this.$http.get("/app/user/invite",{
-
-				}).then((res) => {
+				this.$http.get("/app/user/invite",{}).then((res) => {
 					if (res.code == 200) {
 						let result = res.result || {}
 						this.inviteBonus = result.inviteBonus || 0
 						this.inviteCount = result.inviteCount || 0
 						// this.inviteUrl = result.inviteUrl
 						this.platformBonus = result.platformBonus
-						var qrcode = new QRCode(document.getElementById("qrcode1"), {
-							width: 108,
-							height: 108,
-						});
-						qrcode.makeCode(this.inviteUrl);
 					}
 				})
 			},
