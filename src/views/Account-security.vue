@@ -684,11 +684,9 @@ import {mapMutations, mapState} from "vuex"
 	}
 	@media screen and (max-width: 800px) {
 		.account-security {
-			.fund-pool {
-				flex-direction: column;
-				padding: 0;
-				&>section {
-					width: 100%;
+			.main {
+				.content {
+					width: auto;
 				}
 			}
 		}

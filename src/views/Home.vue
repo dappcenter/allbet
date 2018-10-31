@@ -2,7 +2,7 @@
 	<div class="home-page">
 	<HeaderBar type="steep"></HeaderBar>
 	<div class="main">
-		<div class="mask"></div>
+		<!-- <div class="mask"></div> -->
 		<div class="top">
 			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>

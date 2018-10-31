@@ -156,9 +156,8 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-	height: 100%;
-	background-color: rgba(000, 000, 000, .5);
-    
+    height: 100%;
+    background-color: rgba(000, 000, 000, .5);
   }
   .win-box {
       position: fixed;
@@ -184,7 +183,7 @@ body {
       font-size: 20px;
       color: #E34142;
       font-weight: 700;
-		cursor: pointer;
+		  cursor: pointer;
 		  margin-top: 30px;
 	  }
   }
@@ -243,11 +242,12 @@ body {
         margin-top: 15px;
       }
     }
+    .loading-shade {
+      .loading-box {
+        width: 20%;
+      }
+    } 
   }
-  .loading-shade {
-    .loading-box {
-      width: 15%;
-    }
-  } 
+  
 }
 </style>
