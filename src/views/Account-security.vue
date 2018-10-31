@@ -151,7 +151,7 @@ import {mapMutations, mapState} from "vuex"
 				"captcha": "",
 				"picCode": "",
 				"loginPwdCheck": "",
-				"inviteCode": "", //邀请码
+				"inviteCode": sessionStorage.getItem('inviteCode') || "", //邀请码
 				"loginPwd": "",
 				"loginPwd2": "",
 

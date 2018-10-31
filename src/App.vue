@@ -111,6 +111,7 @@ body {
     p {
       margin: 40px 0;
       font-size: 16px;
+      text-align: justify;
     }
     .btn-wrap {
       display: flex;
