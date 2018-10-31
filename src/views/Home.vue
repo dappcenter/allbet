@@ -98,15 +98,16 @@
 					</li>
 				</div>
 				<div class="my-order" v-else>
-					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span>ETH</span><span>AT</span><span>{{$t('message.homeAtPrice')}}</span><span>{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeCreateTime')}}</span><span>{{$t('message.homeTransactionTime')}}</span><span>{{$t('message.homeState')}}</span><span>{{$t('message.homeOperation')}}</span></li>
+					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span class="nominscreen">{{$t('message.homeVolume')}}(ETH)</span><span class="nominscreen">{{$t('message.homeVolume')}}(AT)</span><span>{{$t('message.homeAtPrice')}}</span>
+						<span class="nominscreen">{{$t('message.homeTransactionType')}}</span><span class="nominscreen">{{$t('message.homeCreateTime')}}</span><span class="nominscreen">{{$t('message.homeTransactionTime')}}</span><span>{{$t('message.homeState')}}</span><span>{{$t('message.homeOperation')}}</span></li>
 					<li v-for="item in recentOrderList">
 						<span>{{item.address}}</span>
-						<span>{{filter(item)}}</span>
-						<span>{{filter1(item)}}</span>
+						<span class="nominscreen">{{filter(item)}}</span>
+						<span class="nominscreen">{{filter1(item)}}</span>
 						<span>{{item.dbPrice}} ETH</span>
-						<span :class="[item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
-						<span style="font-family: initial;">{{$fmtDate(item.recdCreateTime, "full")}}</span>
-						<span>{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span>
+						<span :class="['nominscreen',item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
+						<span style="font-family: initial;" class="nominscreen">{{$fmtDate(item.recdCreateTime, "full")}}</span>
+						<span class="nominscreen">{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span>
 						<span>{{filterState(item)}}</span>
 						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
 						<span v-else>- -</span>
@@ -257,6 +258,7 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		// 获取交易记录
 		getBancorOrders(selectTap) {
+			this.getMarketAtPrice()
 			this.recentOrderList = []
 			this.selectTap = selectTap
 			if (selectTap == 1 && !this.getCurrentAddr.token)  return
@@ -680,13 +682,13 @@ import { setTimeout, clearInterval } from 'timers';
 							background-color: #E95B62;
 							margin-top: 0px;
 						}
+						.transparent {
+							color: transparent;
+						}
 					}
 					.sell {
 						margin-left: 40px;
 						border-radius:6px;
-						.transparent {
-							color: transparent;
-						}
 					}
 				}
 
@@ -777,6 +779,7 @@ import { setTimeout, clearInterval } from 'timers';
 					}
 					.total-bill {
 						width: 90%;
+						font-size: 18px;
 					}
 				}
 				.middle {
@@ -787,6 +790,10 @@ import { setTimeout, clearInterval } from 'timers';
 						.fund-number {
 							margin: 0;
 							width: 90%;
+
+							div p {
+								font-size: 18px !important;
+							}
 						}
 						.fund-sepc {
 							margin:20px auto 0px !important;
@@ -819,9 +826,13 @@ import { setTimeout, clearInterval } from 'timers';
 			}
 			.list-wrapper {
 				padding: 30px 10px 5px 10px;
-				.content {
-					li span {
-						width: 25% !important;
+				.list {
+					margin-bottom: 0;
+					.content {
+						font-size: 10px;
+						li span {
+							width: 25% !important;
+						}
 					}
 				}
 			}

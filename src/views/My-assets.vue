@@ -10,9 +10,9 @@
 				<div src="" alt="" id="qrcode1"></div>
 				<div class="charge-desc">
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<p class="address"><span id="copy_text">{{currentAddr.coinAddress}}</span>
+					<div class="address"><div id="copy_text">{{currentAddr.coinAddress}}</div>
 						<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
-					</p>
+					</div>
 					<p>{{$t('message.assetsTips')}}</p>
 				</div>
 			</div>
@@ -52,9 +52,9 @@
 				<div src="" alt="" id="qrcode2"></div>
 				<div class="charge-desc">
 					<p>{{$t('message.assetsRechargeAddress')}}：</p>
-					<p class="address"><span id="copy_text2">{{currentAddr.coinAddress}}</span>
+					<div class="address"><div id="copy_text2">{{currentAddr.coinAddress}}</div>
 						<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy2">{{$t('message.assetsCopy')}}</span>
-					</p>
+					</div>
 					<p>{{$t('message.assetsTips')}}</p>
 				</div>
 			</div>
@@ -287,14 +287,13 @@ import {mapMutations, mapState} from "vuex"
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
 					font-size: 18px;
+
 					span:last-child {
 						position: absolute;
 						right: 0;
 						color: #75C1FF;
 						font-size: 16px;
-					}
-					span {
-
+						cursor: pointer;
 					}
 				}
 				.charge {
@@ -319,6 +318,9 @@ import {mapMutations, mapState} from "vuex"
 						color: #fff;
 						font-weight:bold;
 						margin: 13px 0;
+						div {
+							display: inline-block;
+						}
 						.copy {
 							font-size:16px;
 							font-family:PingFang-SC-Medium;
@@ -414,14 +416,17 @@ import {mapMutations, mapState} from "vuex"
 					}
 					div:first-child {
 						text-align: left;
+						flex: 1;
 					}
 					div:last-child {
 						text-align: right;
+						width: 40%;
 					}
 					 .operation {
 					 	color: #75C1FF;
 						span {
 							margin-left: 10px;
+							cursor: pointer;
 						}
 					 }
 				}
@@ -448,6 +453,10 @@ import {mapMutations, mapState} from "vuex"
 							.address {
 								font-size: 16px;
 								width: 100%;
+								div {
+									display: block;
+							    word-break: break-all;
+								}
 								.copy {
 									margin-left: 0;
 								}

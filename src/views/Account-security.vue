@@ -690,6 +690,31 @@ import {mapMutations, mapState} from "vuex"
 			.main {
 				.content {
 					width: auto;
+					padding: 0 10px;
+					li {
+						line-height: inherit;
+						font-size: 16px;
+						padding: 20px 0;
+						div:first-child {
+							width: 40%;
+						}
+						div:last-child {
+							flex: 1;
+							text-align: right;
+						}
+					}
+					li:last-child {
+						div {
+							text-align: left;
+						}
+					}
+				}
+			}
+			.mu-dialog-wrapper {
+				top:51%;
+				z-index: 20181213;
+				.mu-dialog-body {
+					padding: 10px;
 				}
 			}
 		}

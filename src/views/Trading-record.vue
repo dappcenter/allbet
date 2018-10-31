@@ -4,7 +4,7 @@
 	<div class="main">
 		<div class="content">
 			<p class="title">
-				<span>{{$t('message.assetsOfMine')}} > {{$t('message.tradeRecorde')}}</span>
+				<span><router-link :to="{ name: 'my-assets'}">{{$t('message.assetsOfMine')}}</router-link> > {{$t('message.tradeRecorde')}}</span>
 				<span>
 					{{$t('message.tradeType')}}:
 					<select class="" name="" @change="getTradeRecord" v-model="operation">
@@ -193,6 +193,10 @@ import FooterBar from "@/components/common/footer_bar"
 						right: 0;
 						color: #75C1FF;
 						font-size: 16px;
+					}
+
+					span a {
+						color: #fff !important;
 					}
 					span {
 						select {
