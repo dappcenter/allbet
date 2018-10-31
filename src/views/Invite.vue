@@ -7,41 +7,49 @@
 	      <p>{{$t('message.inviteTotalBill')}}{{platformBonus}} AB</p>
       </div>
       <div class="white-div">
-        <p class="invite-title">{{$t('message.inviteFriend')}}</p>
-        <div class="invite-detail">
-          <div class="">
-            <p class="title">{{$t('message.invitationSuccessed')}}</p>
-            <h4>{{inviteCount}} {{$t('message.InvitePeople')}}</h4>
-          </div>
-          <div class="">
-            <p class="title">{{$t('message.tradeInvitationReward')}}：</p>
-            <h4>{{inviteBonus}} AB</h4>
-          </div>
-        </div>
-        <div class="qrcode">
-					<p class="invite-code minscreen">专属邀请二维码：</p>
-					<div class="qrcode-content">
-						<div alt="" id="qrcode1" ref="qrcode"></div>
-						<div class="invite-div">
-							<p>{{$t('message.invitationCode')}}</p>
-							<div class="copy-div1">
-								<span id="copy_code">{{getCurrentAddr.inviteCode}}</span>
-								<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
+				<p class="invite-title">{{$t('message.inviteFriend')}}</p>
+        <div class="" v-show="inviteCode">
+	        <div class="invite-detail">
+	          <div class="">
+	            <p class="title">{{$t('message.invitationSuccessed')}}</p>
+	            <h4>{{inviteCount}} {{$t('message.InvitePeople')}}</h4>
+	          </div>
+	          <div class="">
+	            <p class="title">{{$t('message.tradeInvitationReward')}}：</p>
+	            <h4>{{inviteBonus}} AB</h4>
+	          </div>
+	        </div>
+	        <div class="qrcode">
+						<p class="invite-code minscreen">专属邀请二维码：</p>
+						<div class="qrcode-content">
+							<div alt="" id="qrcode1"></div>
+							<div class="invite-div">
+								<p>{{$t('message.invitationCode')}}</p>
+								<div class="copy-div1">
+									<span id="copy_code">{{inviteCode}}</span>
+									<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
+								</div>
+							</div>
+							<div class="invite-div">
+								<p>{{$t('message.invitationLink')}}</p>
+								<div class="copy-div1 copy-div2">
+									<span id="copy_text">{{inviteUrl}}</span>
+									<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
+								</div>
 							</div>
 						</div>
-						<div class="invite-div">
-							<p>{{$t('message.invitationLink')}}</p>
-							<div class="copy-div1 copy-div2">
-								<span id="copy_text">{{inviteUrl}}</span>
-								<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
-							</div>
-						</div>
+	        </div>
+					<div class="buttom">
+						<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+						<h5>{{$t('message.InvitationRules1')}}</h5>
+						<h5>{{$t('message.InvitationRules2')}}</h5>
 					</div>
         </div>
-				<div class="buttom">
-					<h5 class="title">{{$t('message.InvitationRules')}}</h5>
-					<h5>{{$t('message.InvitationRules1')}}</h5>
-					<h5>{{$t('message.InvitationRules2')}}</h5>
+				<div class="no-bind" v-show="!inviteCode">
+						<p>
+							请先绑定账号，再邀请好友参与游戏
+							<router-link class="bind-btn" :to="{ name: 'account-security'}">去绑定</router-link>
+						</p>
 				</div>
       </div>
     </div>
@@ -63,12 +71,12 @@ import {mapMutations, mapState} from "vuex"
 				inviteBonus: '0',
 		    inviteCount: '0',
 		    inviteUrl: location.origin + "/index?inviteCode=",
+				inviteCode: "",
 		    platformBonus: '',
 		  }
 	  },
 		computed: {
 			getCurrentAddr() {
-				this.inviteUrl = location.origin + "/index?inviteCode=" + this.$store.state.user.currentAddr.inviteCode
 				return this.$store.state.user.currentAddr
 			},
 		},
@@ -81,35 +89,40 @@ import {mapMutations, mapState} from "vuex"
 		mounted () {
 			this.copyBtn = new Clipboard(this.$refs.copy)
 			this.copyBtn1 = new Clipboard(this.$refs.copy1)
-			this.makeQRcode()
 			this.getInvite()
+		},
+		watch: {
+			// 检测地址切换
+			getCurrentAddr() {
+				this.getInvite()
+			},
 		},
     components: {
 	    HeaderBar,
 	    FooterBar,
     },
 		methods: {
-			makeQRcode() {
-				this.$refs.qrcode.innerHTML = ""
-				var qrcode = new QRCode(document.getElementById("qrcode1"), {
-						width: 108,
-						height: 108,
-				});
-				qrcode.makeCode(this.inviteUrl);
-			},
 			getInvite () {
-				this.$http.get("/app/user/invite",{}).then((res) => {
+				this.$http.get("/app/user/invite?"+this.getCurrentAddr.coinAddress,{
+
+				}).then((res) => {
 					if (res.code == 200) {
 						let result = res.result || {}
 						this.inviteBonus = result.inviteBonus || 0
 						this.inviteCount = result.inviteCount || 0
-						// this.inviteUrl = result.inviteUrl
+						this.inviteCode = result.inviteCode
+						this.inviteUrl = location.origin + "/index?inviteCode=" + this.inviteCode
 						this.platformBonus = result.platformBonus
+						document.getElementById("qrcode1").innerHTML = ''
+						var qrcode = new QRCode(document.getElementById("qrcode1"), {
+							width: 108,
+							height: 108,
+						});
+						qrcode.makeCode(this.inviteUrl);
 					}
 				})
 			},
 			copy1 () {
-				console.log('getCurrentAddr', this.getCurrentAddr);
 				let clipboard = this.copyBtn1
 				clipboard.on('success', () => {
 						this.alert({
@@ -302,7 +315,23 @@ import {mapMutations, mapState} from "vuex"
 						margin-bottom: 20px;
 					}
 				}
-      }
+			}
+			.no-bind {
+				padding: 204px 0;
+				p {
+					color: #fff;
+					font-weight: 500;
+					font-size:18px;
+				}
+				.bind-btn {
+					width: 186px;
+					font-size: 18px;
+					color: #fff;
+					padding: 4px 7px;
+					margin: auto;
+					-webkit-text-stroke:1px #1371FF;
+					}
+				}
     }
 	}
 	@media screen and (max-width: 800px) {
