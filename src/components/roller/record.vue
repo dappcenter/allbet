@@ -77,6 +77,7 @@ export default {
 	},
 	watch: {
 		currentAddr() {
+			
 			this.getData(this.boardType)
 		}
 	},
@@ -88,9 +89,12 @@ export default {
 	methods: {
 		getData(type) {
 			this.boardType = type
+			if(!this.currentAddr.coinAddress && this.boardType == "ME") {
+				this.boardType = "RECENT"
+			}
 			this.$http.get('/app/dice/board', {
 				params: {
-					boardType: type,
+					boardType: this.boardType,
 					coinAddress: this.currentAddr.coinAddress,
 					page: 1,
 					pageSize: 30

@@ -7,7 +7,7 @@
             <menu class="nominscreen">
                 <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
                 <router-link to="roller"><span>Dice</span></router-link>
-                <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
+                <a href="javascript:;" @click="displayStatus.bonusPools = !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
             </menu>
@@ -40,18 +40,18 @@
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <div class="fold-menu minscreen" v-show="isShowFoldMunu">
             <ul>
-                <li>
+                <router-link to="index" tag="li">
                     <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
-                </li>
-                <li>
+                </router-link>
+                <router-link to="roller" tag="li">
                     <router-link to="roller"><span>Dice</span></router-link>
-                </li>
-                <li>
+                </router-link>
+                <li @click="displayStatus.bonusPools = !displayStatus.bonusPools">
                     <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
                 </li>
-                <li v-show="addressList.length > 0">
+                <router-link to="invite" tag="li" v-show="addressList.length > 0">
                     <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
-                </li>
+                </router-link>
                 <li>
                     <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
                 </li>
@@ -228,6 +228,26 @@
                 <a href="javascript:;" @click="formData.resetType = 'PHONE';formData.picCode = '';getImgCode();" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
             </p>
         </mu-dialog>
+
+        <!-- 分红池 -->
+        <mu-dialog :open.sync="displayStatus.bonusPools" :append-body="false" class="bonus-pools">
+            <h4>分红池</h4>
+            <p>当前分红池由 Allbet 游戏所得 ETH 收益构成，具体详见游戏规则。</p>
+            <div class="coin-wrap ab">
+                <div class="coin-logo">
+                    <img src="../../../public/img/ab_icon.png" />
+                    <span>我的 AB 余额</span>
+                </div>
+                <h3>34678 AB</h3>
+            </div>            
+            <div class="coin-wrap eth">
+                <div class="coin-logo">
+                    <img src="../../../public/img/eth_icon.png" />
+                    <span>我的 ETH 余额</span>
+                </div>
+                <h3>34678 ETH</h3>
+            </div>            
+        </mu-dialog>
     </div>
 </template>
 
@@ -263,6 +283,7 @@ export default {
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号
                 emailRegisterAccount: false,  //邮箱注册账号
+                bonusPools: false   //分红池
             },
             loginForm: {
                 "account": "",
@@ -399,6 +420,8 @@ export default {
             }).then(res => {
                 if(res.code != 200) {
                     this.captchaDisabled = false
+                }else {
+                    this.getImgCode()
                 }
             }).catch(err => {
                 this.captchaDisabled = false
@@ -419,6 +442,8 @@ export default {
                 console.log(res)
                 if(res.code != 200) {
                     this.captchaDisabled = false
+                }else {
+                    this.getImgCode()
                 }
             }).catch(err => {
                 this.captchaDisabled = false
@@ -581,6 +606,7 @@ export default {
         },
         //HD钱包登录
         hdLogin() {
+            this.displayStatus.loginSelect = false
             if(window.web3) {
                 this.openConfirm({
                     content: this.$t('message.PopHdLogin'),
@@ -630,7 +656,7 @@ export default {
             return this.$store.getters.getUserAddress
         },
         locale () {
-          return this.$store.state.locale
+            return this.$store.state.locale
         }
     },
     components: {
@@ -1015,6 +1041,54 @@ export default {
             }
         }
     }
+    .bonus-pools {
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        .mu-dialog-body {
+            background: url(../../../public/img/bonus-pools.png) no-repeat center;
+            background-size: 100% 100%;
+            h4 {
+                color: #FFD558;
+            }
+            p {
+                color: #FFD558;
+                margin-bottom: 50px;
+                margin-top: 10px;
+                font-size: 16px;
+            }
+            .coin-wrap {
+                display: flex;
+                align-items: center;
+                padding: 15px 50px;
+                border-radius:4px;
+                &.ab {
+                    background:rgba(238,127,71,.8);
+                }
+                &.eth {
+                    margin-top: 20px;
+                    background:rgba(233,86,120,.8);
+                }
+                .coin-logo {
+                    img {
+                        width: 64px;
+                        height: 64px;
+                        display: block;
+                        margin: 0 auto 10px;
+                    }
+                    span {
+                        font-size: 16px;
+                    }
+                }
+                h3 {
+                    flex: 1;
+                    text-align: right;
+                    font-size: 32px;
+                }
+            }
+        }
+    }
 }
 @media screen and (max-width: 800px){
     .headerbar {
@@ -1152,6 +1226,37 @@ export default {
                 .input-wrap {
                     label {
                         width: 70px;
+                    }
+                }
+            }
+        }
+        .bonus-pools {
+            .mu-dialog-body {
+                background: url(../../../public/img/bonus-pools.png) no-repeat center;
+                background-size: 100% 100%;
+                h4 {
+                    color: #FFD558;
+                }
+                p {
+                    margin-bottom: 20px;
+                    font-size: 12px;
+                }
+                .coin-wrap {
+                    padding: 8px 20px;
+                    &.eth {
+                        margin-top: 10px;
+                    }
+                    .coin-logo {
+                        img {
+                            width: 34px;
+                            height: 34px;
+                        }
+                        span {
+                            font-size: 12px;
+                        }
+                    }
+                    h3 {
+                        font-size: 20px;
                     }
                 }
             }
