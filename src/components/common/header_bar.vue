@@ -224,8 +224,8 @@
             </div>
             <button class="primary-btn" @click="findPasswordDo">{{$t('message.PopConfirm')}}</button>
             <p>
-                <a href="javascript:;" @click="formData.resetType = 'EMAIL';formData.picCode = '';getImgCode();" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
-                <a href="javascript:;" @click="formData.resetType = 'PHONE';formData.picCode = '';getImgCode();" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
+                <a href="javascript:;" @click="switchFindPassword('PHONE')" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
+                <a href="javascript:;" @click="switchFindPassword('EMAIL')" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
             </p>
         </mu-dialog>
 
@@ -239,14 +239,14 @@
                     <span>我的 AB 余额</span>
                 </div>
                 <h3>{{storeCurrentAddr.bet}} AB</h3>
-            </div>            
+            </div>
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/eth_icon.png" />
                     <span>当前分红池累计</span>
                 </div>
                 <h3>{{bonusPoolsData.pool}} ETH</h3>
-            </div>            
+            </div>
         </mu-dialog>
     </div>
 </template>
@@ -536,6 +536,16 @@ export default {
                     this.findPassword = false
                 }
             })
+        },
+        switchFindPassword(type) {
+          this.formData.resetType = type
+          this.formData.picCode = ''
+          this.formData.captcha = ''
+          this.formData.phone = ''
+          this.formData.email = ''
+          this.formData.password = ''
+          this.formData.password2 = ''
+          this.getImgCode()
         },
         // 二次密码验证
         verifyPassword() {
