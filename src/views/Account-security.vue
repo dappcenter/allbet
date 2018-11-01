@@ -188,6 +188,8 @@ import {mapMutations, mapState} from "vuex"
 		displayStatus: {
 			handler: function() {
 				this.formData = Object.assign(this.formData, {
+					phone: '',
+					email: '',
 					picCode: "",
 					captcha: "",   //短信验证码
 					emailCaptcha: "",
@@ -197,6 +199,7 @@ import {mapMutations, mapState} from "vuex"
 					picCode: "", //图形验证码
 					resetLoginPwd: "",
 					resetLoginPwd2: "",
+
 				})
 			},
 			deep: true
