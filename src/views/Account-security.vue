@@ -5,15 +5,15 @@
 		<div class="content">
 			<p class="title">
 				<span>{{$t('message.accountSecurity')}}</span>
-				<span>
-				</span>
 			</p>
-			<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{currentAddr.userName}}</div></li>
-			<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
-			<li v-for="item in pageData.MetaMaskAddress"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{item.coinAddress}}</div></li>
-			<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
-			<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
-			<li v-else><div>{{$t('message.accountChange')}}：</div><div>{{$t('message.accountNotExist')}}</div></li>
+			<div class="li-div">
+				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{currentAddr.userName}}</div></li>
+				<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
+				<li v-for="item in pageData.MetaMaskAddress"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{item.coinAddress}}</div></li>
+				<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
+				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
+				<li v-else><div>{{$t('message.accountChange')}}：</div><div>{{$t('message.accountNotExist')}}</div></li>
+			</div>
 		</div>
 	</div>
 	<!-- 手机账号绑定 -->
@@ -514,47 +514,50 @@ import {mapMutations, mapState} from "vuex"
 	.account-security {
 		margin: 0 auto;
 		.main {
-			background-color: #2F59B7;
+			background-color: #040810;;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #1A439E;
+				background-color: #172F61;
 				margin: auto;
-				padding: 0 40px;
 				.title {
 					position: relative;
-					padding: 15px 0;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
-					font-size: 16px;
-          			font-weight: bold;
+					font-size: 32px;
+          font-weight: bold;
+					background-color: #193570;
+					padding: 22px 0 22px 40px;
 				}
-				li {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					border-bottom: 1px solid #123990;
-					line-height: 3.5;
-          			font-size: 16px;
-					div {
-            			text-align: left;
-					}
-					div:first-child {
-						width: 30%;
-					}
-					div:last-child {
-            			width: 70%;
-					}
-					 .operation {
-					 	position: relative;
-						span {
-							margin-left: 10px;
-							color: #FFDB5B;
-							position: absolute;
-							right: 0;
-							cursor: pointer;
+				.li-div {
+					padding: 0 40px;
+					li {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						border-bottom: 1px solid #1C3B7C;
+						line-height: 3.5;
+	          			font-size: 16px;
+						div {
+	            			text-align: left;
 						}
-					 }
+						div:first-child {
+							width: 30%;
+						}
+						div:last-child {
+	            			width: 70%;
+						}
+						 .operation {
+						 	position: relative;
+							span {
+								margin-left: 10px;
+								color: #FFDB5B;
+								position: absolute;
+								right: 0;
+								cursor: pointer;
+							}
+						 }
+					}
 				}
 			}
 		}
@@ -566,8 +569,12 @@ import {mapMutations, mapState} from "vuex"
 			transform: translate(-50%,-50%);
         h4 {
             text-align: center;
-            color: #646464;
+            color: #fff;
             font-size: 20px;
+        }
+				.mu-dialog-body {
+            background-color: #214797;
+            color: #fff;
         }
         .mu-dialog {
             max-width: initial !important;
@@ -594,7 +601,9 @@ import {mapMutations, mapState} from "vuex"
             input {
                 display: block;
                 width: 100%;
-                border:1px solid rgba(220,220,220,1);
+								background:#173167;
+                border:1px solid #173167;
+								color: #fff;
                 border-radius:4px;
                 height: 40px;
                 margin-top: 20px;
@@ -631,9 +640,11 @@ import {mapMutations, mapState} from "vuex"
                 }
                 input {
                     flex: 1;
+										width: 60%;
                     height:40px;
-                    background:rgba(255,255,255,1);
-                    border:1px solid rgba(220,220,220,1);
+										background:#173167;
+		                border:1px solid #173167;
+		                color: #fff;
                     border-radius:4px;
                     padding: 0 10px;
                 }
@@ -660,8 +671,8 @@ import {mapMutations, mapState} from "vuex"
                         margin-left: 10px;
                     }
                     &.prefix {
-                        background:rgba(255,255,255,1);
-                        border:1px solid rgba(220,220,220,1);
+												background:#173167;
+												border:1px solid #173167;
                         border-radius:4px;
                         .mu-menu {
                             line-height: 40px;
@@ -698,6 +709,10 @@ import {mapMutations, mapState} from "vuex"
 			.main {
 				.content {
 					width: auto;
+					.title {
+						padding-left: 10px;
+					}
+				.li-div {
 					padding: 0 10px;
 					li {
 						line-height: inherit;
@@ -708,7 +723,8 @@ import {mapMutations, mapState} from "vuex"
 						}
 						div:last-child {
 							flex: 1;
-							text-align: right;
+							text-align: left;
+							word-break: break-all;
 						}
 					}
 					li:last-child {
@@ -717,10 +733,15 @@ import {mapMutations, mapState} from "vuex"
 						}
 					}
 				}
+				}
 			}
 			.mu-dialog-wrapper {
-				top:51%;
-				z-index: 20181213;
+				z-index: 20191230 !important;
+				left: 0;
+		    bottom: 0;
+		    right: 0;
+		    top: 0;
+				transform: translate(0, 0);
 				.mu-dialog-body {
 					padding: 10px;
 				}
