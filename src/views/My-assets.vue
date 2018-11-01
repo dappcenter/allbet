@@ -21,7 +21,6 @@
 					<p>{{$t('message.assetsCoinAddress')}}:</p>
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
-						ETH
 					</div>
 					<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
 					<div class="input-div">
@@ -63,7 +62,6 @@
 					<p>{{$t('message.assetsCoinAddress')}}:</p>
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
-						AT
 					</div>
 					<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
 					<div class="input-div">
@@ -190,7 +188,7 @@ import {mapMutations, mapState} from "vuex"
 				})
 				return false
 			}
-			if (Number(this.currentAddr.eth) < Number(this.formData.amount)) {
+			if ((type == 'ETH' && Number(this.currentAddr.eth) < Number(this.formData.amount)) || (type == 'AT' && Number(this.currentAddr.at) < Number(this.formData.amount))) {
 				this.alert({
 						type: "error",
 						msg: this.$t('message.assetsNotEnough')
