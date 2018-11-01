@@ -8,9 +8,10 @@
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
-            <h4>{{$t("message.PopTips")}}</h4>    
-            <p>{{confirmOption.content}}</p>
-            <div class="btn-wrap">
+      <h4>{{$t("message.PopTips")}}</h4>    
+      <p class="content-text">{{confirmOption.content}}</p>
+      <p class="other">{{confirmOption.other}}</p>
+      <div class="btn-wrap">
 				<button v-for="btn in confirmOption.btn" :class="btn.type" @click="onConfirmBtn(btn.cb)">{{btn.text}}</button>
 			</div>
     </mu-dialog>
@@ -24,10 +25,10 @@
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
 			<div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
-				<h3>恭喜您</h3>
+				<h3>{{$t("message.GameWinBox1")}}</h3>
 				<h3>{{winPopupOption.eth}} ETH</h3>
-				<p>（获得AB数： {{winPopupOption.ab}}AB）</p>
-				<button @click="isShowWin=false;$router.push('roller')">再玩一次</button>
+				<p>（{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB）</p>
+				<button @click="isShowWin=false;$router.push('roller')">{{$t("message.GameWinBox3")}}</button>
 			</div>
 		</transition>
 	</div>
@@ -46,28 +47,28 @@ export default {
         open: true,
         timeout: 3000
       },
-	  isShowConfirm: false,
-	  isShowWin: false
+      isShowConfirm: false,
+      isShowWin: false
     };
   },
   watch: {
     confirmOption() {
-      this.isShowConfirm = true
-	},
-	winPopupOption() {
-	  this.isShowWin = true
-	}
+      this.isShowConfirm = true;
+    },
+    winPopupOption() {
+      this.isShowWin = true;
+    }
   },
   created() {
     // 注册web3
-	this.$store.dispatch("registerWeb3");
+    this.$store.dispatch("registerWeb3");
   },
   computed: {
     ...mapState({
       alertOption: state => state.dialogs.alertOption,
       confirmOption: state => state.dialogs.confirmOption,
-	  loading: state => state.dialogs.loading,
-	  winPopupOption: state => state.dialogs.winPopupOption
+      loading: state => state.dialogs.loading,
+      winPopupOption: state => state.dialogs.winPopupOption
     })
   },
   methods: {
@@ -76,17 +77,28 @@ export default {
       if (cb) {
         cb();
       }
-	},
-	clickoutside() {
-		this.isShowWin = false
-	}
+    },
+    clickoutside() {
+      this.isShowWin = false;
+    }
   }
 };
 </script>
 
 
 <style lang="less">
-html,body,div,h1,h2,h3,h4,h5,h6,ul,li,p {
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+p {
   margin: 0;
   padding: 0;
 }
@@ -105,13 +117,28 @@ body {
   font-size: 14px;
   .confirm {
     text-align: center;
-    h4 {
-      font-size: 20px;
+    .mu-dialog {
+      border-radius: 4px;
+      overflow: hidden;
     }
-    p {
-      margin: 40px 0;
-      font-size: 16px;
-      text-align: justify;
+    .mu-dialog-body {
+      background: rgba(33, 71, 151, 1);
+
+      h4 {
+        font-size: 20px;
+        color: #fff;
+      }
+      .content-text {
+        margin: 40px 0;
+        font-size: 16px;
+        text-align: center;
+        color: #fff;
+      }
+      .other {
+        color: #C8C8C8;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
     }
     .btn-wrap {
       display: flex;
@@ -120,10 +147,10 @@ body {
         width: 40%;
         height: 40px;
         text-align: center;
-        border: 1px solid #686d6d;
         border-radius: 6px;
-        background-color: #fff;
-        color: #686d6d;
+        border: none;
+        background-color: #458ad8;
+        color: #fff;
         &.high {
           background: linear-gradient(
             90deg,
@@ -158,35 +185,40 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(000, 000, 000, .5);
+    background-color: rgba(000, 000, 000, 0.5);
   }
   .win-box {
-      position: fixed;
-      left: calc(50% - 180px);
-      top: calc(50% - 180px);
-      width: 360px;
-      height: 360px;
-      background: url(../public/img/win.png) no-repeat center;
-      background-size: 100%;
-      text-align: center;
-      padding: 120px 0 0 0;
-      z-index: 9999999999;
-	  h3 {
-		  font-size: 30px;
-	  }
-	  button {
-      width:180px;
-      height:48px;
-      background:linear-gradient(45deg,rgba(241,182,40,1),rgba(251,229,110,1));
-      box-shadow:0px 0px 0px 1px rgba(237,215,84,1);
-      border-radius:6px;
+    position: fixed;
+    left: calc(50% - 180px);
+    top: calc(50% - 180px);
+    width: 360px;
+    height: 360px;
+    background: url(../public/img/win.png) no-repeat center;
+    background-size: 100%;
+    text-align: center;
+    padding: 120px 0 0 0;
+    z-index: 9999999999;
+
+    h3 {
+      font-size: 30px;
+    }
+    button {
+      width: 180px;
+      height: 48px;
+      background: linear-gradient(
+        45deg,
+        rgba(241, 182, 40, 1),
+        rgba(251, 229, 110, 1)
+      );
+      box-shadow: 0px 0px 0px 1px rgba(237, 215, 84, 1);
+      border-radius: 6px;
       border: none;
       font-size: 20px;
-      color: #E34142;
+      color: #e34142;
       font-weight: 700;
-		  cursor: pointer;
-		  margin-top: 30px;
-	  }
+      cursor: pointer;
+      margin-top: 30px;
+    }
   }
 }
 #nav {
@@ -200,10 +232,10 @@ body {
   }
 }
 .bounce-enter-active {
-  animation: bounce-in .5s;
+  animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-  animation: bounce-in .5s reverse;
+  animation: bounce-in 0.5s reverse;
 }
 @keyframes bounce-in {
   0% {
@@ -217,7 +249,7 @@ body {
   }
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 800px) {
   #app {
     .win-box {
       position: fixed;
@@ -234,9 +266,9 @@ body {
         font-size: 20px;
       }
       button {
-        width:80px;
-        height:28px;
-        border-radius:4px;
+        width: 80px;
+        height: 28px;
+        border-radius: 4px;
         border: none;
         font-size: 14px;
         cursor: pointer;
@@ -247,8 +279,7 @@ body {
       .loading-box {
         width: 20%;
       }
-    } 
+    }
   }
-  
 }
 </style>

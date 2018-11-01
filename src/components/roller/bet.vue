@@ -118,6 +118,13 @@ export default {
 			if(!this.web3.web3Instance) return
 			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0x861e9351996abc27b1f932f92e5cad82ac1cbdd2");
 		}, 2000)
+		// window.hd = {}
+		// window.hd.betFailed = function(payload) {
+		// 	this.alert({
+		// 		type: "error",
+		// 		msg: payload
+		// 	})
+		// }
 	},
     mounted() {
         this.setBetInfo({
@@ -162,7 +169,8 @@ export default {
 			setBetInfo: "SET_ROLLER_BET_INFO",
 			alert: "alert",
 			openLogin: "OPEN_LOGIN",
-			openWinPopup: "OPEN_WIN_POPUP"
+			openWinPopup: "OPEN_WIN_POPUP",
+			openConfirm: "OPEN_CONFIRM"
 		}),
 		onHandleMouseD(e) {
 			let that = this
@@ -214,28 +222,28 @@ export default {
 			if(this.timer) {
 				this.alert({
 					type: "info",
-					msg: "上一轮还在开奖中，请稍等"
+					msg: this.$t("message.GameWait")
 				})
 				return
 			}
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
 					type: "info",
-					msg: "下注金额输入有误"
+					msg: this.$t("message.GameAmountErr")
 				})
 				return
 			}
 			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
-					msg: "下注金额不能低于" + this.rule.minInvest + "ETH"
+					msg: this.$t("message.GameAmountTooLow") + this.rule.minInvest + "ETH"
 				})
 				return
 			}
 			if(this.amount*1 > this.rule.maxInvest*1) {
 				this.alert({
 					type: "info",
-					msg: "下注金额不能大于" + this.rule.maxInvest + "ETH"
+					msg: this.$t("message.GameAmountTooLarge") + this.rule.maxInvest + "ETH"
 				})
 				return
 			}
@@ -264,6 +272,8 @@ export default {
 									ab: res.result.diceResult.abNum,
 									eth: res.result.diceResult.rewards
 								})
+							}else if(res.result.diceResult.winFlag == "LOSE") {
+								this.noWin(res.result.diceResult.abNum)
 							}
 						}, 3000)
 					}else {   //合约账号
@@ -286,7 +296,7 @@ export default {
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "success",
-					msg: "下注成功"
+					msg: that.$t("message.GameBetSuc")
 				})
 				that.luckyRun()
 				that.getBetResult(recdId)
@@ -294,7 +304,7 @@ export default {
 			.on("error", function(error) {
 				that.alert({
 					type: "error",
-					msg: "下注失败"
+					msg: that.$t("message.GameBetErr")
 				})
 			});
 		},
@@ -320,6 +330,8 @@ export default {
 										ab: res.result.abNum,
 										eth: res.result.rewards
 									})
+								}else if(res.result.winFlag == "LOSE") {
+									this.noWin(res.result.abNum)
 								}
 							}
 						}
@@ -337,6 +349,22 @@ export default {
 					this.luckyNum = "00"
 				})
 			}, 1000)
+		},
+		// 预测失败
+		noWin(ab) {
+			this.openConfirm({
+				content: this.$t('message.GameNoWin'),
+				other: this.$t('message.GameWinBox2') + ab + "AB",
+				btn: [
+					{
+						type: "high",
+						text: this.$t('message.GameWinBox3'),
+						cb: () => {
+							this.$router.push('roller')
+						}
+					}
+				]
+			})
 		}
     },
     watch: {

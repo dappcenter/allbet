@@ -18,7 +18,8 @@
 						 <option value="DICE">{{$t('message.tradeDice')}}</option>
 						 <option value="DICE_REWARD">{{$t('message.tradeDiceReward')}}</option>
 						 <option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
-						 <option value="INVITE_BONUS_AB">{{$t('message.tradeInviteBancor')}}</option>
+						 <option value="INVITE_BONUS_DICE_AB">{{$t('message.tradeInviteBancor')}}</option>
+						 <option value="INVITE_BONUS_AB">{{$t('message.tradeRegisterIncentives')}}</option>
 					</select>
 					{{$t('message.tradeCoinType')}}:
 					<select class="" name="" @change="selectChange" v-model="coinType">
@@ -161,8 +162,11 @@ export default {
 				case 'DICE_DIG':
 				return this.$t('message.tradeDiceDig')
 				break;
-				case 'INVITE_BONUS_AB':
+				case 'INVITE_BONUS_DICE_AB':
 				return this.$t('message.tradeInviteBancor')
+				break;
+				case 'INVITE_BONUS_AB':
+				return this.$t('message.tradeRegisterIncentives')
 				break;
 			}
 		},

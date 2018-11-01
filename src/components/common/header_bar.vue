@@ -238,7 +238,8 @@
                     <img src="../../../public/img/ab_icon.png" />
                     <span>我的 AB 余额</span>
                 </div>
-                <h3>{{storeCurrentAddr.bet}} AB</h3>
+                <h3 v-if="storeCurrentAddr.bet">{{storeCurrentAddr.bet}} AB</h3>
+                <h3 v-else>0 AB</h3>
             </div>            
             <div class="coin-wrap eth">
                 <div class="coin-logo">
@@ -422,7 +423,6 @@ export default {
             }).then(res => {
                 if(res.code != 200) {
                     this.captchaDisabled = false
-                }else {
                     this.getImgCode()
                 }
             }).catch(err => {
@@ -444,7 +444,6 @@ export default {
                 console.log(res)
                 if(res.code != 200) {
                     this.captchaDisabled = false
-                }else {
                     this.getImgCode()
                 }
             }).catch(err => {

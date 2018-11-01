@@ -128,6 +128,7 @@ export default {
         tradePlatform: "手续费",
         tradeInvitationReward: "邀请奖励",
         tradeGameBet: "游戏下注",
+        tradeRegisterIncentives: "注册奖励",
         //邀请好友页
         inviteFriend: "邀请好友",
         inviteRule: "支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受 ETH 分红",
@@ -231,7 +232,16 @@ export default {
         GameRecord: "我的战绩",
         GameParticipation: "参与次数：",
         GameProfit: "盈利",
-
+        GameWait: "上一轮还在开奖中，请稍等",
+        GameAmountErr: "下注金额输入有误",
+        GameAmountTooLow: "下注金额不能低于",
+        GameAmountTooLarge: "下注金额不能大于",
+        GameBetSuc: "下注成功",
+        GameBetErr: "下注失败",
+        GameWinBox1: "恭喜您",
+        GameWinBox2: "获得AB数：",
+        GameWinBox3: "再玩一次",
+        GameNoWin: "很遗憾预测失败，别灰心"
 
     }
 }

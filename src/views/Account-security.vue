@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<!-- 手机账号绑定 -->
-	<mu-dialog :open.sync="displayStatus.phoneBind" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.phoneBind" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}</label>
@@ -51,7 +51,7 @@
 		<p><a href="javascript:;" @click="displayStatus.phoneBind = false;displayStatus.emailBind = true;">{{$t('message.PopBindEmail')}}</a></p>
 	</mu-dialog>
 	<!-- 邮箱账号绑定 -->
-	<mu-dialog :open.sync="displayStatus.emailBind" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.emailBind" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}</label>
@@ -77,7 +77,7 @@
 		<p><a href="javascript:;" @click="displayStatus.phoneBind = true;displayStatus.emailBind = false;">{{$t('message.PopBindPhone')}}</a></p>
 	</mu-dialog>
 	<!-- 账号不存在输入密码 -->
-	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopInviteCode')}}</label>
@@ -94,7 +94,7 @@
 		<button class="primary-btn" @click="bindingTwoDo('PHONE')">{{$t('message.PopConfirm')}}</button>
 	</mu-dialog>
 	<!-- 重置登陆密码 -->
-	<mu-dialog :open.sync="displayStatus.resetPassDialog" :append-body="false" class="register-accout">
+	<mu-dialog :open.sync="displayStatus.resetPassDialog" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopResetPass')}}</h4>
 		<div class="input-wrap">
 			<p>{{$t('message.PopAccount')}}: {{currentAddr.userName}}</p>
@@ -555,66 +555,36 @@ import {mapMutations, mapState} from "vuex"
 				}
 			}
 		}
-		.mu-dialog-wrapper {
+		&>.mu-dialog-wrapper {
 			left: 50%;
 			bottom: initial;
 			top: 39%;
 			padding: 30px;
 			transform: translate(-50%,-50%);
-        h4 {
-            text-align: center;
-            color: #646464;
-            font-size: 20px;
-        }
-        .mu-dialog {
-            max-width: initial !important;
-            .primary-btn {
-                display: block;
-                width: 240px;
-                height: 40px;
-                margin-top: 20px;
-                cursor: pointer;
-                background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
-                box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
-                border-radius:4px;
-                color: #fff;
-                border: none;
-                &.hd {
-                    background:linear-gradient(90deg,rgba(84,190,202,1),rgba(61,143,242,1));
-                }
-            }
-        }
-        &.login-accout {
-            h4 {
-                margin-bottom: 60px;
-            }
-            input {
-                display: block;
-                width: 100%;
-                border:1px solid rgba(220,220,220,1);
-                border-radius:4px;
-                height: 40px;
-                margin-top: 20px;
-                text-align: center;
-                font-size: 14px;
-            }
-            .flex-wrap {
-                display: flex;
-                justify-content: space-between;
-                font-size: 14px;
-                margin-top: 40px;
-                p {
-                    color: #969696;
-                    a {
-                        color: #5480D9;
-                    }
-                }
-            }
-            button {
-                margin-top: 40px;
-            }
-        }
-        &.register-accout {
+			h4 {
+				text-align: center;
+				color: #646464;
+				font-size: 20px;
+			}
+			.mu-dialog {
+				max-width: initial !important;
+				.primary-btn {
+					display: block;
+					width: 240px;
+					height: 40px;
+					margin-top: 20px;
+					cursor: pointer;
+					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+					box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
+					border-radius:4px;
+					color: #fff;
+					border: none;
+					&.hd {
+						background:linear-gradient(90deg,rgba(84,190,202,1),rgba(61,143,242,1));
+					}
+				}
+			}
+        &.bind-accout {
             h4 {
                 margin-bottom: 40px;
             }
@@ -637,9 +607,6 @@ import {mapMutations, mapState} from "vuex"
                 .input-flex {
                     flex: 1;
                     display: flex;
-                    input {
-
-                    }
                     a {
                         background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
                         box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
@@ -668,12 +635,9 @@ import {mapMutations, mapState} from "vuex"
                         }
                         input {
                             border: none;
-
                         }
                     }
-
                 }
-
             }
             p {
                 font-size: 14px;

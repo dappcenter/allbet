@@ -128,6 +128,7 @@ export default {
         tradePlatform: "Platform Recharge Bill",
         tradeInvitationReward: "Invitation Reward",
         tradeGameBet: "Game bet",
+        tradeRegisterIncentives: "Registration incentives",
         //邀请好友页
         inviteFriend: "Invite Friend",
         inviteRule: "Support two levels of invitation sharing, invite friends to participate in the game, get AB token rewards, enjoy ETH dividends",
@@ -229,5 +230,15 @@ export default {
         GameRecord: "My",
         GameParticipation: "Number of participation",
         GameProfit: "Profit",
+        GameWait: "The last round is still in the drawing, please wait a moment",
+        GameAmountErr: "Incorrect amount of bet input",
+        GameAmountTooLow: "You can't bet less than that",
+        GameAmountTooLarge: "The amount of the bet cannot be greater than",
+        GameBetSuc: "Betting on success",
+        GameBetErr: "Bet failure",
+        GameWinBox1: "Congratulations",
+        GameWinBox2: "(Get number of AB:",
+        GameWinBox3: "Play it again",
+        GameNoWin: "It's a pity to fail. Don't lose heart"
     }
 }
