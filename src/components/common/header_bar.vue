@@ -238,14 +238,14 @@
                     <img src="../../../public/img/ab_icon.png" />
                     <span>我的 AB 余额</span>
                 </div>
-                <h3>34678 AB</h3>
+                <h3>{{storeCurrentAddr.bet}} AB</h3>
             </div>            
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/eth_icon.png" />
-                    <span>我的 ETH 余额</span>
+                    <span>当前分红池累计</span>
                 </div>
-                <h3>34678 ETH</h3>
+                <h3>{{bonusPoolsData.pool}} ETH</h3>
             </div>            
         </mu-dialog>
     </div>
@@ -314,7 +314,8 @@ export default {
             s: 60,  //短信倒计时时间
             macCode: "123456",
             captchaDisabled: false,
-            isShowFoldMunu: false
+            isShowFoldMunu: false,
+            bonusPoolsData: {}
         }
     },
     created() {
@@ -324,10 +325,11 @@ export default {
             sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
             this.formData.inviteCode = this.$route.query.inviteCode || ""
         }
+
+        this.getBonusPools()
     },
     mounted() {
         this.bindScrollEvent()
-
         if(this.currentAddr == "" && this.storeCurrentAddr) {
             this.currentAddr = this.storeCurrentAddr.coinAddress
             if(this.storeCurrentAddr.token) {
@@ -634,6 +636,14 @@ export default {
                     ]
                 })
             }
+        },
+        //获取分红池信息
+        getBonusPools() {
+            this.$http.get('/app/profit/profit').then(res => {
+                if(res.code == 200) {
+                    this.bonusPoolsData = res.result
+                }
+            })
         },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",

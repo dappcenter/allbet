@@ -8,7 +8,6 @@ const language = {
     "zh-CN": LangZh,
     "en-US": LangEn
 }
-console.log(language)
 
 axios.defaults.baseURL = window.SERVERPATH
 axios.defaults.timeout = 15000
