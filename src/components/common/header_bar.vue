@@ -224,8 +224,8 @@
             </div>
             <button class="primary-btn" @click="findPasswordDo">{{$t('message.PopConfirm')}}</button>
             <p>
-                <a href="javascript:;" @click="switchFindPassword('PHONE')" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
-                <a href="javascript:;" @click="switchFindPassword('EMAIL')" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
+                <a href="javascript:;" @click="switchFindPassword('EMAIL')" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
+                <a href="javascript:;" @click="switchFindPassword('PHONE')" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
             </p>
         </mu-dialog>
 
@@ -537,6 +537,7 @@ export default {
             })
         },
         switchFindPassword(type) {
+            console.log(type)
           this.formData.resetType = type
           this.formData.picCode = ''
           this.formData.captcha = ''
