@@ -43,7 +43,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">{{$t('message.homeVolume')}}</span>
-						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" v-model="buyEthNumber">
+						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" step="0.000001" v-model="buyEthNumber">
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp1"></span></p>
@@ -64,7 +64,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">{{$t('message.homeVolume')}}</span>
-						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" v-model="buyAtNumber">
+						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" step="0.000001" v-model="buyAtNumber">
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
@@ -833,6 +833,35 @@ import { setTimeout, clearInterval } from 'timers';
 						li span {
 							width: 25% !important;
 						}
+					}
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 1400px) {
+		.home-page {
+			.main {
+				.middle {
+					width: 1000px;
+					padding: 10px;
+					.buy-sell {
+						justify-content: space-around;
+						.fund-number {
+							width: 46%;
+							margin: 0;
+						}
+						.buy {
+							padding: 30px 10px;
+							.price-div {
+								.price {
+									width: 71%;
+								}
+							}
+							.buy-button {
+								width: 100%;
+							}
+						} 
 					}
 				}
 			}
