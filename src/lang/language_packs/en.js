@@ -67,8 +67,8 @@ export default {
         homePriceErro: "Incorrect price input",
         homePriceLower: "The price you entered is less than 10% of the market price.",
         homePriceHiger: "The price you entered is more than 10% above the market price.",
-        homeCancelTrade: "Cancel trading",
-        homeContinueTrade: "Continue trading",
+        homeCancelTrade: "Cancel",
+        homeContinueTrade: "Continue",
 
         // 账号安全页
         accountSecurity: "Account Security",
@@ -102,6 +102,7 @@ export default {
         assetsDestAddEmpty: "The coin address can't be empty!",
         assetsNotEnough: "Insufficient balance",
         assetsMentionAmount: "The amount of the coin must be a positive number!",
+        assetsMentionS: "Mention successfully",
 
 
         // 交易记录页
@@ -160,8 +161,8 @@ export default {
         PopGetCaptcha: "Send",
         PopInputCaptcha: "Pls input captcha",
         PopPassword: "Password",
-        PopNewPassword: "New Password",
-        PopPasswordConfirm: "Password Confirm",
+        PopNewPassword: "New pwd",
+        PopPasswordConfirm: "Pwd Confirm",
         PopPasswordPlaceholder: "Alphanumeric composition, 8~12 digits",
         PopPassword2Placeholder: "Please enter your password again",
         PopEmailRegister: "Email Registration",

@@ -103,6 +103,7 @@ export default {
         assetsDestAddEmpty: "提币地址不能为空！",
         assetsNotEnough: "余额不足",
         assetsMentionAmount: "提币金额必须为正数！",
+        assetsMentionS: "提币成功",
 
         // 交易记录页
         tradeRecorde: "交易记录",

@@ -205,6 +205,10 @@ import {mapMutations, mapState} from "vuex"
 					this.formData.destAddress = ''
 					this.formData.amount = ''
 					this.$store.dispatch('updateProperty')
+					this.alert({
+						type: "success",
+						msg: $t('message.assetsMentionS')
+					})
 				}
 			})
 		},
