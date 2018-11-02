@@ -8,7 +8,7 @@
 			<h2>{{$t('message.homeAllet')}}</h2>
 			<div class="info" style="width:70%;margin:30px auto 40px auto;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
 			<div class="total-bill" v-if="getCurrentAddr.token">
-				{{$t('message.homeTotalAt')}}{{this.getCurrentAddr.at}}
+				{{$t('message.homeTotalAt')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}}
 			</div>
 			<div class="total-bill" v-else @click="openLogin">
 				{{$t('message.login')}}
@@ -82,16 +82,16 @@
 	<div class="list-wrapper">
 		<div class="list">
 			<div class="top-button">
-				<span @click="getBancorOrders(0)" :class="[selectTap == 0?'selected':'']">{{$t('message.homeRecentPlayers')}}</span>
+				<span @click="getBancorOrders(2)" :class="[selectTap == 2?'selected':'']">{{$t('message.homeRecentPlayers')}}</span>
 				<span @click="getBancorOrders(1)" :class="[selectTap == 1?'selected':'']">{{$t('message.homeMyOrders')}}</span>
 			</div>
 			<div class="content">
-				<div class="recent-order" v-if="selectTap == 0">
+				<div class="recent-order" v-if="selectTap == 2">
 					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span class="nominscreen">{{$t('message.homeVolume')}}(ETH)</span><span>{{$t('message.homeVolume')}}(AT)</span><span>{{$t('message.homeAtPrice')}}</span><span class="nominscreen">{{$t('message.homeTransactionType')}}</span><span>{{$t('message.homeTransactionTime')}}</span></li>
 					<li v-for="item in recentOrderList">
 						<span>{{item.address}}</span>
-						<span class="nominscreen">{{item.tradeType == 'MARKET_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
-						<span>{{item.tradeType == 'MARKET_BUY'?'+ '+Math.floor(item.outAmount*1000)/1000:'- '+Math.floor(item.inAmount*1000)/1000}}</span>
+						<span class="nominscreen">{{item.tradeType == 'MARKET_BUY' || item.tradeType == 'PUTUP_BUY'? '- '+item.inAmount:'+ '+item.outAmount}}</span>
+						<span>{{item.tradeType == 'MARKET_BUY' || item.tradeType == 'PUTUP_BUY'?'+ '+Math.floor(item.outAmount*1000)/1000:'- '+Math.floor(item.inAmount*1000)/1000}}</span>
 						<span>{{item.dbPrice}} ETH</span>
 						<span :class="['nominscreen',item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
 						<span style="font-family: initial;">{{$fmtDate(item.recdDoneTime, "full")}}</span>
@@ -113,6 +113,9 @@
 						<span v-else>- -</span>
 					</li>
 				</div>
+				<mu-flex justify-content="center" v-if="recentOrderList.length > 0">
+					<mu-pagination raised circle :page-size="20" :total="orderData.total*1" @change="pageChange" :current.sync="curPage"></mu-pagination>
+				</mu-flex>
 			</div>
 		</div>
 	</div>
@@ -138,42 +141,46 @@ import { setTimeout, clearInterval } from 'timers';
 			buyAtNumber: '',// 买入??AT
 
 			result: {},
-			selectTap: 0,
+			selectTap: 2,
 
 			recentOrderList: [], //近期交易列表
 			// entrustOrderList: [], //委托单列表
 			timer: null,
 
+			curPage: 1,
+			orderData: {
+				total: 0
+			}
 		}
 	},
 	mounted() {
 		this.ethPrice = this.$t('message.homeMarketPrice')
 		this.sellAtPrice = this.$t('message.homeMarketPrice')
 	},
-  computed: {
-		ethInfo() {
-			return this.$store.state.web3Handler.web3
-		},
-		userInfo() {
-			return this.$store.state.user.userInfo
-		},
-		getCurrentAddr() {
-			return this.$store.state.user.currentAddr
-		},
-		getAtNumber() {
-			if(this.ethPrice == this.$t('message.homeMarketPrice')) {
-				return (1/this.ethMarketPrice * this.buyEthNumber).toFixed(8)
-			}else{
-				return (1/this.ethPrice * this.buyEthNumber).toFixed(8)
+	computed: {
+			ethInfo() {
+				return this.$store.state.web3Handler.web3
+			},
+			userInfo() {
+				return this.$store.state.user.userInfo
+			},
+			getCurrentAddr() {
+				return this.$store.state.user.currentAddr
+			},
+			getAtNumber() {
+				if(this.ethPrice == this.$t('message.homeMarketPrice')) {
+					return (1/this.ethMarketPrice * this.buyEthNumber).toFixed(8)
+				}else{
+					return (1/this.ethPrice * this.buyEthNumber).toFixed(8)
+				}
+			},
+			getEthNumber() {
+				return this.sellAtPrice == this.$t('message.homeMarketPrice') ? (this.ethMarketPrice * this.buyAtNumber).toFixed(8) : (this.sellAtPrice * this.buyAtNumber).toFixed(8)
+			},
+			locale () {
+				return this.$store.state.locale
 			}
-		},
-		getEthNumber() {
-			return this.sellAtPrice == this.$t('message.homeMarketPrice') ? (this.ethMarketPrice * this.buyAtNumber).toFixed(8) : (this.sellAtPrice * this.buyAtNumber).toFixed(8)
-		},
-		locale () {
-			return this.$store.state.locale
-		}
-  },
+	},
 	created () {
 		this.getInfo()
 		this.getBancorOrders(this.selectTap)
@@ -222,7 +229,7 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		filter1(item) {
 			if (item.tradeType == 'MARKET_BUY' || item.tradeType == 'PUTUP_BUY') {
-				return Math.floor(item.outAmount*1000)/1000 ? '+ '+Math.floor(item.outAmount*1000)/1000 : '--'
+				return Math.floor(item.outAmount*1000)/1000 ? '+ '+Math.floor(item.outAmount*1000)/1000 : '- -'
 			} else {
 				return Math.floor(item.inAmount*1000)/1000 ? '- '+Math.floor(item.inAmount*1000)/1000 : '- -'
 			}
@@ -258,19 +265,21 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		// 获取交易记录
 		getBancorOrders(selectTap) {
+			if(selectTap) this.curPage = 1
 			this.getMarketAtPrice()
 			this.recentOrderList = []
-			this.selectTap = selectTap
-			if (selectTap == 1 && !this.getCurrentAddr.token)  return
+			this.selectTap = selectTap || this.selectTap
+			if (this.selectTap == 1 && !this.getCurrentAddr.token)  return
 			this.$http.get("/app/home/bancor_orders",{
-			params:{
-				"onlyMe": selectTap == 1?true:false,
-				"coinAddress": this.getCurrentAddr.coinAddress,
-				"page": 1,
-				"pageSize":20,
-			}
+				params:{
+					"onlyMe": this.selectTap == 1?true:false,
+					"coinAddress": this.getCurrentAddr.coinAddress,
+					"page": this.curPage,
+					"pageSize":20,
+				}
 			}).then((res) => {
 				if (res.code == 200) {
+					this.orderData = res.result
 					const recentOrderList = res.result.list
 					recentOrderList.forEach((value,key) => {
 						let addr = value.address
@@ -282,10 +291,7 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		// 获取AT市价
 		getMarketAtPrice () {
-			this.$http.get("/app/bancor/price",{
-
-			}).then((res) => {
-				console.log(res);
+			this.$http.get("/app/bancor/price",{}).then((res) => {
 				if (res.code == 200) {
 					this.ethMarketPrice = res.result.toFixed(8)
 				}
@@ -392,6 +398,8 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 					} else {
 						this.$store.dispatch('updateProperty')
+						// 撤单成功，更改状态&更新各种币的数量
+						this.getBancorOrders(this.selectTap)
 						this.alert({
 							type: "success",
 							msg: res.msg
@@ -427,13 +435,16 @@ import { setTimeout, clearInterval } from 'timers';
 					type: "success",
 					msg: that.$t('message.homeDone')
 				})
+				// 撤单成功，更改状态&更新各种币的数量
+				that.getBancorOrders(this.selectTap)
+				that.$store.dispatch('updateProperty')
 			})
 			.on("error", function(error) {
 				that.alert({
 					type: "error",
 					msg: that.$t('message.homeFail')
 				})
-				that.cancelOrder({entrustId: oid})
+				// that.cancelOrder({entrustId: oid})
 			});
 		},
 		// 区块链卖at币(实时成交)
@@ -448,13 +459,16 @@ import { setTimeout, clearInterval } from 'timers';
 					type: "success",
 					msg: that.$t('message.homeDone')
 				})
+				// 撤单成功，更改状态&更新各种币的数量
+				that.getBancorOrders(this.selectTap)
+				that.$store.dispatch('updateProperty')
 			})
 			.on("error", function(error) {
 				that.alert({
 					type: "error",
 					msg: that.$t('message.homeFail')
 				})
-				that.cancelOrder({entrustId: oid})
+				// that.cancelOrder({entrustId: oid})
 			});
 		},
 		openHelp1() {
@@ -472,6 +486,9 @@ import { setTimeout, clearInterval } from 'timers';
 					text: this.$t('message.PopClose')
 				}]
 			})
+		},
+		pageChange(curPage) {
+			this.getBancorOrders()
 		},
 		//input聚焦去除市价文字
 		...mapMutations({
@@ -695,7 +712,7 @@ import { setTimeout, clearInterval } from 'timers';
 			}
 		}
 		.list-wrapper {
-			padding: 30px 149px 5px 149px;
+			padding: 30px 149px 5px 100px;
 			background: linear-gradient(to bottom, #142b73, #030713, #030713, #030713, #142b73);
 		}
 		.list {
@@ -726,6 +743,16 @@ import { setTimeout, clearInterval } from 'timers';
 			.content {
 				font-size: 16px;
 				padding: 0 0 50px 0;
+				// 分页
+				.d-flex {
+					margin-top: 20px;
+					li {
+						border: none;
+						.mu-pagination-item.mu-button.is-current {
+							background-color: #6986F4;
+						}
+					}
+				}
 				li {
 					display: flex;
 					justify-content: center;
@@ -760,7 +787,7 @@ import { setTimeout, clearInterval } from 'timers';
 				}
 				.green {
 					color: #5DC888;
-			    text-shadow: 0px 0px 6px #5DC888;
+			    	text-shadow: 0px 0px 6px #5DC888;
 				}
 			}
 		}

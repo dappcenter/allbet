@@ -129,6 +129,7 @@ export default {
         tradeInvitationReward: "Invitation Reward",
         tradeGameBet: "Game bet",
         tradeRegisterIncentives: "Registration incentives",
+        tradeDone: "Done",
         //邀请好友页
         inviteFriend: "Invite Friend",
         inviteRule: "Support two levels of invitation sharing, invite friends to participate in the game, get AB token rewards, enjoy ETH dividends",

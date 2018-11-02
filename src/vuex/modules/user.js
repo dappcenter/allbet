@@ -40,7 +40,7 @@ const getters = {
                         coinAddress: rootState.web3Handler.web3.coinbase,
                         eth: rootState.web3Handler.web3.balance,
                         bet: rootState.web3Handler.web3.bet,
-                        at: rootState.web3Handler.web3.at,
+                        at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
                         userName: list[0].userName,
                         token: list[0].token,
                         platform: rootState.web3Handler.web3.platform,
@@ -50,7 +50,7 @@ const getters = {
                     list.push({
                         coinAddress: rootState.web3Handler.web3.coinbase,
                         eth: rootState.web3Handler.web3.balance,
-                        at: rootState.web3Handler.web3.at,
+                        at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
                         bet: rootState.web3Handler.web3.bet,
                         userName: rootState.web3Handler.web3.userName,
                         token: rootState.web3Handler.web3.token,
@@ -62,7 +62,7 @@ const getters = {
                 list.push({
                     coinAddress: rootState.web3Handler.web3.coinbase,
                     eth: rootState.web3Handler.web3.balance,
-                    at: rootState.web3Handler.web3.at,
+                    at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
                     bet: rootState.web3Handler.web3.bet,
                     userName: rootState.web3Handler.web3.userName,
                     token: rootState.web3Handler.web3.token,

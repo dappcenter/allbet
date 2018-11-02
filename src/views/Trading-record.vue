@@ -44,7 +44,7 @@
 				<div class="nominscreen">{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
 				<div class="nominscreen">{{filterAmount(item)}}</div>
-				<div class="nominscreen">已完成</div>
+				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
 				<!-- <div class="operation" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']">{{$t('message.tradeDetail')}}</div> -->
 				<div class="operation" @click="goDetail(item)">{{item.platform !='DISPATCHER' ? $t('message.tradeDetail'): '- -'}}</div>
 			</li>
