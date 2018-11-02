@@ -20,7 +20,7 @@
 	          </div>
 	        </div>
 	        <div class="qrcode">
-						<p class="invite-code minscreen">专属邀请二维码：</p>
+						<p class="invite-code minscreen">{{$t('message.InviteQrcode')}}：</p>
 						<div class="qrcode-content">
 							<div alt="" id="qrcode1"></div>
 							<div class="invite-div">
@@ -47,8 +47,8 @@
         </div>
 				<div class="no-bind" v-show="!inviteCode">
 						<p>
-							请先绑定账号，再邀请好友参与游戏
-							<router-link class="bind-btn" :to="{ name: 'account-security'}">去绑定</router-link>
+							{{$t('message.InviteBind')}}
+							<router-link class="bind-btn" :to="{ name: 'account-security'}">{{$t('message.accountToBound')}}</router-link>
 						</p>
 				</div>
       </div>
