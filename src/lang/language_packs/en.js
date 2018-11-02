@@ -142,6 +142,8 @@ export default {
         InvitationRules1: "1. Register for an account to get 500AB coins;",
         InvitationRules2: "2. Invite a friend to successfully system. The airdrop will be 10%. The invitee will hold the AB coin, 8% will be owned by the inviter, and 2% will be owned by the invitee.",
         InvitePeople: "People",
+        InviteBind: "Please bind the account first, then invite friends to participate in the game.",
+        InviteQrcode: "Exclusive invitation QR code",
         // 所有弹框页
         PopRegister: "Register",
         PopEmailFind: 'Mailbox retrieval',

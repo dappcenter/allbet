@@ -142,6 +142,8 @@ export default {
         InvitationRules1: "1、注册账号即可获得 500AB 币；",
         InvitationRules2: "2、邀请好友成功系统将空投 10% 被邀请者持有AB币，8% 归邀请者所有，2% 归被邀请者所有。",
         InvitePeople: "人",
+        InviteBind: "请先绑定账号，再邀请好友参与游戏",
+        InviteQrcode: "专属邀请二维码",
         // 所有弹框页
         PopRegister: "注册",
         PopEmailFind: '邮箱找回',
