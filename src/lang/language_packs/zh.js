@@ -243,7 +243,13 @@ export default {
         GameWinBox1: "恭喜您",
         GameWinBox2: "获得AB数：",
         GameWinBox3: "再玩一次",
-        GameNoWin: "很遗憾预测失败，别灰心"
+        GameNoWin: "很遗憾预测失败，别灰心",
+
+        // 分红池
+        BPbonusPools: "分红池",
+        BPtip: "当前分红池由 Allbet 游戏所得 ETH 收益构成，具体详见游戏规则。",
+        BPab: "我的 AB 余额",
+        BPcurrentAmount: "当前分红池累计"
 
     }
 }

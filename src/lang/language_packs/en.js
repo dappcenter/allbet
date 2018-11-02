@@ -241,6 +241,12 @@ export default {
         GameWinBox1: "Congratulations",
         GameWinBox2: "(Get number of AB:",
         GameWinBox3: "Play it again",
-        GameNoWin: "It's a pity to fail. Don't lose heart"
+        GameNoWin: "It's a pity to fail. Don't lose heart",
+
+        // 分红池
+        BPbonusPools: "Bonus Pools",
+        BPtip: "Currently, the dividend pool is composed of ETH earnings from Allbet games. For details, please refer to the game rules.",
+        BPab: "My AB balance",
+        BPcurrentAmount: "Bonus Pool"
     }
 }

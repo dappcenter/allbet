@@ -231,12 +231,12 @@
 
         <!-- 分红池 -->
         <mu-dialog :open.sync="displayStatus.bonusPools" :append-body="false" class="bonus-pools">
-            <h4>分红池</h4>
-            <p>当前分红池由 Allbet 游戏所得 ETH 收益构成，具体详见游戏规则。</p>
+            <h4>{{$t('message.BPbonusPools')}}</h4>
+            <p>{{$t('message.BPtip')}}</p>
             <div class="coin-wrap ab">
                 <div class="coin-logo">
                     <img src="../../../public/img/ab_icon.png" />
-                    <span>我的 AB 余额</span>
+                    <span>{{$t('message.BPab')}}</span>
                 </div>
                 <h3 v-if="storeCurrentAddr.bet">{{storeCurrentAddr.bet}} AB</h3>
                 <h3 v-else>0 AB</h3>
@@ -244,7 +244,7 @@
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/eth_icon.png" />
-                    <span>当前分红池累计</span>
+                    <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
                 <h3>{{bonusPoolsData.pool}} ETH</h3>
             </div>
@@ -1065,6 +1065,9 @@ export default {
         bottom: 0;
         right: 0;
         top: 0;
+        .mu-dialog {
+            max-width: 50% !important;
+        }
         .mu-dialog-body {
             background: url(../../../public/img/bonus-pools.png) no-repeat center;
             background-size: 100% 100%;
@@ -1090,6 +1093,8 @@ export default {
                     background:rgba(233,86,120,.8);
                 }
                 .coin-logo {
+                    width: 130px;
+                    text-align: center;
                     img {
                         width: 64px;
                         height: 64px;
