@@ -60,10 +60,7 @@ export default {
 <style lang="less">
 .aef-countdownbtn {
     button {
-        background: -webkit-gradient(linear, left top, right top, from(#64b4ef), to(#395eec));
-        background: linear-gradient(90deg, #64b4ef, #395eec);
-        -webkit-box-shadow: 0px 0px 0px 0px rgba(199, 218, 255, 0.75);
-        box-shadow: 0px 0px 0px 0px rgba(199, 218, 255, 0.75);
+        background-color: #5AA0EE;
         line-height: 36px;
         margin-left: 10px;
         width: 90px;
