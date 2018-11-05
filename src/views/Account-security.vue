@@ -619,7 +619,7 @@ import {mapMutations, mapState} from "vuex"
                     flex: 1;
                     display: flex;
                     a {
-                        background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+                        background-color: #5AA0EE;
                         box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
                         line-height: 40px;
                         margin-left: 10px;
@@ -641,7 +641,7 @@ import {mapMutations, mapState} from "vuex"
                         .mu-menu {
                             line-height: 40px;
                             padding: 0 10px;
-                            border-right: 1px solid rgba(220,220,220,1);
+                            border-right: 1px solid #3057A8;
                             font-weight: 700;
 														color: #fff;
                         }
