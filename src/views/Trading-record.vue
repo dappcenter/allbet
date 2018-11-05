@@ -45,7 +45,7 @@
 				<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
 				<div class="nominscreen">{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
-				<div class="nominscreen">{{filterAmount(item)}}</div>
+				<div class="nominscreen">{{item.amount}}</div>
 				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
 				<div class="operation" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.operation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
 				<div class="operation" v-else>- -</div>

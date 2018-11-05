@@ -1,10 +1,9 @@
 <template>
 	<section class="module-roller-bet">
 		<div class="mask"></div>
-		<div class="game-status nominscreen">
+		<div class="game-status nominscreen" v-if="diceStatistics.newcomers.length > 0">
 			<div class="container">
-				<p v-if="diceStatistics.newcomers.length > 0">{{$fmtAccount(diceStatistics.newcomers[0])}} {{$t("message.GameEnter")}}</p>
-				<p v-else></p>
+				<p>{{$fmtAccount(diceStatistics.newcomers[0])}} {{$t("message.GameEnter")}}</p>
 				<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
 				<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
 				<a href="javascript:;" @click="helpPopup">{{$t("message.GameHowToPlay")}}</a>
@@ -75,7 +74,7 @@
 					<button v-if="currentAddr.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 					<span class="fl minscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
-					<span class="fr"><img src="../../../public/img/at_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
+					<span class="fr"><img src="../../../public/img/ab_icon02.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
 		</div>
@@ -114,18 +113,14 @@ export default {
         }
 	},
 	created() {
+		let that = this
 		this.getRule()
 		setTimeout(() => {
 			if(!this.web3.web3Instance) return
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, "0x861e9351996abc27b1f932f92e5cad82ac1cbdd2");
+			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, window.ROLLERADDRESS);
 		}, 2000)
-		// window.hd = {}
-		// window.hd.betFailed = function(payload) {
-		// 	this.alert({
-		// 		type: "error",
-		// 		msg: payload
-		// 	})
-		// }
+		window.hd = {}
+		
 	},
     mounted() {
         this.setBetInfo({
@@ -220,6 +215,7 @@ export default {
 		},
 		//下注
 		betDo() {
+			let that = this
 			if(this.timer) {
 				this.alert({
 					type: "info",
@@ -279,6 +275,21 @@ export default {
 						}, 3000)
 					}else {   //合约账号
 						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
+						//注册方法与原生交互
+						window.hd.betFailed = function(payload) {
+							that.alert({
+								type: "error",
+								msg: that.$t("message.GameBetErr")
+							})
+							that.luckyRun()
+							that.getBetResult(res.result.recdId)
+						}
+						window.hd.betSuccess = function(payload) {
+							that.alert({
+								type: "success",
+								msg: that.$t("message.GameBetSuc")
+							})
+						}
 					}
 				}
 			})

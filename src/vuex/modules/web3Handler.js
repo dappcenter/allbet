@@ -36,7 +36,7 @@ const mutations = {
         web3Copy.balance = payload.web3.utils.fromWei(payload.balance, "ether")
         web3Copy.isInjected = payload.injectedWeb3
         web3Copy.web3Instance = payload.web3
-        web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, "0x57ce2ffe2e198c97f1fd057e0e89df33d7c5705a");
+        web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS);
         state.web3 = web3Copy
         // 轮询
         pollWeb3()

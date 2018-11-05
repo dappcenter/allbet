@@ -915,7 +915,7 @@ export default {
         height: 30px;
         overflow: hidden;
         width: 100%;
-        background-color: #496FFF;
+        background:rgba(73,111,255,.2);
     }
     .mu-dialog-wrapper {
         // left: initial;

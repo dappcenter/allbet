@@ -50,6 +50,11 @@
 							{{$t('message.InviteBind')}}
 							<router-link class="bind-btn" :to="{ name: 'account-security'}">{{$t('message.accountToBound')}}</router-link>
 						</p>
+						<div class="buttom">
+							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+							<h5>{{$t('message.InvitationRules1')}}</h5>
+							<h5>{{$t('message.InvitationRules2')}}</h5>
+						</div>
 				</div>
       </div>
     </div>
@@ -317,11 +322,12 @@ import {mapMutations, mapState} from "vuex"
 				}
 			}
 			.no-bind {
-				padding: 204px 0;
+				padding: 150px 0 0 0;
 				p {
 					color: #fff;
 					font-weight: 500;
 					font-size:18px;
+					margin-bottom: 150px;
 				}
 				.bind-btn {
 					width: 186px;
