@@ -47,8 +47,8 @@
 				<div>{{filterState(item)}}</div>
 				<div class="nominscreen">{{filterAmount(item)}}</div>
 				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-				<!-- <div class="operation" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']">{{$t('message.tradeDetail')}}</div> -->
-				<div class="operation" @click="goDetail(item)">{{item.platform !='DISPATCHER' ? $t('message.tradeDetail'): '- -'}}</div>
+				<div class="operation" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.operation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+				<div class="operation" v-else>- -</div>
 			</li>
 			<!-- <div class="charge">
 				<div class="desc address">
@@ -180,7 +180,7 @@ export default {
 		},
 		// 数量金额
 		filterAmount(item) {
-			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE'].indexOf(item.operation) > -1) {
+			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE', 'BANCOR_SELL_AT', 'BANCOR_SELL_ETH'].indexOf(item.operation) > -1) {
 				return '+ ' + item.amount
 			} else {
 				return '- ' + item.amount

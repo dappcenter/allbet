@@ -202,7 +202,6 @@ import {mapMutations, mapState} from "vuex"
 					picCode: "", //图形验证码
 					resetLoginPwd: "",
 					resetLoginPwd2: "",
-
 				})
 			},
 			deep: true
