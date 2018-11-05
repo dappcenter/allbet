@@ -58,7 +58,7 @@
                 <li v-show="addressList.length > 1">
                     <a href="javascript:;"><span>{{$t("message.address")}}</span></a>
                     <mu-select v-model="currentAddr">
-                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
+                        <mu-option v-for="item,index in addressList" :key="index" :class="item.platform" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
                 </li>
             </ul>
@@ -314,7 +314,7 @@ export default {
             countDownTimer: null,   //短信倒计时
             btnText: this.$t('message.PopGetCaptcha'),  //发送短信按钮文字
             s: 60,  //短信倒计时时间
-            macCode: "123456",
+            macCode: new Date().getTime(),
             captchaDisabled: false,
             isShowFoldMunu: false,
             bonusPoolsData: {}

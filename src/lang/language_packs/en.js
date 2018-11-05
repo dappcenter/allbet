@@ -79,6 +79,7 @@ export default {
         // 账号安全页
         accountSecurity: "Account Security",
         accountPlatform: "Platform Account",
+        accountPlatformAddress: "Platform address",
         accountMetaMaskAddress: "MetaMask Address",
         accountLoginPassword: "Login Password",
         accountChange: "Change",
@@ -262,9 +263,9 @@ export default {
         BPcurrentAmount: "Bonus Pool",
 
         // 公告
-        notice1: "ALLBET game platform has been online, registered to send 5000AB, more invite rewards, etc. you come to collect!",
+        notice1: "Notice：ALLBET game platform has been online, registered to send 5000AB, more invite rewards, etc. you come to collect!",
 
         // 邀请
-        inviteText: "【ALLBET游戏平台上线啦】【注册ALLBET立送5000AB】【ALLBET】作为全生态DAPP平台，践行通证（Token）经济理念，资产透明、收入共享、社区共治。 “游戏挖矿AB、每日分红、邀请注册奖励”同步开启。1每个人都有的邀请推广奖励❗️ ❗️ 【邀请推广奖励】🏆注册即送5000AB，被邀请人持有AB币后，邀请人奖励8%被邀请人AB币数量，被邀请人奖励2%持有AB币数量，所有奖励来自系统空投💰🎀也就是每个人只要注册即送5000AB，被邀请人游戏挖矿获得AB后，邀请人将获得8%的奖励，被邀请人也额外获得2%的奖励，这些奖励都是系统直接空投，这样大家都能一起赚钱🎀🎀如果每个人都能够很快推荐3个人，大家都能轻松赚钱啦🎉🎉🎉🎉🎉官网链接："
+        inviteText: "【ALLBET game platform online】【Register ALLBET to send 5000AB】【ALLBET】As an all-ecology DAPP platform, it implements Token's economic concept, transparent assets, income sharing and community co-governance.“Game mining AB, daily dividends, invite registration Award 'synchronous opening. 1 everyone has the invitation to promote the award.❗️ ❗️ 【Invitation to Promotion Award】🏆After the invitee holds AB coins, the invitee will reward 8% of the invitee's AB coins, and the invitee will reward 2% of the number of AB coins. All the rewards come from the system airdrop.💰🎀That is to say, as long as everyone registers and sends 5000AB, the invitee will get 8% of the reward after the invitee's game mining gets AB, and the invitee will also get 2% of the reward. These rewards are all direct airdrops of the system, so that everyone can make money together.🎀🎀If everyone can recommend 3 people quickly, everyone can make money easily.🎉🎉🎉🎉🎉 Registration link："
     }
 }

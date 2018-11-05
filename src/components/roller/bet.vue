@@ -43,9 +43,9 @@
 					<span>1</span>
 					<span>100</span>
 				</div>
-				<div class="slider" ref="slider">
-					<div class="bar" ref="bar"></div>
-					<div class="handle" @mousedown="onHandleMouseD" @touchstart="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
+				<div class="slider" ref="slider" @click.stop.self="onHandleClick">
+					<div class="bar" ref="bar" @click="onHandleClick"></div>
+					<div class="handle" @mousedown.prevent="onHandleMouseD" @touchstart.prevent="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
 				</div>
 				
 			</div>
@@ -168,6 +168,18 @@ export default {
 			openWinPopup: "OPEN_WIN_POPUP",
 			openConfirm: "OPEN_CONFIRM"
 		}),
+		onHandleClick(e) {
+			let moveWidth = e.offsetX
+			const sliderWidth = this.$refs.slider.clientWidth - 20
+			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
+			this.$refs.handle.style.left = moveWidth + "px"
+			this.$refs.bar.style.width = moveWidth + "px"
+			this.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
+			this.setBetInfo({
+				odds: this.odds,
+				amount: this.amount
+			})
+		},
 		onHandleMouseD(e) {
 			let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft

@@ -45,7 +45,7 @@
 				<div>{{filterState(item)}}</div>
 				<div class="nominscreen">{{item.amount}}</div>
 				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-				<div class="operation" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.operation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+				<div class="operation btn" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.operation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
 				<div class="operation" v-else>- -</div>
 			</li>
 			<!-- <div class="charge">
@@ -67,20 +67,32 @@
 			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
 				<p>{{$t('message.tradeDetail')}}</p>
 				<li>
+					<span>交易地址:</span>
+					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
+				</li>
+				<li v-if="detailData.bancorPrice">
+					<span>AT价格:</span>
+					<div>{{detailData.bancorPrice}}</div>
+				</li>
+				<!-- 提币地址 -->
+				<li>
 					<span>{{$t('message.assetsCoinAddress')}}:</span>
-					<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
+					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
 				</li>
-				<li>
+				<!-- 区块链交易ID -->
+				<li v-if="detailData.txId">
 					<span>{{$t('message.tradeBlockchain')}}:</span>
-					<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
+					<div>{{detailData.txId}}</div>
 				</li>
-				<li>
+				<!-- 手续费 -->
+				<!-- <li>
 					<span>{{$t('message.tradePlatform')}}:</span>
 					<div>0.005 ETH</div>
-				</li>
+				</li> -->
+				<!-- 处理时间 -->
 				<li>
 					<span>{{$t('message.tradeProcessingTime')}}:</span>
-					<div>2018.10.31 17:46:34</div>
+					<div>{{$fmtDate(detailData.updateTime, 'full')}}</div>
 				</li>
 			</mu-dialog>
 		</div>
@@ -315,10 +327,16 @@ export default {
 						span {
 							margin-left: 10px;
 						}
+						&.btn {
+							cursor: pointer;
+						}
 					 }
 					 .transparent {
 					 	color: transparent;
 					 }
+				}
+				.mu-dialog {
+					width: 40%;
 				}
 				.mu-dialog-body {
 					background-color: #214797;
@@ -336,7 +354,6 @@ export default {
 						justify-content: flex-start;
 						align-items: center;
 						border-bottom: none;
-						line-height: 4.5;
 						span {
 							color: #C8C8C8;
 							text-align: left;
@@ -345,6 +362,8 @@ export default {
 						div {
 							text-align: right;
 							flex: 1;
+							word-wrap: break-word;
+							line-height: initial;
 						}
 					}
 					// padding: 10px;
@@ -378,7 +397,7 @@ export default {
 						}
 					}
 					.mu-dialog  {
-						max-width: 85%;
+						width: 80%;
 						.mu-dialog-body {
 							padding: 10px;
 							li {

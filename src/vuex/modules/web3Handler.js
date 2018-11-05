@@ -81,7 +81,7 @@ const actions = {
                                         type: "high",
                                         text: "去绑定",
                                         cb: () => {
-                                            router.push('account-security')
+                                            router.push('account-security?bind=1')
                                         }
                                     }
                                 ]

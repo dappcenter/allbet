@@ -292,6 +292,7 @@ import {mapMutations, mapState} from "vuex"
 							color: #708FFF;
 							padding: 4px 7px;
 							margin-left: 12px;
+							cursor: pointer;
 
 						}
 						}
@@ -369,7 +370,8 @@ import {mapMutations, mapState} from "vuex"
 							.copy-div1 {
 						    width: 100%;
 								.copy {
-									    width: 26%;
+											width: 26%;
+											
 								}
 							}
 						}
