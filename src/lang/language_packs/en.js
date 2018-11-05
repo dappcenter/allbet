@@ -259,6 +259,9 @@ export default {
         BPbonusPools: "Bonus Pools",
         BPtip: "Currently, the dividend pool is composed of ETH earnings from Allbet games. For details, please refer to the game rules.",
         BPab: "My AB balance",
-        BPcurrentAmount: "Bonus Pool"
+        BPcurrentAmount: "Bonus Pool",
+
+        // 公告
+        notice1: "ALLBET game platform has been online, registered to send 5000AB, more invite rewards, etc. you come to collect!"
     }
 }

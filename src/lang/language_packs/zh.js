@@ -261,7 +261,10 @@ export default {
         BPbonusPools: "分红池",
         BPtip: "当前分红池由 Allbet 游戏所得 ETH 收益构成，具体详见游戏规则。",
         BPab: "我的 AB 余额",
-        BPcurrentAmount: "当前分红池累计"
+        BPcurrentAmount: "当前分红池累计",
+
+        // 公告
+        notice1: "ALLBET游戏平台已上线，注册即送5000AB，更多的邀请奖励等您来领取！"
 
     }
 }

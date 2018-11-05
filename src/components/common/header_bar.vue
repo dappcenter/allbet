@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="notice" v-if="notice">
-            <ScrollNotice></ScrollNotice>
+            <ScrollNotice :text="$t('message.notice1')"></ScrollNotice>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <div class="fold-menu minscreen" v-show="isShowFoldMunu">

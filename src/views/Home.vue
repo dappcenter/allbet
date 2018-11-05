@@ -6,7 +6,7 @@
 		<div class="top">
 			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>
-			<div class="info" style="width:70%;margin:30px auto 40px auto;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
+			<div class="info nominscreen" style="width:70%;margin:30px auto 40px auto;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
 			<div class="total-bill" v-if="getCurrentAddr.token">
 				{{$t('message.homeTotalAt')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}}
 			</div>
@@ -869,7 +869,7 @@ import { setTimeout, clearInterval } from 'timers';
 				.top {
 					h2 {
 						width: 80%;
-						margin: auto;
+						margin: 0 auto 20px;
 					}
 					.info {
 						width: 90% !important;
