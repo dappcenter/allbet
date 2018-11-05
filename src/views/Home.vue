@@ -1,8 +1,8 @@
 <template>
 	<div class="home-page">
-	<HeaderBar type="steep"></HeaderBar>
+	<HeaderBar></HeaderBar>
 	<div class="main">
-		<!-- <div class="mask"></div> -->
+		<div class="mask"></div>
 		<div class="top">
 			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>
@@ -547,11 +547,11 @@ import { setTimeout, clearInterval } from 'timers';
 			.mask {
 				position: absolute;
 				width: 100%;
-				height: 100%;
-				background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Safari 5.1 - 6.0 */
-				background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Opera 11.1 - 12.0 */
-				background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* Firefox 3.6 - 15 */
-				background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.5)); /* 标准的语法（必须放在最后） */
+				height: 18%;
+				background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* Safari 5.1 - 6.0 */
+				background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* Opera 11.1 - 12.0 */
+				background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* Firefox 3.6 - 15 */
+				background: linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* 标准的语法（必须放在最后） */
 			}
 			.top {
         		position: relative;

@@ -22,7 +22,7 @@
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
 					</div>
-					<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
+					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
 					<div class="input-div">
 						<input type="text" v-model="formData.amount">
 						ETH
@@ -63,7 +63,7 @@
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
 					</div>
-					<p>{{$t('message.assetsQuantity')}}:<span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
 					<div class="input-div">
 						<input type="text" v-model="formData.amount">
 						AT
@@ -88,7 +88,7 @@
 						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
 				</div>
-				<li><div>AB</div><div>{{currentAddr.bet}}</div><div>--</div></li>
+				<li><div>AB</div><div>{{currentAddr.bet}}</div><div style="color:#FFDB5B;">--</div></li>
 			</ul>
 		</div>
 	</div>
@@ -293,7 +293,7 @@ import {mapMutations, mapState} from "vuex"
 					overflow: hidden;
 					span:last-child {
 						float: right;
-						color: #75C1FF;
+						color: #FFDB5B;
 						font-size: 16px;
 						cursor: pointer;
 					}
@@ -306,11 +306,11 @@ import {mapMutations, mapState} from "vuex"
 					display: flex;
 					align-items: flex-end;
 					justify-content: flex-start;
-					background-color: #132A59;
+					background-color: #132a59;
 					padding: 27px 0 27px 40px;
 					font-size: 14px;
-					color: #5060C2;
-					border: 1px solid #1C298A;
+					color: #4A69B1;
+					border: 1px solid #1C3B7C;
 					img {
 						width:108px;
 						height:108px;
@@ -331,7 +331,7 @@ import {mapMutations, mapState} from "vuex"
 							font-size:16px;
 							font-family:PingFang-SC-Medium;
 							font-weight:500;
-							color:rgba(117,193,255,1);
+							color:#FFDB5B;
 							margin-left: 20px;
 						}
 					}
@@ -339,18 +339,18 @@ import {mapMutations, mapState} from "vuex"
 				.mention {
 					padding: 0 20px 60px 20px;
 					background:#132A59;
-					border:1px solid rgba(28,41,138,1);
+					border:1px solid #1c3b7c;
 					p {
 						font-size:14px;
 						font-family:PingFang-SC-Medium;
 						font-weight:500;
-						color:rgba(80,96,194,1);
+						color:#4A69B1;
 						margin: 29px 0 10px 0;
 					}
 					.input-div {
 						height:48px;
 						background:#0F2551;
-						border:1px solid rgba(28,41,138,1);
+						border:1px solid #1c3b7c;
 						border-radius:4px;
 						input {
 							background-color: transparent;
@@ -362,6 +362,17 @@ import {mapMutations, mapState} from "vuex"
 							font-family:PingFang-SC-Bold;
 							font-weight:bold;
 							color:rgba(255,255,255,1);
+						}
+					}
+					.available {
+						display: flex;
+						span:first-child {
+							width: 20%;
+							text-align: left;
+						}
+						span:last-child {
+							flex: 1;
+							text-align: right;
 						}
 					}
 					.poundage {
@@ -407,6 +418,7 @@ import {mapMutations, mapState} from "vuex"
 							position: absolute;
 							right: 0;
 							cursor: pointer;
+							color: #fff;
 						}
 					}
 				}
@@ -414,7 +426,7 @@ import {mapMutations, mapState} from "vuex"
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					border-bottom: 1px solid #1C298A;
+					border-bottom: 1px solid #1c3b7c;
 					line-height: 3.5;
 					div {
 						width: 33.3%;
@@ -429,12 +441,15 @@ import {mapMutations, mapState} from "vuex"
 						width: 40%;
 					}
 					 .operation {
-					 	color: #75C1FF;
+					 	color: #FFDB5B;
 						span {
 							margin-left: 10px;
 							cursor: pointer;
 						}
 					 }
+				}
+				li:first-child {
+					color: #A0ADFF;
 				}
 			}
 		}
