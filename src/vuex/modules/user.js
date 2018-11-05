@@ -100,6 +100,12 @@ const mutations = {
      */
     [types.SET_CURRENTADDR](state, payload) {
         state.currentAddr = payload
+        // HD钱包网络环境检测
+        if(state.currentAddr.platform == "IMPORT" && this.state.web3Handler.web3.networkId !== 1 && window.NETWORK == 1) {
+            this.state.dialogs.noMainNetwork = true
+        }else {
+            this.state.dialogs.noMainNetwork = false
+        }
     },
     /**
      * 更新我的（userinfo）资产

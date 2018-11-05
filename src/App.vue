@@ -21,7 +21,7 @@
 				<img src="../public/svg/loading.svg" alt="">
 			</div>
 		</div>
-		<div class="shade" v-show="isShowWin"></div>
+		<div class="shade" v-show="isShowWin || noMainNetwork"></div>
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
 			<div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
@@ -31,6 +31,15 @@
 				<button @click="isShowWin=false;$router.push('roller')">{{$t("message.GameWinBox3")}}</button>
 			</div>
 		</transition>
+
+    <!-- HD钱包网络弹框提示 -->
+    <div class="newwork-box" v-show="noMainNetwork">
+        <div>
+            <img src="../public/img/MetaMask.png" alt="">
+            <span>切换到主网</span>
+        </div>
+        <p>我们的游戏仅在主网上提供，请通过Metamask进行切换</p>
+    </div>
 	</div>
 </template>
 
@@ -68,7 +77,8 @@ export default {
       alertOption: state => state.dialogs.alertOption,
       confirmOption: state => state.dialogs.confirmOption,
       loading: state => state.dialogs.loading,
-      winPopupOption: state => state.dialogs.winPopupOption
+      winPopupOption: state => state.dialogs.winPopupOption,
+      noMainNetwork: state => state.dialogs.noMainNetwork
     })
   },
   methods: {
@@ -218,6 +228,33 @@ body {
       font-weight: 700;
       cursor: pointer;
       margin-top: 30px;
+    }
+  }
+  .newwork-box {
+    position: fixed;
+    left: calc(50% - 180px);
+    top: calc(50% - 180px);
+    background-size: 100%;
+    text-align: center;
+    background-color: #CCD3FF;
+    z-index: 9999999999;
+    color: #000;
+    padding: 30px;
+    border-radius: 6px;
+    div {
+      img {
+        width: 100px;
+        vertical-align: middle;
+        margin-right: 30px;
+      }
+      span {
+        font-size: 36px;
+        vertical-align: middle;
+      }
+    }
+    p {
+      margin-top: 20px;
+      font-size: 16px;
     }
   }
 }

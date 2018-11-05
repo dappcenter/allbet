@@ -36,9 +36,6 @@ let getWeb3 = new Promise(function(resolve, reject) {
                 resolve(result)
             }
         })
-
-        result = Object.assign({}, result, {networkId: 1})
-        resolve(result)
     })
 }).then(result => {
     return new Promise(function(resolve, reject) {

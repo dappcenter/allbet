@@ -34,7 +34,8 @@ const state = {
         ab: 0
     },
     loginBox: false,
-    loading: false
+    loading: false,
+    noMainNetwork: false
 }
 
 const mutations = {

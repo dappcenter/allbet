@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         run() {
-            console.log(this.$refs.scrollWrap.clientWidth)
             this.positionL = this.$refs.scrollWrap.clientWidth
             const scrollDomW = this.$refs.scrollDom.clientWidth
             this.timer = setInterval(() => {

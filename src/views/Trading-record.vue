@@ -11,10 +11,8 @@
 						<option value="ALL">{{$t('message.tradeAll')}}</option>
 						 <option value="ETH_RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
 						 <option value="ETH_WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
-						 <option value="BANCOR_BUY_AT">{{$t('message.tradeBancorBuyAT')}}</option>
-						 <option value="BANCOR_SELL_AT">{{$t('message.tradeBancorSellAT')}}</option>
-						 <option value="BANCOR_BUY_ETH">{{$t('message.tradeBancorBuyEth')}}</option>
-						 <option value="BANCOR_SELL_ETH">{{$t('message.tradeBancorSellEth')}}</option>
+						 <option value="BANCOR_BUY_AT">{{$t('message.tradeBancorBuy')}}</option>
+						 <option value="BANCOR_SELL_AT">{{$t('message.tradeBancorSell')}}</option>
 						 <option value="DICE">{{$t('message.tradeDice')}}</option>
 						 <option value="DICE_REWARD">{{$t('message.tradeDiceReward')}}</option>
 						 <option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
@@ -67,23 +65,23 @@
 			</mu-container>
 
 			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
-					<p>{{$t('message.tradeDetail')}}</p>
-					<li>
-						<span>{{$t('message.assetsCoinAddress')}}:</span>
-						<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
-					</li>
-					<li>
-						<span>{{$t('message.tradeBlockchain')}}:</span>
-						<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
-					</li>
-					<li>
-						<span>{{$t('message.tradePlatform')}}:</span>
-						<div>0.005 ETH</div>
-					</li>
-					<li>
-						<span>{{$t('message.tradeProcessingTime')}}:</span>
-						<div>2018.10.31 17:46:34</div>
-					</li>
+				<p>{{$t('message.tradeDetail')}}</p>
+				<li>
+					<span>{{$t('message.assetsCoinAddress')}}:</span>
+					<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
+				</li>
+				<li>
+					<span>{{$t('message.tradeBlockchain')}}:</span>
+					<div>0xoufeijfihrejloisaSEJGG08o034340j434yjhH9</div>
+				</li>
+				<li>
+					<span>{{$t('message.tradePlatform')}}:</span>
+					<div>0.005 ETH</div>
+				</li>
+				<li>
+					<span>{{$t('message.tradeProcessingTime')}}:</span>
+					<div>2018.10.31 17:46:34</div>
+				</li>
 			</mu-dialog>
 		</div>
 	</div>
@@ -144,16 +142,10 @@ export default {
 					return this.$t('message.tradeEthWithdraw')
 				break;
 				case 'BANCOR_BUY_AT': //购买(单位AT)
-					return this.$t('message.tradeBancorBuyAT')
+					return this.$t('message.tradeBancorBuy')
 				break;
 				case 'BANCOR_SELL_AT':  //出售(单位AT)
-					return this.$t('message.tradeBancorSellAT')
-				break;
-				case 'BANCOR_BUY_ETH':  //购买AT(单位ETH)
-					return this.$t('message.tradeBancorBuyEth')
-				break;
-				case 'BANCOR_SELL_ETH':  //出售AT(单位ETH)
-					return this.$t('message.tradeBancorSellEth')
+					return this.$t('message.tradeBancorSell')
 				break;
 				case 'DICE':  //游戏下注
 					return this.$t('message.tradeDice')
