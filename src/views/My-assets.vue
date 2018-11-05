@@ -205,6 +205,10 @@ import {mapMutations, mapState} from "vuex"
 					this.formData.destAddress = ''
 					this.formData.amount = ''
 					this.$store.dispatch('updateProperty')
+					this.alert({
+						type: "success",
+						msg: res.msg
+					})
 				}
 			})
 		},
@@ -302,7 +306,7 @@ import {mapMutations, mapState} from "vuex"
 					display: flex;
 					align-items: flex-end;
 					justify-content: flex-start;
-					background-color: #071051;
+					background-color: #132A59;
 					padding: 27px 0 27px 40px;
 					font-size: 14px;
 					color: #5060C2;
@@ -334,7 +338,7 @@ import {mapMutations, mapState} from "vuex"
 				}
 				.mention {
 					padding: 0 20px 60px 20px;
-					background:rgba(7,16,81,1);
+					background:#132A59;
 					border:1px solid rgba(28,41,138,1);
 					p {
 						font-size:14px;
@@ -345,7 +349,7 @@ import {mapMutations, mapState} from "vuex"
 					}
 					.input-div {
 						height:48px;
-						background:rgba(9,19,94,1);
+						background:#0F2551;
 						border:1px solid rgba(28,41,138,1);
 						border-radius:4px;
 						input {

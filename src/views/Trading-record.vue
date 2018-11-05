@@ -136,43 +136,46 @@ export default {
 		filterState(item) {
 			switch (item.operation) {
 				case 'ETH_RECHARGE':
-				return this.$t('message.tradeEthRecharge')
+					return this.$t('message.tradeEthRecharge')
 				break;
 				case 'ETH_WITHDRAW':
-				return this.$t('message.tradeEthWithdraw')
+					return this.$t('message.tradeEthWithdraw')
 				break;
 				case 'BANCOR_BUY_AT':
-				return this.$t('message.tradeBancorBuyAT')
+					return this.$t('message.tradeBancorBuyAT')
 				break;
 				case 'BANCOR_SELL_AT':
-				return this.$t('message.tradeBancorSellAT')
+					return this.$t('message.tradeBancorSellAT')
 				break;
 				case 'BANCOR_BUY_ETH':
-				return this.$t('message.tradeBancorBuyEth')
+					return this.$t('message.tradeBancorBuyEth')
 				break;
 				case 'BANCOR_SELL_ETH':
-				return this.$t('message.tradeBancorSellEth')
+					return this.$t('message.tradeBancorSellEth')
 				break;
 				case 'DICE':
-				return this.$t('message.tradeDice')
+					return this.$t('message.tradeDice')
 				break;
 				case 'DICE_REWARD':
-				return this.$t('message.tradeDiceReward')
+					return this.$t('message.tradeDiceReward')
 				break;
 				case 'DICE_DIG':
-				return this.$t('message.tradeDiceDig')
+					return this.$t('message.tradeDiceDig')
 				break;
 				case 'INVITE_BONUS_DICE_AB':
-				return this.$t('message.tradeInviteBancor')
+					return this.$t('message.tradeInviteBancor')
 				break;
 				case 'INVITE_BONUS_AB':
-				return this.$t('message.tradeRegisterIncentives')
+					return this.$t('message.tradeRegisterIncentives')
+				break;
+				case 'AT_WITHDRAW':
+					return this.$t('message.tradeWithdraw')
 				break;
 			}
 		},
 		// 数量金额
 		filterAmount(item) {
-			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB'].indexOf(item.operation) > -1) {
+			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB', 'INVITE_BONUS_DICE_AB'].indexOf(item.operation) > -1) {
 				return '+ ' + item.amount
 			} else {
 				return '- ' + item.amount
@@ -197,7 +200,7 @@ export default {
 		// 详情
 		goDetail (item) {
 			if (item.platform =='DISPATCHER') return
-			this.$http.get("/app/user/trade_records/" + item.businessId,{
+			this.$http.get("/app/user/trade_records/" + item.id,{
 
 			}).then((res) => {
 				console.log(res);

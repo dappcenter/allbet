@@ -98,19 +98,30 @@
 					</li>
 				</div>
 				<div class="my-order" v-else>
-					<li class="unit"><span>{{$t('message.homePlayer')}}</span><span class="nominscreen">{{$t('message.homeVolume')}}(ETH)</span><span class="nominscreen">{{$t('message.homeVolume')}}(AT)</span><span>{{$t('message.homeAtPrice')}}</span>
-						<span class="nominscreen">{{$t('message.homeTransactionType')}}</span><span class="nominscreen">{{$t('message.homeCreateTime')}}</span><span class="nominscreen">{{$t('message.homeTransactionTime')}}</span><span>{{$t('message.homeState')}}</span><span>{{$t('message.homeOperation')}}</span></li>
+					<li class="unit">
+						<span>{{$t('message.homeOrderId')}}</span>
+						<span class="nominscreen">{{$t('message.homeEntrustVol')}}</span>
+						<span class="nominscreen">{{$t('message.homeTradingPrice')}}</span>
+						<span class="nominscreen">{{$t('message.homeTradingVolume')}}</span>
+						<span>{{$t('message.homeAtPrice')}}</span>
+						<span class="nominscreen">{{$t('message.homeTransactionType')}}</span>
+						<span class="nominscreen">{{$t('message.homeCreateTime')}}</span>
+						<!--<span class="nominscreen">{{$t('message.homeTransactionTime')}}</span>-->
+						<span>{{$t('message.homeState')}}</span>
+						<span class="flex1">{{$t('message.homeOperation')}}</span>
+					</li>
 					<li v-for="item in recentOrderList">
-						<span>{{item.address}}</span>
-						<span class="nominscreen">{{filter(item)}}</span>
-						<span class="nominscreen">{{filter1(item)}}</span>
+						<span>{{item.entrustId}}</span>
+						<span class="nominscreen">{{item.inAmount}} <i v-if="item.tradeType.indexOf('SELL') > -1">AT</i><i v-else>ETH</i></span>
+						<span class="nominscreen">{{item.outAmount}} <i v-if="item.tradeType.indexOf('SELL') > -1">ETH</i><i v-else>AT</i></span>
+						<span class="nominscreen">{{item.finishAmount}} <i v-if="item.tradeType.indexOf('SELL') > -1">AT</i><i v-else>ETH</i></span>
 						<span>{{item.dbPrice}} ETH</span>
 						<span :class="['nominscreen',item.tradeType.indexOf('SELL') > -1 ? 'red':'green']">{{filterTradeType(item)}}</span>
 						<span style="font-family: initial;" class="nominscreen">{{$fmtDate(item.recdCreateTime, "full")}}</span>
-						<span class="nominscreen">{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span>
+						<!-- <span class="nominscreen">{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span> -->
 						<span>{{filterState(item)}}</span>
-						<span class="chedan" v-if="item.tradeStatus == 'ENTRUST'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
-						<span v-else>- -</span>
+						<span class="chedan flex1" v-if="item.tradeStatus == 'ENTRUST'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
+						<span class="flex1" v-else>- -</span>
 					</li>
 				</div>
 				<mu-flex justify-content="center" v-if="recentOrderList.length > 0">
@@ -236,28 +247,32 @@ import { setTimeout, clearInterval } from 'timers';
 		},
 		filterState(item) {
 			switch (item.tradeStatus) {
-				case 'ENTRUST':
+				case 'ENTRUST': //委托中
 				return this.$t('message.homeEntrust')
 				break;
-				case 'DONE':
+				case 'DONE':  //交易成功
 				return this.$t('message.homeDone')
 				break;
-				case 'WAITING':
+				case 'WAITING':  //等待中
 				return this.$t('message.homeWaiting')
 				break;
-				case 'CANCEL':
+				case 'CANCEL':  //撤单成功
 				return this.$t('message.homeCancel')
 				break;
-				case 'FAIL':
+				case 'FAIL':  //交易失败
+				return this.$t('message.homeFail')
+				break;
+				case 'PART_CANCEL':  //部分撤单
+				return this.$t('message.homePartCancel')
+				break;
+				case 'RECALL':  //交易取消
 				return this.$t('message.homeFail')
 				break;
 			}
 		},
 		// 获取奖金池&AT数量
 		getInfo () {
-			this.$http.get("/app/home/summary_basis",{
-
-			}).then((res) => {
+			this.$http.get("/app/home/summary_basis",{}).then((res) => {
 				if (res.code == 200) {
 					this.result = res.result || {}
 				}
@@ -422,6 +437,19 @@ import { setTimeout, clearInterval } from 'timers';
 				}
 			})
 		},
+		//取消交易
+		recallOrder(item) {
+			this.$http.post("/app/bancor/order/recall/"+item.entrustId).then((res) => {
+				if (res.code == 200) {
+					this.alert({
+						type: "success",
+						msg: this.$t('message.homeCancel')
+					})
+					// 撤单成功，更改状态&更新各种币的数量
+					this.getBancorOrders(this.selectTap)
+				}
+			})
+		},
 		// 区块链转账(实时成交)
 		buyToken(oid, atPrice, ethAmount, addr) {
 			let that = this
@@ -444,7 +472,7 @@ import { setTimeout, clearInterval } from 'timers';
 					type: "error",
 					msg: that.$t('message.homeFail')
 				})
-				// that.cancelOrder({entrustId: oid})
+				that.recallOrder({entrustId: oid})
 			});
 		},
 		// 区块链卖at币(实时成交)
@@ -468,7 +496,7 @@ import { setTimeout, clearInterval } from 'timers';
 					type: "error",
 					msg: that.$t('message.homeFail')
 				})
-				// that.cancelOrder({entrustId: oid})
+				that.recallOrder({entrustId: oid})
 			});
 		},
 		openHelp1() {
@@ -607,14 +635,11 @@ import { setTimeout, clearInterval } from 'timers';
 						align-items: center;
 						justify-content: center;
 						margin-left: 30px;
-
 						.img1 {
-							width: 73px;
 							height: 96px;
 						}
 						.img2 {
-							width: 83px;
-							height: 85px;
+							height: 88px;
 						}
 						div {
 							p {
@@ -622,8 +647,8 @@ import { setTimeout, clearInterval } from 'timers';
 								color: #fff;
 							}
 							span {
-										color: #6E7BDE;
-										color: 16px;
+								color: #6E7BDE;
+								color: 16px;
 							}
 						}
 					}
@@ -753,6 +778,16 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 					}
 				}
+				.my-order {
+					li {
+						span {
+							flex: 2;
+							&.flex1 {
+								flex: 1;
+							}
+						}
+					}
+				}
 				li {
 					display: flex;
 					justify-content: center;
@@ -763,6 +798,9 @@ import { setTimeout, clearInterval } from 'timers';
 					color: #fff;
 					span {
 						width: 16.6%;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
 						&.chedan {
 							cursor: pointer;
 						}
@@ -771,6 +809,9 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 						&:last-child {
 							text-align: right;
+						}
+						i {
+							font-style: normal;
 						}
 					}
 				}
@@ -788,6 +829,34 @@ import { setTimeout, clearInterval } from 'timers';
 				.green {
 					color: #5DC888;
 			    	text-shadow: 0px 0px 6px #5DC888;
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 1400px) {
+		.home-page {
+			.main {
+				.middle {
+					width: 1000px;
+					padding: 10px;
+					.buy-sell {
+						justify-content: space-around;
+						.fund-number {
+							width: 46%;
+							margin: 0;
+						}
+						.buy {
+							padding: 30px 10px;
+							.price-div {
+								.price {
+									width: 71%;
+								}
+							}
+							.buy-button {
+								width: 100%;
+							}
+						} 
+					}
 				}
 			}
 		}
@@ -866,32 +935,5 @@ import { setTimeout, clearInterval } from 'timers';
 		}
 	}
 
-	@media screen and (max-width: 1400px) {
-		.home-page {
-			.main {
-				.middle {
-					width: 1000px;
-					padding: 10px;
-					.buy-sell {
-						justify-content: space-around;
-						.fund-number {
-							width: 46%;
-							margin: 0;
-						}
-						.buy {
-							padding: 30px 10px;
-							.price-div {
-								.price {
-									width: 71%;
-								}
-							}
-							.buy-button {
-								width: 100%;
-							}
-						} 
-					}
-				}
-			}
-		}
-	}
+	
 </style>

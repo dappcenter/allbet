@@ -353,52 +353,51 @@ import {mapMutations, mapState} from "vuex"
 		passResetDo () {
 			if(this.formData.resetCaptcha == "") {
 				this.alert({
-						type: "info",
-						msg: this.$t('message.PopCaptchaEmpty')
+					type: "info",
+					msg: this.$t('message.PopCaptchaEmpty')
 				})
 				return
 			}
 			if(this.formData.resetLoginPwd == "") {
 				this.alert({
-						type: "info",
-						msg: this.$t('message.PopPassEmpty')
+					type: "info",
+					msg: this.$t('message.PopPassEmpty')
 				})
 				return
 			}
 			if(this.formData.resetLoginPwd2 == "") {
 				this.alert({
-						type: "info",
-						msg: this.$t('message.PopPass2Empty')
+					type: "info",
+					msg: this.$t('message.PopPass2Empty')
 				})
 				return
 			}
 			if(this.formData.resetLoginPwd != this.formData.resetLoginPwd2) {
 				this.alert({
-						type: "info",
-						msg: this.$t('message.PopPassDiff')
+					type: "info",
+					msg: this.$t('message.PopPassDiff')
 				})
 				return
 			}
 			var regx =/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,12}$/
 			if(!regx.test(this.formData.resetLoginPwd)) {
-					this.alert({
-							type: "info",
-							msg: this.$t('message.PopPassRequest')
-					})
-					return false
+				this.alert({
+					type: "info",
+					msg: this.$t('message.PopPassRequest')
+				})
+				return false
 			}
 			this.$http.post("/app/user/password/reset", {
 				'captcha': this.formData.resetCaptcha,
 				'pwd': Md5(this.formData.resetLoginPwd)
 			}).then(res => {
-					console.log(res)
-					if(res.code == 200) {
-							this.alert({
-									type: "success",
-									msg: res.msg
-							})
-							this.displayStatus.resetPassDialog = false
-					}
+				if(res.code == 200) {
+					this.alert({
+							type: "success",
+							msg: res.msg
+					})
+					this.displayStatus.resetPassDialog = false
+				}
 			})
 		},
 		// 获取地址相关信息
@@ -523,10 +522,10 @@ import {mapMutations, mapState} from "vuex"
 					position: relative;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
-					font-size: 32px;
-          font-weight: bold;
+					font-size: 16px;
+          			font-weight: bold;
 					background-color: #193570;
-					padding: 22px 0 22px 40px;
+					padding: 16px 0 16px 40px;
 				}
 				.li-div {
 					padding: 0 40px;
@@ -592,7 +591,8 @@ import {mapMutations, mapState} from "vuex"
 			}
         &.bind-accout {
             h4 {
-                margin-bottom: 40px;
+				margin-bottom: 40px;
+				color: #fff;
             }
             .input-wrap {
                 display: flex;
@@ -600,16 +600,16 @@ import {mapMutations, mapState} from "vuex"
                 font-size: 14px;
                 margin-top: 20px;
                 label {
-					width: 60px;
+					width: 80px;
 					color: #C8C8C8;
                 }
                 input {
                     flex: 1;
-										width: 60%;
+					width: 60%;
                     height:40px;
-										background:#173167;
-		                border:1px solid #173167;
-		                color: #fff;
+					background:#173167;
+		            border:1px solid #173167;
+		            color: #fff;
                     border-radius:4px;
                     padding: 0 10px;
                 }

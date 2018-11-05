@@ -7,6 +7,7 @@
 				<p v-else></p>
 				<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
 				<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
+				<a href="javascript:;" @click="helpPopup">{{$t("message.GameHowToPlay")}}</a>
 			</div>
 		</div>
 		<div class="game-content" ref="gameContent">
@@ -365,7 +366,23 @@ export default {
 					}
 				]
 			})
-		}
+		},
+		//帮助弹框
+		helpPopup() {
+			console.log(111)
+			this.openConfirm({
+				content: this.$t("message.GameHelp"),
+				btn: [
+					{
+						type: "high",
+						text: this.$t("message.GameKnow"),
+						cb: () => {
+							this.$router.push('roller')
+						}
+					}
+				]
+			})
+		},
     },
     watch: {
         diceList: {
@@ -435,6 +452,8 @@ export default {
 		}
 		.game-status {
 			background-color: #0A1536;
+			position: relative;
+    		z-index: 1;
 			div {
 				display: flex;
 				line-height: 40px;
@@ -444,6 +463,10 @@ export default {
 					text-align: left;
 				}
 				span {
+					margin-left: 40px;
+				}
+				a {
+					color: #99FF7E;
 					margin-left: 40px;
 				}
 			}

@@ -16,7 +16,7 @@ export default {
         accountLogin: "账号登录",
         hdWalletLogin: "HD钱包登录",
         notRegister: "没有注册?",
-        nowRegister: "现在就去",
+        nowRegister: "现在注册送500AB币",
         logout: "退出登录",
         accountSecurity: "账户安全",
         property: "我的资产",
@@ -39,6 +39,8 @@ export default {
         homeMarketPrice: "市价",
         homePrice: "价格",
         homeVolume: "数量",
+        homeEntrustVol: "委托数量",
+        homeTradingPrice: "成交金额",
         homeInputETH: "请输入ETH数量",
         homeInputAT: "请输入AT数量",
         homeExpectedGet: "预计获得",
@@ -61,6 +63,8 @@ export default {
         homeDone: "交易成功",
         homeCancel: "撤单成功",
         homeFail: "交易失败",
+        homePartCancel: "部分撤单",
+        homeRecall: "交易取消",
         homeWithdrawal: "撤单",
         homeHigher: "若价格高于市价，系统将自动帮你挂单，待AT价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
         homeLower: "若价格低于市价，系统将自动帮你挂单，待AT价格达到您所挂单价系统将自动成交。因bancor算法价格随时变化，预计可得数量存在一定偏差。",
@@ -70,6 +74,8 @@ export default {
         homePriceHiger: "您输入的价格高于市价超过10%",
         homeCancelTrade: "取消交易",
         homeContinueTrade: "继续交易",
+        homeOrderId: "订单号",
+        homeTradingVolume: "成交量",
 
 
         // 账号安全页
@@ -117,6 +123,7 @@ export default {
         tradeBancorSellAT: "出售AT",
         tradeBancorBuyEth: "购买",
         tradeBancorSellEth: "出售",
+        tradeWithdraw: "转出",
         tradeInviteBancor: "邀请奖励",
         tradeDice: "游戏下注",
         tradeDiceReward: "游戏奖金",
@@ -141,7 +148,7 @@ export default {
         invitateCopyLink: "复制链接",
         InvitationRules: "邀请规则：",
         InvitationRules1: "1、注册账号即可获得 500AB 币；",
-        InvitationRules2: "2、邀请好友成功系统将空投 10% 被邀请者持有AB币，8% 归邀请者所有，2% 归被邀请者所有。",
+        InvitationRules2: "2、被邀请人持有AB币后，邀请人奖励8%被邀请人AB币数量，被邀请人奖励2%持有AB币数量，所有奖励来自系统空投。",
         InvitePeople: "人",
         InviteBind: "请先绑定账号，再邀请好友参与游戏",
         InviteQrcode: "专属邀请二维码",
@@ -245,7 +252,9 @@ export default {
         GameWinBox2: "获得AB数：",
         GameWinBox3: "再玩一次",
         GameNoWin: "很遗憾预测失败，别灰心",
-
+        GameKnow: "我知道了",
+        GameHelp: "现在骰子滚动有100种结果，结果限制在1-100。想要赢的话，骰子结果必须小于您选择的数字。如果骰子结果低于等于您的数字，您就赢了！例如，您移动滑块选择预测为70，那么出现的幸运数在1~69范围内，您都将赢取收益，收益等于下注⾦金金额乘以赔率。为避免玩家沉迷，理理性游戏，最⼤大下注量量为平台ETH数量的1.5%，最⼩小下注量量为0.01ETH。参与游戏会获得一定数额的AB币，⽤以领取平台分红。注意：如果获胜，则从返回给玩家的总金额中减去1％的佣金。您将需要支付小额gas费来下注。我们平台不接收gas费。gas费用于维持以太坊区块链。",
+        GameHowToPlay: "怎么玩？",
         // 分红池
         BPbonusPools: "分红池",
         BPtip: "当前分红池由 Allbet 游戏所得 ETH 收益构成，具体详见游戏规则。",

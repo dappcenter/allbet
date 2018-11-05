@@ -9,7 +9,7 @@
                 <router-link to="roller"><span>Dice</span></router-link>
                 <a href="javascript:;" @click="displayStatus.bonusPools = !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
-                <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
+                <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
                 <div class="address-select nominscreen" v-show="addressList.length > 1">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="container notice" v-if="notice">
-            <p>公告：Allbet 开启交易排名赛（北京时间 9 月 27 日 23 点整至 30 日 22:59:59），排名前十玩家会获得 ETH 返奖！</p>
+            <ScrollNotice></ScrollNotice>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <div class="fold-menu minscreen" v-show="isShowFoldMunu">
@@ -260,6 +260,7 @@ import {mapMutations, mapState} from "vuex"
 import Md5 from "../../../public/js/md5.js"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
 import VERIFY from "../../util/verify"
+import ScrollNotice from "@/components/common/scrollNotice"
 export default {
     props: {
         type: {
@@ -655,6 +656,10 @@ export default {
                 }
             })
         },
+        //打开白皮书
+        openWhiteBook() {
+            window.open("pdf/whitebook.pdf")
+        },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
             alert: "alert",
@@ -680,7 +685,8 @@ export default {
         }
     },
     components: {
-        AEFcountDownBtn
+        AEFcountDownBtn,
+        ScrollNotice
     },
     destroyed() {
         //销毁事件
@@ -775,6 +781,7 @@ export default {
             margin-left: 30px;
             position: relative;
             cursor: pointer;
+            z-index: 1212;
             img {
                 height: 27px;
                 vertical-align: middle;
@@ -901,12 +908,14 @@ export default {
         background: url(../../../public/img/notice_bg.png) no-repeat center;
         background-size: cover;
         line-height: 30px;
+        height: 30px;
+        overflow: hidden;
     }
     .mu-dialog-wrapper {
-        left: initial;
-        bottom: initial;
-        right: 40px;
-        top: 40px;
+        // left: initial;
+        // bottom: initial;
+        // right: 40px;
+        // top: 40px;
         padding: 30px;
         .mu-dialog-body {
             background-color: #214797;
@@ -1067,7 +1076,7 @@ export default {
         right: 0;
         top: 0;
         .mu-dialog {
-            max-width: 50% !important;
+            width: 40%;
         }
         .mu-dialog-body {
             background: url(../../../public/img/bonus-pools.png) no-repeat center;
@@ -1256,6 +1265,11 @@ export default {
             }
         }
         .bonus-pools {
+       
+            .mu-dialog {
+                width: auto;
+            
+            }
             .mu-dialog-body {
                 background: url(../../../public/img/bonus-pools.png) no-repeat center;
                 background-size: 100% 100%;
