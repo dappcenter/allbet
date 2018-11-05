@@ -190,7 +190,6 @@ import {mapMutations, mapState} from "vuex"
       .white-div {
         width:1200px;
         background:#172F61;
-        border-radius:6px;
         margin: 60px auto 0 auto;
 				.invite-title {
 	        // padding: 10px 199px;
@@ -279,6 +278,7 @@ import {mapMutations, mapState} from "vuex"
 							#copy_text {
 								flex: 1;
 								color: #fff;
+								font-size: 14px;
 							}
 							span {
 								display: inline-block;

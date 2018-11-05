@@ -4,7 +4,7 @@
 	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
 			<p class="title">
-				<span><router-link to="my-assets">{{$t('message.assetsOfMine')}}</router-link> > {{$t('message.tradeRecorde')}}</span>
+				<span><router-link to="my-assets">{{$t('message.assetsOfMine')}} ></router-link> {{$t('message.tradeRecorde')}}</span>
 				<span>
 					{{$t('message.tradeType')}}:
 					<select class="" name="" @change="selectChange" v-model="operation">
@@ -32,7 +32,7 @@
 					</select>
 				</span>
 		</p>
-			<li>
+			<li style="color: #A0ADFF;">
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
 				<div>{{$t('message.tradeType')}}</div>
@@ -251,11 +251,11 @@ export default {
 						select:last-child {
 							margin-right: 0;
 						}
-						color: #75C1FF;
+						color: #A0ADFF;
 						font-size: 16px;
 					}
 					span a {
-						color: #fff !important;
+						color: #C8C8C8 !important;
 					}
 					span {
 						select {
@@ -270,7 +270,7 @@ export default {
 							height: 24px;
 						}
 						a {
-							color: #fff;
+							color: #C8C8C8;
 						}
 					}
 				}
@@ -319,7 +319,7 @@ export default {
 						text-align: right;
 					}
 					 .operation {
-					 	color: #75C1FF;
+					 	color: #FFDB5B;
 						span {
 							margin-left: 10px;
 						}

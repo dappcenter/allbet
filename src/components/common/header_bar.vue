@@ -1083,6 +1083,7 @@ export default {
         top: 0;
         .mu-dialog {
             width: 40%;
+            background-color: transparent;
         }
         .mu-dialog-body {
             background: url(../../../public/img/bonus-pools.png) no-repeat center;
