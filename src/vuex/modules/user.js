@@ -42,7 +42,7 @@ const getters = {
                         bet: rootState.web3Handler.web3.bet,
                         at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
                         userName: list[0].userName,
-                        token: list[0].token,
+                        token: rootState.web3Handler.web3.token,
                         platform: rootState.web3Handler.web3.platform,
                         inviteCode: list[0].inviteCode   //优先给平台账号邀请码
                     })

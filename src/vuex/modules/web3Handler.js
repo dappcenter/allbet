@@ -103,7 +103,7 @@ const actions = {
                                     at: res.result.assets[0].at,
                                     bet: res.result.assets[0].bet,
                                     userName: res.result.assets[0].userName,
-                                    token: res.result.token,
+                                    token: val.token,
                                     inviteCode: res.result.assets[0].inviteCode
                                 })
                             }

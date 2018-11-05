@@ -129,6 +129,7 @@ export default {
         tradeDice: "游戏下注",
         tradeDiceReward: "游戏奖金",
         tradeDiceDig: "挖矿奖励",
+        tradeRecharge: "AT充值",
 
         tradeDetail: "详情",
         tradeBlockchain: "区块链交易ID",

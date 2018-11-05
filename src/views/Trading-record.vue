@@ -20,6 +20,8 @@
 						 <option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
 						 <option value="INVITE_BONUS_DICE_AB">{{$t('message.tradeInviteBancor')}}</option>
 						 <option value="INVITE_BONUS_AB">{{$t('message.tradeRegisterIncentives')}}</option>
+						 <option value="AT_WITHDRAW">{{$t('message.tradeWithdraw')}}</option>
+						 <option value="AT_RECHARGE">{{$t('message.tradeRecharge')}}</option>
 					</select>
 					{{$t('message.tradeCoinType')}}:
 					<select class="" name="" @change="selectChange" v-model="coinType">
@@ -135,47 +137,50 @@ export default {
 		// 交易类型的状态
 		filterState(item) {
 			switch (item.operation) {
-				case 'ETH_RECHARGE':
+				case 'ETH_RECHARGE':   //平台充币
 					return this.$t('message.tradeEthRecharge')
 				break;
-				case 'ETH_WITHDRAW':
+				case 'ETH_WITHDRAW':  //平台提现
 					return this.$t('message.tradeEthWithdraw')
 				break;
-				case 'BANCOR_BUY_AT':
+				case 'BANCOR_BUY_AT': //购买(单位AT)
 					return this.$t('message.tradeBancorBuyAT')
 				break;
-				case 'BANCOR_SELL_AT':
+				case 'BANCOR_SELL_AT':  //出售(单位AT)
 					return this.$t('message.tradeBancorSellAT')
 				break;
-				case 'BANCOR_BUY_ETH':
+				case 'BANCOR_BUY_ETH':  //购买AT(单位ETH)
 					return this.$t('message.tradeBancorBuyEth')
 				break;
-				case 'BANCOR_SELL_ETH':
+				case 'BANCOR_SELL_ETH':  //出售AT(单位ETH)
 					return this.$t('message.tradeBancorSellEth')
 				break;
-				case 'DICE':
+				case 'DICE':  //游戏下注
 					return this.$t('message.tradeDice')
 				break;
-				case 'DICE_REWARD':
+				case 'DICE_REWARD':  //游戏奖金
 					return this.$t('message.tradeDiceReward')
 				break;
-				case 'DICE_DIG':
+				case 'DICE_DIG':  //挖矿奖励
 					return this.$t('message.tradeDiceDig')
 				break;
-				case 'INVITE_BONUS_DICE_AB':
+				case 'INVITE_BONUS_DICE_AB':  //邀请奖励
 					return this.$t('message.tradeInviteBancor')
 				break;
-				case 'INVITE_BONUS_AB':
+				case 'INVITE_BONUS_AB':  //注册奖励
 					return this.$t('message.tradeRegisterIncentives')
 				break;
-				case 'AT_WITHDRAW':
+				case 'AT_WITHDRAW':  //AT提币
 					return this.$t('message.tradeWithdraw')
+				break;
+				case 'AT_RECHARGE':  //AT充值
+					return this.$t('message.tradeRecharge')
 				break;
 			}
 		},
 		// 数量金额
 		filterAmount(item) {
-			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB', 'INVITE_BONUS_DICE_AB'].indexOf(item.operation) > -1) {
+			if (['ETH_RECHARGE', 'BANCOR_BUY_AT', 'BANCOR_BUY_ETH', 'DICE_REWARD', 'DICE_DIG', 'INVITE_BONUS_AB', 'INVITE_BONUS_DICE_AB', 'AT_RECHARGE'].indexOf(item.operation) > -1) {
 				return '+ ' + item.amount
 			} else {
 				return '- ' + item.amount

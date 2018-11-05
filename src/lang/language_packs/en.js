@@ -129,6 +129,7 @@ export default {
         tradeDice: "Dice",
         tradeDiceReward: "Dice Reward",
         tradeDiceDig: "Dice Dig",
+        tradeRecharge: "AT Recharge",
 
         tradeDetail: "Trade Detail",
         tradeBlockchain: "Blockchain Trading ID",

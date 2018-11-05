@@ -658,7 +658,11 @@ export default {
         },
         //打开白皮书
         openWhiteBook() {
-            window.open("pdf/whitebook.pdf")
+            if(this.locale == "en-US") {
+                window.open("pdf/whitebook_en.pdf")
+            }else {
+                window.open("pdf/whitebook.pdf")
+            }
         },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
