@@ -148,6 +148,7 @@ import {mapMutations, mapState} from "vuex"
 			prefixMenu: false,
 			formData: {
 				"phone": "",
+				"phone2": "",
 				"prefix": "+86",
 				"captcha": "",
 				"picCode": "",
@@ -160,6 +161,7 @@ import {mapMutations, mapState} from "vuex"
 				"btnText": this.$t('message.PopGetCaptcha'),
 				"timer": null,
 				"email": "",
+				"email2": "",
 
 				"resetCaptcha": "", // 重置登陆密码
 				"resetLoginPwd": "",
@@ -189,6 +191,8 @@ import {mapMutations, mapState} from "vuex"
 		displayStatus: {
 			handler: function() {
 				this.formData = Object.assign(this.formData, {
+					phone: "",
+					email: "",
 					picCode: "",
 					captcha: "",   //短信验证码
 					emailCaptcha: "",
@@ -304,8 +308,10 @@ import {mapMutations, mapState} from "vuex"
 				"captcha": this.formData.captcha
 			}
 			if(type == "PHONE") {
+				this.formData.phone2 = this.formData.phone
 				if(!this.verifyPhone() || !this.verifyCaptcha()) return
 			}else {
+				this.formData.email2 = this.formData.email
 				if(!this.verifyEmail() || !this.verifyCaptcha()) return
 				postObj.account = this.formData.email
 			}
@@ -326,15 +332,12 @@ import {mapMutations, mapState} from "vuex"
 		bindingTwoDo() {
 			let type = this.formData.bindingType
 			let postObj = {
-				"account": this.formData.phone,
+				"account": this.formData.phone2,
 				"password": Md5(this.formData.loginPwd),
 				"inviteCode": this.formData.inviteCode
 			}
-			if(type == "PHONE") {
-				if(!this.verifyPhone()) return
-			}else {
-				postObj.account = this.formData.email
-				if(!this.verifyEmail()) return
+			if(type == "EMAIL") {
+				postObj.account = this.formData.email2
 			}
 			if(!this.verifyPassword()) return
 			this.$http.post("/app/user/binding_two", postObj).then(res => {
@@ -641,6 +644,7 @@ import {mapMutations, mapState} from "vuex"
                             padding: 0 10px;
                             border-right: 1px solid rgba(220,220,220,1);
                             font-weight: 700;
+														color: #fff;
                         }
                         input {
                             border: none;
