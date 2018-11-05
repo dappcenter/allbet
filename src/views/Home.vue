@@ -642,6 +642,8 @@ import { setTimeout, clearInterval } from 'timers';
 							height: 88px;
 						}
 						div {
+							text-align: left;
+    					margin-left: 10px;
 							p {
 								font-size: 28px;
 								color: #fff;
@@ -855,7 +857,7 @@ import { setTimeout, clearInterval } from 'timers';
 							.buy-button {
 								width: 100%;
 							}
-						} 
+						}
 					}
 				}
 			}
@@ -935,5 +937,5 @@ import { setTimeout, clearInterval } from 'timers';
 		}
 	}
 
-	
+
 </style>

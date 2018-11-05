@@ -34,7 +34,7 @@
                 <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a>
             </div>
         </div>
-        <div class="container notice" v-if="notice">
+        <div class="notice" v-if="notice">
             <ScrollNotice></ScrollNotice>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
@@ -240,7 +240,7 @@
                 </div>
                 <h3 v-if="storeCurrentAddr.bet">{{storeCurrentAddr.bet}} AB</h3>
                 <h3 v-else>0 AB</h3>
-            </div>            
+            </div>
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/eth_icon.png" />
@@ -914,6 +914,8 @@ export default {
         line-height: 30px;
         height: 30px;
         overflow: hidden;
+        width: 100%;
+        background-color: #496FFF;
     }
     .mu-dialog-wrapper {
         // left: initial;
@@ -1269,10 +1271,10 @@ export default {
             }
         }
         .bonus-pools {
-       
+
             .mu-dialog {
                 width: auto;
-            
+
             }
             .mu-dialog-body {
                 background: url(../../../public/img/bonus-pools.png) no-repeat center;
