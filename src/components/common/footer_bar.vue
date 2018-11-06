@@ -3,16 +3,19 @@
         <div class="container">
             <div class="linklist">
                 <a href="https://twitter.com/allbet10">
-                    <img src="../../../public/img/Twitter.png" alt="">
+                    <img class="icon" src="../../../public/img/Twitter.png" alt="">
                 </a>
-                <!-- <a href="javascript:;">
-                    <img src="../../../public/img/Discord.png" alt="">
-                </a> -->
+                <a href="javascript:;">
+                    <img class="icon" src="../../../public/img/weixin_icon.png" alt="">
+                    <div class="qrcode">
+                        <img src="../../../public/img/weixin_qrcode.png" alt="">
+                    </div>
+                </a>
                 <a href="https://weibo.com/6773769402/profile?rightmod=1&wvr=6&mod=personinfo">
-                    <img src="../../../public/img/Weibo.png" alt="">
+                    <img class="icon" src="../../../public/img/Weibo.png" alt="">
                 </a>
                 <a href="https://t.me/allbetAB">
-                    <img src="../../../public/img/Telegram.png" alt="">
+                    <img class="icon" src="../../../public/img/Telegram.png" alt="">
                 </a>
             </div>
             <p>Copyright © 2018.allbet.io</p>
@@ -48,9 +51,24 @@ export default {
             a {
                 display: inline-block;
                 margin-right: 40px;
-                img {
+                position: relative;
+                .icon {
                     width: 30px;
                     height: 30px;
+                }
+                &:hover {
+                    .qrcode {
+                        display: block;
+                    }
+                }
+                .qrcode {
+                    position: absolute;
+                    display: none;
+                    img {
+                        width: 170px;
+                    }
+                    bottom: 42px;
+                    left: -67px;
                 }
             }
             

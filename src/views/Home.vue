@@ -851,6 +851,7 @@ import { setTimeout, clearInterval } from 'timers';
 				.middle {
 					width: 1000px;
 					padding: 10px;
+					
 					.buy-sell {
 						justify-content: space-around;
 						p img {
@@ -868,7 +869,7 @@ import { setTimeout, clearInterval } from 'timers';
 								}
 							}
 							.token-fee {
-								 margin-top: 4px;
+								 margin-top: 33px;
 							}
 							.buy-button {
 								width: 100%;
