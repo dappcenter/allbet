@@ -31,7 +31,7 @@ axios.interceptors.response.use(response => {
     }
     if(response.data.code != 200) {
         store.commit('alert', {
-            type: 'error',
+            type: 'info',
             msg: response.data.msg
         })
     }
@@ -87,12 +87,12 @@ axios.interceptors.response.use(response => {
             err.message = '未知错误'
         }
         store.commit('alert', {
-            type: 'error',
+            type: 'info',
             msg: err.message
         })
     }else {
         store.commit('alert', {
-            type: 'error',
+            type: 'info',
             msg: language[store.state.locale].message.PopHttpTimeout
         })
     }

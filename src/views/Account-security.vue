@@ -38,7 +38,7 @@
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=ACCOUNT_BINDING&macCode=macCode'" alt="" @click="getImgCode('ACCOUNT_BINDING')" ref="imgcode">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=ACCOUNT_BINDING&macCode=' + macCode" alt="" @click="getImgCode('ACCOUNT_BINDING')" ref="imgcode">
 			</div>
 		</div>
 		<div class="input-wrap">
@@ -64,7 +64,7 @@
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=ACCOUNT_BINDING&macCode=macCode'" alt="" @click="getImgCode('ACCOUNT_BINDING')" ref="imgcode">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=ACCOUNT_BINDING&macCode=' + macCode" alt="" @click="getImgCode('ACCOUNT_BINDING')" ref="imgcode">
 			</div>
 		</div>
 		<div class="input-wrap">
@@ -105,7 +105,7 @@
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=RESET_PWD&macCode=macCode'" alt="" @click="getImgCode('RESET_PWD')" ref="imgcode">
+				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=RESET_PWD&macCode=' + macCode" alt="" @click="getImgCode('RESET_PWD')" ref="imgcode">
 			</div>
 		</div>
 		<div class="input-wrap">
@@ -139,12 +139,12 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
 		 return {
-			 displayStatus: {
-					 phoneBind: false, //绑定手机号
-					 emailBind: false,   //绑定邮箱
-					 confirmAccountNotExist: false,  //绑定的账不存在
-					 resetPassDialog: false,  //重置密码
-			 },
+			displayStatus: {
+				phoneBind: false, //绑定手机号
+				emailBind: false,   //绑定邮箱
+				confirmAccountNotExist: false,  //绑定的账不存在
+				resetPassDialog: false,  //重置密码
+			},
 			prefixs: ["+86", "+852", "+853", "+886", "+8801", "+8802", "+001", "+44", "+0061"],
 			prefixMenu: false,
 			formData: {
@@ -174,7 +174,8 @@ import {mapMutations, mapState} from "vuex"
 				haveTrustee: false,   //是否绑定平台账号或者本身就是平台账号
 				MetaMaskAddress: []
 			},
-			captchaDisabled: false
+			captchaDisabled: false,
+			macCode: new Date().getTime()
 		}
 	},
 	watch: {
@@ -229,12 +230,12 @@ import {mapMutations, mapState} from "vuex"
 	},
 	methods: {
 		getImgCode(type) {
-            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type="+ type +"&macCode=macCode&" + Math.random();
+            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type="+ type +"&macCode="+ this.macCode +"&" + Math.random();
         },
 		// 获取验证码(区分是重置登陆密码还是绑定的)
 		getSMScode(type) {
 			let postData = {
-				'macCode': "macCode",
+				'macCode': this.macCode,
 				'picCode': this.formData.picCode,
 			}
 			if (type == 'ACCOUNT_BINDING') {
@@ -245,10 +246,10 @@ import {mapMutations, mapState} from "vuex"
 
 				this.registerSMScountDown()
 				this.$http.post("/open/captcha", postData).then(res => {
-					console.log(res)
 					if(res.code != 200) {
 						clearTimeout(this.formData.timer)
 						this.formData.btnText = this.$t('message.PopGetCaptcha')
+						this.getImgCode("ACCOUNT_BINDING")
 					}
 				}).catch(err => {
 					clearTimeout(this.formData.timer)
@@ -260,10 +261,10 @@ import {mapMutations, mapState} from "vuex"
 				this.$http.get("/app/user/password/captcha", {
 					params: postData
 				}).then(res => {
-					console.log(res)
 					if(res.code != 200) {
 						clearTimeout(this.formData.timer)
 						this.formData.btnText = this.$t('message.PopGetCaptcha')
+						this.getImgCode("RESET_PWD")
 					}
 				}).catch(err => {
 					clearTimeout(this.formData.timer)
@@ -285,7 +286,8 @@ import {mapMutations, mapState} from "vuex"
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
-                    this.captchaDisabled = false
+					this.captchaDisabled = false
+					this.getImgCode(type)
                 }
             }).catch(err => {
                 this.captchaDisabled = false
