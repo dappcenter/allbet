@@ -68,7 +68,7 @@
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
-					<p style="text-align:center;color:#97ADFF;font-size:16px;margin-top: 34px;">{{$t('message.homeTokenFee')}}</p>
+					<p class="token-fee">{{$t('message.homeTokenFee')}}</p>
 					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
 						{{$t('message.homeSell')}}
 					</div>
@@ -709,6 +709,12 @@ import { setTimeout, clearInterval } from 'timers';
 								color: #8A97FF;
 							}
 						}
+						.token-fee {
+							text-align:center;
+							color:#97ADFF;
+							font-size:16px;
+							margin-top: 34px;
+						}
 						.buy-button {
 							width: 520px;
 							height: 48px;
@@ -860,6 +866,9 @@ import { setTimeout, clearInterval } from 'timers';
 								.price {
 									width: 71%;
 								}
+							}
+							.token-fee {
+								 margin-top: 4px;
 							}
 							.buy-button {
 								width: 100%;
