@@ -4,6 +4,13 @@ import pollWeb3 from "../../util/pollWeb3"
 import {axios} from "../../axios"
 import router from "../../router"
 import {DappABI} from "../../util/constants/dapp.abi"
+import LangZh from "../../lang/language_packs/zh"
+import LangEn from "../../lang/language_packs/en"
+
+const language = {
+    "zh-CN": LangZh,
+    "en-US": LangEn
+}
 
 const state = {
     web3: {
@@ -36,7 +43,7 @@ const mutations = {
         web3Copy.balance = payload.web3.utils.fromWei(payload.balance, "ether")
         web3Copy.isInjected = payload.injectedWeb3
         web3Copy.web3Instance = payload.web3
-        web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS);
+        web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS)
         state.web3 = web3Copy
         // 轮询
         pollWeb3()
@@ -63,6 +70,7 @@ const actions = {
         getWeb3.then(result => {
             commit(types.REGISTER_WEB3_INSTANCE, result)
             //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+            
             axios.post("/open/login/coin", {
                 type: "ETH",
                 addr: result.coinbase
@@ -72,14 +80,14 @@ const actions = {
                     if(res.result.assets.length <= 1) {
                         if(rootState.user.currentAddr.coinAddress == result.coinbase) {
                             commit(types.OPEN_CONFIRM, {
-                                content: "绑定账号，赢取邀请奖励分ETH",
+                                content: language[rootState.locale].message.PopBindDesc2,
                                 btn: [
                                     {
-                                        text: "关闭"
+                                        text: language[rootState.locale].message.PopClose,
                                     },
                                     {
                                         type: "high",
-                                        text: "去绑定",
+                                        text: language[rootState.locale].message.accountToBound,
                                         cb: () => {
                                             router.push('account-security?bind=1')
                                         }

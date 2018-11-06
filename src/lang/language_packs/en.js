@@ -221,6 +221,7 @@ export default {
         PopPlayAgain: "Play again",
         PopCancelAutor: "You canceled the authorization!",
         PopBindDesc: "Use the account login to win the invitation bonus ETH, play the game and enjoy the income seconds.",
+        PopBindDesc2: "Bind the account to win the invitation award points ETH",
         PopHttpTimeout: "╥﹏╥...The network swayed the gods，I'll be back soon.",
         // 游戏页
         GameForecast: "Forecast",
