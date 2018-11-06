@@ -100,8 +100,8 @@ const actions = {
                         res.result.assets.forEach(val => {
                             if(val.coinAddress == result.coinbase) {
                                 commit(types.UPDATE_WEB3_AT, {
-                                    at: res.result.assets[0].at,
-                                    bet: res.result.assets[0].bet,
+                                    at: val.at,
+                                    bet: val.bet,
                                     userName: res.result.assets[0].userName,
                                     token: val.token,
                                     inviteCode: res.result.assets[0].inviteCode

@@ -937,9 +937,9 @@ export default {
             overflow: hidden;
             .primary-btn {
                 display: block;
-                width: 240px;
+                min-width: 240px;
                 height: 40px;
-                margin-top: 20px;
+                margin: 20px auto 0;
                 color: #fff;
                 cursor: pointer;
                 background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
@@ -1260,6 +1260,9 @@ export default {
             top:0;
             .mu-dialog-body {
                 padding: 10px;
+                .primary-btn {
+                    width: 100%;
+                }
             }
             &.register-accout {
                 h4 {
