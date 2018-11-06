@@ -750,7 +750,7 @@ import { setTimeout, clearInterval } from 'timers';
 			font-size: 18px;
 			margin-bottom: 123px;
 			border-radius:6px;
-			
+
 			.top-button {
 				font-size: 20px;
 				font-weight: bold;
@@ -847,6 +847,9 @@ import { setTimeout, clearInterval } from 'timers';
 					padding: 10px;
 					.buy-sell {
 						justify-content: space-around;
+						p img {
+							 margin-left: 1px;
+						}
 						.fund-number {
 							width: 46%;
 							margin: 0;
@@ -871,9 +874,15 @@ import { setTimeout, clearInterval } from 'timers';
 		.home-page {
 			.main {
 				.top {
+					padding-top: 13px;
+    			padding-bottom: 12px;
+					h1 img {
+						height: 54px;
+					}
 					h2 {
 						width: 80%;
 						margin: 0 auto 20px;
+						font-size: 18px;
 					}
 					.info {
 						width: 90% !important;
@@ -882,17 +891,30 @@ import { setTimeout, clearInterval } from 'timers';
 					.total-bill {
 						width: 90%;
 						font-size: 18px;
+						height: 44px;
+						line-height: 44px;
 					}
 				}
 				.middle {
 					width: 100%;
+					padding: 10px;
+					.middle-title {
+						margin-bottom: 6px;
+						font-size: 24px;
+					}
 					.buy-sell {
 						flex-wrap: wrap;
 						    justify-content: center;
 						.fund-number {
 							margin: 0;
 							width: 90%;
-
+							height: 88px;
+							.img1 {
+								height: 56px;
+							}
+							.img2 {
+								height: 58px;
+							}
 							div p {
 								font-size: 18px !important;
 							}
@@ -902,7 +924,11 @@ import { setTimeout, clearInterval } from 'timers';
 						}
 						.buy {
 							width: 100%;
-							padding: 30px 10px 48px 10px;
+							padding: 0px 10px 18px 10px;
+							.title {
+						    margin: 10px 20px 10px 0;
+								font-size: 20px;
+							}
 							.price-div {
 								    width: 100%;
 										.num {
@@ -917,7 +943,7 @@ import { setTimeout, clearInterval } from 'timers';
 							}
 							.buy-button {
 								width: 100%;
-
+								margin-top: 7px;
 							}
 						}
 						.sell {
@@ -927,13 +953,25 @@ import { setTimeout, clearInterval } from 'timers';
 				}
 			}
 			.list-wrapper {
-				padding: 30px 10px 5px 10px;
+				padding: 0px 10px 5px 10px;
 				.list {
 					margin-bottom: 0;
 					.content {
 						font-size: 10px;
 						li span {
 							width: 25% !important;
+						}
+						.mu-pagination__circle .mu-pagination-btn.mu-button {
+							width: 22px;
+    					height: 22px;
+						}
+						.mu-pagination-item.mu-button {
+							min-width: 22px;
+					    height: 22px;
+							font-size: 12px !important;
+						}
+						.mu-pagination__circle .mu-pagination-item.mu-button {
+							    width: 22px;
 						}
 					}
 				}
