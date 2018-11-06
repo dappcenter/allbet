@@ -100,6 +100,7 @@ export default {
         assetsCoinAddress: "提币地址",
         assetsCopy: "复制",
         assetsTips: "温馨提示：请勿向上述地址充值任何非 ETH 资产，否则资产将不可找回。",
+        assetsTipsAT: "温馨提示：请勿向上述地址充值任何非 AT 资产，否则资产将不可找回。",
         assetsHandlingFee: "手续费",
         assetsArrivalAmount: "到账金额",
         assetsTips2: "温馨提示：请确保提笔地址无误，否则资产将不可找回。",

@@ -293,14 +293,14 @@ export default {
 								type: "error",
 								msg: that.$t("message.GameBetErr")
 							})
-							that.luckyRun()
-							that.getBetResult(res.result.recdId)
 						}
 						window.hd.betSuccess = function(payload) {
 							that.alert({
 								type: "success",
 								msg: that.$t("message.GameBetSuc")
 							})
+							that.luckyRun()
+							that.getBetResult(res.result.recdId)
 						}
 					}
 				}

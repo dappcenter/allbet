@@ -6,7 +6,17 @@
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<ul>
 				<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
-				<li v-show="currentAddr.platform == 'DISPATCHER'"><div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div><div class="operation"><span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span><span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span></div></li>
+				<li>
+					<div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div>
+					<!-- 平台账号开放充提 -->
+					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
+						<span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span>
+						<span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span>
+					</div>
+					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
+						<span>--</span>
+					</div>
+				</li>
 				<div class="charge"  v-show="displayStatus.showChargeBill && currentAddr.platform == 'DISPATCHER'">
 					<div src="" alt="" id="qrcode1"></div>
 					<div class="charge-desc">
@@ -47,18 +57,29 @@
 						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
 				</div>
-				<li><div>AT</div><div>{{currentAddr.at}}</div><div class="operation"><span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span><span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span></div></li>
-				<div class="charge"  v-show="displayStatus.showChargeAt">
+				<li>
+					<div>AT</div>
+					<div>{{currentAddr.at}}</div>
+					<!-- 平台账号开放充提 -->
+					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
+						<span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span>
+						<span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span>
+					</div>
+					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
+						<span>--</span>
+					</div>
+				</li>
+				<div class="charge"  v-show="displayStatus.showChargeAt && currentAddr.platform == 'DISPATCHER'">
 					<div src="" alt="" id="qrcode2"></div>
 					<div class="charge-desc">
 						<p>{{$t('message.assetsRechargeAddress')}}：</p>
 						<div class="address"><div id="copy_text2">{{currentAddr.coinAddress}}</div>
 							<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy2">{{$t('message.assetsCopy')}}</span>
 						</div>
-						<p>{{$t('message.assetsTips')}}</p>
+						<p>{{$t('message.assetsTipsAT')}}</p>
 					</div>
 				</div>
-				<div class="mention" v-show="displayStatus.showMentionAt">
+				<div class="mention" v-show="displayStatus.showMentionAt && currentAddr.platform == 'DISPATCHER'">
 					<p>{{$t('message.assetsCoinAddress')}}:</p>
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
@@ -440,13 +461,15 @@ import {mapMutations, mapState} from "vuex"
 						text-align: right;
 						width: 40%;
 					}
-					 .operation {
-					 	color: #FFDB5B;
+					.operation {
+						color: #FFDB5B;
+						text-align: right;
+						width: 40%;
 						span {
 							margin-left: 10px;
 							cursor: pointer;
 						}
-					 }
+					}
 				}
 				li:first-child {
 					color: #A0ADFF;

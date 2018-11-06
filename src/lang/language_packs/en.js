@@ -99,6 +99,7 @@ export default {
         assetsCoinAddress: "Extract Address",
         assetsCopy: "Copy",
         assetsTips: "Tips: Do not recharge any non-ETH assets to the above address, otherwise the assets will not be recovered.",
+        assetsTipsAT: "Tips: Do not recharge any non-AT assets to the above address, otherwise the assets will not be recovered.",
         assetsHandlingFee: "Handling Fee",
         assetsArrivalAmount: "Amount Of Arrival",
         assetsTips2: "Tips: Please make sure the address is correct, otherwise the assets will not be recovered.",
@@ -263,7 +264,7 @@ export default {
         BPcurrentAmount: "Bonus Pool",
 
         // 公告
-        notice1: "Notice：ALLBET game platform has been online, registered to send 5000AB, more invite rewards, etc. you come to collect!",
+        notice1: "Announcement：ALLBET launched! Now to registration  will reward 5000AB，More invitations are waiting for you to pick up.",
 
         // 邀请
         inviteText: "【ALLBET game platform online】\n【Register ALLBET to send 5000AB】\n【ALLBET】As an all-ecology DAPP platform, it implements Token's economic concept, transparent assets, income sharing and community co-governance.\n“Game mining AB, daily dividends, invite registration Award 'synchronous opening. 1 everyone has the invitation to promote the award.❗️ ❗️ 【Invitation to Promotion Award】🏆After the invitee holds AB coins, the invitee will reward 8% of the invitee's AB coins, and the invitee will reward 2% of the number of AB coins. All the rewards come from the system airdrop.💰🎀That is to say, as long as everyone registers and sends 5000AB, the invitee will get 8% of the reward after the invitee's game mining gets AB, and the invitee will also get 2% of the reward. These rewards are all direct airdrops of the system, so that everyone can make money together.🎀🎀If everyone can recommend 3 people quickly, everyone can make money easily.🎉🎉🎉🎉🎉 \nRegistration link："
