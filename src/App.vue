@@ -8,7 +8,7 @@
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
-      <h4>{{$t("message.PopTips")}}</h4>    
+      <h4>{{$t("message.PopTips")}}</h4>
       <p class="content-text">{{confirmOption.content}}</p>
       <p class="other">{{confirmOption.other}}</p>
       <div class="btn-wrap">
@@ -36,9 +36,9 @@
     <div class="newwork-box" v-show="noMainNetwork">
         <div>
             <img src="../public/img/MetaMask.png" alt="">
-            <span>切换到主网</span>
+            <span>{{$t('message.AppMainNet')}}</span>
         </div>
-        <p>我们的游戏仅在主网上提供，请通过Metamask进行切换</p>
+        <p>{{$t('message.AppMeta')}}</p>
     </div>
 	</div>
 </template>
