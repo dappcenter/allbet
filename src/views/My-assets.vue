@@ -180,13 +180,13 @@ import {mapMutations, mapState} from "vuex"
 	methods: {
 		makeQrCode () {
 			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-				width: 108,
-				height: 108,
+				width: 130,
+				height: 130,
 			});
 			qrcode2.makeCode(this.currentAddr.coinAddress);
 			var qrcode = new QRCode(document.getElementById("qrcode1"), {
-				width: 108,
-				height: 108,
+				width: 130,
+				height: 130,
 			});
 			qrcode.makeCode(this.currentAddr.coinAddress);
 		},
@@ -333,8 +333,8 @@ import {mapMutations, mapState} from "vuex"
 					color: #4A69B1;
 					border: 1px solid #1C3B7C;
 					img {
-						width:108px;
-						height:108px;
+						width:130px;
+						height:130px;
 						display: inline-block;
 						background-color: white;
 						margin-right: 19px;

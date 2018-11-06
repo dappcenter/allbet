@@ -2,16 +2,16 @@
     <div class="footerbar">
         <div class="container">
             <div class="linklist">
-                <a href="javascript:;">
+                <a href="https://twitter.com/allbet10">
                     <img src="../../../public/img/Twitter.png" alt="">
                 </a>
-                <a href="javascript:;">
+                <!-- <a href="javascript:;">
                     <img src="../../../public/img/Discord.png" alt="">
-                </a>
-                <a href="javascript:;">
+                </a> -->
+                <a href="https://weibo.com/6773769402/profile?rightmod=1&wvr=6&mod=personinfo">
                     <img src="../../../public/img/Weibo.png" alt="">
                 </a>
-                <a href="javascript:;">
+                <a href="https://t.me/allbetAB">
                     <img src="../../../public/img/Telegram.png" alt="">
                 </a>
             </div>
