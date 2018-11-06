@@ -140,6 +140,7 @@ export default {
         tradeGameBet: "游戏下注",
         tradeRegisterIncentives: "注册奖励",
         tradeDone: "已完成",
+        tradeAddress: "交易地址",
         //邀请好友页
         inviteFriend: "邀请好友",
         inviteRule: "支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受 ETH 分红",

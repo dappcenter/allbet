@@ -65,11 +65,11 @@
 			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
 				<p>{{$t('message.tradeDetail')}}</p>
 				<li>
-					<span>交易地址:</span>
+					<span>{{$t('message.tradeAddress')}}:</span>
 					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
 				</li>
 				<li v-if="detailData.bancorPrice">
-					<span>AT价格:</span>
+					<span>{{$t('message.homeAtPrice')}}:</span>
 					<div>{{detailData.bancorPrice}}</div>
 				</li>
 				<!-- 提币地址 -->
