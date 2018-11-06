@@ -9,8 +9,8 @@
 					{{$t('message.tradeType')}}:
 					<select class="" name="" @change="selectChange" v-model="operation">
 						<option value="ALL">{{$t('message.tradeAll')}}</option>
-						 <option value="ETH_RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
-						 <option value="ETH_WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
+						 <option value="RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
+						 <option value="WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
 						 <option value="BANCOR_BUY_AT">{{$t('message.tradeBancorBuy')}}</option>
 						 <option value="BANCOR_SELL_AT">{{$t('message.tradeBancorSell')}}</option>
 						 <option value="DICE">{{$t('message.tradeDice')}}</option>
@@ -18,8 +18,6 @@
 						 <option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
 						 <option value="INVITE_BONUS_DICE_AB">{{$t('message.tradeInviteBancor')}}</option>
 						 <option value="INVITE_BONUS_AB">{{$t('message.tradeRegisterIncentives')}}</option>
-						 <option value="AT_WITHDRAW">{{$t('message.tradeWithdraw')}}</option>
-						 <option value="AT_RECHARGE">{{$t('message.tradeRecharge')}}</option>
 					</select>
 					{{$t('message.tradeCoinType')}}:
 					<select class="" name="" @change="selectChange" v-model="coinType">
@@ -29,7 +27,7 @@
 						 <option value="AB">AB</option>
 					</select>
 				</span>
-		</p>
+			</p>
 			<li style="color: #A0ADFF;">
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
@@ -146,11 +144,11 @@ export default {
 	methods: {
 		// 交易类型的状态
 		filterState(item) {
-			switch (item.operation) {
-				case 'ETH_RECHARGE':   //平台充币
+			switch (item.realOperation) {
+				case 'RECHARGE':   //平台充币
 					return this.$t('message.tradeEthRecharge')
 				break;
-				case 'ETH_WITHDRAW':  //平台提现
+				case 'WITHDRAW':  //平台提现
 					return this.$t('message.tradeEthWithdraw')
 				break;
 				case 'BANCOR_BUY_AT': //购买(单位AT)
@@ -173,12 +171,6 @@ export default {
 				break;
 				case 'INVITE_BONUS_AB':  //注册奖励
 					return this.$t('message.tradeRegisterIncentives')
-				break;
-				case 'AT_WITHDRAW':  //AT提币
-					return this.$t('message.tradeWithdraw')
-				break;
-				case 'AT_RECHARGE':  //AT充值
-					return this.$t('message.tradeRecharge')
 				break;
 			}
 		},
@@ -214,7 +206,7 @@ export default {
 			}).then((res) => {
 				console.log(res);
 				if (res.code == 200) {
-					this.detailData = res.result
+					this.detailData = res.result || {}
 					this.tradingDetail = true
 				}
 			})

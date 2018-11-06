@@ -14,8 +14,8 @@
             <div class="statusbar">
                 <div class="address-select nominscreen" v-show="addressList.length > 1">
                     <label>{{$t("message.address")}}：</label>
-                    <mu-select v-model="currentAddr">
-                        <mu-option v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
+                    <mu-select v-model="currentAddr" :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}">
+                        <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
                 </div>
                 <div class="user-center" v-show="storeCurrentAddr.userName">
@@ -52,7 +52,7 @@
                 <router-link to="invite" tag="li" v-show="addressList.length > 0">
                     <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
                 </router-link>
-                <li>
+                <li @click="openWhiteBook">
                     <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
                 </li>
                 <li v-show="addressList.length > 1">
@@ -235,7 +235,7 @@
             <p>{{$t('message.BPtip')}}</p>
             <div class="coin-wrap ab">
                 <div class="coin-logo">
-                    <img src="../../../public/img/ab_icon.png" />
+                    <img src="../../../public/img/ab_icon02.png" />
                     <span>{{$t('message.BPab')}}</span>
                 </div>
                 <h3 v-if="storeCurrentAddr.bet">{{storeCurrentAddr.bet}} AB</h3>
@@ -1096,6 +1096,7 @@ export default {
                 margin-bottom: 50px;
                 margin-top: 10px;
                 font-size: 16px;
+                text-align: center;
             }
             .coin-wrap {
                 display: flex;

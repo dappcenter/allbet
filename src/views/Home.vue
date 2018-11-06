@@ -20,14 +20,14 @@
 				<div class="fund-number">
 					<img src="../../public/home/eth-icon.png" class="img1">
 					<div class="">
-						<p>{{Math.floor(result.ethPool*1000)/1000}}ETH</p>
+						<p>{{Math.floor(result.ethPool*1000)/1000}} ETH</p>
 						<span>{{$t('message.homeETHReserve')}}</span>
 					</div>
 				</div>
 				<div class="fund-number fund-sepc">
 					<img src="../../public/home/at-icon.png" class="img2">
 					<div class="">
-						<p>{{Math.floor(result.dbPool*1000)/1000}}AT</p>
+						<p>{{Math.floor(result.dbPool*1000)/1000}} AT</p>
 						<span>{{$t('message.homeATReserve')}}</span>
 					</div>
 				</div>
@@ -151,7 +151,10 @@ import { setTimeout, clearInterval } from 'timers';
 			sellAtPrice: '', // 1at=??eth
 			buyAtNumber: '',// 买入??AT
 
-			result: {},
+			result: {
+				ethPool: 0,
+				dbPool: 0
+			},
 			selectTap: 2,
 
 			recentOrderList: [], //近期交易列表
@@ -663,7 +666,7 @@ import { setTimeout, clearInterval } from 'timers';
 						padding: 30px 30px 48px 30px;
 						// height: 425px;
             			// position: relative;
-            border-radius:6px;
+            			border-radius:6px;
 
 						.title{
 							font-size: 24px;
@@ -747,7 +750,7 @@ import { setTimeout, clearInterval } from 'timers';
 			font-size: 18px;
 			margin-bottom: 123px;
 			border-radius:6px;
-
+			
 			.top-button {
 				font-size: 20px;
 				font-weight: bold;
@@ -770,6 +773,7 @@ import { setTimeout, clearInterval } from 'timers';
 			.content {
 				font-size: 16px;
 				padding: 0 0 50px 0;
+				font-family: initial;
 				// 分页
 				.d-flex {
 					margin-top: 20px;

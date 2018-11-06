@@ -286,7 +286,7 @@ import {mapMutations, mapState} from "vuex"
 								border-left: 1px solid #1C3B7C;
 							}
 						.copy {
-							width:186px;
+							width: 100px;
 							// height:22px;
 							font-size:16px;
 							color: #708FFF;

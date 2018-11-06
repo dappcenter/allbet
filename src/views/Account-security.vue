@@ -9,8 +9,8 @@
 			<div class="li-div">
 				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{currentAddr.userName}}</div></li>
 				<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
-				<li v-if="currentAddr.platform == 'DISPATCHER'"><div>{{$t('message.accountPlatformAddress')}}：</div><div>{{currentAddr.coinAddress}}</div></li>
-				<li v-for="item in pageData.MetaMaskAddress"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{item.coinAddress}}</div></li>
+				<li v-if="currentAddr.platform == 'DISPATCHER'"><div>{{$t('message.accountPlatformAddress')}}：</div><div class="dispatcher">{{currentAddr.coinAddress}}</div></li>
+				<li v-for="item in pageData.MetaMaskAddress"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div class="import">{{item.coinAddress}}</div></li>
 				<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
 				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
 				<li v-else><div>{{$t('message.accountChange')}}：</div><div>{{$t('message.accountNotExist')}}</div></li>

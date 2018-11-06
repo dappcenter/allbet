@@ -38,13 +38,13 @@
 				</li>
 			</ul>
 			<!-- 滑块 -->
-			<div class="slider-wrap">
+			<div class="slider-wrap" @touchstart.prevent="">
 				<div class="scale">
 					<span>1</span>
 					<span>100</span>
 				</div>
-				<div class="slider" ref="slider" @click.stop.self="onHandleClick">
-					<div class="bar" ref="bar" @click="onHandleClick"></div>
+				<div class="slider" ref="slider" @click.stop.self="onHandleClick" @touchstart.stop.self="onHandleTouchS">
+					<div class="bar" ref="bar" @click="onHandleClick" @touchstart="onHandleTouchS"></div>
 					<div class="handle" @mousedown.prevent="onHandleMouseD" @touchstart.prevent="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
 				</div>
 				
