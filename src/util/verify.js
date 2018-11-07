@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import store from "../store"
 
 const verify = function(verifyArr) {

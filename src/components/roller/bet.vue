@@ -284,7 +284,7 @@ export default {
 							}else if(res.result.diceResult.winFlag == "LOSE") {
 								this.noWin(res.result.diceResult.abNum)
 							}
-						}, 3000)
+						}, 1500)
 					}else {   //合约账号
 						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
 						//注册方法与原生交互

@@ -121,6 +121,7 @@
 						<!-- <span class="nominscreen">{{item.recdDoneTime?$fmtDate(item.recdDoneTime, 'full'):'- -'}}</span> -->
 						<span>{{filterState(item)}}</span>
 						<span class="chedan flex1" v-if="item.tradeStatus == 'ENTRUST'" @click="cancelOrder(item)">{{$t('message.homeWithdrawal')}}</span>
+						<span class="chedan flex1" v-else-if="item.tradeStatus == 'WAITING'" @click="recallOrder(item)">{{$t('message.homeWithdrawal')}}</span>
 						<span class="flex1" v-else>- -</span>
 					</li>
 				</div>

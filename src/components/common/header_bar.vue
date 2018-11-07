@@ -2,7 +2,8 @@
     <div class="headerbar" :class="type">
         <div class="container flex-wrap">
             <router-link tag="div" to="index" class="logo">
-                <img src="../../../public/img/LOGO.png" alt="">
+                <img class="nominscreen" src="../../../public/img/LOGO.png" alt="">
+                <img class="minscreen" src="../../../public/img/AllBet.png" alt="">
             </router-link>
             <menu class="nominscreen">
                 <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
@@ -726,7 +727,6 @@ export default {
     }
     .logo {
         img {
-          display: block;
           height: 50px;
         }
     }
