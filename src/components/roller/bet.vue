@@ -270,6 +270,7 @@ export default {
 							msg: res.msg
 						})
 						this.luckyRun()
+						// that.getBetResult(res.result.recdId)
 						setTimeout(() => {
 							clearInterval(this.timer)
 							this.timer = null
@@ -334,6 +335,9 @@ export default {
 		},
 		//查询下注结果
 		getBetResult(recdId) {
+			clearInterval(this.getBetResultTimer)
+			this.getBetResultTimer = null
+			console.log(2222)
 			this.getBetResultTimer = setInterval(() => {
 				PollHttp({
 					type: 'get',
@@ -341,10 +345,13 @@ export default {
 					data: {}
 				}).then(res => {
 					if(res.code == 200) {
+						console.log(111)
+						console.log(res)
 						if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							clearInterval(this.timer)
 							this.timer = null
 							clearInterval(this.getBetResultTimer)
+							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
 								this.luckyNum = res.result.luckyNum
@@ -363,12 +370,14 @@ export default {
 						clearInterval(this.timer)
 						this.timer = null
 						clearInterval(this.getBetResultTimer)
+						this.getBetResultTimer = null
 						this.luckyColor = "green"
 					}
 				}).catch(err => {
 					clearInterval(this.timer)
 					this.timer = null
 					clearInterval(this.getBetResultTimer)
+					this.getBetResultTimer = null
 					this.luckyColor = "green"
 					this.luckyNum = "00"
 				})
@@ -392,7 +401,6 @@ export default {
 		},
 		//帮助弹框
 		helpPopup() {
-			console.log(111)
 			this.openConfirm({
 				content: this.$t("message.GameHelp"),
 				btn: [
@@ -794,6 +802,7 @@ export default {
 							}
 						}
 						.hotkeys {
+							flex: initial;
 							margin-left: 0;
 							justify-content: space-between;
 							width: 100%;
@@ -811,6 +820,9 @@ export default {
 						.enter {
 							width: 100%;
 							margin-bottom: 18px;
+						}
+						span {
+							flex: initial;
 						}
 					}
 				}

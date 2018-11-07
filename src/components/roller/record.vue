@@ -10,7 +10,7 @@
 			<span class="fl">{{$t("message.GameParticipation")}} <i>{{diceBasis.totalParticipate || 0}}</i></span>
 			<span class="fr">AB: <i>{{diceBasis.totalAb || 0}}</i></span>
 			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn || 0}}</i>ETH</span>
-			<span class="fr">{{$t("message.GameTips1")}}</span>
+			<span class="fr nominscreen">{{$t("message.GameTips1")}}</span>
 		</div>
 		<div class="t-head">
 			<span class="tl">{{$t("message.GameTime")}}</span>

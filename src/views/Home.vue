@@ -141,7 +141,6 @@ import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
 import {mapMutations} from "vuex"
 import {DappABI} from "../util/constants/dapp.abi.js"
-import { setTimeout, clearInterval } from 'timers';
  export default {
 	 data () {
 		 return {

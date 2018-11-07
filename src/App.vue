@@ -232,8 +232,9 @@ body {
   }
   .newwork-box {
     position: fixed;
-    left: calc(50% - 180px);
-    top: calc(50% - 180px);
+    left: calc(50% - 250px);
+    width: 500px;
+    top: calc(50% - 200px);
     background-size: 100%;
     text-align: center;
     background-color: #CCD3FF;
@@ -242,10 +243,11 @@ body {
     padding: 30px;
     border-radius: 6px;
     div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       img {
         width: 100px;
-        vertical-align: middle;
-        margin-right: 30px;
       }
       span {
         font-size: 36px;
