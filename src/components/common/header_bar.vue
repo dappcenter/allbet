@@ -257,7 +257,7 @@
  * @param {String} type 传入steep为沉浸模式
  */
 import {mapMutations, mapState} from "vuex"
-import Md5 from "../../../public/js/md5.js"
+import Md5 from "../../assets/js/md5.js"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
 import VERIFY from "../../util/verify"
 import ScrollNotice from "@/components/common/scrollNotice"

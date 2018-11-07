@@ -134,7 +134,7 @@
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
-import Md5 from "../../public/js/md5.js"
+import Md5 from "../assets/js/md5.js"
 import {mapMutations, mapState} from "vuex"
  export default {
 	 data () {
