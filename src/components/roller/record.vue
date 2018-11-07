@@ -24,8 +24,8 @@
 		<div class="t-body">
 			<ul class="list-content" v-for="item in recordsList">
 				<li class="tl">
-					<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
-					<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
+					<span>{{$fmtDate(item.createTime, "full")}}</span>
+					<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
 				</li>
 				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
@@ -77,7 +77,7 @@ export default {
 	},
 	watch: {
 		currentAddr() {
-			
+
 			this.getData(this.boardType)
 		}
 	},
@@ -314,6 +314,7 @@ export default {
 		.t-body {
 			.list-content {
 				padding: 0;
+				font-size: 10px;
 				li {
 					line-height: 40px;
 					.minscreen {
