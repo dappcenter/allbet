@@ -1270,7 +1270,7 @@ export default {
                 }
                 .input-wrap {
                     label {
-                        width: 70px;
+                        width: 80px;
                     }
                 }
             }

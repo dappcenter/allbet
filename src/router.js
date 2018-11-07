@@ -10,7 +10,8 @@ export default new Router({
     routes: [
         {
             path: "/",
-            component: () => import("./views/Dice.vue"),
+            component: () => import("./views/Home.vue")
+            ,
             redirect: "/index"
         },
         {

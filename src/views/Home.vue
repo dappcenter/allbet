@@ -914,7 +914,7 @@ import { setTimeout, clearInterval } from 'timers';
 					}
 					.buy-sell {
 						flex-wrap: wrap;
-						    justify-content: center;
+						justify-content: center;
 						.fund-number {
 							margin: 0;
 							width: 90%;

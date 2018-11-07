@@ -1,3 +1,4 @@
+import "babel-polyfill"
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
@@ -9,6 +10,7 @@ import i18n from "./lang"
 import VueParticles from 'vue-particles'
 import "./assets/less/base.less"
 import someMethods from "./util/extend_methods"
+
 
 Vue.use(VueParticles)
 Vue.use(someMethods)
