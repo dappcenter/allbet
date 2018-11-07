@@ -246,7 +246,7 @@
                     <img src="../../../public/img/eth_icon.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3>{{bonusPoolsData.pool}} ETH</h3>
+                <h3>{{Number(bonusPoolsData.pool) > 0 ? bonusPoolsData.pool : 0}} ETH</h3>
             </div>
         </mu-dialog>
     </div>
