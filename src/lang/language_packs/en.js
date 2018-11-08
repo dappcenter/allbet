@@ -255,7 +255,7 @@ export default {
         GameBetErr: "Bet failure",
         GameWinBox1: "Congratulations",
         GameWinBox2: "Get number of AB:",
-        GameWinBox3: "Play it again",
+        GameWinBox3: "Play again",
         GameNoWin: "It's a pity to fail. Don't lose heart",
         GameKnow: "I know",
         GameHelp: "You are betting on the result of a 100 sided dice roll. The result of the dice roll is bounded to 1-100. To win, the dice result needs to be lower than your number. If the dice result is lower than your number you win!For example, if the user selects 'ROLL OVER' and moves the slider to 70, it means the player’s guess number is greater than 70 (not included，If the number is in the bet range, the player wins and will immediately receive and amount equal to the bet amount plus payout.In order to avoid addiction to the game, the maximum bet amount is 5 ETH, and the minimum bet amount is 0.01 ETH. Participants in the game will receive a certain amount of AB tokens as platform dividends.Note: In the case of a win a 1% commission is subtracted from the total amount returned to the player. You will incur a small gas charge to place the bet. Etheroll does not receive gas. Gas is used to maintain the Ethereum ",

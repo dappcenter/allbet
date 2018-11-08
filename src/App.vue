@@ -290,6 +290,16 @@ body {
 
 @media screen and (max-width: 800px) {
   #app {
+    .confirm {
+      .btn-wrap {
+        button {
+          width: 45%;
+          height: 40px;
+          text-align: center;
+          font-size: 14px;
+        }
+      }
+    }
     .win-box {
       position: fixed;
       left: calc(50% - 110px);

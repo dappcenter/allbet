@@ -3,31 +3,35 @@
 	<HeaderBar></HeaderBar>
 	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
-			<p class="title">
-				<span><router-link to="my-assets">{{$t('message.assetsOfMine')}} ></router-link> {{$t('message.tradeRecorde')}}</span>
-				<span>
-					{{$t('message.tradeType')}}:
-					<select class="" name="" @change="selectChange" v-model="operation">
-						<option value="ALL">{{$t('message.tradeAll')}}</option>
-						 <option value="RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
-						 <option value="WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
-						 <option value="BANCOR_BUY_AT">{{$t('message.tradeBancorBuy')}}</option>
-						 <option value="BANCOR_SELL_AT">{{$t('message.tradeBancorSell')}}</option>
-						 <option value="DICE">{{$t('message.tradeDice')}}</option>
-						 <option value="DICE_REWARD">{{$t('message.tradeDiceReward')}}</option>
-						 <option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
-						 <option value="INVITE_BONUS_DICE_AB">{{$t('message.tradeInviteBancor')}}</option>
-						 <option value="INVITE_BONUS_AB">{{$t('message.tradeRegisterIncentives')}}</option>
-					</select>
-					{{$t('message.tradeCoinType')}}:
-					<select class="" name="" @change="selectChange" v-model="coinType">
-						<option value="ALL">{{$t('message.tradeAll')}}</option>
-						 <option value="ETH">ETH</option>
-						 <option value="AT">AT</option>
-						 <option value="AB">AB</option>
-					</select>
-				</span>
-			</p>
+			<div class="title">
+				<nav><router-link to="my-assets">{{$t('message.assetsOfMine')}} ></router-link> {{$t('message.tradeRecorde')}}</nav>
+				<div class="control">
+					<div class="select-wrap">
+						<label>{{$t('message.tradeType')}}:</label>
+						<select class="" name="" @change="selectChange" v-model="operation">
+							<option value="ALL">{{$t('message.tradeAll')}}</option>
+							<option value="RECHARGE">{{$t('message.tradeEthRecharge')}}</option>
+							<option value="WITHDRAW">{{$t('message.tradeEthWithdraw')}}</option>
+							<option value="BANCOR_BUY_AT">{{$t('message.tradeBancorBuy')}}</option>
+							<option value="BANCOR_SELL_AT">{{$t('message.tradeBancorSell')}}</option>
+							<option value="DICE">{{$t('message.tradeDice')}}</option>
+							<option value="DICE_REWARD">{{$t('message.tradeDiceReward')}}</option>
+							<option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
+							<option value="INVITE_BONUS_DICE_AB">{{$t('message.tradeInviteBancor')}}</option>
+							<option value="INVITE_BONUS_AB">{{$t('message.tradeRegisterIncentives')}}</option>
+						</select>
+					</div>
+					<div class="select-wrap">
+						<label>{{$t('message.tradeCoinType')}}:</label>
+						<select class="" name="" @change="selectChange" v-model="coinType">
+							<option value="ALL">{{$t('message.tradeAll')}}</option>
+							<option value="ETH">ETH</option>
+							<option value="AT">AT</option>
+							<option value="AB">AB</option>
+						</select>
+					</div>
+				</div>
+			</div>
 			<li style="color: #A0ADFF;">
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
@@ -232,41 +236,35 @@ export default {
 				padding: 0 40px;
 				.title {
 					display: flex;
-			    align-items: center;
-			    justify-content: left;
+			    	justify-content: left;
 					padding: 15px 0;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
 					font-size: 18px;
-					span:first-child {
-						width: 30%;
-					}
-					span:last-child {
+					nav{
 						flex: 1;
-						text-align: right;
-						select:last-child {
-							margin-right: 0;
-						}
-						color: #A0ADFF;
-						font-size: 16px;
-					}
-					span a {
-						color: #C8C8C8 !important;
-					}
-					span {
-						select {
-							margin-right: 15px;
-							width: 120px;
-							background-color: #123789;
-							border: 1px solid rgba(47,89,183,1);
-							border-radius: 4px;
-							outline: none;
-							color: white;
-							font-size: 12px;
-							height: 24px;
-						}
 						a {
-							color: #C8C8C8;
+							color: #C8C8C8 !important;
+						}
+					}
+					.control {
+						display: flex;
+						.select-wrap {
+							margin-left: 15px;
+							label {
+								font-size: 16px;
+								margin-right: 5px;
+							}
+							select {
+								width: 120px;
+								background-color: #123789;
+								border: 1px solid rgba(47,89,183,1);
+								border-radius: 4px;
+								outline: none;
+								color: white;
+								font-size: 12px;
+								height: 24px;
+							}
 						}
 					}
 				}
@@ -370,21 +368,28 @@ export default {
 					width: 100%;
 					padding: 0 10px;
 					.title {
-						font-size: 16px;
-				    flex-direction: column;
-						span:first-child {
+						display: block;
+						nav{
 							width: 100%;
+							margin-bottom: 10px;
 						}
-						span:last-child {
-							margin-top: 20px;
-							width: 100%;
-							font-size: 14px;
-							text-align: left;
-							select {
-								width: 29%;
-							}
-							select:last-child {
-								margin-right: 0;
+						.control {
+							justify-content: space-between;
+							.select-wrap {
+								margin-left: 0;
+								label {
+									display: block;
+								}
+								select {
+									width: 120px;
+									background-color: #123789;
+									border: 1px solid rgba(47,89,183,1);
+									border-radius: 4px;
+									outline: none;
+									color: white;
+									font-size: 12px;
+									height: 24px;
+								}
 							}
 						}
 					}
