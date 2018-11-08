@@ -296,7 +296,7 @@ body {
           width: 45%;
           height: 40px;
           text-align: center;
-          font-size: 14px;
+          font-size: 10px;
         }
       }
     }
@@ -319,7 +319,7 @@ body {
         height: 28px;
         border-radius: 4px;
         border: none;
-        font-size: 14px;
+        font-size: 10px;
         cursor: pointer;
         margin-top: 15px;
       }
