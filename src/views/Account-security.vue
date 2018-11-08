@@ -11,7 +11,7 @@
 				<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
 				<!-- <li v-if="currentAddr.platform == 'DISPATCHER'"><div>{{$t('message.accountPlatformAddress')}}：</div><div class="dispatcher">{{currentAddr.coinAddress}}</div></li> -->
 				<li v-for="item in pageData.MetaMaskAddress">
-					
+
 					<div v-if="item.platform == 'DISPATCHER'">{{$t('message.accountPlatformAddress')}}：</div>
 					<div v-else>{{$t('message.accountMetaMaskAddress')}}：</div>
 					<div :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}">{{item.coinAddress}}</div>
@@ -434,7 +434,7 @@ import {mapMutations, mapState} from "vuex"
 		},
 		//手机号验证
 		verifyPhone() {
-			if(this.formData.phone == "" || !/^[0-9]*$/.test(this.formData.phone)) {
+			if(this.formData.phone == "" || !/^[0-9]*$/.test(this.formData.phone) || (this.formData.prefix == '+86' && !(/^1[34578]\d{9}$/.test(this.formData.phone)))) {
                 this.alert({
                     type: "info",
                     msg: this.$t('message.PopPhoneWrong')
