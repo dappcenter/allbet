@@ -87,6 +87,7 @@
                 <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
+            
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
@@ -250,6 +251,8 @@
                 <h3>{{Number(bonusPoolsData.pool) > 0 ? bonusPoolsData.pool : 0}} ETH</h3>
             </div>
         </mu-dialog>
+
+        <!-- <RegisterPop :registerAccount="displayStatus.registerAccount"></RegisterPop> -->
     </div>
 </template>
 
@@ -262,6 +265,7 @@ import Md5 from "../../assets/js/md5.js"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
 import VERIFY from "../../util/verify"
 import ScrollNotice from "@/components/common/scrollNotice"
+import RegisterPop from "@/components/account/register"
 export default {
     props: {
         type: {
@@ -691,7 +695,8 @@ export default {
     },
     components: {
         AEFcountDownBtn,
-        ScrollNotice
+        ScrollNotice,
+        RegisterPop
     },
     destroyed() {
         //销毁事件
