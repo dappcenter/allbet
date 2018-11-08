@@ -134,10 +134,10 @@ export default {
 					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
-					this.alert({
-						type: "info",
-						msg: res.msg
-					})
+					// this.alert({
+					// 	type: "info",
+					// 	msg: res.msg
+					// })
 				}
 			})
 		},

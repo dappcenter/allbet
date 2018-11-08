@@ -23,6 +23,7 @@ let pollWeb3 = function() {
                     })
                 }else {
                     if (coinbase !== storeWeb3.coinbase) {
+                        // 地址发生变化
                         let newCoinbase = coinbase
                         web3.eth.getBalance(coinbase, (err, newBalance) => {
                             if(err) {
@@ -32,57 +33,63 @@ let pollWeb3 = function() {
                                     coinbase: newCoinbase,
                                     balance: newBalance
                                 })
-                                //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-                                axios.post("/open/login/coin", {
-                                    type: "ETH",
-                                    addr: newCoinbase
-                                }).then(res => {
-                                    if(res.code == 200) {
-                                        // 未绑定平台账号
-                                        if(res.result.assets.length <= 1) {
-                                            if(store.state.user.currentAddr.coinAddress == newCoinbase) {
-                                                store.commit(types.OPEN_CONFIRM, {
-                                                    content: "绑定账号，赢取邀请奖励分ETH",
-                                                    btn: [
-                                                        {
-                                                            text: "关闭"
-                                                        },
-                                                        {
-                                                            type: "high",
-                                                            text: "去绑定",
-                                                            cb: () => {
-                                                                router.push('account-security')
+                                if(store.state.user.currentAddr.platform == "IMPORT") { 
+                                    //当前选中地址为HD钱包地址（踢掉平台账户启用新的HD钱包地址）
+                                    store.commit(types.REMOVE_USERINFO)  //清除平台账户登录信息
+                                    //获取新地址的登录态
+                                    //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+                                    axios.post("/open/login/coin", {
+                                        type: "ETH",
+                                        addr: newCoinbase
+                                    }).then(res => {
+                                        if(res.code == 200) {
+                                            // 未绑定平台账号
+                                            if(res.result.assets.length <= 1) {
+                                                if(store.state.user.currentAddr.coinAddress == newCoinbase) {
+                                                    // 当前选中地址为此登录地址（提示绑定）
+                                                    store.commit(types.OPEN_CONFIRM, {
+                                                        content: "绑定账号，赢取邀请奖励分ETH",
+                                                        btn: [
+                                                            {
+                                                                text: "关闭"
+                                                            },
+                                                            {
+                                                                type: "high",
+                                                                text: "去绑定",
+                                                                cb: () => {
+                                                                    router.push('account-security')
+                                                                }
                                                             }
-                                                        }
-                                                    ]
-                                                })
-                                            }
-                                            store.commit(types.UPDATE_WEB3_AT, {
-                                                at: res.result.assets[0].at,
-                                                bet: res.result.assets[0].bet,
-                                                userName: res.result.assets[0].userName,
-                                                token: res.result.token,
-                                                inviteCode: res.result.assets[0].inviteCode
-                                            })
-                                        }else {
-                                            // 已绑定平台账号
-                                            store.commit(types.SET_USERINFO, res.result)
-                                            res.result.assets.forEach(val => {
-                                                if(val.coinAddress == newCoinbase) {  
-                                                    store.commit(types.UPDATE_WEB3_AT, {
-                                                        at: res.result.assets[0].at,
-                                                        bet: res.result.assets[0].bet,
-                                                        userName: res.result.assets[0].userName,
-                                                        token: res.result.token,
-                                                        inviteCode: res.result.assets[0].inviteCode
+                                                        ]
                                                     })
                                                 }
-                                            })
+                                                store.commit(types.UPDATE_WEB3_AT, {
+                                                    at: res.result.assets[0].at,
+                                                    bet: res.result.assets[0].bet,
+                                                    userName: res.result.assets[0].userName,
+                                                    token: res.result.assets[0].token,
+                                                    inviteCode: res.result.assets[0].inviteCode || ""
+                                                })
+                                            }else {
+                                                // 已绑定平台账号
+                                                store.commit(types.SET_USERINFO, res.result)
+                                                res.result.assets.forEach(val => {
+                                                    if(val.coinAddress == newCoinbase) {  
+                                                        store.commit(types.UPDATE_WEB3_AT, {
+                                                            at: val.at,
+                                                            bet: val.bet,
+                                                            userName: res.result.assets[0].userName,
+                                                            token: val.token,
+                                                            inviteCode: res.result.assets[0].inviteCode
+                                                        })
+                                                    }
+                                                })
+                                            }
                                         }
-                                    }
-                                }).catch(err => {
-                        
-                                })
+                                    }).catch(err => {
+                            
+                                    })
+                                }
                             }
                         })
                     }else {

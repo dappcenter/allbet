@@ -29,36 +29,56 @@ const getters = {
         let list = filterAddr(state.userInfo.assets)
         let b = false
         if(rootState.web3Handler.web3.coinbase) { //是否有HD钱包登录
-            if(state.userInfo.assets && state.userInfo.assets.length > 1) {  //平台账号是否有绑定HD钱包地址
-                state.userInfo.assets.forEach(value => {
-                    if(value.coinAddress == rootState.web3Handler.web3.coinbase) {  //是否有绑定当前登录的HD钱包地址
-                        b = true
-                    }
-                })
-                if(b) {  //有绑定当前HD钱包地址
-                    list.push({
-                        coinAddress: rootState.web3Handler.web3.coinbase,
-                        eth: rootState.web3Handler.web3.balance,
-                        bet: rootState.web3Handler.web3.bet,
-                        at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
-                        userName: list[0].userName,
-                        token: rootState.web3Handler.web3.token,
-                        platform: rootState.web3Handler.web3.platform,
-                        inviteCode: list[0].inviteCode   //优先给平台账号邀请码
+            if(state.userInfo.assets) {  //是否有平台账号登录态
+                // 有平台账号登录态
+                if(state.userInfo.assets.length > 1) {  //平台账号是否有绑定HD钱包地址
+                    // 平台账号有绑定HD钱包地址
+                    state.userInfo.assets.forEach(value => {
+                        if(value.coinAddress == rootState.web3Handler.web3.coinbase) {  //是否有绑定当前登录的HD钱包地址
+                            b = true
+                            list.push({
+                                coinAddress: rootState.web3Handler.web3.coinbase,
+                                eth: rootState.web3Handler.web3.balance,
+                                bet: value.bet,
+                                at: Math.floor(value.at*1000) /1000,
+                                userName: list[0].userName,
+                                token: value.token,
+                                platform: value.platform,
+                                inviteCode: list[0].inviteCode   //优先给平台账号邀请码
+                            })
+                        }else {
+                            // 平台账号没有绑定当前HD钱包地址 （不启用示任何无关的HD钱包地址）
+                        }
                     })
-                }else { //没有绑定当前HD钱包地址
-                    list.push({
-                        coinAddress: rootState.web3Handler.web3.coinbase,
-                        eth: rootState.web3Handler.web3.balance,
-                        at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
-                        bet: rootState.web3Handler.web3.bet,
-                        userName: rootState.web3Handler.web3.userName,
-                        token: rootState.web3Handler.web3.token,
-                        platform: rootState.web3Handler.web3.platform,
-                        inviteCode: rootState.web3Handler.web3.inviteCode
-                    })
+                }else {
+                    // 平台账号没有绑定HD钱包地址
                 }
+                
+                // if(b) {  //有绑定当前HD钱包地址
+                //     list.push({
+                //         coinAddress: rootState.web3Handler.web3.coinbase,
+                //         eth: rootState.web3Handler.web3.balance,
+                //         bet: rootState.web3Handler.web3.bet,
+                //         at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
+                //         userName: list[0].userName,
+                //         token: rootState.web3Handler.web3.token,
+                //         platform: rootState.web3Handler.web3.platform,
+                //         inviteCode: list[0].inviteCode   //优先给平台账号邀请码
+                //     })
+                // }else { //没有绑定当前HD钱包地址 (不显示没关联的HD钱包地址)
+                //     list.push({
+                //         coinAddress: rootState.web3Handler.web3.coinbase,
+                //         eth: rootState.web3Handler.web3.balance,
+                //         at: Math.floor(rootState.web3Handler.web3.at*1000) /1000,
+                //         bet: rootState.web3Handler.web3.bet,
+                //         userName: rootState.web3Handler.web3.userName,
+                //         token: rootState.web3Handler.web3.token,
+                //         platform: rootState.web3Handler.web3.platform,
+                //         inviteCode: rootState.web3Handler.web3.inviteCode
+                //     })
+                // }
             }else {
+                // 没有平台账号登录态
                 list.push({
                     coinAddress: rootState.web3Handler.web3.coinbase,
                     eth: rootState.web3Handler.web3.balance,
@@ -73,6 +93,7 @@ const getters = {
             
         }
         if(list.length == 0) {
+            // 可用地址列表为空清除当前地址状态
             state.currentAddr = {}
         }
         return list

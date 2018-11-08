@@ -15,7 +15,7 @@ import user from "./vuex/modules/user"
 Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
-    storage: window.sessionStorage,
+    storage: window.localStorage,
     modules: ["user"]
 })
 
