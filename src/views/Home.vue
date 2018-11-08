@@ -851,7 +851,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 				.middle {
 					width: 1000px;
 					padding: 10px;
-					
+
 					.buy-sell {
 						justify-content: space-around;
 						p img {

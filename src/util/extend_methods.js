@@ -16,6 +16,10 @@ const fmtNumber = (n) => {
  * @param {String} type
  */
 const fmtDate = (obj, type) => {
+	
+  obj = obj.replace(/T/g,' ');
+  obj = obj.replace(/-/g,'/');
+
 	let date = new Date(obj);
 	let y = 1900 + date.getYear();
 	let m = "0" + (date.getMonth() + 1);
