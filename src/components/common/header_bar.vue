@@ -1259,6 +1259,7 @@ export default {
             }
         }
         .mu-dialog-wrapper {
+            position: relative;
             left: 0;
             bottom: 0;
             right: 0;
