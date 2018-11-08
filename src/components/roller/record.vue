@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import PollHttp from "../../util/pollHttp"
 export default {
     data() {
@@ -134,10 +134,16 @@ export default {
 					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
-					alert(res.msg)
+					this.alert({
+						type: "info",
+						msg: res.msg
+					})
 				}
 			})
-		}
+		},
+		...mapMutations({
+			alert: "alert"
+		})
 	},
 	destroyed() {
 		clearInterval(this.timer)
