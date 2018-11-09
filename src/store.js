@@ -12,6 +12,7 @@ import web3Handler from "./vuex/modules/web3Handler"
 import dialogs from "./vuex/modules/dialogs"
 import user from "./vuex/modules/user"
 
+
 Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
