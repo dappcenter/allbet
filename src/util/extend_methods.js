@@ -25,7 +25,7 @@ const fmtDate = (obj, type) => {
 	let y = 1900 + date.getYear();
 	let m = "0" + (date.getMonth() + 1);
 	let d = "0" + date.getDate();
-	let h = date.getHours();
+	let h = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
 	let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
 	let s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 	if(type == 'full') {
