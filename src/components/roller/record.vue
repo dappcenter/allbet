@@ -126,7 +126,7 @@ export default {
 					boardType: this.boardType,
 					coinAddress: this.currentAddr.coinAddress,
 					page: 1,
-					pageSize: this.boardType == "ME" ? 10000 : 30
+					pageSize: this.boardType == "ME" ? 10000 : 20
 				}
 			}).then(res => {
 				if(res.code == 200) {
@@ -134,10 +134,10 @@ export default {
 					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
-					this.alert({
-						type: "info",
-						msg: res.msg
-					})
+					// this.alert({
+					// 	type: "info",
+					// 	msg: res.msg
+					// })
 				}
 			})
 		},

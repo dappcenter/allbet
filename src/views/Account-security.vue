@@ -7,7 +7,7 @@
 				<span>{{$t('message.accountSecurity')}}</span>
 			</p>
 			<div class="li-div">
-				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{currentAddr.userName}}</div></li>
+				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{pageData.userName}}</div></li>
 				<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
 				<!-- <li v-if="currentAddr.platform == 'DISPATCHER'"><div>{{$t('message.accountPlatformAddress')}}：</div><div class="dispatcher">{{currentAddr.coinAddress}}</div></li> -->
 				<li v-for="item in pageData.MetaMaskAddress">
@@ -177,6 +177,7 @@ import {mapMutations, mapState} from "vuex"
 			pageData: {
 				isBind: false,  //是否有绑定关系
 				haveTrustee: false,   //是否绑定平台账号或者本身就是平台账号
+				userName: "",
 				MetaMaskAddress: []
 			},
 			captchaDisabled: false,
@@ -427,6 +428,7 @@ import {mapMutations, mapState} from "vuex"
 							// this.pageData.MetaMaskAddress.push(val)
 						}else {
 							this.pageData.haveTrustee = true //有绑定平台账号或者本身就是平台账号
+							this.pageData.userName = val.userName
 						}
 					})
 				}

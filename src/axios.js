@@ -28,6 +28,7 @@ axios.interceptors.response.use(response => {
     if(response.data.code == -2) {
         store.commit('REMOVE_USERINFO')
         router.replace('index')
+        location.reload()
     }
     if(response.data.code != 200) {
         store.commit('alert', {

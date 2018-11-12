@@ -68,59 +68,75 @@ const mutations = {
 const actions = {
     registerWeb3({commit, rootState}) {
         getWeb3.then(result => {
+            // 成功获取HD钱包信息
             commit(types.REGISTER_WEB3_INSTANCE, result)
-            //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+            // 检测登录态
             
-            axios.post("/open/login/coin", {
-                type: "ETH",
-                addr: result.coinbase
-            }).then(res => {
-                if(res.code == 200) {
-                    // 未绑定平台账号
-                    if(res.result.assets.length <= 1) {
-                        if(rootState.user.currentAddr.coinAddress == result.coinbase) {
-                            commit(types.OPEN_CONFIRM, {
-                                content: language[rootState.locale].message.PopBindDesc2,
-                                btn: [
-                                    {
-                                        text: language[rootState.locale].message.PopClose,
-                                    },
-                                    {
-                                        type: "high",
-                                        text: language[rootState.locale].message.accountToBound,
-                                        cb: () => {
-                                            router.push('account-security?bind=1')
-                                        }
-                                    }
-                                ]
-                            })
-                        }
-                        commit(types.UPDATE_WEB3_AT, {
-                            at: res.result.assets[0].at,
-                            bet: res.result.assets[0].bet,
-                            userName: res.result.assets[0].userName,
-                            token: res.result.token,
-                            inviteCode: res.result.assets[0].inviteCode
-                        })
-                    }else {
-                        // 已绑定平台账号
+            if(rootState.user.userInfo.assets && rootState.user.userInfo.assets.length > 0) {
+                // 有登录态
+                console.log("有登录态")
+                
+            }else {
+                // 没有登录态
+                //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+                console.log("没有登录态")
+                
+                
+                axios.post("/open/login/coin", {
+                    type: "ETH",
+                    addr: result.coinbase
+                }).then(res => {
+                    if(res.code == 200) {
                         commit(types.SET_USERINFO, res.result)
-                        res.result.assets.forEach(val => {
-                            if(val.coinAddress == result.coinbase) {
-                                commit(types.UPDATE_WEB3_AT, {
-                                    at: val.at,
-                                    bet: val.bet,
-                                    userName: res.result.assets[0].userName,
-                                    token: val.token,
-                                    inviteCode: res.result.assets[0].inviteCode
+                        if(res.result.assets.length <= 1) {
+                            // 未绑定平台账号
+                            console.log("未绑定平台账号")
+                            if(rootState.user.currentAddr.coinAddress == result.coinbase) {
+                                // 当前选中地址为此登录地址（提示绑定）
+                                commit(types.OPEN_CONFIRM, {
+                                    content: language[rootState.locale].message.PopBindDesc2,
+                                    btn: [
+                                        {
+                                            text: language[rootState.locale].message.PopClose,
+                                        },
+                                        {
+                                            type: "high",
+                                            text: language[rootState.locale].message.accountToBound,
+                                            cb: () => {
+                                                router.push('account-security?bind=1')
+                                            }
+                                        }
+                                    ]
                                 })
                             }
-                        })
+                            commit(types.UPDATE_WEB3_AT, {
+                                at: res.result.assets[0].at,
+                                bet: res.result.assets[0].bet,
+                                userName: res.result.assets[0].userName,
+                                token: res.result.assets[0].token,
+                                inviteCode: res.result.assets[0].inviteCode || ""
+                            })
+                        }else {
+                            // 已绑定平台账号
+                            res.result.assets.forEach(val => {
+                                if(val.coinAddress == result.coinbase) {
+                                    commit(types.UPDATE_WEB3_AT, {
+                                        at: val.at,
+                                        bet: val.bet,
+                                        userName: res.result.assets[0].userName,
+                                        token: val.token,
+                                        inviteCode: res.result.assets[0].inviteCode
+                                    })
+                                }
+                            })
+                        }
                     }
-                }
-            }).catch(err => {
-    
-            })
+                }).catch(err => {
+        
+                })
+            }
+            
+            
         }).catch(e => {
             console.log('error in action registerWeb3', e)
         })

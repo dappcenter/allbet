@@ -17,6 +17,9 @@
                 <a href="https://t.me/allbetAB">
                     <img class="icon" src="../../../public/img/Telegram.png" alt="">
                 </a>
+                <a href="https://www.facebook.com/bet.all.315">
+                    <img class="icon" src="../../../public/img/facebook.png" alt="">
+                </a>
             </div>
             <p>Copyright © 2018.allbet.io</p>
         </div>

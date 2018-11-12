@@ -345,8 +345,6 @@ export default {
 					data: {}
 				}).then(res => {
 					if(res.code == 200) {
-						console.log(111)
-						console.log(res)
 						if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							clearInterval(this.timer)
 							this.timer = null
@@ -402,6 +400,7 @@ export default {
 		//帮助弹框
 		helpPopup() {
 			this.openConfirm({
+				title: this.$t("message.GameRule"),
 				content: this.$t("message.GameHelp"),
 				btn: [
 					{
