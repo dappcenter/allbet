@@ -110,7 +110,7 @@
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode('REGISTER')" ref="imgcode">
                 </div>
             </div>
             <div class="input-wrap">
@@ -146,7 +146,7 @@
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode('REGISTER')" ref="imgcode">
                 </div>
             </div>
             <div class="input-wrap">
@@ -197,7 +197,7 @@
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=' + macCode" alt="" @click="getImgCode" ref="imgcode">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=' + macCode" alt="" @click="getImgCode('CHANGE_PWD')" ref="imgcode">
                 </div>
             </div>
 
@@ -413,8 +413,8 @@ export default {
         }
     },
     methods: {
-        getImgCode() {
-            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type=REGISTER&macCode="+ this.macCode +"&" + Math.random();
+        getImgCode(type) {
+            this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type="+ type +"&macCode="+ this.macCode +"&" + Math.random();
         },
         //页面滚动事件
         bindScrollEvent() {
@@ -442,7 +442,7 @@ export default {
             }).then(res => {
                 if(res.code != 200) {
                     this.captchaDisabled = false
-                    this.getImgCode()
+                    this.getImgCode(type)
                 }
             }).catch(err => {
                 this.captchaDisabled = false
@@ -457,13 +457,14 @@ export default {
                 params: {
                     "email": this.formData.email,
                     "picCode": this.formData.picCode,
-                    "captchaType": type
+                    "captchaType": type,
+                    "macCode": this.macCode
                 }
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
                     this.captchaDisabled = false
-                    this.getImgCode()
+                    this.getImgCode(type)
                 }
             }).catch(err => {
                 this.captchaDisabled = false
@@ -564,7 +565,7 @@ export default {
           this.formData.email = ''
           this.formData.password = ''
           this.formData.password2 = ''
-          this.getImgCode()
+          this.getImgCode(type)
         },
         // 二次密码验证
         verifyPassword() {

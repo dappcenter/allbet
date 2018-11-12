@@ -287,7 +287,8 @@ import {mapMutations, mapState} from "vuex"
                 params: {
                     "email": this.formData.email,
                     "picCode": this.formData.picCode,
-                    "captchaType": type
+					"captchaType": type,
+					"macCode": this.macCode
                 }
             }).then(res => {
                 console.log(res)

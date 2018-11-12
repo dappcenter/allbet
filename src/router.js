@@ -48,6 +48,11 @@ export default new Router({
             path: "/account-security",
             name: "account-security",
             component: () => import("./views/Account-security.vue")
+        },
+        {
+            path: "/register",
+            name: "register",
+            component: () => import("./views/mobile/Register.vue")
         }
     ]
 });

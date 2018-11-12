@@ -36,19 +36,19 @@
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
 				<div>{{$t('message.tradeType')}}</div>
-				<div class="nominscreen">{{$t('message.homeVolume')}}</div>
+				<div class="vol">{{$t('message.homeVolume')}}</div>
 				<div class="nominscreen">{{$t('message.homeState')}}</div>
-				<div>{{$t('message.homeOperation')}}</div>
+				<div class="nominscreen">{{$t('message.homeOperation')}}</div>
 			</li>
 			<li v-for="item in list">
 				<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
 				<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
 				<div class="nominscreen">{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
-				<div class="nominscreen">{{item.amount}}</div>
+				<div class="vol">{{item.amount}}</div>
 				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-				<div class="operation btn" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
-				<div class="operation" v-else>- -</div>
+				<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+				<div class="operation nominscreen" v-else>- -</div>
 			</li>
 			<!-- <div class="charge">
 				<div class="desc address">
@@ -326,7 +326,7 @@ export default {
 					 }
 				}
 				.mu-dialog {
-					width: 40%;
+					width: 42%;
 				}
 				.mu-dialog-body {
 					background-color: #214797;
@@ -391,6 +391,11 @@ export default {
 									height: 24px;
 								}
 							}
+						}
+					}
+					li {
+						.vol {
+							text-align: right;
 						}
 					}
 					.mu-dialog  {
