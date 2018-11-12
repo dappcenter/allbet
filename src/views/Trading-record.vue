@@ -68,7 +68,7 @@
 
 			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
 				<p>{{$t('message.tradeDetail')}}</p>
-				<li>
+				<li v-if="currentAddr.coinAddress">
 					<span>{{$t('message.tradeAddress')}}:</span>
 					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
 				</li>
@@ -77,10 +77,10 @@
 					<div>{{detailData.bancorPrice}}</div>
 				</li>
 				<!-- 提币地址 -->
-				<li>
+				<!-- <li>
 					<span>{{$t('message.assetsCoinAddress')}}:</span>
 					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
-				</li>
+				</li> -->
 				<!-- 区块链交易ID -->
 				<li v-if="detailData.txId">
 					<span>{{$t('message.tradeBlockchain')}}:</span>
@@ -92,7 +92,7 @@
 					<div>0.005 ETH</div>
 				</li> -->
 				<!-- 处理时间 -->
-				<li>
+				<li v-if="detailData.updateTime">
 					<span>{{$t('message.tradeProcessingTime')}}:</span>
 					<div>{{$fmtDate(detailData.updateTime, 'full')}}</div>
 				</li>

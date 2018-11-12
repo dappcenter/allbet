@@ -1,6 +1,6 @@
 if(window.location.href.indexOf('www.allbet.io') >= 0) {
     //正式环境
-    window.SERVERPATH = "https://apinode.allbet.io"
+    window.SERVERPATH = "https://apinodehk.allbet.io"
     window.BANCORADDRESS = "0x36fc06fef49e2d92fe9460685d56a5998d9ba187"
     window.ROLLERADDRESS = "0x5544b7603c39e7f471a08e761ff0c7362878c70b"
     window.NETWORK = 1

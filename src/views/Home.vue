@@ -404,7 +404,6 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 		//下单
 		placeOrder(postData, type) {
 			this.$http.post("/app/bancor/order", postData).then((res) => {
-				console.log(res);
 				if (res.code == 200) {
 					// 买卖成功，更新各种币的数量
 					if (res.result.platform == 'IMPORT') {

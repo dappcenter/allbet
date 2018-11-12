@@ -349,7 +349,7 @@ export default {
             this.bindScrollEvent()
         },
         addressList(newVal) {
-            let v = {}
+            let v = null
             if(newVal.length > 0) {
                 let b = false
                 newVal.forEach((val, idx) => {
@@ -357,25 +357,21 @@ export default {
                         b = true
                         this.setCurrentAddr(val)
                     }
-                    if(val.platform == "IMPORT") {
+                    if(val.coinAddress == this.storeWeb3.coinbase) {
                         v = val
-                    }else {
-                        v = {}
                     }
+                    
                 })
                 if(!b) {
-                    if(this.lastCurAddrPf == "IMPORT") {
-                        // 默认选中用户上一次使用的地址类型（平台 or HD）
-                        if(v.coinAddress) {
-                            this.currentAddr = v.coinAddress
-                            this.setCurrentAddr(v)
-                        }
+                    if(v) {
+                        this.currentAddr = v.coinAddress
+                        this.setCurrentAddr(v)
                     }else {
                         this.currentAddr = newVal[0].coinAddress
                         this.setCurrentAddr(newVal[0])
                     }
-                    
                 }
+                
             }
         },
         currentAddr(newVal) {
@@ -406,7 +402,9 @@ export default {
                     this.displayStatus.registerAccount = false  //手机注册账号
                     this.displayStatus.emailRegisterAccount = false  //邮箱注册账号
                     this.findPassword = false
+                    
                 }
+                this.isShowFoldMunu = false
             },
             deep: true
         },
@@ -700,7 +698,8 @@ export default {
             userInfo: state => state.user.userInfo,
             isShowLoginBox: state => state.dialogs.loginBox,
             storeCurrentAddr: state => state.user.currentAddr,
-            lastCurAddrPf: state => state.user.lastCurAddrPf
+            lastCurAddrPf: state => state.user.lastCurAddrPf,
+            storeWeb3: state => state.web3Handler.web3
         }),
         addressList() {
             return this.$store.getters.getUserAddress
@@ -906,18 +905,18 @@ export default {
             }
         }
         .fold-menu-on {
-            width: 28px;
-            height: 28px;
+            width: 20px;
+            height: 20px;
             background: url(../../../public/img/menu_icon.png) no-repeat center;
             background-size: 100%;
-            margin-left: 20px;
+            margin: 6px 10px 0 20px;
         }
         .fold-menu-off {
-            width: 28px;
-            height: 28px;
+            width: 20px;
+            height: 20px;
             background: url(../../../public/img/menu_icon_off.png) no-repeat center;
             background-size: 90%;
-            margin-left: 20px;
+            margin: 6px 10px 0 20px;
             &.on {
                 background: url(../../../public/img/menu_icon.png) no-repeat center;
                 background-size: 100%;

@@ -270,22 +270,22 @@ export default {
 							msg: res.msg
 						})
 						this.luckyRun()
-						// that.getBetResult(res.result.recdId)
-						setTimeout(() => {
-							clearInterval(this.timer)
-							this.timer = null
-							this.luckyColor = "green"
-							this.luckyNum = res.result.diceResult.luckyNum
-							this.$store.dispatch('updateProperty')
-							if(res.result.diceResult.winFlag == "WIN") {
-								this.openWinPopup({
-									ab: res.result.diceResult.abNum,
-									eth: res.result.diceResult.rewards
-								})
-							}else if(res.result.diceResult.winFlag == "LOSE") {
-								this.noWin(res.result.diceResult.abNum)
-							}
-						}, 1500)
+						that.getBetResult(res.result.recdId)
+						// setTimeout(() => {
+						// 	clearInterval(this.timer)
+						// 	this.timer = null
+						// 	this.luckyColor = "green"
+						// 	this.luckyNum = res.result.diceResult.luckyNum
+						// 	this.$store.dispatch('updateProperty')
+						// 	if(res.result.diceResult.winFlag == "WIN") {
+						// 		this.openWinPopup({
+						// 			ab: res.result.diceResult.abNum,
+						// 			eth: res.result.diceResult.rewards
+						// 		})
+						// 	}else if(res.result.diceResult.winFlag == "LOSE") {
+						// 		this.noWin(res.result.diceResult.abNum)
+						// 	}
+						// }, 1500)
 					}else {   //合约账号
 						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
 						//注册方法与原生交互
@@ -337,7 +337,6 @@ export default {
 		getBetResult(recdId) {
 			clearInterval(this.getBetResultTimer)
 			this.getBetResultTimer = null
-			console.log(2222)
 			this.getBetResultTimer = setInterval(() => {
 				PollHttp({
 					type: 'get',
@@ -369,6 +368,7 @@ export default {
 						this.timer = null
 						clearInterval(this.getBetResultTimer)
 						this.getBetResultTimer = null
+						this.luckyNum = "00"
 						this.luckyColor = "green"
 					}
 				}).catch(err => {

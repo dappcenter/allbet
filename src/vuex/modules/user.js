@@ -89,6 +89,7 @@ const getters = {
             console.log("可用地址列表为空清除当前地址状态")
             state.currentAddr = {}
         }
+        console.log(list)
         return list
     }
 }
