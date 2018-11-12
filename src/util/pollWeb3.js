@@ -35,14 +35,17 @@ let pollWeb3 = function() {
                                 })
                                 if(store.state.user.currentAddr.platform == "IMPORT") { 
                                     //当前选中地址为HD钱包地址（踢掉平台账户启用新的HD钱包地址）
-                                    store.commit(types.REMOVE_USERINFO)  //清除平台账户登录信息
+                                    // store.commit(types.REMOVE_USERINFO)  //清除账户登录信息
                                     //获取新地址的登录态
                                     //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+                                    console.log("获取新地址的登录态")
                                     axios.post("/open/login/coin", {
                                         type: "ETH",
                                         addr: newCoinbase
                                     }).then(res => {
                                         if(res.code == 200) {
+                                            // 存储新的登录态
+                                            store.commit(types.SET_USERINFO, res.result)
                                             // 未绑定平台账号
                                             if(res.result.assets.length <= 1) {
                                                 if(store.state.user.currentAddr.coinAddress == newCoinbase) {
@@ -72,7 +75,6 @@ let pollWeb3 = function() {
                                                 })
                                             }else {
                                                 // 已绑定平台账号
-                                                store.commit(types.SET_USERINFO, res.result)
                                                 res.result.assets.forEach(val => {
                                                     if(val.coinAddress == newCoinbase) {  
                                                         store.commit(types.UPDATE_WEB3_AT, {

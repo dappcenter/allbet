@@ -126,7 +126,7 @@ export default {
 					boardType: this.boardType,
 					coinAddress: this.currentAddr.coinAddress,
 					page: 1,
-					pageSize: this.boardType == "ME" ? 10000 : 30
+					pageSize: this.boardType == "ME" ? 10000 : 20
 				}
 			}).then(res => {
 				if(res.code == 200) {

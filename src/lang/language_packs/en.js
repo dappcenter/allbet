@@ -84,7 +84,7 @@ export default {
         accountLoginPassword: "Login Password",
         accountChange: "Change",
         accountNotBound: "Not Bound",
-        accountBindDesc: "Not bound yet, please log in to MetaMask and bind. If you have logged in, please refresh the page.",
+        accountBindDesc: "Login MetaMask to continue, if you log in, please refresh.",
         accountToBound: "To Bound",
         accountNotExist: "Not Exist",
 
@@ -261,6 +261,7 @@ export default {
         GameHelp: "You are betting on the result of a 100 sided dice roll. The result of the dice roll is bounded to 1-100. To win, the dice result needs to be lower than your number. If the dice result is lower than your number you win!For example, if the user selects 'ROLL OVER' and moves the slider to 70, it means the player’s guess number is greater than 70 (not included，If the number is in the bet range, the player wins and will immediately receive and amount equal to the bet amount plus payout.In order to avoid addiction to the game, the maximum bet amount is 5 ETH, and the minimum bet amount is 0.01 ETH. Participants in the game will receive a certain amount of AB tokens as platform dividends.Note: In the case of a win a 1% commission is subtracted from the total amount returned to the player. You will incur a small gas charge to place the bet. Etheroll does not receive gas. Gas is used to maintain the Ethereum ",
         GameHowToPlay: "How to play?",
         GameTips1: "The data is delayed by up to three minutes and reset daily at UTC 00:00",
+        GameRule: "The rules of the game",
         // 分红池
         BPbonusPools: "Bonus Pools",
         BPtip: "Currently, the dividend pool is composed of ETH earnings from Allbet games. For details, please refer to the game rules.",

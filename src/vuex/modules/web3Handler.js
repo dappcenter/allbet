@@ -73,19 +73,21 @@ const actions = {
             // 检测登录态
             
             if(rootState.user.userInfo.assets && rootState.user.userInfo.assets.length > 0) {
-                // 有登录态（有平台账号登录）
-                console.log("有登录态（有平台账号登录）")
+                // 有登录态
+                console.log("有登录态")
                 
             }else {
                 // 没有登录态
                 //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
                 console.log("没有登录态")
                 
+                
                 axios.post("/open/login/coin", {
                     type: "ETH",
                     addr: result.coinbase
                 }).then(res => {
                     if(res.code == 200) {
+                        commit(types.SET_USERINFO, res.result)
                         if(res.result.assets.length <= 1) {
                             // 未绑定平台账号
                             console.log("未绑定平台账号")
@@ -116,7 +118,6 @@ const actions = {
                             })
                         }else {
                             // 已绑定平台账号
-                            commit(types.SET_USERINFO, res.result)
                             res.result.assets.forEach(val => {
                                 if(val.coinAddress == result.coinbase) {
                                     commit(types.UPDATE_WEB3_AT, {

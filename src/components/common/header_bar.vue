@@ -13,7 +13,7 @@
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
-                <div class="address-select nominscreen" v-show="addressList.length > 1">
+                <div class="address-select nominscreen" v-if="addressList.length > 1">
                     <label>{{$t("message.address")}}：</label>
                     <mu-select v-model="currentAddr" :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}">
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
@@ -26,7 +26,7 @@
                     <div class="router-list">
                         <router-link to="my-assets">{{$t("message.property")}}</router-link>
                         <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
-                        <a href="javascript:;" @click="removeUserInfo" v-show="userInfo.assets">{{$t("message.logout")}}</a>
+                        <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>
                     </div>
                 </div>
                 <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
@@ -349,17 +349,32 @@ export default {
             this.bindScrollEvent()
         },
         addressList(newVal) {
+            let v = {}
             if(newVal.length > 0) {
                 let b = false
-                newVal.forEach(val => {
+                newVal.forEach((val, idx) => {
                     if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
                         b = true
                         this.setCurrentAddr(val)
                     }
+                    if(val.platform == "IMPORT") {
+                        v = val
+                    }else {
+                        v = {}
+                    }
                 })
                 if(!b) {
-                    this.currentAddr = newVal[0].coinAddress
-                    this.setCurrentAddr(newVal[0])
+                    if(this.lastCurAddrPf == "IMPORT") {
+                        // 默认选中用户上一次使用的地址类型（平台 or HD）
+                        if(v.coinAddress) {
+                            this.currentAddr = v.coinAddress
+                            this.setCurrentAddr(v)
+                        }
+                    }else {
+                        this.currentAddr = newVal[0].coinAddress
+                        this.setCurrentAddr(newVal[0])
+                    }
+                    
                 }
             }
         },
@@ -684,7 +699,8 @@ export default {
             locale: state => state.locale,
             userInfo: state => state.user.userInfo,
             isShowLoginBox: state => state.dialogs.loginBox,
-            storeCurrentAddr: state => state.user.currentAddr
+            storeCurrentAddr: state => state.user.currentAddr,
+            lastCurAddrPf: state => state.user.lastCurAddrPf
         }),
         addressList() {
             return this.$store.getters.getUserAddress
@@ -772,9 +788,7 @@ export default {
         display: flex;
         font-size: 14px;
         .address-select {
-            label {
-
-            }
+            overflow: hidden;
             .mu-input  {
                 margin: 0;
                 padding: 0 13px;
