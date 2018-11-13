@@ -211,7 +211,7 @@ import {mapMutations, mapState} from "vuex"
 			}
 			if ((type == 'ETH' && Number(this.currentAddr.eth) < Number(this.formData.amount)) || (type == 'AT' && Number(this.currentAddr.at) < Number(this.formData.amount))) {
 				this.alert({
-						type: "error",
+						type: "info",
 						msg: this.$t('message.assetsNotEnough')
 				})
 				return false
