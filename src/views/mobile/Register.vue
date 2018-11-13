@@ -88,7 +88,6 @@ export default {
                 password2: "",  //2次密码
                 email: "",  //邮箱账号
                 picCode: "",  //图形验证码
-                resetType: "PHONE"  //找回密码type
             },
             macCode: new Date().getTime(),
             registerType: "phone",
@@ -168,10 +167,9 @@ export default {
                         type: "success",
                         msg: res.msg
                     })
-                    this.displayStatus.registerAccount = false
-                    this.displayStatus.emailRegisterAccount = false
                     // 相当于直接登录
                     this.setUserInfo(res.result)
+                    this.$router.go(-1)
                 }
             })
         },
@@ -284,9 +282,12 @@ export default {
                 }
             })
         },
-        // ["formData.resetType"](newVal) {
-        //     console.log(newVal)
-        // }
+        registerType(newVal, oldVal){
+            this.formData.captcha = ""
+            this.formData.picCode = ""
+            this.formData.password = ""
+            this.formData.password2 = ""
+        },
     },
     computed: {
         ...mapState({

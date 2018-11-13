@@ -1,5 +1,5 @@
 <template>
-    <div class="login-page" :style="{minHeight: $window.innerHeight + 'px'}">
+    <div class="login-page">
         <div class="top">
             <a href="javascript:;" class="backarrow" @click="$router.go(-1)"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
@@ -121,7 +121,7 @@ export default {
                         msg: this.$t('message.loginSuccess')
                     })
                     this.setUserInfo(res.result)
-                    this.$router.replace("index")
+                    this.$router.go(-1)
                 }
             })
         },

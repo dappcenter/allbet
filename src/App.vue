@@ -115,6 +115,10 @@ p {
 li {
   list-style: none;
 }
+html {
+  min-height: 100%;
+  background-color: #191A2A;
+}
 body {
   min-height: 100%;
   position: relative;

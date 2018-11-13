@@ -4,13 +4,13 @@
             <a href="javascript:;" class="backarrow" @click="$router.go(-1)"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
-                <a href="javascript:;" class="phone" @click="registerType = 'phone'" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneFind')}}</a>
-                <a href="javascript:;" @click="registerType = 'email'" :class="{'active': registerType == 'email'}">{{$t('message.PopEmailFind')}}</a>
+                <a href="javascript:;" class="phone" @click="resetType = 'PHONE'" :class="{'active': resetType == 'PHONE'}">{{$t('message.PopPhoneFind')}}</a>
+                <a href="javascript:;" @click="resetType = 'EMAIL'" :class="{'active': resetType == 'EMAIL'}">{{$t('message.PopEmailFind')}}</a>
             </div>
         </div>
         <div class="bottom">
             <!-- 手机号 -->
-            <div class="input-wrap" v-if="registerType == 'phone'">
+            <div class="input-wrap" v-if="resetType == 'PHONE'">
                 <label>{{$t('message.PopPhone')}}</label>
                 <div class="input-flex prefix">
                     <mu-menu cover :open.sync="prefixMenu">
@@ -41,9 +41,9 @@
             <div class="input-wrap">
                 <label>{{$t('message.PopCaptcha')}}</label>
                 <div class="input-flex">
-                    <input type="text" v-if="registerType == 'phone'" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
+                    <input type="text" v-if="resetType == 'PHONE'" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <input type="text" v-else v-model="formData.captcha" :placeholder="$t('message.PopInputEmailCaptcha')">
-                    <AEFcountDownBtn v-if="registerType == 'phone'" v-model="captchaDisabled" @click.native="getSMScode('CHANGE_PWD')"></AEFcountDownBtn>
+                    <AEFcountDownBtn v-if="resetType == 'PHONE'" v-model="captchaDisabled" @click.native="getSMScode('CHANGE_PWD')"></AEFcountDownBtn>
                     <AEFcountDownBtn v-else v-model="captchaDisabled" @click.native="getEmailCode('CHANGE_PWD')"></AEFcountDownBtn>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                 <label>{{$t('message.PopPasswordConfirm')}}</label>
                 <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
             </div>
-            <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopConfirm')}}</button>
+            <button class="primary-btn" @click="findPasswordDo()">{{$t('message.PopConfirm')}}</button>
         </div>
     </div>
 </template>
@@ -83,7 +83,7 @@ export default {
                 resetType: "PHONE"  //找回密码type
             },
             macCode: new Date().getTime(),
-            registerType: "phone",
+            resetType: "PHONE",
             captchaDisabled: false,
             prefixMenu: false
         }
@@ -123,7 +123,8 @@ export default {
                 params: {
                     "email": this.formData.email,
                     "picCode": this.formData.picCode,
-                    "captchaType": type
+                    "captchaType": type,
+                    "macCode": this.macCode
                 }
             }).then(res => {
                 if(res.code != 200) {
@@ -134,35 +135,29 @@ export default {
                 this.captchaDisabled = false
             })
         },
-        // 发起注册
-        registerDo() {
-            const type = this.registerType
-            let url = "/open/register/phone"
+        // 找回密码
+        findPasswordDo() {
             let obj = {
+                "account": "",
                 "captcha": this.formData.captcha,
-                "loginPwd": Md5(this.formData.password),
-                "phone": this.formData.phone,
-                "prefix": this.formData.prefix,
-                "inviteCode": this.formData.inviteCode
+                "pwd": Md5(this.formData.password),
+                "resetType": this.resetType
             }
-            if(type == "email") {
-                url = "/open/register/email"
-                if(!this.verifyEmail()) return
-                obj.email = this.formData.email
-            }else {
+            if(this.resetType == "PHONE") {
                 if(!this.verifyPhone()) return
+                obj.account = this.formData.phone
+            }else {
+                if(!this.verifyEmail()) return
+                obj.account = this.formData.email
             }
-            if(!this.verifyCaptcha() || !this.verifyPassword()) return
-            this.$http.post(url, obj).then(res => {
-                if(res.code == 200) {
+            if(!this.verifyPassword()) return
+            this.$http.post("/open/password", obj).then(res => {
+                if(res.code == "200") {
                     this.alert({
                         type: "success",
                         msg: res.msg
                     })
-                    this.displayStatus.registerAccount = false
-                    this.displayStatus.emailRegisterAccount = false
-                    // 相当于直接登录
-                    this.setUserInfo(res.result)
+                    this.$router.go(-1)
                 }
             })
         },
