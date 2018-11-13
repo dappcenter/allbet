@@ -17,6 +17,18 @@ Vue.use(someMethods)
 Vue.use(axios)
 Vue.use(MuseUI)
 Vue.prototype.$window = window
+Vue.prototype.$goBack = () => {
+    if (window.history.length <= 1) {
+        router.push({path:'/'})
+        return false
+    } else {
+        router.go(-1)
+    }
+    setTimeout(() => {
+        router.push({path:'/'})      
+    },500)
+}
+
 Vue.config.productionTip = false;
 
 Vue.component("MBheaderBar", MBheaderBar)

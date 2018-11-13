@@ -30,9 +30,7 @@
                     </div>
                 </div>
                 <!-- pc登录按钮 -->
-                <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
-                <!-- mobile登录按钮 -->
-                <router-link to="login" class="button login minscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</router-link>
+                <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
                 <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a>
@@ -76,9 +74,18 @@
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>
             <img src="../../../public/img/Logo02.png" alt="">
-            <button class="primary-btn" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
-            <button class="primary-btn hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
-            <p>{{$t("message.notRegister")}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a></p>
+            <button class="primary-btn nominscreen" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
+            <!-- mobile登录按钮 -->
+            <button class="primary-btn minscreen" @click="$router.push('login')">{{$t("message.accountLogin")}}</button>
+
+            <button class="primary-btn hd nominscreen" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
+            <button class="primary-btn hd minscreen" @click="hdLogin('mobile')">{{$t("message.hdWalletLogin")}}</button>
+            <p>
+                {{$t("message.notRegister")}}
+                <a href="javascript:;" class="nominscreen" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a>
+                <!-- mobile注册 -->
+                <a href="javascript:;" class="minscreen" @click="$router.push('register')">{{$t("message.nowRegister")}}</a>
+            </p>
         </mu-dialog>
         <!-- 账号登录 -->
         <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
@@ -640,7 +647,7 @@ export default {
             return true
         },
         //HD钱包登录
-        hdLogin() {
+        hdLogin(type) {
             this.displayStatus.loginSelect = false
             if(window.web3) {
                 this.openConfirm({
@@ -656,14 +663,21 @@ export default {
                     content: this.$t('message.PopTipsDesc'),
                     btn: [
                         {
-                            text: this.$t('message.PopInstallation')
+                            text: this.$t('message.PopInstallation'),
+                            cb: () => {
+                                this.openWhiteBook()
+                            }
                         },
                         {
                             type: "high",
                             text: this.$t('message.PopAccountLogin'),
                             cb: () => {
-                                this.displayStatus.loginSelect = false
-                                this.displayStatus.loginAccount = true
+                                if(type == "mobile") {
+                                    this.$router.push('login')
+                                }else {
+                                    this.displayStatus.loginSelect = false
+                                    this.displayStatus.loginAccount = true
+                                }
                             }
                         }
                     ]
@@ -989,6 +1003,11 @@ export default {
                         color: #5480D9;
                     }
                 }
+                .primary-btn {
+                    &.minscreen {
+                        display: none;
+                    }
+                }
             }
         }
         &.login-accout {
@@ -1276,7 +1295,6 @@ export default {
             }
         }
         .mu-dialog-wrapper {
-            position: relative;
             left: 0;
             bottom: 0;
             right: 0;
@@ -1294,6 +1312,15 @@ export default {
                 .input-wrap {
                     label {
                         width: 80px;
+                    }
+                }
+            }
+            &.login-select {
+                .mu-dialog {
+                    .primary-btn {
+                        &.minscreen {
+                            display: block;
+                        }
                     }
                 }
             }

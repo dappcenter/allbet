@@ -1,7 +1,7 @@
 <template>
     <div class="login-page">
         <div class="top">
-            <a href="javascript:;" class="backarrow" @click="$router.go(-1)"></a>
+            <a href="javascript:;" class="backarrow" @click="$goBack"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
                 <a href="javascript:;" class="phone" @click="formData.loginType = 'Phone';formData.password = ''" :class="{'active': formData.loginType == 'Phone'}">{{$t('message.loginPhone')}}</a>
@@ -121,7 +121,7 @@ export default {
                         msg: this.$t('message.loginSuccess')
                     })
                     this.setUserInfo(res.result)
-                    this.$router.go(-1)
+                    this.$goBack()
                 }
             })
         },

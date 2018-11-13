@@ -1,7 +1,7 @@
 <template>
     <div class="register-page" :style="{minHeight: $window.innerHeight + 'px'}">
         <div class="top">
-            <a href="javascript:;" class="backarrow" @click="$router.go(-1)"></a>
+            <a href="javascript:;" class="backarrow" @click="$goBack"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
                 <a href="javascript:;" class="phone" @click="registerType = 'phone'" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneRegister')}}</a>
@@ -169,7 +169,7 @@ export default {
                     })
                     // 相当于直接登录
                     this.setUserInfo(res.result)
-                    this.$router.go(-1)
+                    this.$goBack()
                 }
             })
         },

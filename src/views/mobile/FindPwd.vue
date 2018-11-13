@@ -157,7 +157,7 @@ export default {
                         type: "success",
                         msg: res.msg
                     })
-                    this.$router.go(-1)
+                    this.$goBack()
                 }
             })
         },
