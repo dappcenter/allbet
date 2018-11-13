@@ -6,8 +6,8 @@
                 <img class="minscreen" src="../../../public/img/AllBet.png" alt="">
             </router-link>
             <menu class="nominscreen">
-                <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
                 <router-link to="roller"><span>Dice</span></router-link>
+                <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
                 <a href="javascript:;" @click="displayStatus.bonusPools = !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
@@ -29,7 +29,10 @@
                         <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>
                     </div>
                 </div>
+                <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+                <!-- mobile登录按钮 -->
+                <!-- <router-link to="login" class="button login minscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</router-link> -->
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
                 <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a>
@@ -41,11 +44,11 @@
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <div class="fold-menu minscreen" v-show="isShowFoldMunu">
             <ul>
-                <router-link to="index" tag="li">
-                    <router-link to="index"><span>{{$t("message.home")}}</span></router-link>
-                </router-link>
                 <router-link to="roller" tag="li">
                     <router-link to="roller"><span>Dice</span></router-link>
+                </router-link>
+                <router-link to="index" tag="li">
+                    <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
                 </router-link>
                 <li @click="displayStatus.bonusPools = !displayStatus.bonusPools">
                     <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
@@ -1164,7 +1167,7 @@ export default {
         .fold-menu {
             position: absolute;
             width: 100%;
-            top: 90px;
+            top: 80px;
             left: 0;
             padding: 0 20px;
             background-color: rgba(3,7,19,.9);

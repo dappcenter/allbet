@@ -10,19 +10,13 @@ export default new Router({
     routes: [
         {
             path: "/",
-            component: () => import("./views/Home.vue")
-            ,
-            redirect: "/index"
+            component: () => import("./views/Home.vue"),
+            redirect: "/roller"
         },
         {
             path: "/index",
             name: "index",
             component: () => import("./views/Home.vue")
-        },
-        {
-            path: "/dice",
-            name: "dice",
-            component: () => import("./views/Dice.vue")
         },
         {
             path: "/roller",
@@ -53,6 +47,16 @@ export default new Router({
             path: "/register",
             name: "register",
             component: () => import("./views/mobile/Register.vue")
+        },
+        {
+            path: "/login",
+            name: "login",
+            component: () => import("./views/mobile/Login.vue")
+        },
+        {
+            path: "/findpwd",
+            name: "findpwd",
+            component: () => import("./views/mobile/FindPwd.vue")
         }
     ]
 });

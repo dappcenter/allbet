@@ -25,7 +25,7 @@
 		<div class="t-body">
 			<ul class="list-content" v-for="item in recordsList">
 				<li class="tl">
-					<span>{{$fmtDate(item.createTime, "full")}}</span>
+					<span>{{$fmtDate(item.createTime, "month")}}</span>
 					<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
 				</li>
 				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">

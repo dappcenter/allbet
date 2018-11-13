@@ -33,6 +33,7 @@
 				</div>
 			</div>
 			<div class="buy-sell">
+				<!-- 购买 -->
 				<div class="buy">
 					<p class="title">{{$t('message.homeBuyAT')}}</p>
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.eth*1000)/1000}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
@@ -54,6 +55,7 @@
 						{{$t('message.login')}}
 					</div>
 				</div>
+				<!-- 出售 -->
 				<div class="buy sell">
 					<p class="title">{{$t('message.homeSellAT')}}</p>
 					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
@@ -125,7 +127,7 @@
 						<span class="flex1" v-else>- -</span>
 					</li>
 				</div>
-				<mu-flex justify-content="center" v-if="recentOrderList.length > 0">
+				<mu-flex justify-content="center" v-if="recentOrderList.length > 0 && selectTap != 2 && orderData.total*1/20 > 1">
 					<mu-pagination raised circle :page-size="20" :total="orderData.total*1" @change="pageChange" :current.sync="curPage"></mu-pagination>
 				</mu-flex>
 			</div>
@@ -185,7 +187,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 				if(this.ethPrice == this.$t('message.homeMarketPrice')) {
 					return (1/this.ethMarketPrice * this.buyEthNumber).toFixed(8)
 				}else{
-					return (1/this.ethPrice * this.buyEthNumber).toFixed(8)
+					return isNaN((1/this.ethPrice * this.buyEthNumber).toFixed(8)) ? 0 : (1/this.ethPrice * this.buyEthNumber).toFixed(8)
 				}
 			},
 			getEthNumber() {

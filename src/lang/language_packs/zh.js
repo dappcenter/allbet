@@ -8,9 +8,10 @@ export default {
     message: {
         //header_bar
         home: "首页",
+        atDeal: "AT交易",
         bonusPool: "分红池",
         invitation: "邀请",
-        course: "新手教程",
+        course: "白皮书",
         login: "登录",
         address: "当前地址",
         accountLogin: "账号登录",
@@ -22,8 +23,11 @@ export default {
         property: "我的资产",
         forgetPassword: "忘记密码",
         noAccount: "没有账号？",
+        gotoLogin: "已有账号，去登录？",
         registerNow: "现在注册",
         loginSuccess: "登陆成功",
+        loginPhone: "手机登录",
+        loginEmail: "邮箱登录",
 
         // 首页
         homeAllet: "基于bancor的实用增强型通证协议,多维Dapp游戏生态系统",
@@ -171,6 +175,7 @@ export default {
         PopGraphicEnter: "请输入图形验证码",
         PopGetCaptcha: "获取验证码",
         PopInputCaptcha: "请输入短信验证码",
+        PopInputEmailCaptcha: "请输入邮箱验证码",
         PopPassword: "密码",
         PopNewPassword: "新密码",
         PopPasswordConfirm: "确认密码",

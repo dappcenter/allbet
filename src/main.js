@@ -9,6 +9,8 @@ import "muse-ui/dist/muse-ui.css";
 import i18n from "./lang"
 import "./assets/less/base.less"
 import someMethods from "./util/extend_methods"
+import MBheaderBar from "@/components/common/mobile/mb_header_bar"
+
 
 
 Vue.use(someMethods)
@@ -16,6 +18,8 @@ Vue.use(axios)
 Vue.use(MuseUI)
 Vue.prototype.$window = window
 Vue.config.productionTip = false;
+
+Vue.component("MBheaderBar", MBheaderBar)
 
 new Vue({
     router,

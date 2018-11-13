@@ -32,6 +32,8 @@ const fmtDate = (obj, type) => {
 		return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length) + " " + h + ":" + minutes + ":" + s
 	}else if(type == 'time'){
 		return h + ":" + minutes + ":" + s
+	}else if(type == 'month'){
+		return m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length) + " " + h + ":" + minutes + ":" + s
 	}else {
 		return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length)
 	}

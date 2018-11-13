@@ -1,11 +1,11 @@
 <template>
-    <div class="register-page" :style="{minHeight: $window.innerHeight + 'px'}">
+    <div class="findpwd-page" :style="{minHeight: $window.innerHeight + 'px'}">
         <div class="top">
             <a href="javascript:;" class="backarrow" @click="$router.go(-1)"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
-                <a href="javascript:;" class="phone" @click="registerType = 'phone'" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneRegister')}}</a>
-                <a href="javascript:;" @click="registerType = 'email'" :class="{'active': registerType == 'email'}">{{$t('message.PopEmailRegister')}}</a>
+                <a href="javascript:;" class="phone" @click="registerType = 'phone'" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneFind')}}</a>
+                <a href="javascript:;" @click="registerType = 'email'" :class="{'active': registerType == 'email'}">{{$t('message.PopEmailFind')}}</a>
             </div>
         </div>
         <div class="bottom">
@@ -34,7 +34,7 @@
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
-                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=REGISTER&macCode=' + macCode" alt="" @click="getImgCode('REGISTER')" ref="imgcode">
+                    <img :src="$window.SERVERPATH + '/open/pic_captcha?type=CHANGE_PWD&macCode=' + macCode" alt="" @click="getImgCode('CHANGE_PWD')" ref="imgcode">
                 </div>
             </div>
             <!-- 短信\邮箱验证码 -->
@@ -43,18 +43,13 @@
                 <div class="input-flex">
                     <input type="text" v-if="registerType == 'phone'" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <input type="text" v-else v-model="formData.captcha" :placeholder="$t('message.PopInputEmailCaptcha')">
-                    <AEFcountDownBtn v-if="registerType == 'phone'" v-model="captchaDisabled" @click.native="getSMScode('REGISTER')"></AEFcountDownBtn>
-                    <AEFcountDownBtn v-else v-model="captchaDisabled" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
+                    <AEFcountDownBtn v-if="registerType == 'phone'" v-model="captchaDisabled" @click.native="getSMScode('CHANGE_PWD')"></AEFcountDownBtn>
+                    <AEFcountDownBtn v-else v-model="captchaDisabled" @click.native="getEmailCode('CHANGE_PWD')"></AEFcountDownBtn>
                 </div>
-            </div>
-            <!-- 邀请码 -->
-            <div class="input-wrap">
-                <label>{{$t('message.PopInviteCode')}}</label>
-                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
             </div>
             <!-- 密码 -->
             <div class="input-wrap">
-                <label>{{$t('message.PopPassword')}}</label>
+                <label>{{$t('message.PopNewPassword')}}</label>
                 <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
             </div>
             <!-- 二次密码 -->
@@ -62,10 +57,7 @@
                 <label>{{$t('message.PopPasswordConfirm')}}</label>
                 <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
             </div>
-            <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
-            <p>
-                <router-link to="login" replace>{{$t("message.gotoLogin")}}</router-link>
-            </p>
+            <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopConfirm')}}</button>
         </div>
     </div>
 </template>
@@ -93,8 +85,7 @@ export default {
             macCode: new Date().getTime(),
             registerType: "phone",
             captchaDisabled: false,
-            prefixMenu: false,
-            currentAddr: ""
+            prefixMenu: false
         }
     },
     methods: {
@@ -245,59 +236,8 @@ export default {
             return true
         },
         ...mapMutations({
-            alert: "alert",
-            setUserInfo: "SET_USERINFO",
-            setCurrentAddr: "SET_CURRENTADDR"
+            alert: "alert"
         })
-    },
-    watch: {
-        addressList(newVal) {
-            let v = null
-            if(newVal.length > 0) {
-                let b = false
-                newVal.forEach((val, idx) => {
-                    if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
-                        b = true
-                        this.setCurrentAddr(val)
-                    }
-                    if(val.coinAddress == this.storeWeb3.coinbase) {
-                        v = val
-                    }
-                    
-                })
-                if(!b) {
-                    if(v) {
-                        this.currentAddr = v.coinAddress
-                        this.setCurrentAddr(v)
-                    }else {
-                        this.currentAddr = newVal[0].coinAddress
-                        this.setCurrentAddr(newVal[0])
-                    }
-                }
-                
-            }
-        },
-        currentAddr(newVal) {
-            this.addressList.forEach(value => {
-                if(value.coinAddress == newVal) {
-                    this.setCurrentAddr(value)
-                }
-            })
-        },
-        // ["formData.resetType"](newVal) {
-        //     console.log(newVal)
-        // }
-    },
-    computed: {
-        ...mapState({
-            userInfo: state => state.user.userInfo,
-            storeCurrentAddr: state => state.user.currentAddr,
-            lastCurAddrPf: state => state.user.lastCurAddrPf,
-            storeWeb3: state => state.web3Handler.web3
-        }),
-        addressList() {
-            return this.$store.getters.getUserAddress
-        }
     },
     components: {
         AEFcountDownBtn
@@ -306,7 +246,7 @@ export default {
 </script>
 
 <style lang="less">
-.register-page {
+.findpwd-page {
     background-color: #191A2A;
     .top {
         position: relative;
