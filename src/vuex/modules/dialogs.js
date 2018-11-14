@@ -1,4 +1,5 @@
 import * as types from "../mutation_types"
+import router from "../../router"
 
 const state = {
     alertOption: {
@@ -75,7 +76,12 @@ const mutations = {
      * 打开login弹框
      */
     [types.OPEN_LOGIN](state) {
-        state.loginBox = !state.loginBox
+        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            router.push("loginselect")
+        }else {
+            state.loginBox = !state.loginBox
+        }
+        
     },
     openWait(state) {
         state.loading = true

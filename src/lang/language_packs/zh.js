@@ -9,7 +9,7 @@ export default {
         //header_bar
         home: "首页",
         atDeal: "AT交易",
-        bonusPool: "分红池",
+        bonusPool: "分红",
         invitation: "邀请",
         course: "白皮书",
         login: "登录",
@@ -116,6 +116,7 @@ export default {
         assetsNotEnough: "余额不足",
         assetsMentionAmount: "提币金额必须为正数！",
         assetsMentionS: "提币成功",
+        assetsNoMe: "无法向自己提币",
 
         // 交易记录页
         tradeRecorde: "交易记录",

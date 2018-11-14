@@ -1,7 +1,7 @@
 <template>
     <div class="headerbar" :class="type">
         <div class="container flex-wrap">
-            <router-link tag="div" to="index" class="logo">
+            <router-link tag="div" to="dice" class="logo">
                 <img class="nominscreen" src="../../../public/img/LOGO.png" alt="">
                 <img class="minscreen" src="../../../public/img/AllBet.png" alt="">
             </router-link>
@@ -19,7 +19,7 @@
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
                 </div>
-                <div class="user-center" v-show="storeCurrentAddr.userName">
+                <div class="user-center" v-if="storeCurrentAddr.userName">
                     <img src="../../../public/img/user_icon.png" alt="">
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i></i>
@@ -94,8 +94,8 @@
         <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
             <h4>{{$t("message.login")}}</h4>
             <input type="text" v-model.trim="loginForm.account" :placeholder="$t('message.PopLoginPlaceholder')">
-            <input type="password" v-model.trim="loginForm.password" :placeholder="$t('message.PopLoginPass')">
-            <button class="primary-btn" @click="loginDo">{{$t("message.login")}}</button>
+            <input type="password" v-model.trim="loginForm.password" :placeholder="$t('message.PopLoginPass')" @keyup.enter="loginDo">
+            <button class="primary-btn" @click="loginDo" @keyup.enter="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
                 <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>

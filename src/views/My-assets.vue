@@ -197,14 +197,14 @@ import {mapMutations, mapState} from "vuex"
 		withdrawDo(type) {
 			if ((this.formData.destAddress + '').trim() == '') {
 				this.alert({
-						type: "error",
+						type: "info",
 						msg: this.$t('message.assetsDestAddEmpty')
 				})
 				return false
 			}
 			if ((this.formData.amount + '').trim() == '' || Number(this.formData.amount) <= 0) {
 				this.alert({
-						type: "error",
+						type: "info",
 						msg: this.$t('message.assetsMentionAmount')
 				})
 				return false
@@ -213,6 +213,13 @@ import {mapMutations, mapState} from "vuex"
 				this.alert({
 						type: "info",
 						msg: this.$t('message.assetsNotEnough')
+				})
+				return false
+			}
+			if (this.currentAddr.coinAddress == this.formData.destAddress) {
+				this.alert({
+					type: "info",
+					msg: this.$t('message.assetsNoMe')
 				})
 				return false
 			}

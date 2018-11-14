@@ -8,10 +8,10 @@ export default {
     message: {
         //header_bar
         home: "Home",
-        atDeal: "AT exchange",
-        bonusPool: "Bonus Pool",
-        invitation: "Invitation",
-        course: "White Paper",
+        atDeal: "Trade",
+        bonusPool: "Payout",
+        invitation: "Referral",
+        course: "Info",
         login: "Login",
         address: "Address",
         accountLogin: "Account Login",
@@ -115,6 +115,7 @@ export default {
         assetsNotEnough: "Insufficient balance",
         assetsMentionAmount: "The amount of the coin must be a positive number!",
         assetsMentionS: "Mention successfully",
+        assetsNoMe: "You can't withdraw money from yourself",
 
 
         // 交易记录页
@@ -235,8 +236,8 @@ export default {
         GameIncome: "Income",
         GameProbability: "Win Chance",
         GameEnter: "Just entered the game",
-        GameTotalNumber: "Total number of quizzes:",
-        GameTotalIncome: "Player always gets:",
+        GameTotalNumber: "Bets Made: ",
+        GameTotalIncome: "Total Won: ",
         GameQiuz: "Number",
         Gameminimum: "Minimum",
         GameBalance: "Balance",

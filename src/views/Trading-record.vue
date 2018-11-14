@@ -42,7 +42,7 @@
 			</li>
 			<li v-for="item in list">
 				<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
-				<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
+				<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
 				<div class="nominscreen">{{item.coinType}}</div>
 				<div>{{filterState(item)}}</div>
 				<div class="vol">{{item.amount}}</div>

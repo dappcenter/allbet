@@ -109,7 +109,8 @@ export default {
 			luckyColor: "green",
 			luckyNum: "00",
 			timer: null,
-			getBetResultTimer: null
+			getBetResultTimer: null,
+			maxNum: 96
         }
 	},
 	created() {
@@ -170,11 +171,12 @@ export default {
 		}),
 		onHandleClick(e) {
 			let moveWidth = e.offsetX
-			const sliderWidth = this.$refs.slider.clientWidth - 20
+			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
+			const sliderWidth = this.$refs.slider.clientWidth - deductWidth
 			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
 			this.$refs.handle.style.left = moveWidth + "px"
 			this.$refs.bar.style.width = moveWidth + "px"
-			this.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
+			this.odds = (moveWidth / (sliderWidth / this.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / this.maxNum)).toFixed()
 			this.setBetInfo({
 				odds: this.odds,
 				amount: this.amount
@@ -183,7 +185,8 @@ export default {
 		onHandleMouseD(e) {
 			let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
-            const sliderWidth = this.$refs.slider.clientWidth - 20
+			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
+            const sliderWidth = this.$refs.slider.clientWidth - deductWidth
 			const ofX = e.offsetX
 			let moveWidth = 0
             window.onmousemove = function(e) {
@@ -191,7 +194,7 @@ export default {
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
                 that.$refs.bar.style.width = moveWidth + "px"
-                that.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
+                that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
                     amount: that.amount
@@ -201,7 +204,8 @@ export default {
         onHandleTouchS(e) {
             let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
-            const sliderWidth = this.$refs.slider.clientWidth - 20
+			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
+            const sliderWidth = this.$refs.slider.clientWidth - deductWidth
 			const ofX = e.touches[0].clientX - this.$refs.handle.offsetLeft
 			let moveWidth = 0
 			window.ontouchmove  = function(e) {
@@ -209,7 +213,7 @@ export default {
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
 				that.$refs.bar.style.width = moveWidth + "px"
-                that.odds = (moveWidth / (sliderWidth / 98)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / 98)).toFixed()
+                that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
                     amount: that.amount
