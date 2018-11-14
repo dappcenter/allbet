@@ -575,7 +575,7 @@ export default {
           this.formData.email = ''
           this.formData.password = ''
           this.formData.password2 = ''
-          this.getImgCode(type)
+          this.getImgCode("CHANGE_PWD")
         },
         // 二次密码验证
         verifyPassword() {

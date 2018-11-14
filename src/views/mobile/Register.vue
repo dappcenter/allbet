@@ -131,7 +131,8 @@ export default {
                 params: {
                     "email": this.formData.email,
                     "picCode": this.formData.picCode,
-                    "captchaType": type
+                    "captchaType": type,
+                    "macCode": this.macCode
                 }
             }).then(res => {
                 if(res.code != 200) {

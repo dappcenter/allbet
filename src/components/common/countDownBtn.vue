@@ -61,11 +61,11 @@ export default {
 .aef-countdownbtn {
     button {
         background-color: #5AA0EE;
-        line-height: 36px;
+        line-height: 38px;
         margin-left: 10px;
         width: 90px;
         text-align: center;
-        font-size: 14px;
+        font-size: 12px;
         color: #fff;
         border-radius: 4px;
         cursor: pointer;
