@@ -34,7 +34,7 @@
 					</div>
 					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
 					<div class="input-div">
-						<input type="text" v-model="formData.amount">
+						<input type="number" v-model="formData.amount">
 						ETH
 					</div>
 					<!-- <div class="poundage">
@@ -86,7 +86,7 @@
 					</div>
 					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
 					<div class="input-div">
-						<input type="text" v-model="formData.amount">
+						<input type="number" v-model="formData.amount">
 						AT
 					</div>
 					<!-- <div class="poundage">
