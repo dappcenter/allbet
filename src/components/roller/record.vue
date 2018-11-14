@@ -156,7 +156,7 @@ export default {
 .module-roller-record {
     box-sizing: border-box;
 	position: relative;
-	background: url(../../../public/img/game_bg03.jpg) repeat-y top;
+	background: url(../../../public/img/game_bg03.png) repeat-y top;
 	background-size: 100%;
 	.nav {
 		display: flex;

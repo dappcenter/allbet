@@ -96,6 +96,14 @@ export default {
             currentAddr: ""
         }
     },
+    created() {
+        if(sessionStorage.getItem('inviteCode')) {
+            this.formData.inviteCode = sessionStorage.getItem('inviteCode')
+        }else {
+            sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
+            this.formData.inviteCode = this.$route.query.inviteCode || ""
+        }
+    },
     methods: {
         //刷新验证码
         getImgCode(type) {
@@ -432,7 +440,7 @@ export default {
         }
         .primary-btn {
             display: block;
-            line-height: .96rem;
+            line-height: .9rem;
             width: 100%;
             border: none;
             font-size: .3rem;

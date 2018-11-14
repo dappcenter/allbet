@@ -27,7 +27,7 @@ axios.interceptors.response.use(response => {
     store.commit("closeWait")
     if(response.data.code == -2) {
         store.commit('REMOVE_USERINFO')
-        router.replace('roller')
+        router.replace('dice')
         location.reload()
     }
     if(response.data.code != 200) {

@@ -124,6 +124,7 @@ body {
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
+  background-color: #191A2A !important;
 }
 #app {
   font-family: "Poppins", sans-serif;

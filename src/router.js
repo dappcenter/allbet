@@ -10,12 +10,17 @@ export default new Router({
     routes: [
         {
             path: "/",
-            redirect: "/roller"
+            redirect: "/dice"
         },
         {
             path: "/index",
             name: "index",
             component: () => import("./views/Home.vue")
+        },
+        {
+            path: "/dice",
+            name: "dice",
+            component: () => import("./views/Roller.vue")
         },
         {
             path: "/roller",
@@ -56,6 +61,11 @@ export default new Router({
             path: "/findpwd",
             name: "findpwd",
             component: () => import("./views/mobile/FindPwd.vue")
+        },
+        {
+            path: "/loginselect",
+            name: "loginselect",
+            component: () => import("./views/mobile/Login-select.vue")
         }
     ]
 });

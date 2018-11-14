@@ -10,8 +10,13 @@
 			<div class="total-bill" v-if="getCurrentAddr.token">
 				{{$t('message.homeTotalAt')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}}
 			</div>
-			<div class="total-bill" v-else @click="openLogin">
-				{{$t('message.login')}}
+			<div v-else>
+				<div class="total-bill nominscreen" @click="openLogin">
+					{{$t('message.login')}}
+				</div>
+				<div class="total-bill minscreen" @click="$router.push('loginselect')">
+					{{$t('message.login')}}
+				</div>
 			</div>
 		</div>
 		<div class="middle">
@@ -51,8 +56,13 @@
 					<div class="buy-button" v-if="getCurrentAddr.token" @click="doTrade('买入')">
 						{{$t('message.homeBuy')}}
 					</div>
-					<div class="buy-button" v-else @click="openLogin">
-						{{$t('message.login')}}
+					<div v-else>
+						<div class="buy-button nominscreen" @click="openLogin">
+							{{$t('message.login')}}
+						</div>
+						<div class="buy-button minscreen" @click="$router.push('loginselect')">
+							{{$t('message.login')}}
+						</div>
 					</div>
 				</div>
 				<!-- 出售 -->
@@ -74,8 +84,13 @@
 					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
 						{{$t('message.homeSell')}}
 					</div>
-					<div class="buy-button sell-button" v-else @click="openLogin">
-						{{$t('message.login')}}
+					<div v-else>
+						<div class="buy-button sell-button nominscreen" @click="openLogin">
+							{{$t('message.login')}}
+						</div>
+						<div class="buy-button sell-button minscreen" @click="$router.push('loginselect')">
+							{{$t('message.login')}}
+						</div>
 					</div>
 				</div>
 			</div>

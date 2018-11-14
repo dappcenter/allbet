@@ -365,7 +365,7 @@ export default {
         }
         .primary-btn {
             display: block;
-            line-height: .96rem;
+            line-height: .9rem;
             width: 100%;
             border: none;
             font-size: .3rem;

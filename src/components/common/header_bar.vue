@@ -6,7 +6,7 @@
                 <img class="minscreen" src="../../../public/img/AllBet.png" alt="">
             </router-link>
             <menu class="nominscreen">
-                <router-link to="roller"><span>Dice</span></router-link>
+                <router-link to="dice"><span>Dice</span></router-link>
                 <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
                 <a href="javascript:;" @click="displayStatus.bonusPools = !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
@@ -30,7 +30,10 @@
                     </div>
                 </div>
                 <!-- pc登录按钮 -->
-                <a href="javascript:;" class="button login" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+                <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+                <!-- mobile登录按钮 -->
+                <a href="javascript:;" class="button login minscreen" @click="$router.push('loginselect')" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
                 <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a>
@@ -42,8 +45,8 @@
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
         <div class="fold-menu minscreen" v-show="isShowFoldMunu">
             <ul>
-                <router-link to="roller" tag="li">
-                    <router-link to="roller"><span>Dice</span></router-link>
+                <router-link to="dice" tag="li">
+                    <router-link to="dice"><span>Dice</span></router-link>
                 </router-link>
                 <router-link to="index" tag="li">
                     <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
@@ -97,7 +100,6 @@
                 <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
-            
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
@@ -295,7 +297,6 @@ export default {
             findPassword: false,   //找回密码
             prefixMenu: false,
             displayStatus: {
-
                 loginAccount: false,
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号

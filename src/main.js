@@ -24,9 +24,9 @@ Vue.prototype.$goBack = () => {
     } else {
         router.go(-1)
     }
-    setTimeout(() => {
-        router.push({path:'/'})      
-    },500)
+    // setTimeout(() => {
+    //     router.push({path:'/'})      
+    // },500)
 }
 
 Vue.config.productionTip = false;
