@@ -6,7 +6,7 @@
 				<p>{{$fmtAccount(diceStatistics.newcomers[0])}} {{$t("message.GameEnter")}}</p>
 				<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
 				<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
-				<a href="javascript:;" @click="helpPopup">{{$t("message.GameHowToPlay")}}</a>
+				<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 			</div>
 		</div>
 		<div class="game-content" ref="gameContent">
@@ -78,7 +78,14 @@
 				</div>
 			</div>
 		</div>
-		
+		<!-- 游戏规则 -->
+		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="confirm">
+			<h4>{{$t("message.GameRule")}}</h4>
+			<p class="content-text" v-html="$t('message.GameHelp')"></p>
+			<div class="btn-wrap">
+				<button class="high" @click="isShowHelp = false">{{$t("message.GameKnow")}}</button>
+			</div>
+		</mu-dialog>
 	</section>
 </template>
 
@@ -110,7 +117,8 @@ export default {
 			luckyNum: "00",
 			timer: null,
 			getBetResultTimer: null,
-			maxNum: 96
+			maxNum: 96,
+			isShowHelp: false
         }
 	},
 	created() {
@@ -778,6 +786,54 @@ export default {
 				// }
 			}
 		}	
+		.confirm {
+			text-align: center;
+			.mu-dialog {
+			border-radius: 4px;
+			overflow: hidden;
+			}
+			.mu-dialog-body {
+			background: rgba(33, 71, 151, 1);
+
+			h4 {
+				font-size: 20px;
+				color: #fff;
+			}
+			.content-text {
+				margin: 40px 0;
+				font-size: 16px;
+				text-align: center;
+				color: #fff;
+			}
+			.other {
+				color: #C8C8C8;
+				font-size: 14px;
+				margin-bottom: 10px;
+			}
+			}
+			.btn-wrap {
+			display: flex;
+			justify-content: space-around;
+			button {
+				width: 40%;
+				height: 40px;
+				text-align: center;
+				border-radius: 6px;
+				border: none;
+				background-color: #458ad8;
+				color: #fff;
+				&.high {
+				background: linear-gradient(
+					90deg,
+					rgba(100, 180, 239, 1),
+					rgba(57, 94, 236, 1)
+				);
+				color: #fff;
+				border: none;
+				}
+			}
+			}
+		}
 	}
 	@media screen and (max-width: 800px){
 		.module-roller-bet {

@@ -9,7 +9,7 @@
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
       <h4>{{confirmOption.title || $t("message.PopTips")}}</h4>
-      <p class="content-text">{{confirmOption.content}}</p>
+      <p class="content-text" v-html="confirmOption.content"></p>
       <p class="other">{{confirmOption.other}}</p>
       <div class="btn-wrap">
 				<button v-for="btn in confirmOption.btn" :class="btn.type" @click="onConfirmBtn(btn.cb)">{{btn.text}}</button>

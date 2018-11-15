@@ -91,24 +91,21 @@ const actions = {
                         if(res.result.assets.length <= 1) {
                             // 未绑定平台账号
                             console.log("未绑定平台账号")
-                            if(rootState.user.currentAddr.coinAddress == result.coinbase) {
-                                // 当前选中地址为此登录地址（提示绑定）
-                                commit(types.OPEN_CONFIRM, {
-                                    content: language[rootState.locale].message.PopBindDesc2,
-                                    btn: [
-                                        {
-                                            text: language[rootState.locale].message.PopClose,
-                                        },
-                                        {
-                                            type: "high",
-                                            text: language[rootState.locale].message.accountToBound,
-                                            cb: () => {
-                                                router.push('account-security?bind=1')
-                                            }
+                            commit(types.OPEN_CONFIRM, {
+                                content: language[rootState.locale].message.PopBindDesc2,
+                                btn: [
+                                    {
+                                        text: language[rootState.locale].message.PopClose,
+                                    },
+                                    {
+                                        type: "high",
+                                        text: language[rootState.locale].message.accountToBound,
+                                        cb: () => {
+                                            router.push('account-security?bind=1')
                                         }
-                                    ]
-                                })
-                            }
+                                    }
+                                ]
+                            })
                             commit(types.UPDATE_WEB3_AT, {
                                 at: res.result.assets[0].at,
                                 bet: res.result.assets[0].bet,
