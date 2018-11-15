@@ -85,10 +85,7 @@
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
-		<div class="input-wrap">
-			<label>{{$t('message.PopInviteCode')}}</label>
-			<input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
-		</div>
+		
 		<div class="input-wrap" style="width:338px;">
 			<label>{{$t('message.PopPassword')}}</label>
 			<input type="password" v-model="formData.loginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
@@ -96,6 +93,10 @@
 		<div class="input-wrap" style="width:338px;">
 			<label>{{$t('message.PopPasswordConfirm')}}</label>
 			<input type="password" v-model="formData.loginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
+		</div>
+		<div class="input-wrap">
+			<label>{{$t('message.PopInviteCode')}}</label>
+			<input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
 		</div>
 		<button class="primary-btn" @click="bindingTwoDo('PHONE')">{{$t('message.PopConfirm')}}</button>
 	</mu-dialog>

@@ -47,11 +47,6 @@
                     <AEFcountDownBtn v-else v-model="captchaDisabled" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
                 </div>
             </div>
-            <!-- 邀请码 -->
-            <div class="input-wrap">
-                <label>{{$t('message.PopInviteCode')}}</label>
-                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
-            </div>
             <!-- 密码 -->
             <div class="input-wrap">
                 <label>{{$t('message.PopPassword')}}</label>
@@ -61,6 +56,11 @@
             <div class="input-wrap">
                 <label>{{$t('message.PopPasswordConfirm')}}</label>
                 <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
+            </div>
+            <!-- 邀请码 -->
+            <div class="input-wrap">
+                <label>{{$t('message.PopInviteCode')}}</label>
+                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
             </div>
             <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
             <p>
@@ -97,7 +97,10 @@ export default {
         }
     },
     created() {
-        if(sessionStorage.getItem('inviteCode')) {
+        if(sessionStorage.getItem('inviteCode') && sessionStorage.getItem('inviteCode').trim() != "") {
+            if(this.$route.query.inviteCode && this.$route.query.inviteCode != sessionStorage.getItem('inviteCode')) {
+                sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
+            }
             this.formData.inviteCode = sessionStorage.getItem('inviteCode')
         }else {
             sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")

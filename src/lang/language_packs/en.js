@@ -215,7 +215,7 @@ export default {
         PopConfirm: "Confirm",
         PopTips: "Tips",
         PopTipsDesc: "You are not currently installing MetaMask",
-        PopInstallation: "View the installation tutorial",
+        PopInstallation: "Course",
         PopAccountLogin: "Account Login",
         PopRegisterAccount: "Register account",
         PopSellTips: "After selling the AT, you will not be able to continue to receive the game dividends, confirm the sale?",

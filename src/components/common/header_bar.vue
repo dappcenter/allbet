@@ -34,16 +34,18 @@
                 <!-- mobile登录按钮 -->
                 <a href="javascript:;" class="button login minscreen" @click="$router.push('loginselect')" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
 
-                <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/CN.png" />CN</a>
-                <a href="javascript:;" class="button lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/US.png" />EN</a>
-                <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a>
+                <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
+                <a href="javascript:;" class="lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
+                <!-- <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a> -->
             </div>
         </div>
+        <MBheaderNav class="minscreen" :openWhiteBook="openWhiteBook" :switchBonusPools="switchBonusPools" :addressList="addressList"></MBheaderNav>
         <div class="notice" v-if="notice">
             <ScrollNotice :text="$t('message.notice1')"></ScrollNotice>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
-        <div class="fold-menu minscreen" v-show="isShowFoldMunu">
+
+        <!-- <div class="fold-menu minscreen" v-show="isShowFoldMunu">
             <ul>
                 <router-link to="dice" tag="li">
                     <router-link to="dice"><span>Dice</span></router-link>
@@ -71,7 +73,7 @@
                 <a href="javascript:;" class="button lang" :class="{'active': locale === 'zh-CN'}" @click="changeLanguage('zh-CN')"><img src="../../../public/img/CN.png" />CN</a>
                 <a href="javascript:;" class="button lang" :class="{'active': locale === 'en-US'}" @click="changeLanguage('en-US')"><img src="../../../public/img/US.png" />EN</a>
             </div>
-        </div>
+        </div> -->
 
         <!-- 登录选择 -->
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
@@ -133,16 +135,16 @@
                 </div>
             </div>
             <div class="input-wrap">
-                <label>{{$t('message.PopInviteCode')}}</label>
-                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
-            </div>
-            <div class="input-wrap">
                 <label>{{$t('message.PopPassword')}}</label>
                 <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
             </div>
             <div class="input-wrap">
                 <label>{{$t('message.PopPasswordConfirm')}}</label>
                 <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
+            </div>
+            <div class="input-wrap">
+                <label>{{$t('message.PopInviteCode')}}</label>
+                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
             </div>
             <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
             <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">{{$t('message.PopEmailRegister')}}</a></p>
@@ -169,16 +171,17 @@
                 </div>
             </div>
             <div class="input-wrap">
-                <label>{{$t('message.PopInviteCode')}}</label>
-                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
-            </div>
-            <div class="input-wrap">
                 <label>{{$t('message.PopPassword')}}</label>
                 <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
             </div>
             <div class="input-wrap">
                 <label>{{$t('message.PopPasswordConfirm')}}</label>
                 <input type="password" v-model="formData.password2" :placeholder="$t('message.PopPassword2Placeholder')">
+            </div>
+            <!-- 邀请码 -->
+            <div class="input-wrap">
+                <label>{{$t('message.PopInviteCode')}}</label>
+                <input type="text" v-model="formData.inviteCode" :placeholder="$t('message.PopInviteCodePlaceholder')">
             </div>
             <button class="primary-btn" @click="registerDo('email')">{{$t('message.PopRegister')}}</button>
             <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">{{$t('message.PopPhoneRegister')}}</a></p>
@@ -278,6 +281,7 @@ import AEFcountDownBtn from "@/components/common/countDownBtn"
 import VERIFY from "../../util/verify"
 import ScrollNotice from "@/components/common/scrollNotice"
 import RegisterPop from "@/components/account/register"
+import MBheaderNav from "@/components/common/mobile/mb_header_nav"
 export default {
     props: {
         type: {
@@ -337,7 +341,10 @@ export default {
         }
     },
     created() {
-        if(sessionStorage.getItem('inviteCode')) {
+        if(sessionStorage.getItem('inviteCode') && sessionStorage.getItem('inviteCode').trim() != "") {
+            if(this.$route.query.inviteCode && this.$route.query.inviteCode != sessionStorage.getItem('inviteCode')) {
+                sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
+            }
             this.formData.inviteCode = sessionStorage.getItem('inviteCode')
         }else {
             sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
@@ -701,6 +708,9 @@ export default {
                 window.open("pdf/whitebook.pdf")
             }
         },
+        switchBonusPools() {
+            this.displayStatus.bonusPools = !this.displayStatus.bonusPools
+        },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
             alert: "alert",
@@ -730,7 +740,8 @@ export default {
     components: {
         AEFcountDownBtn,
         ScrollNotice,
-        RegisterPop
+        RegisterPop,
+        MBheaderNav
     },
     destroyed() {
         //销毁事件
@@ -738,7 +749,6 @@ export default {
     }
 }
 </script>
-
 
 <style lang="less">
 .headerbar {
@@ -939,6 +949,13 @@ export default {
             &.on {
                 background: url(../../../public/img/menu_icon.png) no-repeat center;
                 background-size: 100%;
+            }
+        }
+        // 语言按钮
+        .lang {
+            margin-left: 20px;
+            img {
+                width: 30px;
             }
         }
     }
@@ -1182,6 +1199,13 @@ export default {
         .statusbar {
             .user-center {
                 margin-left: 0;
+            }
+            // 语言按钮
+            .lang {
+                margin: 5px 10px 0 20px;
+                img {
+                    width: 24px;
+                }
             }
         }
         .fold-menu {
