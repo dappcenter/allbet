@@ -290,6 +290,8 @@ export default {
         MyAbout: "关于我们",
         MySwitchLang: "中英文切换",
         MySetLang: "语言设置",
+        MyWeibo: "微博",
+        MyWeixin: "微信"
 
     }
 }

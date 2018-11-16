@@ -28,12 +28,18 @@
                 <i class="arrow"></i>
             </router-link>
         </ul>
+        <button class="logout" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</button>
     </div>
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapState, mapMutations} from "vuex"
 export default {
+    methods: {
+        ...mapMutations({
+            removeUserInfo: "REMOVE_USERINFO",
+        })
+    },
     computed: {
         ...mapState({
             locale: state => state.locale,
@@ -89,6 +95,17 @@ export default {
                 background-size: 100%;
             }
         }
+    }
+    .logout {
+        display: block;
+        width: 3.2rem;
+        height: .72rem;
+        color: #484B76;
+        border: .02rem solid rgba(52,52,74,1);
+        border-radius: .06rem;
+        background-color: transparent;
+        margin: .4rem auto;
+        font-size: .32rem;
     }
 }
 </style>
