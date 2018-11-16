@@ -238,7 +238,7 @@ export default {
         GameEnter: "Just entered the game",
         GameTotalNumber: "Bets Made: ",
         GameTotalIncome: "Total Won: ",
-        GameQiuz: "Number",
+        GameQiuz: "Bet Amount",
         Gameminimum: "Minimum",
         GameBalance: "Balance",
         GameLuckNum: "Roll Under ",

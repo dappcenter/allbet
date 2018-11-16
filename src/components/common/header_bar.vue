@@ -379,7 +379,7 @@ export default {
                     if(val.coinAddress == this.storeWeb3.coinbase) {
                         v = val
                     }
-                    
+
                 })
                 if(!b) {
                     if(v) {
@@ -390,7 +390,7 @@ export default {
                         this.setCurrentAddr(newVal[0])
                     }
                 }
-                
+
             }
         },
         currentAddr(newVal) {
@@ -421,7 +421,7 @@ export default {
                     this.displayStatus.registerAccount = false  //手机注册账号
                     this.displayStatus.emailRegisterAccount = false  //邮箱注册账号
                     this.findPassword = false
-                    
+
                 }
                 this.isShowFoldMunu = false
             },
@@ -674,7 +674,7 @@ export default {
                         {
                             text: this.$t('message.PopInstallation'),
                             cb: () => {
-                                this.openWhiteBook()
+                                this.openMetamask()
                             }
                         },
                         {
@@ -707,6 +707,14 @@ export default {
                 window.open("pdf/whitebook_en.pdf")
             }else {
                 window.open("pdf/whitebook.pdf")
+            }
+        },
+        //打开metamask教程
+        openMetamask() {
+            if(this.locale == "en-US") {
+                window.open("pdf/metamask_en.pdf")
+            }else {
+                window.open("pdf/metamask.pdf")
             }
         },
         switchBonusPools() {

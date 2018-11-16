@@ -47,7 +47,7 @@
 					<div class="bar" ref="bar" @click="onHandleClick" @touchstart="onHandleTouchS"></div>
 					<div class="handle" @mousedown.prevent="onHandleMouseD" @touchstart.prevent="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
 				</div>
-				
+
 			</div>
 			<div class="ctn-btm">
 				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} ETH</span></h4>
@@ -56,7 +56,7 @@
 						<label>
 							<!-- <img src="../../../public/img/eth_icon.png" alt=""> -->
 						</label>
-						<input type="text" v-model="amount">
+						<input type="number" v-model="amount">
 						<div class="amount-handle">
 							<span class="add" @click="onAdd"></span>
 							<span class="minus" @click="onMinus"></span>
@@ -129,7 +129,7 @@ export default {
 			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, window.ROLLERADDRESS);
 		}, 2000)
 		window.hd = {}
-		
+
 	},
     mounted() {
         this.setBetInfo({
@@ -169,6 +169,9 @@ export default {
         },
         onMinus() {
             this.amount = (Number(this.amount) - 0.01).toFixed(2)
+						if (this.amount < 0.01) {
+							this.amount = 0.01
+						}
         },
         ...mapMutations({
 			setBetInfo: "SET_ROLLER_BET_INFO",
@@ -512,7 +515,7 @@ export default {
 					margin-left: 40px;
 				}
 			}
-			
+
 		}
 		.game-content {
 			position: relative;
@@ -653,11 +656,11 @@ export default {
 								&.minus {
 									background: url(../../../public/img/arrow_down.png) no-repeat center 5px;
 									background-size: 20%;
-								}	
+								}
 							}
 						}
 					}
-					.hotkeys {	
+					.hotkeys {
 						flex: 1;
 						display: flex;
 						align-items: center;
@@ -785,7 +788,7 @@ export default {
 				// 	background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
 				// }
 			}
-		}	
+		}
 		.confirm {
 			text-align: center;
 			.mu-dialog {
@@ -889,7 +892,7 @@ export default {
 			h2 {
 				display: none;
 			}
-			
+
 			.tip {
 				margin-top: 0;
 			}
