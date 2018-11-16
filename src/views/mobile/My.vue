@@ -7,12 +7,12 @@
             <router-link to="loginselect" v-else>登录/注册</router-link>
         </div>
         <ul class="menu">
-            <router-link to="my-assets" tag="li">
+            <router-link to="my-assets" tag="li" v-if="storeCurrentAddr.userName">
                 <img class="item-icon" src="../../../public/img/my/wallet_icon.png" alt="">
                 <label>{{$t("message.property")}}</label>
                 <i class="arrow"></i>
             </router-link>
-            <router-link to="account-security" tag="li">
+            <router-link to="account-security" tag="li" v-if="storeCurrentAddr.userName">
                 <img class="item-icon" src="../../../public/img/my/zhaq_icon.png" alt="">
                 <label>{{$t("message.accountSecurity")}}</label>
                 <i class="arrow"></i>
