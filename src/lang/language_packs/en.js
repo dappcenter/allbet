@@ -289,5 +289,7 @@ export default {
         MyAbout: "About",
         MySwitchLang: "Language Settings",
         MySetLang: "Language Settings",
+        MyWeibo: "WeiBo",
+        MyWeixin: "WeChat"
     }
 }

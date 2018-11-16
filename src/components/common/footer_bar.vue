@@ -1,5 +1,5 @@
 <template>
-    <div class="footerbar">
+    <div class="footerbar nominscreen">
         <div class="container">
             <div class="linklist">
                 <a href="https://twitter.com/allbet10">

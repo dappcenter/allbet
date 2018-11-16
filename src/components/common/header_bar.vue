@@ -374,7 +374,7 @@ export default {
                 newVal.forEach((val, idx) => {
                     if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
                         b = true
-                        this.setCurrentAddr(val)
+                        // this.setCurrentAddr(val)
                     }
                     if(val.coinAddress == this.storeWeb3.coinbase) {
                         v = val
@@ -384,10 +384,10 @@ export default {
                 if(!b) {
                     if(v) {
                         this.currentAddr = v.coinAddress
-                        this.setCurrentAddr(v)
+                        // this.setCurrentAddr(v)
                     }else {
                         this.currentAddr = newVal[0].coinAddress
-                        this.setCurrentAddr(newVal[0])
+                        // this.setCurrentAddr(newVal[0])
                     }
                 }
                 
