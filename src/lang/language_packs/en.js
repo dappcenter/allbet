@@ -228,7 +228,7 @@ export default {
         PopCancelAutor: "You canceled the authorization!",
         PopBindDesc: "Use the account login to win the invitation bonus ETH, play the game and enjoy the income seconds.",
         PopBindDesc2: "Bind the account to win the invitation award points ETH",
-        PopHttpTimeout: "╥﹏╥...The network swayed the gods，I'll be back soon.",
+        PopHttpTimeout: "please refresh page",
         // 游戏页
         GameForecast: "Prediction",
         GameLucky: "Lucky",
@@ -241,7 +241,7 @@ export default {
         GameQiuz: "Number",
         Gameminimum: "Minimum",
         GameBalance: "Balance",
-        GameLuckNum: "Guess less than",
+        GameLuckNum: "Roll Under ",
         GameSuggest: "Suggest",
         GamesPlayers: "Recent",
         GameTime: "Time",

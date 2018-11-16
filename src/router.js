@@ -66,6 +66,11 @@ export default new Router({
             path: "/loginselect",
             name: "loginselect",
             component: () => import("./views/mobile/Login-select.vue")
+        },
+        {
+            path: "/my",
+            name: "my",
+            component: () => import("./views/mobile/My.vue")
         }
     ]
 });

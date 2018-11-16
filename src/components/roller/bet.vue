@@ -26,7 +26,7 @@
 			<ul class="ctn-mdl">
 				<li>
 					<label>{{$t("message.GameOdds")}}</label>
-					<span>{{Math.floor(peilv*1000) / 1000}}</span>
+					<span>{{Math.floor(peilv*1000) / 1000}}x</span>
 				</li>
 				<li class="green">
 					<label>{{$t("message.GameIncome")}}</label>

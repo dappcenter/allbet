@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "App",
   data() {
@@ -66,7 +66,31 @@ export default {
     },
     winPopupOption() {
       this.isShowWin = true;
-    }
+    },
+    // addressList(newVal) {
+    //     let v = null
+    //     if(newVal.length > 0) {
+    //         let b = false
+    //         newVal.forEach((val, idx) => {
+    //             if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
+    //                 b = true
+    //                 this.setCurrentAddr(val)
+    //             }
+    //             if(val.coinAddress == this.storeWeb3.coinbase) {
+    //                 v = val
+    //             }
+                
+    //         })
+    //         if(!b) {
+    //             if(v) {
+    //                 this.setCurrentAddr(v)
+    //             }else {
+    //                 this.setCurrentAddr(newVal[0])
+    //             }
+    //         }
+            
+    //     }
+    // },
   },
   created() {
     // 注册web3
@@ -78,8 +102,13 @@ export default {
       confirmOption: state => state.dialogs.confirmOption,
       loading: state => state.dialogs.loading,
       winPopupOption: state => state.dialogs.winPopupOption,
-      noMainNetwork: state => state.dialogs.noMainNetwork
-    })
+      noMainNetwork: state => state.dialogs.noMainNetwork,
+      storeCurrentAddr: state => state.user.currentAddr,
+      storeWeb3: state => state.web3Handler.web3
+    }),
+    addressList() {
+        return this.$store.getters.getUserAddress
+    }
   },
   methods: {
     onConfirmBtn(cb) {
@@ -90,7 +119,10 @@ export default {
     },
     clickoutside() {
       this.isShowWin = false;
-    }
+    },
+    ...mapMutations({
+      setCurrentAddr: "SET_CURRENTADDR",
+    })
   }
 };
 </script>

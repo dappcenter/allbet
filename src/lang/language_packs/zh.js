@@ -229,7 +229,7 @@ export default {
         PopBindDesc: "使用账号登录赢取邀请奖励分ETH，玩游戏享受收益秒到账",
         PopBindDesc2: "绑定账号，赢取邀请奖励分ETH",
 
-        PopHttpTimeout: "╥﹏╥...网络君晃了下神，马上回来~",
+        PopHttpTimeout: "请刷新页面",
         // 游戏页
         GameForecast: "预测数",
         GameLucky: "幸运数",
