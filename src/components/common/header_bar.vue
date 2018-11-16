@@ -13,13 +13,13 @@
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
-                <div class="address-select nominscreen" v-if="addressList.length > 1">
-                    <label>{{$t("message.address")}}：</label>
+                <div class="address-select" v-if="addressList.length > 1">
+                    <label class="nominscreen">{{$t("message.address")}}：</label>
                     <mu-select v-model="currentAddr" :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}">
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
                 </div>
-                <div class="user-center" v-if="storeCurrentAddr.userName">
+                <div class="user-center nominscreen" v-if="storeCurrentAddr.userName">
                     <img src="../../../public/img/user_icon.png" alt="">
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i></i>
@@ -29,13 +29,14 @@
                         <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>
                     </div>
                 </div>
+                <!-- mobile -->
                 <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
                 <!-- mobile登录按钮 -->
-                <a href="javascript:;" class="button login minscreen" @click="$router.push('loginselect')" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+                <a href="javascript:;" class="login minscreen" @click="$router.push('my')"></a>
 
-                <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
-                <a href="javascript:;" class="lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
+                <a href="javascript:;" class="lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
+                <a href="javascript:;" class="lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
                 <!-- <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a> -->
             </div>
         </div>
@@ -732,9 +733,6 @@ export default {
         }),
         addressList() {
             return this.$store.getters.getUserAddress
-        },
-        locale () {
-            return this.$store.state.locale
         }
     },
     components: {
@@ -956,6 +954,15 @@ export default {
             margin-left: 20px;
             img {
                 width: 30px;
+            }
+        }
+        .login {
+            &.minscreen {
+                background: url(../../../public/img/my/user_icon.png) no-repeat center;
+                background-size: 100%;
+                width: 30px;
+                height: 30px;
+                margin: 0 .2rem 0 .2rem;
             }
         }
     }
@@ -1197,6 +1204,21 @@ export default {
             flex: 1;
         }
         .statusbar {
+            .address-select {
+                .mu-input  {
+                    background-color: #434358;
+                    margin: 0;
+                    padding: 0 0 0 13px;
+                    width: 140px;
+                    height: 25px;
+                    border-radius: 15px;
+                    min-height: auto;
+                    margin-top: 2px;
+                    .mu-select-action {
+                        color: #fff;
+                    }
+                }
+            }
             .user-center {
                 margin-left: 0;
             }

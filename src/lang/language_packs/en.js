@@ -17,7 +17,7 @@ export default {
         accountLogin: "Account Login",
         hdWalletLogin: "HD Wallet Login",
         notRegister: "Not registered yet?",
-        nowRegister: "Creat now",
+        nowRegister: "Create now",
         gotoLogin: "Have an account and log in?",
         logout: "Logout",
         accountSecurity: "Account Security",
@@ -245,8 +245,8 @@ export default {
         GameSuggest: "Suggest",
         GamesPlayers: "Recent",
         GameTime: "Time",
-        GamePlay: "Play",
-        GameBetNum: "Number of bets",
+        GamePlay: "Player",
+        GameBetNum: "Bet",
         GameReward: "Reward",
         GameBig: "High",
         GameLuckyList: "Rare",
@@ -264,7 +264,7 @@ export default {
         GameWinBox3: "Play again",
         GameNoWin: "It's a pity to fail. Don't lose heart",
         GameKnow: "I know",
-        GameHelp: "You are betting on the result of a 100 sided dice roll. The result of the dice roll is bounded to 1-100. To win, the dice result needs to be lower than your number. If the dice result is lower than your number you win!For example, if the user selects 'ROLL OVER' and moves the slider to 70, it means the player’s guess number is greater than 70 (not included，If the number is in the bet range, the player wins and will immediately receive and amount equal to the bet amount plus payout.In order to avoid addiction to the game, the maximum bet amount is 5 ETH, and the minimum bet amount is 0.01 ETH. Participants in the game will receive a certain amount of AB tokens as platform dividends.Note: In the case of a win a 1% commission is subtracted from the total amount returned to the player. You will incur a small gas charge to place the bet. Etheroll does not receive gas. Gas is used to maintain the Ethereum ",
+        GameHelp: "<p style='text-align: justify'>1. Make sure you have a account or MetaMask. For more information on how to install MetaMask, Please see the white paper.<br /><br />2. Set your BET NUMBER. This is the amount of ETH you will be betting.<br /><br />3. You can adjust the slider to choose PREDICTION number you'd like to roll under. As you move the slider, your payout and win chance will adjust automatically.<br /><br />4. Click GUESS LESS THAN50 to place your bet. The smart contracts will then randomly generate a LUCKY number from 1~100.<br /><br />5. If the lucky number is less than your prediction then you WIN! <br /><br />6. Each bet placed will give you AB tokens, for more information check out our INFO.<br /><br />Still have questions? Join our WeChat group and we'll be more than happy to help!</p>",
         GameHowToPlay: "How to play?",
         GameTips1: "The data is delayed by up to three minutes and reset daily at UTC 00:00",
         GameRule: "The rules of the game",
@@ -283,5 +283,11 @@ export default {
         //APP.vue
         AppMainNet: "Switch to the main network",
         AppMeta: "Our games are only available on the main website, please switch via Metamask",
+
+        //My.vue
+        my: "My",
+        MyAbout: "About",
+        MySwitchLang: "Language Settings",
+        MySetLang: "Language Settings",
     }
 }

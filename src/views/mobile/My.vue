@@ -1,6 +1,6 @@
 <template>
     <div class="my-page">
-        <MBheaderBar title="我的"></MBheaderBar>
+        <MBheaderBar :title="$t('message.my')"></MBheaderBar>
         <div class="top">
             <img src="../../../public/img/my/user_icon.png" alt="">
             <p v-if="storeCurrentAddr.userName">{{storeCurrentAddr.userName}}</p>
@@ -9,24 +9,24 @@
         <ul class="menu">
             <router-link to="my-assets" tag="li">
                 <img class="item-icon" src="../../../public/img/my/wallet_icon.png" alt="">
-                <label>我的资产</label>
+                <label>{{$t("message.property")}}</label>
                 <i class="arrow"></i>
             </router-link>
             <router-link to="account-security" tag="li">
                 <img class="item-icon" src="../../../public/img/my/zhaq_icon.png" alt="">
-                <label>账户安全</label>
+                <label>{{$t("message.accountSecurity")}}</label>
                 <i class="arrow"></i>
             </router-link>
-            <li>
+            <router-link to="switchlang" tag="li">
                 <img class="item-icon" src="../../../public/img/my/switch_lang_icon.png" alt="">
-                <label>中英文切换</label>
+                <label>{{$t("message.MySwitchLang")}}</label>
                 <i class="arrow"></i>
-            </li>
-            <li>
+            </router-link>
+            <router-link to="about" tag="li">
                 <img class="item-icon" src="../../../public/img/my/face_icon.png" alt="">
-                <label>关于我们</label>
+                <label>{{$t("message.MyAbout")}}</label>
                 <i class="arrow"></i>
-            </li>
+            </router-link>
         </ul>
     </div>
 </template>

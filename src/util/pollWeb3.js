@@ -48,24 +48,21 @@ let pollWeb3 = function() {
                                             store.commit(types.SET_USERINFO, res.result)
                                             // 未绑定平台账号
                                             if(res.result.assets.length <= 1) {
-                                                if(store.state.user.currentAddr.coinAddress == newCoinbase) {
-                                                    // 当前选中地址为此登录地址（提示绑定）
-                                                    store.commit(types.OPEN_CONFIRM, {
-                                                        content: "绑定账号，赢取邀请奖励分ETH",
-                                                        btn: [
-                                                            {
-                                                                text: "关闭"
-                                                            },
-                                                            {
-                                                                type: "high",
-                                                                text: "去绑定",
-                                                                cb: () => {
-                                                                    router.push('account-security')
-                                                                }
+                                                store.commit(types.OPEN_CONFIRM, {
+                                                    content: "绑定账号，赢取邀请奖励分ETH",
+                                                    btn: [
+                                                        {
+                                                            text: "关闭"
+                                                        },
+                                                        {
+                                                            type: "high",
+                                                            text: "去绑定",
+                                                            cb: () => {
+                                                                router.push('account-security')
                                                             }
-                                                        ]
-                                                    })
-                                                }
+                                                        }
+                                                    ]
+                                                })
                                                 store.commit(types.UPDATE_WEB3_AT, {
                                                     at: res.result.assets[0].at,
                                                     bet: res.result.assets[0].bet,

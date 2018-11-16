@@ -71,6 +71,16 @@ export default new Router({
             path: "/my",
             name: "my",
             component: () => import("./views/mobile/My.vue")
+        },
+        {
+            path: "/switchlang",
+            name: "switchlang",
+            component: () => import("./views/mobile/Switch_lang.vue")
+        },
+        {
+            path: "/about",
+            name: "about",
+            component: () => import("./views/mobile/About.vue")
         }
     ]
 });
