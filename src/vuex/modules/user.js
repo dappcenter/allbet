@@ -1,5 +1,6 @@
 import * as types from "../mutation_types"
 import {axios} from "../../axios"
+import router from "../../router"
 
 // 筛选平台地址
 const filterAddr = function(addrList) {
@@ -29,7 +30,6 @@ const getters = {
      */
     getUserAddress(state, getters, rootState) {
         let list = filterAddr(state.userInfo.assets)
-        
         if(state.userInfo.assets) {   //是否有登录态
             if(rootState.web3Handler.web3.coinbase) { //是否有HD钱包登录
                 console.log("有HD钱包登录")
@@ -79,11 +79,24 @@ const getters = {
                     })
                 }
                 
+            }else if(list.length == 0){
+                // 未检测到HD钱包地址
+                list.push({
+                    coinAddress: state.userInfo.assets[0].coinbase,
+                    eth: state.userInfo.assets[0].eth || 0,
+                    bet: state.userInfo.assets[0].bet,
+                    at: Math.floor(state.userInfo.assets[0].at*1000) /1000,
+                    userName: state.userInfo.assets[0].userName, //使用平台账号用户名
+                    token: state.userInfo.assets[0].token,
+                    platform: state.userInfo.assets[0].platform,
+                    inviteCode: ""   //使用平台账号邀请码
+                })
             }
         }else {
             // 没有任何登录态
 
         }
+
         if(list.length == 0) {
             // 可用地址列表为空清除当前地址状态
             console.log("可用地址列表为空清除当前地址状态")
@@ -119,12 +132,17 @@ const mutations = {
                     b = true
                 }
             })
+            if(state.userInfo.assets.length == 0 || !this.state.web3Handler.web3.coinbase) {
+                state.userInfo = {}
+                router.replace("dice")
+            }
             if(this.state.web3Handler.web3.coinbase && !b) {
                 console.log("当前登录态HD钱包登录账户（重新获取登录态和HD钱包保持一致）")
                 this.dispatch("coinLogin", this.state.web3Handler.web3.coinbase)
             }
         }else {
             state.userInfo = {}
+            router.replace("dice")
         }
     },
     /**

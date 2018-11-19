@@ -4,7 +4,7 @@
         <div class="top">
             <img src="../../../public/img/my/user_icon.png" alt="">
             <p v-if="storeCurrentAddr.userName">{{storeCurrentAddr.userName}}</p>
-            <router-link to="loginselect" v-else>登录/注册</router-link>
+            <router-link to="loginselect" v-else>{{$t('message.login')}}/{{$t("message.PopRegister")}}</router-link>
         </div>
         <ul class="menu">
             <router-link to="my-assets" tag="li" v-if="storeCurrentAddr.userName">

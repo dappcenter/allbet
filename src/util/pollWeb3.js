@@ -7,6 +7,13 @@
 import store from "../store.js"
 import {axios} from "../axios"
 import * as types from "../vuex/mutation_types"
+import LangZh from "../lang/language_packs/zh"
+import LangEn from "../lang/language_packs/en"
+
+const language = {
+    "zh-CN": LangZh,
+    "en-US": LangEn
+}
 let pollWeb3 = function() {
     let web3 = window.web3
     web3 = new Web3(web3.currentProvider)
@@ -24,7 +31,9 @@ let pollWeb3 = function() {
                 }else {
                     if (coinbase !== storeWeb3.coinbase) {
                         // 地址发生变化
+                        console.log("地址发生变化")
                         let newCoinbase = coinbase
+                        console.log(coinbase)
                         web3.eth.getBalance(coinbase, (err, newBalance) => {
                             if(err) {
                                 console.log(err)
@@ -33,12 +42,11 @@ let pollWeb3 = function() {
                                     coinbase: newCoinbase,
                                     balance: newBalance
                                 })
-                                if(store.state.user.currentAddr.platform == "IMPORT") { 
+                                if(store.state.user.currentAddr.platform != "DISPATCHER") { 
                                     //当前选中地址为HD钱包地址（踢掉平台账户启用新的HD钱包地址）
                                     // store.commit(types.REMOVE_USERINFO)  //清除账户登录信息
                                     //获取新地址的登录态
                                     //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-                                    console.log("获取新地址的登录态")
                                     axios.post("/open/login/coin", {
                                         type: "ETH",
                                         addr: newCoinbase
@@ -49,14 +57,14 @@ let pollWeb3 = function() {
                                             // 未绑定平台账号
                                             if(res.result.assets.length <= 1) {
                                                 store.commit(types.OPEN_CONFIRM, {
-                                                    content: "绑定账号，赢取邀请奖励分ETH",
+                                                    content: language[store.state.locale].message.PopBindDesc2,
                                                     btn: [
                                                         {
-                                                            text: "关闭"
+                                                            text: language[store.state.locale].message.PopClose
                                                         },
                                                         {
                                                             type: "high",
-                                                            text: "去绑定",
+                                                            text: language[store.state.locale].message.accountToBound,
                                                             cb: () => {
                                                                 router.push('account-security')
                                                             }

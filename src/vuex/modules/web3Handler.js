@@ -67,6 +67,7 @@ const mutations = {
 
 const actions = {
     registerWeb3({commit, rootState}) {
+        console.log("注册web3")
         getWeb3.then(result => {
             // 成功获取HD钱包信息
             commit(types.REGISTER_WEB3_INSTANCE, result)
@@ -75,13 +76,20 @@ const actions = {
             if(rootState.user.userInfo.assets && rootState.user.userInfo.assets.length > 0) {
                 // 有登录态
                 console.log("有登录态")
+                const currentAddr = JSON.parse(localStorage.getItem("vuex")).user.currentAddr
+                if(currentAddr.platform == "IMPORT" && currentAddr.coinAddress != result.coinbase) {
+                    // 当前选中的HD钱包地址跟插件不一致
+                    coinLogin()
+                }
                 
             }else {
                 // 没有登录态
                 //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
                 console.log("没有登录态")
-                
-                
+                coinLogin()
+            }
+            
+            function coinLogin() {
                 axios.post("/open/login/coin", {
                     type: "ETH",
                     addr: result.coinbase
@@ -132,7 +140,6 @@ const actions = {
         
                 })
             }
-            
             
         }).catch(e => {
             console.log('error in action registerWeb3', e)

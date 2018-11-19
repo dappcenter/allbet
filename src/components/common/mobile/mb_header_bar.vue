@@ -6,11 +6,52 @@
 </template>
 
 <script>
+import {mapMutations, mapState} from "vuex"
 export default {
     props: {
         title: {
             type: String,
             default: ""
+        }
+    },
+    watch: {
+        addressList(newVal) {
+            let v = null
+            if(newVal.length > 0) {
+                let b = false
+                newVal.forEach((val, idx) => {
+                    if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
+                        b = true
+                        this.setCurrentAddr(val)
+                    }
+                    if(val.coinAddress == this.storeWeb3.coinbase) {
+                        v = val
+                    }
+
+                })
+                if(!b) {
+                    if(v) {
+                        this.setCurrentAddr(v)
+                    }else {
+                        this.setCurrentAddr(newVal[0])
+                    }
+                }
+
+            }
+        },
+    },
+    methods: {
+        ...mapMutations({
+            setCurrentAddr: "SET_CURRENTADDR",
+        })
+    },
+    computed: {
+        ...mapState({
+            storeCurrentAddr: state => state.user.currentAddr,
+            storeWeb3: state => state.web3Handler.web3
+        }),
+        addressList() {
+            return this.$store.getters.getUserAddress
         }
     }
 }
