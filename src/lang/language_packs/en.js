@@ -278,7 +278,7 @@ export default {
         BPSoon: "Coming Soon",
 
         // 公告
-        notice1: "Announcement：ALLBET launched! Now to registration  will reward 0.1ETH+5000AB，More invitations are waiting for you to pick up.",
+        notice1: "Announcement：ALLBET launched! Now to registration  will reward 0.01ETH+5000AB，More invitations are waiting for you to pick up.",
 
         // 邀请
         inviteText: "【ALLBET game platform online】\n【Register ALLBET to send 0.1ETH+5000AB】\n【ALLBET】As an all-ecology DAPP platform, it implements Token's economic concept, transparent assets, income sharing and community co-governance.\n“Game mining AB, daily dividends, invite registration Award 'synchronous opening. 1 everyone has the invitation to promote the award.❗️ ❗️ 【Invitation to Promotion Award】🏆After the invitee holds AB coins, the invitee will reward 8% of the invitee's AB coins, and the invitee will reward 2% of the number of AB coins. All the rewards come from the system airdrop.💰🎀That is to say, as long as everyone registers and sends 5000AB, the invitee will get 8% of the reward after the invitee's game mining gets AB, and the invitee will also get 2% of the reward. These rewards are all direct airdrops of the system, so that everyone can make money together.🎀🎀If everyone can recommend 3 people quickly, everyone can make money easily.🎉🎉🎉🎉🎉 \nRegistration link：",
@@ -296,21 +296,21 @@ export default {
         MyWeixin: "WeChat",
 
         // AB代币
-        abTitle: 'AB代币分发规则',
-        abLittleTitle: 'AB 代币的总量为 100 亿，永不增发',
-        abOwner: '持有者',
-        abRate: '比例',
-        abTeam: '开发者团队',
-        abGameDig: '游戏挖矿（游戏、邀请奖励、空投）',
-        abFourYear: "AB代币锁仓四年，每月等比例释放，第一期解锁为11月30日。剩余的70%中，将拿出 10%（即7亿枚）通过“游戏即挖矿”的形式陆续释放",
-        abBancorDig: 'AB代币挖矿',
-        abGet: '玩家通过玩游戏获取 AB 代币，每次投注都可以获得一定数量的代币。AB 代币的挖矿难度会随着 AB 代币的释放而增加。',
-        abShareTitle: '利润分享',
-        abShareDesc: '平台盈利 100% 分红平台玩家，其中 70% 分红给持有 AB的 用户，30% 分红给持有 AT 的用户。',
-        abExmaple: '举例说明：',
-        abFirst: '假如第一次分红的利润是 10000 ETH。',
-        abLast: '则最后的分配情况如下为：',
-        abEthpool: 'AT币的ETH资金池',
-        abPool: 'AB分红池',
+        abTitle: 'AB Token Distribution',
+        abLittleTitle: 'The total supply of CITY token is 10 billion. The supply is fixed and will never be increased.',
+        abOwner: 'AB Holder',
+        abRate: 'Proportion',
+        abTeam: 'Team of ALLBET',
+        abGameDig: 'Game Mining(for game、Referral、Airdrop)',
+        abFourYear: "AB Token will be locked for four years and will be released in equal proportion every month. The first phase is unlocked on November 30th. Of the remaining 70%, 10% or 1 billion will be released in the form of 'Game Mining'",
+        abBancorDig: 'AB Token Mining',
+        abGet: 'Play our games can get the AB token. Meanwhile，the difficulty of mining the AB token will increase with the release of the ABtoken',
+        abShareTitle: 'Profit Sharing',
+        abShareDesc: 'We give 100 percent of the profits to users who hold AB and AT coins, and the platform does not participate in any draw, 70 percent of which goes to AB holders and 30 percent to Bancor ETH reserves in the form of ETH to boost the value of AT coins.',
+        abExmaple: 'For example:',
+        abFirst: 'Let’s assume there are 10,000 ETH dividends for the first time.',
+        abLast: 'The dividends will distribute as follow:',
+        abEthpool: 'ETH Reserve Pool Of AT Token',
+        abPool: 'Payout Of AB Token',
     }
 }
