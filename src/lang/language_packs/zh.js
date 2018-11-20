@@ -203,6 +203,7 @@ export default {
         PopPass2Empty: "再次确认密码不能为空",
         PopPassDiff: "两次输入的密码不一致",
         PopPhoneWrong: "手机号输入有误",
+        PopPhoneEmpty: "手机号不能为空",
         PopEmailWrong: "邮箱输入有误",
         PopGraphicEmpty: "图形验证码不能为空",
         PopPassRequest: "密码必须为8-12位数字字母的组合",
@@ -271,9 +272,10 @@ export default {
         GameTips1: "数据最多延迟三分钟并于每天UTC 00:00 重置",
         // 分红池
         BPbonusPools: "分红池",
-        BPtip: "当前分红池由 Allbet 游戏所得 ETH 收益构成，具体详见游戏规则。",
+        BPtip: "当前分红池由 Allbet 游戏所得收益构成，数据每小时刷新一次。",
         BPab: "我的 AB 余额",
         BPcurrentAmount: "当前分红池累计",
+        BPSoon: "即将上线",
 
         // 公告
         notice1: "公告：ALLBET游戏平台已上线，注册即送0.1ETH+5000AB，更多的邀请奖励等您来领取！",

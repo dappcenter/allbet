@@ -67,30 +67,6 @@ export default {
     winPopupOption() {
       this.isShowWin = true;
     },
-    // addressList(newVal) {
-    //     let v = null
-    //     if(newVal.length > 0) {
-    //         let b = false
-    //         newVal.forEach((val, idx) => {
-    //             if(val.coinAddress == this.storeCurrentAddr.coinAddress) {
-    //                 b = true
-    //                 this.setCurrentAddr(val)
-    //             }
-    //             if(val.coinAddress == this.storeWeb3.coinbase) {
-    //                 v = val
-    //             }
-                
-    //         })
-    //         if(!b) {
-    //             if(v) {
-    //                 this.setCurrentAddr(v)
-    //             }else {
-    //                 this.setCurrentAddr(newVal[0])
-    //             }
-    //         }
-            
-    //     }
-    // },
   },
   created() {
     // 注册web3
@@ -265,6 +241,7 @@ body {
       font-weight: 700;
       cursor: pointer;
       margin-top: 30px;
+      outline: none;
     }
   }
   .newwork-box {
@@ -364,6 +341,35 @@ body {
     .loading-shade {
       .loading-box {
         width: 20%;
+      }
+    }
+    .newwork-box {
+      left: 50%;
+      width: 80%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-size: 100%;
+      text-align: center;
+      background-color: #CCD3FF;
+      z-index: 9999999999;
+      color: #000;
+      padding: 30px;
+      border-radius: 6px;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 50px;
+        }
+        span {
+          font-size: 20px;
+          vertical-align: middle;
+        }
+      }
+      p {
+        margin-top: 20px;
+        font-size: 16px;
       }
     }
   }

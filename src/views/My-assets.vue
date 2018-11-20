@@ -21,7 +21,8 @@
 					<div src="" alt="" id="qrcode1"></div>
 					<div class="charge-desc">
 						<p>{{$t('message.assetsRechargeAddress')}}：</p>
-						<div class="address"><div id="copy_text">{{currentAddr.coinAddress}}</div>
+						<div class="address">
+							<div id="copy_text">{{currentAddr.coinAddress}}</div>
 							<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
 						</div>
 						<p>{{$t('message.assetsTips')}}</p>
@@ -354,6 +355,7 @@ import {mapMutations, mapState} from "vuex"
 						margin: 13px 0;
 						div {
 							display: inline-block;
+							// user-select: none;
 						}
 						.copy {
 							font-size:16px;

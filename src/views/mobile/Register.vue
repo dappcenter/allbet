@@ -4,8 +4,8 @@
             <a href="javascript:;" class="backarrow" @click="$goBack"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
-                <a href="javascript:;" class="phone" @click="registerType = 'phone'" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneRegister')}}</a>
-                <a href="javascript:;" @click="registerType = 'email'" :class="{'active': registerType == 'email'}">{{$t('message.PopEmailRegister')}}</a>
+                <a href="javascript:;" class="phone" @click="registerType = 'phone';getImgCode('REGISTER')" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneRegister')}}</a>
+                <a href="javascript:;" @click="registerType = 'email';getImgCode('REGISTER')" :class="{'active': registerType == 'email'}">{{$t('message.PopEmailRegister')}}</a>
             </div>
         </div>
         <div class="bottom">
@@ -43,8 +43,8 @@
                 <div class="input-flex">
                     <input type="text" v-if="registerType == 'phone'" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <input type="text" v-else v-model="formData.captcha" :placeholder="$t('message.PopInputEmailCaptcha')">
-                    <AEFcountDownBtn v-if="registerType == 'phone'" v-model="captchaDisabled" @click.native="getSMScode('REGISTER')"></AEFcountDownBtn>
-                    <AEFcountDownBtn v-else v-model="captchaDisabled" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
+                    <AEFcountDownBtn v-show="registerType == 'phone'" v-model="captchaDisabled" @click.native="getSMScode('REGISTER')"></AEFcountDownBtn>
+                    <AEFcountDownBtn v-show="registerType == 'email'" v-model="captchaDisabledEmail" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
                 </div>
             </div>
             <!-- 密码 -->
@@ -92,6 +92,7 @@ export default {
             macCode: new Date().getTime(),
             registerType: "phone",
             captchaDisabled: false,
+            captchaDisabledEmail: false,
             prefixMenu: false,
             currentAddr: ""
         }
@@ -137,7 +138,7 @@ export default {
         //获取邮箱验证码
         getEmailCode(type) {
             if(!this.verifyEmail() || !this.verifyPicCode()) return
-            this.captchaDisabled = true  //开始倒计时
+            this.captchaDisabledEmail = true  //开始倒计时
             this.$http.get("/open/email_captcha", {
                 params: {
                     "email": this.formData.email,
@@ -147,11 +148,11 @@ export default {
                 }
             }).then(res => {
                 if(res.code != 200) {
-                    this.captchaDisabled = false
+                    this.captchaDisabledEmail = false
                     this.getImgCode(type)
                 }
             }).catch(err => {
-                this.captchaDisabled = false
+                this.captchaDisabledEmail = false
             })
         },
         // 发起注册

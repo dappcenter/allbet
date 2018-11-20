@@ -35,6 +35,25 @@ export default {
     ul {
         white-space: nowrap;
         overflow-x: scroll;
+        /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+        &::-webkit-scrollbar  
+        {  
+            width: 1px;  /*滚动条宽度*/
+            height: 1px;  /*滚动条高度*/
+        } 
+        /*定义滚动条轨道 内阴影+圆角*/  
+        &::-webkit-scrollbar-track  
+        {  
+            -webkit-box-shadow: inset 0 0 6px #10101A;  
+            background-color: #10101A;/*滚动条的背景颜色*/  
+        }  
+        
+        /*定义滑块 内阴影+圆角*/  
+        &::-webkit-scrollbar-thumb  
+        {  
+            -webkit-box-shadow: inset 0 0 6px #10101A;  
+            background-color: #10101A;  /*滚动条的背景颜色*/
+        }
         li {
             display: inline-block;
             line-height: .72rem;

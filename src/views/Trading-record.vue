@@ -47,7 +47,7 @@
 				<div>{{filterState(item)}}</div>
 				<div class="vol">{{item.amount}}</div>
 				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-				<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1" :class="[item.platform !='DISPATCHER' ? '' : 'transparent']" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+				<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1 && item.platform !='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
 				<div class="operation nominscreen" v-else>- -</div>
 			</li>
 			<!-- <div class="charge">

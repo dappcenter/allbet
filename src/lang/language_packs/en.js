@@ -204,6 +204,7 @@ export default {
         PopPassDiff: "Inconsistent password entered twice",
         PopPhoneWrong: "The phone number is entered incorrectly",
         PopEmailWrong: "The email is entered incorrectly",
+        PopPhoneEmpty: "The phone number cannot be empty",
         PopGraphicEmpty: "Graphic code cannot be empty",
         PopPassRequest: "The password must be a combination of 8-12 alphanumeric characters",
         Popsuccess: "Successful operation",
@@ -270,9 +271,10 @@ export default {
         GameRule: "The rules of the game",
         // 分红池
         BPbonusPools: "Bonus Pools",
-        BPtip: "Currently, the dividend pool is composed of ETH earnings from Allbet games. For details, please refer to the game rules.",
+        BPtip: "The current bonus pool is made up of the proceeds from Allbet games, with the data refreshed every hour.",
         BPab: "My AB balance",
         BPcurrentAmount: "Bonus Pool",
+        BPSoon: "Coming Soon",
 
         // 公告
         notice1: "Announcement：ALLBET launched! Now to registration  will reward 0.1ETH+5000AB，More invitations are waiting for you to pick up.",

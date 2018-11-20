@@ -32,12 +32,13 @@
                 <!-- mobile -->
                 <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
+                
+
+                <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
+                <a href="javascript:;" class="lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
+                <!-- <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a> -->
                 <!-- mobile登录按钮 -->
                 <a href="javascript:;" class="login minscreen" @click="$router.push('my')"></a>
-
-                <a href="javascript:;" class="lang nominscreen" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
-                <a href="javascript:;" class="lang nominscreen" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
-                <!-- <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a> -->
             </div>
         </div>
         <MBheaderNav class="minscreen" :openWhiteBook="openWhiteBook" :switchBonusPools="switchBonusPools" :addressList="addressList"></MBheaderNav>
@@ -228,7 +229,7 @@
                 <label>{{$t('message.PopCaptcha')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
-                    <AEFcountDownBtn v-model="captchaDisabled" @click.native="getEmailCode('CHANGE_PWD')"></AEFcountDownBtn>
+                    <AEFcountDownBtn v-model="captchaDisabledEmail" @click.native="getEmailCode('CHANGE_PWD')"></AEFcountDownBtn>
                 </div>
             </div>
 
@@ -250,21 +251,44 @@
         <!-- 分红池 -->
         <mu-dialog :open.sync="displayStatus.bonusPools" :append-body="false" class="bonus-pools">
             <h4>{{$t('message.BPbonusPools')}}</h4>
-            <p>{{$t('message.BPtip')}}</p>
-            <div class="coin-wrap ab">
+            <p class="tip1">{{$t('message.BPtip')}}</p>
+            <!-- <div class="coin-wrap ab">
                 <div class="coin-logo">
                     <img src="../../../public/img/ab_icon02.png" />
                     <span>{{$t('message.BPab')}}</span>
                 </div>
                 <h3 v-if="storeCurrentAddr.bet">{{storeCurrentAddr.bet}} AB</h3>
                 <h3 v-else>0 AB</h3>
-            </div>
+            </div> -->
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/eth_icon.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
                 <h3>{{Number(bonusPoolsData.pool) > 0 ? bonusPoolsData.pool : 0}} ETH</h3>
+            </div>
+            <ul>
+                <li>
+                    <img src="../../../public/img/coin/EOS.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/TRX.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/AB.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/SAC.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+            </ul>
+            <p class="tip2">即将上线 EOS、TRX、SAC、AB 游戏投注挖矿，多币种分红池等您来领取。</p>
+            <div class="tip3">
+                <p v-if="storeCurrentAddr.bet">我的 AB 币余额：{{storeCurrentAddr.bet || 0}} AB</p>
+                <p>当前 AB 币流通量：100000000 AB</p>
             </div>
         </mu-dialog>
 
@@ -336,7 +360,8 @@ export default {
             btnText: this.$t('message.PopGetCaptcha'),  //发送短信按钮文字
             s: 60,  //短信倒计时时间
             macCode: new Date().getTime(),
-            captchaDisabled: false,
+            captchaDisabled: false, //找回密码验证码倒计时（手机）
+            captchaDisabledEmail: false,   //找回密码验证码倒计时（邮箱）
             isShowFoldMunu: false,
             bonusPoolsData: {}
         }
@@ -471,7 +496,7 @@ export default {
         getEmailCode(type) {
             if(!this.verifyEmail() || !this.verifyPicCode()) return
 
-            this.captchaDisabled = true  //开始倒计时
+            this.captchaDisabledEmail = true  //开始倒计时
             this.$http.get("/open/email_captcha", {
                 params: {
                     "email": this.formData.email,
@@ -482,11 +507,11 @@ export default {
             }).then(res => {
                 console.log(res)
                 if(res.code != 200) {
-                    this.captchaDisabled = false
+                    this.captchaDisabledEmail = false
                     this.getImgCode(type)
                 }
             }).catch(err => {
-                this.captchaDisabled = false
+                this.captchaDisabledEmail = false
             })
         },
         // 发起注册
@@ -607,6 +632,13 @@ export default {
         },
         //手机号验证
         verifyPhone() {
+            if(this.formData.phone == "") {
+                this.alert({
+                    type: "info",
+                    msg: this.$t('message.PopPhoneEmpty')
+                })
+                return false
+            }
             if (this.formData.prefix == '+86' && !(/^1[34578]\d{9}$/.test(this.formData.phone))) {
               this.alert({
                   type: "info",
@@ -970,7 +1002,7 @@ export default {
                 background-size: 100%;
                 width: 30px;
                 height: 30px;
-                margin: 0 .2rem 0 .2rem;
+                margin: 2px .2rem 0 .2rem;
             }
         }
     }
@@ -1165,31 +1197,40 @@ export default {
             h4 {
                 color: #FFD558;
             }
-            p {
+            .tip1 {
                 color: #FFD558;
-                margin-bottom: 50px;
+                margin-bottom: 30px;
                 margin-top: 10px;
                 font-size: 16px;
                 text-align: center;
             }
+            .tip2 {
+                color: #FFD558;
+                margin-bottom: 30px;
+                margin-top: 40px;
+                font-size: 14px;
+                text-align: center;
+                border-bottom: 1px solid #E18F5E;
+            }
+            .tip3 {
+                text-align: center;
+                font-size: 16px;
+            }
             .coin-wrap {
                 display: flex;
                 align-items: center;
-                padding: 15px 50px;
+                padding: 9px 50px;
                 border-radius:4px;
-                &.ab {
-                    background:rgba(238,127,71,.8);
-                }
                 &.eth {
                     margin-top: 20px;
-                    background:rgba(233,86,120,.8);
+                    background:#E95678;
                 }
                 .coin-logo {
                     width: 130px;
                     text-align: center;
                     img {
-                        width: 64px;
-                        height: 64px;
+                        width: 40px;
+                        height: 40px;
                         display: block;
                         margin: 0 auto 10px;
                     }
@@ -1201,6 +1242,28 @@ export default {
                     flex: 1;
                     text-align: right;
                     font-size: 32px;
+                }
+            }
+            ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                li {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background-color: #DB705E;
+                    width: 49%;
+                    margin-top: 10px;
+                    padding: 20px 40px;
+                    border-radius: 4px;
+                    img {
+                        width: 40px;
+                    }
+                    span {
+                        font-size: 18px;
+                        color: #fff;
+                    }
                 }
             }
         }
@@ -1232,7 +1295,7 @@ export default {
             }
             // 语言按钮
             .lang {
-                margin: 5px 10px 0 20px;
+                margin: 5px 10px 0 10px;
                 img {
                     width: 24px;
                 }
@@ -1392,9 +1455,58 @@ export default {
                 h4 {
                     color: #FFD558;
                 }
-                p {
-                    margin-bottom: 20px;
+                .tip1 {
+                    margin-bottom: 15px;
                     font-size: 12px;
+                }
+                .tip2 {
+                    margin-bottom: 15px;
+                    margin-top: 20px;
+                    font-size: 14px;
+                }
+                .tip3 {
+                    text-align: center;
+                    font-size: 12px;
+                }
+                .coin-wrap {
+                    padding: 9px 14px;
+                    border-radius:4px;
+                    &.eth {
+                        margin-top: 20px;
+                        background:#E95678;
+                    }
+                    .coin-logo {
+                        width: 130px;
+                        text-align: center;
+                        img {
+                            width: 40px;
+                            height: 40px;
+                            display: block;
+                            margin: 0 auto 10px;
+                        }
+                        span {
+                            font-size: 16px;
+                        }
+                    }
+                    h3 {
+                        flex: 1;
+                        text-align: right;
+                        font-size: 32px;
+                    }
+                }
+                ul {
+                    
+                    li {
+                        margin-top: 5px;
+                        padding: 5px 10px;
+                        img {
+                            width: 30px;
+                        }
+                        span {
+                            font-size: 12px;
+                            color: #fff;
+                        }
+                    }
                 }
                 .coin-wrap {
                     padding: 8px 20px;
