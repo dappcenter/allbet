@@ -8,7 +8,8 @@
             <menu class="nominscreen">
                 <router-link to="dice"><span>Dice</span></router-link>
                 <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
-                <a href="javascript:;" @click="displayStatus.bonusPools = !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
+                <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
+                <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
@@ -32,7 +33,7 @@
                 <!-- mobile -->
                 <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
-                
+
 
                 <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
                 <a href="javascript:;" class="lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
@@ -291,6 +292,73 @@
                 <p>当前 AB 币流通量：100000000 AB</p>
             </div>
         </mu-dialog>
+        <!-- AB代币 -->
+        <mu-dialog :open.sync="displayStatus.abBancor" :append-body="false" class="ab-bancor">
+            <h4>{{$t('message.abTitle')}}</h4>
+            <p class="tip1">{{$t('message.abLittleTitle')}}</p>
+            <table>
+              <tr>
+              <th>{{$t('message.abOwner')}}</th>
+              <th>{{$t('message.abRate')}}</th>
+              </tr>
+              <tr>
+              <td>{{$t('message.abTeam')}}</td>
+              <td>30%</td>
+              </tr>
+              <tr>
+              <td>{{$t('message.abGameDig')}}</td>
+              <td>70%</td>
+              </tr>
+            </table>
+            <p class="tip1 tip2">{{$t('message.abFourYear')}}</p>
+            <h4>{{$t('message.abBancorDig')}}</h4>
+            <p class="tip1 tip2">{{$t('message.abGet')}}</p>
+            <h4>{{$t('message.abShareTitle')}}</h4>
+            <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
+            <p class="tip1 tip2 tip3">{{$t('message.abExmaple')}}</p>
+            <p class="tip1 tip2 tip3">{{$t('message.abFirst')}}</p>
+            <p class="tip1 tip2">{{$t('message.abLast')}}</p>
+            <table>
+              <tr>
+              <td>{{$t('message.abEthpool')}}</td>
+              <td>3000ETH</td>
+              </tr>
+              <tr>
+              <td>{{$t('message.abPool')}}</td>
+              <td>7000ETH</td>
+              </tr>
+            </table>
+            <!-- <div class="coin-wrap eth">
+                <div class="coin-logo">
+                    <img src="../../../public/img/eth_icon.png" />
+                    <span>{{$t('message.BPcurrentAmount')}}</span>
+                </div>
+                <h3>{{Number(bonusPoolsData.pool) > 0 ? bonusPoolsData.pool : 0}} ETH</h3>
+            </div>
+            <ul>
+                <li>
+                    <img src="../../../public/img/coin/EOS.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/TRX.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/AB.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/SAC.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+            </ul>
+            <p class="tip2">即将上线 EOS、TRX、SAC、AB 游戏投注挖矿，多币种分红池等您来领取。</p>
+            <div class="tip3">
+                <p v-if="storeCurrentAddr.bet">我的 AB 币余额：{{storeCurrentAddr.bet || 0}} AB</p>
+                <p>当前 AB 币流通量：100000000 AB</p>
+            </div> -->
+        </mu-dialog>
 
         <!-- <RegisterPop :registerAccount="displayStatus.registerAccount"></RegisterPop> -->
     </div>
@@ -330,7 +398,8 @@ export default {
                 loginSelect: false,   //登录对话框
                 registerAccount: false,  //手机注册账号
                 emailRegisterAccount: false,  //邮箱注册账号
-                bonusPools: false   //分红池
+                bonusPools: false,   //分红池
+                abBancor: false, //AB代币
             },
             loginForm: {
                 "account": "",
@@ -1268,6 +1337,50 @@ export default {
             }
         }
     }
+    .ab-bancor {
+      left: 0;
+      bottom: 0;
+      right: 0;
+      top: 0;
+      .mu-dialog {
+          width: 40%;
+          background-color: transparent;
+      }
+      .mu-dialog-body {
+        table{
+        border-collapse:collapse;
+        width:100%;
+        }
+
+      table, td, th
+        {
+        border:1px solid #577AC3;
+        }
+        td{
+          text-align:center;
+          vertical-align:middle;
+          height:50px;
+          width: 50%;
+          font-size: 14px;
+        }
+        th {
+          height:40px;
+        }
+        .tip1 {
+            margin-bottom: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .tip2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .tip3 {
+          margin-bottom: 0;
+        }
+      }
+    }
 }
 @media screen and (max-width: 800px){
     .headerbar {
@@ -1495,7 +1608,7 @@ export default {
                     }
                 }
                 ul {
-                    
+
                     li {
                         margin-top: 5px;
                         padding: 5px 10px;

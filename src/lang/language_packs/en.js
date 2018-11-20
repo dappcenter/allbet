@@ -9,6 +9,7 @@ export default {
         //header_bar
         home: "Home",
         atDeal: "Trade",
+        abBancor: "AB",
         bonusPool: "Payout",
         invitation: "Referral",
         course: "Info",
@@ -292,6 +293,24 @@ export default {
         MySwitchLang: "Language Settings",
         MySetLang: "Language Settings",
         MyWeibo: "WeiBo",
-        MyWeixin: "WeChat"
+        MyWeixin: "WeChat",
+
+        // AB代币
+        abTitle: 'AB代币分发规则',
+        abLittleTitle: 'AB 代币的总量为 100 亿，永不增发',
+        abOwner: '持有者',
+        abRate: '比例',
+        abTeam: '开发者团队',
+        abGameDig: '游戏挖矿（游戏、邀请奖励、空投）',
+        abFourYear: "AB代币锁仓四年，每月等比例释放，第一期解锁为11月30日。剩余的70%中，将拿出 10%（即7亿枚）通过“游戏即挖矿”的形式陆续释放",
+        abBancorDig: 'AB代币挖矿',
+        abGet: '玩家通过玩游戏获取 AB 代币，每次投注都可以获得一定数量的代币。AB 代币的挖矿难度会随着 AB 代币的释放而增加。',
+        abShareTitle: '利润分享',
+        abShareDesc: '平台盈利 100% 分红平台玩家，其中 70% 分红给持有 AB的 用户，30% 分红给持有 AT 的用户。',
+        abExmaple: '举例说明：',
+        abFirst: '假如第一次分红的利润是 10000 ETH。',
+        abLast: '则最后的分配情况如下为：',
+        abEthpool: 'AT币的ETH资金池',
+        abPool: 'AB分红池',
     }
 }
