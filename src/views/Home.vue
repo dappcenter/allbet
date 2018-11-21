@@ -3,7 +3,7 @@
 	<HeaderBar></HeaderBar>
 	<div class="main">
 		<div class="mask"></div>
-		<div class="top">
+		<!-- <div class="top">
 			<h1><img src="../../public/img/LOGO.png" alt=""></h1>
 			<h2>{{$t('message.homeAllet')}}</h2>
 			<div class="info nominscreen" style="width:70%;margin:30px auto 40px auto;font-size:18px;color:#FEFEFE;">{{$t('message.homeAlletDesc')}}</div>
@@ -18,9 +18,9 @@
 					{{$t('message.login')}}
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<div class="middle">
-			<div class="middle-title">{{$t('message.homeReservePool')}}</div>
+			<!-- <div class="middle-title">{{$t('message.homeReservePool')}}</div> -->
 			<div class="buy-sell">
 				<div class="fund-number">
 					<img src="../../public/home/eth-icon.png" class="img1">
@@ -561,12 +561,12 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 			-webkit-user-select:none; /*webkit浏览器*/
 			-ms-user-select:none; /*IE10*/
 			user-select:none;
-			background: url(../../public/img/bg.jpg) repeat left;
+			background: url(../../public/img/home-bg.png) repeat left;
 			background-size: 200px;
 			.mask {
 				position: absolute;
 				width: 100%;
-				height: 18%;
+				height: 4%;
 				background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* Safari 5.1 - 6.0 */
 				background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* Opera 11.1 - 12.0 */
 				background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent); /* Firefox 3.6 - 15 */
@@ -611,7 +611,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 				width: 1200px;
         		margin: auto;
         		// position: relative;
-				background:rgba(2,11,89,0.75);
+				background:rgba(2,11,89,0.15);
 				border-radius:24px 24px 0px 0px;
 				padding-top: 42px;
 				// height: 699px;
@@ -696,6 +696,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 							height: 48px;
 					    	line-height: 48px;
 							margin-top: 20px;
+							background-color: #162171;
 							.price {
 								display: inline-block;
 								width: 78%;
@@ -765,7 +766,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 		}
 		.list-wrapper {
 			padding: 30px 149px 5px 100px;
-			background: linear-gradient(to bottom, #142b73, #030713, #030713, #030713, #142b73);
+			background: linear-gradient(to bottom, #395eec, #0d1632, #395eec);
 		}
 		.list {
 			color: #646464;
@@ -867,7 +868,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 				.middle {
 					width: 1000px;
 					padding: 10px;
-
+					padding-top: 52px;
 					.buy-sell {
 						justify-content: space-around;
 						p img {
@@ -876,6 +877,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 						.fund-number {
 							width: 46%;
 							margin: 0;
+							background-color: #162171;
 						}
 						.buy {
 							padding: 30px 10px;
