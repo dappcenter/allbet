@@ -268,15 +268,19 @@ export default {
         GameNoWin: "很遗憾预测失败，别灰心",
         GameKnow: "我知道了",
         GameHelp: "<p style='text-align: justify'>1.您可以调整滑块选择想要的预测数。移动滑块时，您可赢得的总金额和胜率都将自动调整。想要赢的话可选择一个大的预测数。<br /><br />2.点击猜小于50按钮开始游戏。智能合约随后将从1-100之间随机生成一个幸运数字。<br /><br />3.如果幸运数字小于您的预测数，您就赢了！<br /><br />4.每次下注系统都会将挖矿所得AB返还到您的钱包，更多相关信息，请查看我们的白皮书。<br /><br />5.确保您有一个平台账号或MetaMask插件。有关如何下载MetaMask插件，请查看白皮书。<br /><br />6.设置您的竞猜数量，也就是您要下注的ETH数量。<br /><br />仍然还有疑问？欢迎加入我们的微信群，我们非常乐意为您提供帮助！</p>",
-        GameHowToPlay: "怎么玩？",
+        GameHowToPlay: "玩法介绍",
         GameRule: "游戏规则",
         GameTips1: "数据最多延迟三分钟并于每天UTC 00:00 重置",
+        GameAutoBetHelp: "开启自动投注后，将会按当前投注设定自动投注直至取消，取消会有一两秒延迟，敬请留意",
+        GameStatus1: "今日第",
+        GameStatus2: "次参与",
         // 分红池
         BPbonusPools: "分红池",
         BPtip: "当前分红池由 Allbet 游戏所得收益构成，数据每小时刷新一次。",
         BPab: "我的 AB 余额",
         BPcurrentAmount: "当前分红池累计",
         BPSoon: "即将上线",
+        BPtip2: "即将上线 EOS、TRX、AB、SAC 游戏投注挖矿，多币种分红池等您来领取。",
 
         // 公告
         notice1: "公告：ALLBET游戏平台已上线，注册即送0.01ETH+5000AB，更多的邀请奖励等您来领取！",

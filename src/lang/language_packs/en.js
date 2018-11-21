@@ -237,7 +237,7 @@ export default {
         GameOdds: "Payout",
         GameIncome: "Income",
         GameProbability: "Win Chance",
-        GameEnter: "Just entered the game",
+        GameEnter: "Just joined in.",
         GameTotalNumber: "Bets Made: ",
         GameTotalIncome: "Total Won: ",
         GameQiuz: "Bet Amount",
@@ -267,18 +267,22 @@ export default {
         GameNoWin: "It's a pity to fail. Don't lose heart",
         GameKnow: "I know",
         GameHelp: "<p style='text-align: justify'>1. You can adjust the slider to choose PREDICTION number you'd like to roll under. As you move the slider, your payout and win chance will adjust automatically.<br /><br />2. Click GUESS LESS THAN50 to place your bet. The smart contracts will then randomly generate a LUCKY number from 1~100.<br /><br />3. If the lucky number is less than your prediction then you WIN! <br /><br />4. Each bet placed will give you AB tokens, for more information check out our INFO.<br /><br />5. Make sure you have a account or MetaMask. For more information on how to install MetaMask, Please see the white paper.<br /><br />6. Set your BET NUMBER. This is the amount of ETH you will be betting.<br /><br />Still have questions? Join our WeChat group and we'll be more than happy to help!</p>",
-        GameHowToPlay: "How to play?",
+        GameHowToPlay: "How to",
         GameTips1: "The data is delayed by up to three minutes and reset daily at UTC 00:00",
         GameRule: "The rules of the game",
+        GameAutoBetHelp: "WARNING: Turning Auto Bet on will result in your bet continuing to be placed until Auto Bet is turned off. There may be a slight delay when turning Auto Bet off that results in an additional roll.",
+        GameStatus1: "For the ",
+        GameStatus2: "th time today",
         // 分红池
         BPbonusPools: "Bonus Pools",
         BPtip: "The current bonus pool is made up of the proceeds from Allbet games, with the data refreshed every hour.",
         BPab: "My AB balance",
         BPcurrentAmount: "Bonus Pool",
         BPSoon: "Coming",
+        BPtip2: "Coming online EOS, TRX, AB, SAC game betting mining, multi-currency bonus pool and so on you to receive.",
 
         // 公告
-        notice1: "Announcement：ALLBET launched! Now to registration  will reward 0.01ETH+5000AB，More invitations are waiting for you to pick up.",
+        notice1: "Announcement：ALLBET has been launched! Register now and earn up 0.01ETH + 5000AB! Invite your friend to get extra rewards!",
 
         // 邀请
         inviteText: "【ALLBET game platform online】\n【Register ALLBET to send 0.01ETH+5000AB】\n【ALLBET】As an all-ecology DAPP platform, it implements Token's economic concept, transparent assets, income sharing and community co-governance.\n“Game mining AB, daily dividends, invite registration Award 'synchronous opening. 1 everyone has the invitation to promote the award.❗️ ❗️ 【Invitation to Promotion Award】🏆After the invitee holds AB coins, the invitee will reward 8% of the invitee's AB coins, and the invitee will reward 2% of the number of AB coins. All the rewards come from the system airdrop.💰🎀That is to say, as long as everyone registers and sends 5000AB, the invitee will get 8% of the reward after the invitee's game mining gets AB, and the invitee will also get 2% of the reward. These rewards are all direct airdrops of the system, so that everyone can make money together.🎀🎀If everyone can recommend 3 people quickly, everyone can make money easily.🎉🎉🎉🎉🎉 \nRegistration link：",

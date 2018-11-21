@@ -1,14 +1,6 @@
 <template>
 	<section class="module-roller-bet">
 		<div class="mask"></div>
-		<div class="game-status nominscreen" v-if="diceStatistics.newcomers.length > 0">
-			<div class="container">
-				<p>{{$fmtAccount(diceStatistics.newcomers[0])}} {{$t("message.GameEnter")}}</p>
-				<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
-				<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
-				<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
-			</div>
-		</div>
 		<!-- 币种选择 -->
 		<ul class="coin-select">
 			<li class="active">
@@ -52,6 +44,14 @@
 			</li>
 		</ul>
 		<div class="game-content" ref="gameContent">
+			<div class="game-status nominscreen" v-if="diceStatistics.newcomers.length > 0">
+				<div class="">
+					<p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p>
+					<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
+					<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
+					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
+				</div>
+			</div>
 			<div class="ctn-top">
 				<div class="number-show">
 					<div>
@@ -111,6 +111,12 @@
 						<span @click="onHotkeys('max')">MAX</span>
 					</div>
 				</div>
+				<!-- 自动下注 -->
+				<div class="auto-bet">
+					<label>自动投注:</label>
+					<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
+					<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
+				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
 					<button v-if="currentAddr.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
@@ -118,6 +124,16 @@
 					<span class="fl minscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
 					<span class="fr"><img src="../../../public/img/ab_icon03.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
+			</div>
+			<!-- 挖矿数量 -->
+			<div class="dig-wrap nominscreen">
+				<img src="../../../public/img/ab_icon03.png" alt="">
+				<div class="content">
+					<h4>下注立刻获得 2000 AB</h4>
+					<p>现在投注最高可获得投注货币 2000 x AB </p>
+					<span>挖矿比例 Winer：1:1000   Loser:1:2000</span>
+				</div>
+				<i class="help"></i>
 			</div>
 		</div>
 		<!-- 游戏规则 -->
@@ -165,7 +181,8 @@ export default {
 			getBetResultTimer: null,
 			maxNum: 96,
 			isShowHelp: false,
-			openWeixinQR: false
+			openWeixinQR: false,
+			autoBet: false
         }
 	},
 	created() {
@@ -225,7 +242,8 @@ export default {
 			alert: "alert",
 			openLogin: "OPEN_LOGIN",
 			openWinPopup: "OPEN_WIN_POPUP",
-			openConfirm: "OPEN_CONFIRM"
+			openConfirm: "OPEN_CONFIRM",
+			closePopup: "CLOSE_POPUP"
 		}),
 		onHandleClick(e) {
 			let moveWidth = e.offsetX
@@ -333,21 +351,6 @@ export default {
 						})
 						this.luckyRun()
 						that.getBetResult(res.result.recdId)
-						// setTimeout(() => {
-						// 	clearInterval(this.timer)
-						// 	this.timer = null
-						// 	this.luckyColor = "green"
-						// 	this.luckyNum = res.result.diceResult.luckyNum
-						// 	this.$store.dispatch('updateProperty')
-						// 	if(res.result.diceResult.winFlag == "WIN") {
-						// 		this.openWinPopup({
-						// 			ab: res.result.diceResult.abNum,
-						// 			eth: res.result.diceResult.rewards
-						// 		})
-						// 	}else if(res.result.diceResult.winFlag == "LOSE") {
-						// 		this.noWin(res.result.diceResult.abNum)
-						// 	}
-						// }, 1500)
 					}else {   //合约账号
 						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
 						//注册方法与原生交互
@@ -423,6 +426,14 @@ export default {
 								}else if(res.result.winFlag == "LOSE") {
 									this.noWin(res.result.abNum)
 								}
+								// 自动下注
+								setTimeout(() => {
+									if(this.autoBet && this.currentAddr.token) {
+										this.closePopup()
+										this.betDo()
+									}
+								}, 1000)
+								
 							}
 						}
 					}else {
@@ -530,7 +541,7 @@ export default {
 		-webkit-user-select:none; /*webkit浏览器*/
 		-ms-user-select:none; /*IE10*/
 		user-select:none;
-		background: url(../../../public/img/bg.jpg) repeat left;
+		background: url(../../../public/img/bg.jpg) repeat center;
 		background-size: 200px;
 		overflow: hidden;
 		.mask {
@@ -543,9 +554,9 @@ export default {
 			background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* 标准的语法（必须放在最后） */
 		}
 		.game-status {
-			background-color: #0A1536;
 			position: relative;
-    		z-index: 1;
+			z-index: 1;
+			padding: 0 10px;
 			div {
 				display: flex;
 				line-height: 40px;
@@ -553,6 +564,9 @@ export default {
 				p {
 					flex: 1;
 					text-align: left;
+					a {
+						margin: 0;
+					}
 				}
 				span {
 					margin-left: 40px;
@@ -628,7 +642,7 @@ export default {
 			position: relative;
 			z-index: 2;
 			width: 700px;
-			margin: 60px auto;
+			margin: 0 auto;
 			border-radius:6px;
 			padding: 20px;
 			.ctn-top {
@@ -783,6 +797,65 @@ export default {
 						}
 					}
 				}
+				.auto-bet {
+					position: relative;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					margin: 23px 0 0;
+					.switch {
+						position: relative;
+						width: 60px;
+						height: 24px;
+						background-color: #2A3C7E;
+						border-radius: 12px;
+						margin: 0 10px;
+						cursor: pointer;
+						transition: all 2s;
+						&.on {
+							background-color: lime;
+							&:after {
+								right: 2px;
+								left: initial;
+							}
+						}
+						&:after {
+							content: "";
+							position: absolute;
+							top: 2px;
+							left: 2px;
+							width: 20px;
+							height: 20px;
+							border-radius: 50%;
+							background-color: #fff;
+						}
+					}
+					.help {
+						position: relative;
+						width: 24px;
+						height: 24px;
+						background: url(../../../public/img/help_icon.png) no-repeat center;
+						background-size: 70%;
+						cursor: pointer;
+						&:hover {
+							&:after {
+								content: attr(data-text);
+								position: absolute;
+								bottom: 30px;
+    							right: 22px;
+								width: 180px;
+								font-size: 12px;
+								background-color: #444;
+								color: #ccc;
+								font-size: 15px;
+								padding: 10px;
+								border-radius: 4px 4px 0 4px;
+								z-index: 5;
+								font-style: normal;
+							}
+						}
+					}
+				}
 				.bet-wrap {
 					display: flex;
 					justify-content: space-between;
@@ -815,6 +888,44 @@ export default {
 							text-align: right;
 						}
 					}
+				}
+			}
+			// 挖矿
+			.dig-wrap {
+				display: flex;
+				align-items: center;
+				width: 480px;
+				height: 90px;
+				background-color: #1E2E69;
+				margin: 28px auto 0;
+				border-radius: 45px;
+				padding: 0 40px;
+				img {
+					width: 50px;
+					height: 50px;
+				}
+				.content {
+					flex: 1;
+					text-align: left;
+					margin: 0 40px;
+					h4 {
+						font-size: 14px;
+					}
+					p {
+						font-size: 12px;
+						color: #FFDE6F;
+					}
+					span {
+						font-size: 10px;
+					}
+				}
+				.help {
+					position: relative;
+					width: 30px;
+					height: 30px;
+					background: url(../../../public/img/help_icon.png) no-repeat center;
+					background-size: 70%;
+					cursor: pointer;
 				}
 			}
 		}
@@ -1013,7 +1124,7 @@ export default {
 					}
 					.bet-wrap {
 						flex-wrap: wrap;
-						margin-top: 40px;
+						margin-top: 20px;
 						.enter {
 							width: 100%;
 							margin-bottom: 18px;

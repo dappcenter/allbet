@@ -278,9 +278,9 @@
                     <span>{{$t("message.BPSoon")}}</span>
                 </li>
             </ul>
-            <p class="tip2">即将上线 EOS、TRX、SAC、AB 游戏投注挖矿，多币种分红池等您来领取。</p>
+            <p class="tip2">{{$t("message.BPtip2")}}</p>
             <div class="tip3">
-                <p v-if="storeCurrentAddr.bet">我的 AB 币余额：{{storeCurrentAddr.bet || 0}} AB</p>
+                <p v-if="storeCurrentAddr.bet">{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
                 <!-- <p>当前 AB 币流通量：100000000 AB</p> -->
             </div>
         </mu-dialog>
@@ -1355,7 +1355,7 @@ export default {
                     height: 25px;
                     border-radius: 15px;
                     min-height: auto;
-                    margin-top: 2px;
+                    margin-top: 4px;
                     .mu-select-action {
                         color: #fff;
                     }

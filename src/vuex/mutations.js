@@ -7,10 +7,10 @@ const mutations = {
      * @author shanks
      */
     [types.CHANGE_LANGUAGE](state, payload) {
-        window.app.changeLanguage(payload) 
         i18n.locale = payload
         localStorage.setItem("locale", payload)
         state.locale = payload
+        window.app.changeLanguage(payload) 
     }
 }
 

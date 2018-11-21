@@ -130,6 +130,7 @@ export default {
 				}
 			}).then(res => {
 				if(res.code == 200) {
+					console.log(res)
 					this.recordsList = res.result.records.list
 					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)

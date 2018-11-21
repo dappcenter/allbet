@@ -62,11 +62,15 @@ export default {
   },
   watch: {
     confirmOption() {
-      this.isShowConfirm = true;
+      this.isShowConfirm = true
     },
     winPopupOption() {
-      this.isShowWin = true;
+      this.isShowWin = true
     },
+    popupStatus() {
+      this.isShowConfirm = false
+      this.isShowWin = false
+    }
   },
   created() {
     // 注册web3
@@ -80,7 +84,8 @@ export default {
       winPopupOption: state => state.dialogs.winPopupOption,
       noMainNetwork: state => state.dialogs.noMainNetwork,
       storeCurrentAddr: state => state.user.currentAddr,
-      storeWeb3: state => state.web3Handler.web3
+      storeWeb3: state => state.web3Handler.web3,
+      popupStatus: state => state.dialogs.popupStatus
     }),
     addressList() {
         return this.$store.getters.getUserAddress

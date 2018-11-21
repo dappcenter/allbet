@@ -36,7 +36,8 @@ const state = {
     },
     loginBox: false,
     loading: false,
-    noMainNetwork: false
+    noMainNetwork: false,
+    popupStatus: false
 }
 
 const mutations = {
@@ -94,7 +95,14 @@ const mutations = {
      */
     [types.OPEN_WIN_POPUP](state, payload) {
         state.winPopupOption = payload
+    },
+    /**
+     * 关闭win、confirm弹框
+     */
+    [types.CLOSE_POPUP](state, payload) {
+        state.popupStatus = !state.popupStatus
     }
+
 }
 
 export default {

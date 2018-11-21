@@ -100,3 +100,8 @@ export const UPDATE_USERINFO_PROPERTY = "UPDATE_PROPERTY"
  * @module dialogs
  */
 export const OPEN_WIN_POPUP = "OPEN_WIN_POPUP"
+
+/**
+ * 关闭win、confirm弹框
+ */
+export const CLOSE_POPUP = "CLOSE_POPUP"
