@@ -281,7 +281,7 @@
             <p class="tip2">即将上线 EOS、TRX、SAC、AB 游戏投注挖矿，多币种分红池等您来领取。</p>
             <div class="tip3">
                 <p v-if="storeCurrentAddr.bet">我的 AB 币余额：{{storeCurrentAddr.bet || 0}} AB</p>
-                <p>当前 AB 币流通量：100000000 AB</p>
+                <!-- <p>当前 AB 币流通量：100000000 AB</p> -->
             </div>
         </mu-dialog>
         <!-- AB代币 -->

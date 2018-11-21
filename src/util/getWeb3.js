@@ -42,9 +42,9 @@ let getWeb3 = new Promise(function(resolve, reject) {
     return new Promise(function(resolve, reject) {
         result.web3.eth.getCoinbase((err, coinbase) => {
             console.log(coinbase)
-            if(err || coinbase.indexOf('0x0000000000') > -1) {
+            if(err) {
                 reject(new Error("无法检索到地址"))
-            }else if(coinbase){
+            }else if(coinbase && coinbase.indexOf('0x0000000000') < 0){
                 result = Object.assign({}, result, {coinbase})
                 resolve(result)
             }else {
