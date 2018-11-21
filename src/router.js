@@ -81,6 +81,11 @@ export default new Router({
             path: "/about",
             name: "about",
             component: () => import("./views/mobile/About.vue")
+        },
+        {
+            path: "/ab",
+            name: "ab",
+            component: () => import("./views/mobile/AB.vue")
         }
     ]
 });

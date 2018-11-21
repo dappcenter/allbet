@@ -9,6 +9,48 @@
 				<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 			</div>
 		</div>
+		<!-- 币种选择 -->
+		<ul class="coin-select">
+			<li class="active">
+				<i class="eth">
+					<img src="../../../public/img/coin/ETH01.png" alt="">
+				</i>
+				<span>ETH</span>
+			</li>
+			<li>
+				<i class="eos">
+					<img src="../../../public/img/coin/EOS01.png" alt="">
+				</i>
+				<span>{{$t("message.BPSoon")}}</span>
+			</li>
+			<li>
+				<i class="trx">
+					<img src="../../../public/img/coin/TRX01.png" alt="">
+				</i>
+				<span>{{$t("message.BPSoon")}}</span>
+			</li>
+			<li>
+				<i class="ab">
+					<img src="../../../public/img/coin/AB01.png" alt="">
+				</i>
+				<span>{{$t("message.BPSoon")}}</span>
+			</li>
+			<li>
+				<i class="sac">
+					<img src="../../../public/img/coin/SAC01.png" alt="">
+				</i>
+				<span>{{$t("message.BPSoon")}}</span>
+			</li>
+		</ul>
+		<!-- 联系方式 -->
+		<ul class="contact-select nominscreen">
+			<li class="active" @click="$window.open('https://t.me/allbetAB')">
+				<img src="../../../public/img/telegram-plane@2x.png" alt="">
+			</li>
+			<li @click="openWeixinQR = true">
+				<img src="../../../public/img/gongzhonghao@2x.png" alt="">
+			</li>
+		</ul>
 		<div class="game-content" ref="gameContent">
 			<div class="ctn-top">
 				<div class="number-show">
@@ -86,6 +128,10 @@
 				<button class="high" @click="isShowHelp = false">{{$t("message.GameKnow")}}</button>
 			</div>
 		</mu-dialog>
+
+		<mu-dialog :open.sync="openWeixinQR" :append-body="false">
+            <img src="../../../public/img/weixin_qrcode.png" alt="">
+        </mu-dialog>
 	</section>
 </template>
 
@@ -118,7 +164,8 @@ export default {
 			timer: null,
 			getBetResultTimer: null,
 			maxNum: 96,
-			isShowHelp: false
+			isShowHelp: false,
+			openWeixinQR: false
         }
 	},
 	created() {
@@ -517,6 +564,66 @@ export default {
 			}
 
 		}
+		.coin-select {
+			position: absolute;
+			z-index: 2;
+			left: 0;
+			top: 80px;
+			li {
+				width: 80px;
+				height: 80px;
+				background-color: #2A3C7E;
+				border-radius:0px 6px 6px 0px;
+				text-align: center;
+				overflow: hidden;
+				margin-bottom: 10px;
+				i {
+					display: block;
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+					margin: 12px auto 2px;
+					background-color: #1D2F71;
+					img {
+						height: 30px;
+						margin: 5px auto 0;
+					}
+				}
+				span {
+					font-size: 12px;
+				}
+				&.active {
+					background:linear-gradient(140deg,rgba(100,180,239,1),rgba(57,94,236,1));
+					i {
+						background-color: #4387DD;
+					}
+				}
+			}
+		}
+		.contact-select {
+			position: absolute;
+			z-index: 2;
+			right: 0;
+			top: 200px;
+			li {
+				width: 80px;
+				height: 80px;
+				background-color: #2A3C7E;
+				border-radius:6px 0px 0px 6px;
+				text-align: center;
+				overflow: hidden;
+				margin-bottom: 10px;
+				cursor: pointer;
+				img {
+					height: 37px;
+					margin: 21px auto 0;
+				}
+				span {
+					font-size: 12px;
+				}
+				
+			}
+		}
 		.game-content {
 			position: relative;
 			z-index: 2;
@@ -840,9 +947,48 @@ export default {
 	}
 	@media screen and (max-width: 800px){
 		.module-roller-bet {
+			.coin-select {
+				position: relative;
+				top: 0;
+				padding: 0 20px;
+				white-space: nowrap;
+				overflow-x: scroll;
+				margin: .3rem 0 0 0;
+				li {
+					display: inline-block;
+					width: 1.8rem;
+					height: auto;
+					background-color: #2A3C7E;
+					border-radius: .06rem;
+					text-align: center;
+					overflow: hidden;
+					padding: .1rem 0;
+					margin: 0 .1rem 0 0;
+					i {
+						display: inline-block;
+						width: .5rem;
+						height: .5rem;
+						border-radius: 50%;
+						background-color: #1D2F71;
+						margin: 0;
+						vertical-align: middle;
+						img {
+							height: .4rem;
+							margin: .05rem 0 0;
+							
+						}
+					}
+					span {
+						font-size: .16rem;
+						vertical-align: middle;
+						margin-left: .1rem;
+					}
+				}
+			}
 			.game-content {
 				width: auto;
-				margin: 10px auto;
+				margin: 0 auto;
+				padding: 0 20px 20px;
 				.slider-wrap {
 					margin: 40px 0;
 				}

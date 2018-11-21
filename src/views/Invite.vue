@@ -20,9 +20,9 @@
 	          </div>
 	        </div>
 	        <div class="qrcode">
-						<p class="invite-code minscreen">{{$t('message.InviteQrcode')}}：</p>
+						<!-- <p class="invite-code minscreen">{{$t('message.InviteQrcode')}}：</p> -->
 						<div class="qrcode-content">
-							<div alt="" id="qrcode1"></div>
+							<div class="nominscreen" alt="" id="qrcode1"></div>
 							<div class="invite-div">
 								<p>{{$t('message.invitationCode')}}</p>
 								<div class="copy-div1">

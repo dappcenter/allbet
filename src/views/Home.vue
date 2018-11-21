@@ -563,6 +563,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 			user-select:none;
 			background: url(../../public/img/home-bg.png) repeat left;
 			background-size: 200px;
+			overflow: hidden;
 			.mask {
 				position: absolute;
 				width: 100%;
@@ -609,7 +610,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 			}
 			.middle {
 				width: 1200px;
-        		margin: auto;
+        		margin:  20px auto 0;
         		// position: relative;
 				background:rgba(2,11,89,0.15);
 				border-radius:24px 24px 0px 0px;

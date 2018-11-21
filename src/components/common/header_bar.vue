@@ -253,14 +253,6 @@
         <mu-dialog :open.sync="displayStatus.bonusPools" :append-body="false" class="bonus-pools">
             <h4>{{$t('message.BPbonusPools')}}</h4>
             <p class="tip1">{{$t('message.BPtip')}}</p>
-            <!-- <div class="coin-wrap ab">
-                <div class="coin-logo">
-                    <img src="../../../public/img/ab_icon02.png" />
-                    <span>{{$t('message.BPab')}}</span>
-                </div>
-                <h3 v-if="storeCurrentAddr.bet">{{storeCurrentAddr.bet}} AB</h3>
-                <h3 v-else>0 AB</h3>
-            </div> -->
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/eth_icon.png" />
@@ -328,36 +320,6 @@
               <td>7000ETH</td>
               </tr>
             </table>
-            <!-- <div class="coin-wrap eth">
-                <div class="coin-logo">
-                    <img src="../../../public/img/eth_icon.png" />
-                    <span>{{$t('message.BPcurrentAmount')}}</span>
-                </div>
-                <h3>{{Number(bonusPoolsData.pool) > 0 ? bonusPoolsData.pool : 0}} ETH</h3>
-            </div>
-            <ul>
-                <li>
-                    <img src="../../../public/img/coin/EOS.png" />
-                    <span>{{$t("message.BPSoon")}}</span>
-                </li>
-                <li>
-                    <img src="../../../public/img/coin/TRX.png" />
-                    <span>{{$t("message.BPSoon")}}</span>
-                </li>
-                <li>
-                    <img src="../../../public/img/coin/AB.png" />
-                    <span>{{$t("message.BPSoon")}}</span>
-                </li>
-                <li>
-                    <img src="../../../public/img/coin/SAC.png" />
-                    <span>{{$t("message.BPSoon")}}</span>
-                </li>
-            </ul>
-            <p class="tip2">即将上线 EOS、TRX、SAC、AB 游戏投注挖矿，多币种分红池等您来领取。</p>
-            <div class="tip3">
-                <p v-if="storeCurrentAddr.bet">我的 AB 币余额：{{storeCurrentAddr.bet || 0}} AB</p>
-                <p>当前 AB 币流通量：100000000 AB</p>
-            </div> -->
         </mu-dialog>
 
         <!-- <RegisterPop :registerAccount="displayStatus.registerAccount"></RegisterPop> -->
@@ -1338,48 +1300,44 @@ export default {
         }
     }
     .ab-bancor {
-      left: 0;
-      bottom: 0;
-      right: 0;
-      top: 0;
       .mu-dialog {
           width: 40%;
           background-color: transparent;
       }
       .mu-dialog-body {
         table{
-        border-collapse:collapse;
-        width:100%;
-        }
+            border-collapse:collapse;
+            width:100%;
+            }
 
-      table, td, th
-        {
-        border:1px solid #577AC3;
-        }
-        td{
-          text-align:center;
-          vertical-align:middle;
-          height:50px;
-          width: 50%;
-          font-size: 14px;
-        }
-        th {
-          height:40px;
-        }
-        .tip1 {
-            margin-bottom: 10px;
-            margin-top: 10px;
+        table, td, th
+            {
+            border:1px solid #577AC3;
+            }
+            td{
+            text-align:center;
+            vertical-align:middle;
+            height:50px;
+            width: 50%;
             font-size: 14px;
-            text-align: center;
+            }
+            th {
+            height:40px;
+            }
+            .tip1 {
+                margin-bottom: 10px;
+                margin-top: 10px;
+                font-size: 14px;
+                text-align: center;
+            }
+            .tip2 {
+                text-align: left;
+                margin-bottom: 20px;
+            }
+            .tip3 {
+            margin-bottom: 0;
+            }
         }
-        .tip2 {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .tip3 {
-          margin-bottom: 0;
-        }
-      }
     }
 }
 @media screen and (max-width: 800px){
