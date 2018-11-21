@@ -742,13 +742,11 @@ export default {
 						input {
 							width: 260px;
 							height: 100%;
-							background-color: transparent;
+							background-color: #152E79;
 							border: none;
 							color: #FEFEFE;
 							text-align: center;
 							outline: none;
-							border-left: 1px solid #4A78DC;
-							border-right: 1px solid #4A78DC;
 						}
 						.amount-handle {
 							width: 40px;
@@ -793,11 +791,12 @@ export default {
 					button {
 						width: 300px;
 						height: 40px;
-						background-color: #346FEF;
+						background-color: #64B4EF;
 						color: #fff;
 						border: none;
 						border-radius:4px;
 						font-weight: 700;
+						cursor: pointer;
 					}
 					span {
 						flex: 1;
@@ -884,16 +883,6 @@ export default {
 					margin-right: 10px;
 					box-shadow: 0 0 10px #fff;
 				}
-				// &:after {
-				// 	content: ' ';
-				// 	position: absolute;
-				// 	bottom: -5px;
-				// 	left: 5px;
-				// 	width: calc(100% - 10px);
-				// 	display: block;
-				// 	height: 5px;
-				// 	background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.35) 0, rgba(255, 255, 255, 0.35) 1px, transparent 1px, transparent 5px);
-				// }
 			}
 		}
 		.confirm {
