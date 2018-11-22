@@ -561,7 +561,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 			-webkit-user-select:none; /*webkit浏览器*/
 			-ms-user-select:none; /*IE10*/
 			user-select:none;
-			background: url(../../public/img/home-bg.png) repeat left;
+			background: url(../../public/img/home-bg.png) repeat center;
 			background-size: 200px;
 			overflow: hidden;
 			.mask {
@@ -655,6 +655,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 						align-items: center;
 						justify-content: center;
 						margin-left: 30px;
+						background-color: #162171;
 						.img1 {
 							height: 96px;
 						}
@@ -767,7 +768,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 		}
 		.list-wrapper {
 			padding: 30px 149px 5px 100px;
-			background: linear-gradient(to bottom, #395eec, #0d1632, #395eec);
+			background: #0F1843;
 		}
 		.list {
 			color: #646464;

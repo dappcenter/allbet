@@ -52,6 +52,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
                 reject(new Error("无法检索到地址"))
             }
         })
+      
     })
 }).then(result => {
     return new Promise(function(resolve, reject) {

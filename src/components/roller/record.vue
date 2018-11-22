@@ -78,7 +78,6 @@ export default {
 	},
 	watch: {
 		currentAddr() {
-
 			this.getData(this.boardType)
 		}
 	},
@@ -130,15 +129,10 @@ export default {
 				}
 			}).then(res => {
 				if(res.code == 200) {
-					console.log(res)
 					this.recordsList = res.result.records.list
 					this.diceBasis = res.result.diceBasis
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
-					// this.alert({
-					// 	type: "info",
-					// 	msg: res.msg
-					// })
 				}
 			})
 		},

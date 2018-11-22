@@ -44,11 +44,12 @@
 			</li>
 		</ul>
 		<div class="game-content" ref="gameContent">
-			<div class="game-status nominscreen" v-if="diceStatistics.newcomers.length > 0">
+			<div class="game-status nominscreen">
 				<div class="">
 					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
-					<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
-					<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
+					<!-- <span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span> -->
+					<!-- <span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span> -->
+					<p></p>
 					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 				</div>
 			</div>
@@ -573,7 +574,7 @@ export default {
 				line-height: 40px;
 				color: #fff;
 				p {
-					// flex: 1;
+					flex: 1;
 					text-align: left;
 					a {
 						margin: 0;
@@ -652,7 +653,7 @@ export default {
 			width: 700px;
 			margin: 0 auto;
 			border-radius:6px;
-			padding: 20px;
+			padding: 0 20px 20px;
 			.ctn-top {
 				background: url(../../../public/img/game_bg02.png) no-repeat center;
 				background-size: 100% 100%;
