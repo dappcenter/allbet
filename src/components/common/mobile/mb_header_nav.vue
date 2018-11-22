@@ -5,7 +5,7 @@
             <router-link to="index" tag="li">{{$t("message.atDeal")}}</router-link>
             <router-link to="ab" tag="li">{{$t("message.abBancor")}}</router-link>
             <li @click="switchBonusPools">{{$t("message.bonusPool")}}</li>
-            <router-link to="invite" tag="li" v-show="addressList.length > 0">{{$t("message.invitation")}}</router-link>
+            <router-link to="mobile-invite" tag="li" v-show="addressList.length > 0">{{$t("message.invitation")}}</router-link>
             <li @click="openWhiteBook">{{$t("message.course")}}</li>
         </ul>
     </div>
