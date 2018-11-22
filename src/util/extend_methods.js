@@ -88,13 +88,39 @@ const downLoadApp = data => {
 	}
 }
 
+/**
+ * 检测浏览器语言
+ */
+const getLanguage = () => {
+	let language = null
+	let lang = ""
+	if (navigator.appName == 'Netscape'){
+		language = navigator.language;
+	}
+	else{
+		language = navigator.browserLanguage;
+	}
+	if (language.indexOf('en') > -1){
+		lang = "en-US"
+	} 
+	else if (language.indexOf('zh') > -1){
+		lang = "zh-CN"
+	} 
+	else{
+		lang = "en-US"
+	}
+	console.log(lang)
+	return lang
+}
+
 
 const extendMethods = {
 	fmtNumber,
 	fmtDate,
 	fmtAccount,
 	setHeight,
-	downLoadApp
+	downLoadApp,
+	getLanguage
 }
 
 export default {
@@ -105,4 +131,13 @@ export default {
 			})
 		}
 	}
+}
+
+export {
+	fmtNumber,
+	fmtDate,
+	fmtAccount,
+	setHeight,
+	downLoadApp,
+	getLanguage
 }

@@ -349,9 +349,15 @@ import {mapMutations, mapState} from "vuex"
 					margin: 20px auto 0 auto;
 					.invite-title {
 						 padding: 0 10px;
+
 					}
 					.invite-detail {
 						width: 100%;
+						div {
+							h4 {
+								font-size: .36rem;
+							}
+						}
 					}
 					.qrcode {
 						padding: 0 10px;

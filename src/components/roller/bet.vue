@@ -46,7 +46,7 @@
 		<div class="game-content" ref="gameContent">
 			<div class="game-status nominscreen" v-if="diceStatistics.newcomers.length > 0">
 				<div class="">
-					<p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p>
+					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
 					<span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span>
 					<span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span>
 					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
@@ -133,11 +133,12 @@
 					<p>现在投注最高可获得投注货币 2000 x AB </p>
 					<span>挖矿比例 Winer：1:1000   Loser:1:2000</span>
 				</div>
-				<i class="help"></i>
+				<i class="help" @click="isShowABpopup = true"></i>
 			</div>
 		</div>
 		<!-- 游戏规则 -->
 		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="confirm">
+			<a href="javascript:;" class="close-btn" @click="isShowHelp = false"></a>
 			<h4>{{$t("message.GameRule")}}</h4>
 			<p class="content-text" v-html="$t('message.GameHelp')"></p>
 			<div class="btn-wrap">
@@ -148,6 +149,9 @@
 		<mu-dialog :open.sync="openWeixinQR" :append-body="false">
             <img src="../../../public/img/weixin_qrcode.png" alt="">
         </mu-dialog>
+
+		<!-- Ab弹框 -->
+		<AbPopup v-model="isShowABpopup"></AbPopup>
 	</section>
 </template>
 
@@ -156,6 +160,7 @@ import DigitalRoll from "@/components/common/digitalRoll"
 import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
+import AbPopup from "@/components/common/ab_popup"
 export default {
 	props: {
 		diceStatistics: {
@@ -182,7 +187,8 @@ export default {
 			maxNum: 96,
 			isShowHelp: false,
 			openWeixinQR: false,
-			autoBet: false
+			autoBet: false,
+			isShowABpopup: false
         }
 	},
 	created() {
@@ -210,6 +216,8 @@ export default {
             odds: 1
 		})
 		// this.luckyRun()
+
+		
     },
     methods: {
 		//幸运数跳动
@@ -522,7 +530,8 @@ export default {
 		}
 	},
 	components: {
-		DigitalRoll
+		DigitalRoll,
+		AbPopup
 	},
 	destroyed() {
 		clearInterval(this.timer)
@@ -559,17 +568,15 @@ export default {
 			padding: 0 10px;
 			div {
 				display: flex;
+				justify-content: space-between;
 				line-height: 40px;
 				color: #fff;
 				p {
-					flex: 1;
+					// flex: 1;
 					text-align: left;
 					a {
 						margin: 0;
 					}
-				}
-				span {
-					margin-left: 40px;
 				}
 				a {
 					color: #99FF7E;
@@ -815,8 +822,7 @@ export default {
 						&.on {
 							background-color: lime;
 							&:after {
-								right: 2px;
-								left: initial;
+								margin-left: 36px;
 							}
 						}
 						&:after {
@@ -828,6 +834,7 @@ export default {
 							height: 20px;
 							border-radius: 50%;
 							background-color: #fff;
+							transition: all .5s;
 						}
 					}
 					.help {
@@ -842,14 +849,15 @@ export default {
 								content: attr(data-text);
 								position: absolute;
 								bottom: 30px;
-    							right: 22px;
-								width: 180px;
+    							right: -37px;
+								width: 240px;
 								font-size: 12px;
-								background-color: #444;
+								background-color: rgba(0, 0, 0, 0.9);
+								text-align: left;
 								color: #ccc;
 								font-size: 15px;
 								padding: 10px;
-								border-radius: 4px 4px 0 4px;
+								border-radius: 4px;
 								z-index: 5;
 								font-style: normal;
 							}
@@ -1003,8 +1011,17 @@ export default {
 			overflow: hidden;
 			}
 			.mu-dialog-body {
-			background: rgba(33, 71, 151, 1);
-
+				position: relative;
+				background: rgba(33, 71, 151, 1);
+				.close-btn {
+					position: absolute;
+					right: 20px;
+					top: 20px;
+					width: 25px;
+					height: 25px;
+					background: url(../../../public/img/close_icon01.png) no-repeat center;
+					background-size: 100%;
+				}
 			h4 {
 				font-size: 20px;
 				color: #fff;

@@ -54,7 +54,7 @@ export default {
         homeTokenFee: "3% AT token fee",
         homeRecentPlayers: "Recent Players",
         homeMyOrders: "My Orders",
-        homePlayer: "player",
+        homePlayer: "Player",
         homeAtPrice: "Price(AT)",
         homeTransactionType: "Trading Type",
         homeTransactionTime: "Trading time",

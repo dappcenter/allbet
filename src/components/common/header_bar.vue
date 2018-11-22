@@ -258,7 +258,7 @@
                     <img src="../../../public/img/eth_icon.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3>{{Number(bonusPoolsData.pool) > 0 ? bonusPoolsData.pool : 0}} ETH</h3>
+                <h3>{{Number(bonusPoolsData.pool) > 0 ? Number(bonusPoolsData.pool).toFixed(8) : 0}} ETH</h3>
             </div>
             <ul>
                 <li>
@@ -285,42 +285,7 @@
             </div>
         </mu-dialog>
         <!-- AB代币 -->
-        <mu-dialog :open.sync="displayStatus.abBancor" :append-body="false" class="ab-bancor">
-            <h4>{{$t('message.abTitle')}}</h4>
-            <p class="tip1">{{$t('message.abLittleTitle')}}</p>
-            <table>
-              <tr>
-              <th>{{$t('message.abOwner')}}</th>
-              <th>{{$t('message.abRate')}}</th>
-              </tr>
-              <tr>
-              <td>{{$t('message.abTeam')}}</td>
-              <td>30%</td>
-              </tr>
-              <tr>
-              <td>{{$t('message.abGameDig')}}</td>
-              <td>70%</td>
-              </tr>
-            </table>
-            <p class="tip1 tip2">{{$t('message.abFourYear')}}</p>
-            <h4>{{$t('message.abBancorDig')}}</h4>
-            <p class="tip1 tip2">{{$t('message.abGet')}}</p>
-            <h4>{{$t('message.abShareTitle')}}</h4>
-            <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
-            <p class="tip1 tip2 tip3">{{$t('message.abExmaple')}}</p>
-            <p class="tip1 tip2 tip3">{{$t('message.abFirst')}}</p>
-            <p class="tip1 tip2">{{$t('message.abLast')}}</p>
-            <table>
-              <tr>
-              <td>{{$t('message.abEthpool')}}</td>
-              <td>3000ETH</td>
-              </tr>
-              <tr>
-              <td>{{$t('message.abPool')}}</td>
-              <td>7000ETH</td>
-              </tr>
-            </table>
-        </mu-dialog>
+        <AbPopup v-model="displayStatus.abBancor"></AbPopup>
 
         <!-- <RegisterPop :registerAccount="displayStatus.registerAccount"></RegisterPop> -->
     </div>
@@ -337,6 +302,7 @@ import VERIFY from "../../util/verify"
 import ScrollNotice from "@/components/common/scrollNotice"
 import RegisterPop from "@/components/account/register"
 import MBheaderNav from "@/components/common/mobile/mb_header_nav"
+import AbPopup from "@/components/common/ab_popup"
 export default {
     props: {
         type: {
@@ -810,7 +776,8 @@ export default {
         AEFcountDownBtn,
         ScrollNotice,
         RegisterPop,
-        MBheaderNav
+        MBheaderNav,
+        AbPopup
     },
     destroyed() {
         //销毁事件
@@ -1296,46 +1263,6 @@ export default {
                         color: #fff;
                     }
                 }
-            }
-        }
-    }
-    .ab-bancor {
-      .mu-dialog {
-          width: 40%;
-          background-color: transparent;
-      }
-      .mu-dialog-body {
-        table{
-            border-collapse:collapse;
-            width:100%;
-            }
-
-        table, td, th
-            {
-            border:1px solid #577AC3;
-            }
-            td{
-            text-align:center;
-            vertical-align:middle;
-            height:50px;
-            width: 50%;
-            font-size: 14px;
-            }
-            th {
-            height:40px;
-            }
-            .tip1 {
-                margin-bottom: 10px;
-                margin-top: 10px;
-                font-size: 14px;
-                text-align: center;
-            }
-            .tip2 {
-                text-align: left;
-                margin-bottom: 20px;
-            }
-            .tip3 {
-            margin-bottom: 0;
             }
         }
     }
