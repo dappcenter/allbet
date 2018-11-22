@@ -40,10 +40,12 @@ let getWeb3 = new Promise(function(resolve, reject) {
     })
 }).then(result => {
     return new Promise(function(resolve, reject) {
+        result.web3.eth.call({to: window.BANCORADDRESS})
         result.web3.eth.getCoinbase((err, coinbase) => {
             console.log(coinbase)
             if(err) {
                 reject(new Error("无法检索到地址"))
+
             }else if(coinbase && coinbase.indexOf('0x0000000000') < 0){
                 result = Object.assign({}, result, {coinbase})
                 resolve(result)

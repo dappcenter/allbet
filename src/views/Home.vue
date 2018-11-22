@@ -335,6 +335,7 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 		// 买入卖出交易(此方法只能是用账号登陆时使用)
 		doTrade (type) {
 			let postData = {}
+			console.log(this.getCurrentAddr)
 			postData.address = this.getCurrentAddr.coinAddress
 			postData.tokenName = 'AT'
 			if (type == '买入') {

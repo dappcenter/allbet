@@ -82,7 +82,7 @@ const getters = {
             }else if(list.length == 0){
                 // 未检测到HD钱包地址
                 list.push({
-                    coinAddress: state.userInfo.assets[0].coinbase,
+                    coinAddress: state.userInfo.assets[0].coinAddress,
                     eth: state.userInfo.assets[0].eth || 0,
                     bet: state.userInfo.assets[0].bet,
                     at: Math.floor(state.userInfo.assets[0].at*1000) /1000,

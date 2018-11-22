@@ -40,7 +40,18 @@
         </div>
         <p>{{$t('message.AppMeta')}}</p>
     </div>
+
+    <!-- 密码验证弹框 -->
+    <mu-dialog width="400" :open.sync="isShowPsdVer" :append-body="false" class="password-verify" :overlay-close="false">
+      <h4>密码校验</h4>
+      <input type="password" placeholder="请输入密码">
+      <div class="btn-wrap">
+        <button @click="isShowPsdVer = false">取消</button>
+				<button class="high">确定</button>
+			</div>
+    </mu-dialog>
 	</div>
+
 </template>
 
 <script>
@@ -57,7 +68,8 @@ export default {
         timeout: 3000
       },
       isShowConfirm: false,
-      isShowWin: false
+      isShowWin: false,
+      isShowPsdVer: false
     };
   },
   watch: {
@@ -83,13 +95,8 @@ export default {
       loading: state => state.dialogs.loading,
       winPopupOption: state => state.dialogs.winPopupOption,
       noMainNetwork: state => state.dialogs.noMainNetwork,
-      storeCurrentAddr: state => state.user.currentAddr,
-      storeWeb3: state => state.web3Handler.web3,
       popupStatus: state => state.dialogs.popupStatus
-    }),
-    addressList() {
-        return this.$store.getters.getUserAddress
-    }
+    })
   },
   methods: {
     onConfirmBtn(cb) {
@@ -101,9 +108,6 @@ export default {
     clickoutside() {
       this.isShowWin = false;
     },
-    ...mapMutations({
-      setCurrentAddr: "SET_CURRENTADDR",
-    })
   }
 };
 </script>
@@ -276,6 +280,53 @@ body {
     p {
       margin-top: 20px;
       font-size: 16px;
+    }
+  }
+  .password-verify {
+    text-align: center;
+    .mu-dialog {
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .mu-dialog-body {
+      background: rgba(33, 71, 151, 1);
+
+      h4 {
+        font-size: 20px;
+        color: #fff;
+      }
+      input {
+        width: 100%;
+        background-color: #173167;
+        border: none;
+        color: #fff;
+        text-align: center;
+        height: 40px;
+        border-radius: 4px;
+        margin: 20px auto;
+      }
+    }
+    .btn-wrap {
+      display: flex;
+      justify-content: space-between;
+      button {
+        width: 40%;
+        height: 40px;
+        text-align: center;
+        border-radius: 6px;
+        border: none;
+        background-color: #458ad8;
+        color: #fff;
+        &.high {
+          background: linear-gradient(
+            90deg,
+            rgba(100, 180, 239, 1),
+            rgba(57, 94, 236, 1)
+          );
+          color: #fff;
+          border: none;
+        }
+      }
     }
   }
 }
