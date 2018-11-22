@@ -86,6 +86,11 @@ export default new Router({
             path: "/ab",
             name: "ab",
             component: () => import("./views/mobile/AB.vue")
+        },
+        {
+            path: "/mobile-invite",
+            name: "mobileinvite",
+            component: () => import("./views/mobile/Mobile-invite.vue")
         }
     ]
 });

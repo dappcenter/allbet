@@ -49,7 +49,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">{{$t('message.homeVolume')}}</span>
-						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" step="0.000001" v-model="buyEthNumber">
+						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" step="0.000001" v-model="buyEthNumber" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp1"></span></p>
@@ -76,7 +76,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">{{$t('message.homeVolume')}}</span>
-						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" step="0.000001" v-model="buyAtNumber">
+						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" step="0.000001" v-model="buyAtNumber" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>

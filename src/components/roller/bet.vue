@@ -98,7 +98,7 @@
 						<label>
 							<!-- <img src="../../../public/img/eth_icon.png" alt=""> -->
 						</label>
-						<input type="number" v-model="amount">
+						<input type="text" v-model="amount" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
 						<div class="amount-handle">
 							<span class="add" @click="onAdd"></span>
 							<span class="minus" @click="onMinus"></span>
@@ -538,6 +538,7 @@ export default {
 		this.timer = null
 		this.luckyColor = "green"
 		this.luckyNum = "00"
+		this.autoBet = false
 	}
 }
 </script>
