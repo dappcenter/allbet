@@ -81,16 +81,19 @@ const getters = {
                 
             }else if(list.length == 0){
                 // 未检测到HD钱包地址
-                list.push({
-                    coinAddress: state.userInfo.assets[0].coinAddress,
-                    eth: state.userInfo.assets[0].eth || 0,
-                    bet: state.userInfo.assets[0].bet,
-                    at: Math.floor(state.userInfo.assets[0].at*1000) /1000,
-                    userName: state.userInfo.assets[0].userName, //使用平台账号用户名
-                    token: state.userInfo.assets[0].token,
-                    platform: state.userInfo.assets[0].platform,
-                    inviteCode: ""   //使用平台账号邀请码
-                })
+                // list.push({
+                //     coinAddress: state.userInfo.assets[0].coinAddress,
+                //     eth: state.userInfo.assets[0].eth || 0,
+                //     bet: state.userInfo.assets[0].bet,
+                //     at: Math.floor(state.userInfo.assets[0].at*1000) /1000,
+                //     userName: state.userInfo.assets[0].userName, //使用平台账号用户名
+                //     token: state.userInfo.assets[0].token,
+                //     platform: state.userInfo.assets[0].platform,
+                //     inviteCode: ""   //使用平台账号邀请码
+                // })
+                // console.log("未检测到HD钱包地址, 清除登录态")
+                // state.userInfo = {}
+                // router.replace("dice")
             }
         }else {
             // 没有任何登录态

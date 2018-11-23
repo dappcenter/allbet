@@ -44,10 +44,10 @@
     <!-- 密码验证弹框 -->
     <mu-dialog width="400" :open.sync="isShowPsdVer" :append-body="false" class="password-verify" :overlay-close="false">
       <h4>密码校验</h4>
-      <input type="password" placeholder="请输入密码">
+      <input type="password" v-model.trim="password" placeholder="请输入密码" @keyup.enter="verifyPassword">
       <div class="btn-wrap">
         <button @click="isShowPsdVer = false">取消</button>
-				<button class="high">确定</button>
+				<button class="high" @click="verifyPassword">确定</button>
 			</div>
     </mu-dialog>
 	</div>
@@ -56,6 +56,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import Md5 from "./assets/js/md5.js"
 export default {
   name: "App",
   data() {
@@ -69,7 +70,8 @@ export default {
       },
       isShowConfirm: false,
       isShowWin: false,
-      isShowPsdVer: false
+      isShowPsdVer: false,
+      password: ""
     };
   },
   watch: {
@@ -82,6 +84,15 @@ export default {
     popupStatus() {
       this.isShowConfirm = false
       this.isShowWin = false
+    },
+    storeIsShowPsdVer(newVal) {
+      this.isShowPsdVer = newVal
+      this.password = ""
+    },
+    isShowPsdVer(newVal) {
+      if(!newVal) {
+        this.$store.commit("CHANGE_PSDVER", false)
+      }
     }
   },
   created() {
@@ -95,7 +106,9 @@ export default {
       loading: state => state.dialogs.loading,
       winPopupOption: state => state.dialogs.winPopupOption,
       noMainNetwork: state => state.dialogs.noMainNetwork,
-      popupStatus: state => state.dialogs.popupStatus
+      popupStatus: state => state.dialogs.popupStatus,
+      storeIsShowPsdVer: state => state.dialogs.isShowPsdVer,
+      currentAddr: state => state.user.currentAddr
     })
   },
   methods: {
@@ -108,6 +121,27 @@ export default {
     clickoutside() {
       this.isShowWin = false;
     },
+    // 校验密码
+    verifyPassword() {
+      if(this.password == "") {
+        this.alert({
+            type: "info",
+            msg: this.$t('message.PopAccountPassEmpty')
+        })
+        return
+      }
+      this.$http.post("/app/user/password/verify", {
+        address: this.currentAddr.coinAddress,
+        password: Md5(this.password)
+      }).then(res => {
+        if(res.code == 200) {
+          this.isShowPsdVer = false
+        }
+      })
+    },
+    ...mapMutations({
+      alert: "alert"
+    })
   }
 };
 </script>

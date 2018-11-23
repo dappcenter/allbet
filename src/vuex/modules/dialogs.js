@@ -37,7 +37,8 @@ const state = {
     loginBox: false,
     loading: false,
     noMainNetwork: false,
-    popupStatus: false
+    popupStatus: false,
+    isShowPsdVer: false
 }
 
 const mutations = {
@@ -101,7 +102,13 @@ const mutations = {
      */
     [types.CLOSE_POPUP](state, payload) {
         state.popupStatus = !state.popupStatus
-    }
+    },
+    /**
+     * 打开密码校验框
+     */
+    [types.CHANGE_PSDVER](state, payload) {
+        state.isShowPsdVer = payload
+    },
 
 }
 

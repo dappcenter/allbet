@@ -30,6 +30,9 @@ axios.interceptors.response.use(response => {
         router.replace('dice')
         location.reload()
     }
+    if(response.data.code == -1) {
+        store.commit('CHANGE_PSDVER', true)
+    }
     if(response.data.code != 200) {
         store.commit('alert', {
             type: 'info',

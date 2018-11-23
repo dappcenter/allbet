@@ -103,5 +103,15 @@ export const OPEN_WIN_POPUP = "OPEN_WIN_POPUP"
 
 /**
  * 关闭win、confirm弹框
+ * @author shanks
+ * @module dialogs
  */
 export const CLOSE_POPUP = "CLOSE_POPUP"
+
+/**
+ * 开关密码校验弹框
+ * @author shanks
+ * @module dialogs
+ */
+export const CHANGE_PSDVER = "CHANGE_PSDVER"
+
