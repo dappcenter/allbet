@@ -11,7 +11,11 @@ import "./assets/less/base.less"
 import someMethods from "./util/extend_methods"
 import MBheaderBar from "@/components/common/mobile/mb_header_bar"
 
+import getTronWeb from "./util/getTronWeb"
 
+// getTronWeb.then(res => {
+//     console.log(res)
+// })
 
 Vue.use(someMethods)
 Vue.use(axios)
