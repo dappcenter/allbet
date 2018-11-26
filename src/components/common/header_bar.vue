@@ -688,14 +688,15 @@ export default {
         hdLogin(type) {
             this.displayStatus.loginSelect = false
             if(window.web3) {
-                this.openConfirm({
-                    content: this.$t('message.PopHdLogin'),
-                    btn: [
-                        {
-                            text: this.$t('message.PopClose')
-                        }
-                    ]
-                })
+                // this.openConfirm({
+                //     content: this.$t('message.PopHdLogin'),
+                //     btn: [
+                //         {
+                //             text: this.$t('message.PopClose')
+                //         }
+                //     ]
+                // })
+                this.$store.dispatch("registerWeb3");
             }else {
                 this.openConfirm({
                     content: this.$t('message.PopTipsDesc'),

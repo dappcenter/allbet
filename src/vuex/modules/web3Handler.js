@@ -70,8 +70,7 @@ const mutations = {
 const actions = {
     registerWeb3({commit, rootState}) {
         console.log("注册web3")
-        
-        getWeb3.then(result => {
+        getWeb3().then(result => {
             // 成功获取HD钱包信息
             commit(types.REGISTER_WEB3_INSTANCE, result)
             // 检测登录态
