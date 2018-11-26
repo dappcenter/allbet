@@ -181,7 +181,19 @@ const actions = {
             console.log('error in action registerWeb3', e)
         })
     },
-    updateWeb3({commit}, playload) {
+    updateWeb3({commit, rootState}, playload) {
+        let have = false
+        if(!playload.coinbase && rootState.user.userInfo.token) {
+            rootState.user.userInfo.assets.forEach((val, idx) => {
+                if(val.platform == "DISPATCHER") {
+                    have = true
+                }
+            })
+            // 插件退出并且没有平台账号，清除登录态
+            if(!have) {
+                commit(types.REMOVE_USERINFO)
+            }
+        }
         commit(types.UPDATE_WEB3_INSTANCE, playload)
     }
 }

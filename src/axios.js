@@ -14,7 +14,7 @@ axios.defaults.timeout = 15000
 
 axios.interceptors.request.use(config => {
     store.commit("openWait")
-    let token = store.state.user.currentAddr.token || ""
+    let token = store.state.user.userInfo.token || ""
     config.headers.common['token'] = token
     config.headers.common['Accept-Language'] = store.state.locale
     return config

@@ -25,7 +25,6 @@ const getNonce = function(address, web3) {
     }).then(res => {
         console.log(res)
         if(res.code == 200) {
-            //web3.utils.fromUtf8("你好！!")
             web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
                 console.log(signature)
                 if(err) {

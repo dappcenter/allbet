@@ -41,7 +41,7 @@
 				<!-- 购买 -->
 				<div class="buy">
 					<p class="title">{{$t('message.homeBuyAT')}}</p>
-					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.eth*1000)/1000}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[userInfo.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.eth*1000)/1000}} ETH</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">{{$t('message.homePrice')}}</span>
 						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="ethPrice" @focus="priceFocus('ethPrice')" @blur="priceOnblur('ethPrice')">
@@ -53,7 +53,7 @@
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp1"></span></p>
-					<div class="buy-button" v-if="getCurrentAddr.token" @click="doTrade('买入')">
+					<div class="buy-button" v-if="userInfo.token" @click="doTrade('买入')">
 						{{$t('message.homeBuy')}}
 					</div>
 					<div v-else>
@@ -68,7 +68,7 @@
 				<!-- 出售 -->
 				<div class="buy sell">
 					<p class="title">{{$t('message.homeSellAT')}}</p>
-					<p><span :class="[getCurrentAddr.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
+					<p><span :class="[userInfo.token?'':'transparent']">{{$t('message.homeAvailable')}}{{Math.floor(this.getCurrentAddr.at*1000)/1000}} AT</span><span>1 AT = {{ethMarketPrice}} ETH</span></p>
 					<div class="price-div">
 						<span class="num">{{$t('message.homePrice')}}</span>
 						<input type="text" :placeholder="$t('message.homePricePlacholder')" class="price" v-model.trim="sellAtPrice" @focus="priceFocus('sellAtPrice')" @blur="priceOnblur('sellAtPrice')">
@@ -81,7 +81,7 @@
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
 					<p class="token-fee">{{$t('message.homeTokenFee')}}</p>
-					<div class="buy-button sell-button" v-if="getCurrentAddr.token" @click="doTrade('卖出')">
+					<div class="buy-button sell-button" v-if="userInfo.token" @click="doTrade('卖出')">
 						{{$t('message.homeSell')}}
 					</div>
 					<div v-else>
@@ -156,7 +156,7 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
-import {mapMutations} from "vuex"
+import {mapMutations, mapState} from "vuex"
 import {DappABI} from "../util/constants/dapp.abi.js"
  export default {
 	 data () {
@@ -189,15 +189,6 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 		this.sellAtPrice = this.$t('message.homeMarketPrice')
 	},
 	computed: {
-			ethInfo() {
-				return this.$store.state.web3Handler.web3
-			},
-			userInfo() {
-				return this.$store.state.user.userInfo
-			},
-			getCurrentAddr() {
-				return this.$store.state.user.currentAddr
-			},
 			getAtNumber() {
 				if(this.ethPrice == this.$t('message.homeMarketPrice')) {
 					return (1/this.ethMarketPrice * this.buyEthNumber).toFixed(8)
@@ -210,7 +201,12 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 			},
 			locale () {
 				return this.$store.state.locale
-			}
+			},
+			...mapState({
+				ethInfo: state => state.web3Handler.web3,
+				getCurrentAddr: state => state.user.currentAddr,
+				userInfo: state => state.user.userInfo
+			})
 	},
 	created () {
 		this.getInfo()

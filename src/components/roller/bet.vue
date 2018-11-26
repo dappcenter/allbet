@@ -119,11 +119,11 @@
 					<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 				</div>
 				<div class="bet-wrap">
-					<span class="fl nominscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
-					<button v-if="currentAddr.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
+					<span class="fl nominscreen"><img src="../../../public/img/eth_icon.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
+					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
-					<span class="fl minscreen"><img src="../../../public/img/eth_icon.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
-					<span class="fr"><img src="../../../public/img/ab_icon03.png"><i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
+					<span class="fl minscreen"><img src="../../../public/img/eth_icon.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
+					<span class="fr"><img src="../../../public/img/ab_icon03.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
 			<!-- 挖矿数量 -->
@@ -437,7 +437,7 @@ export default {
 								}
 								// 自动下注
 								setTimeout(() => {
-									if(this.autoBet && this.currentAddr.token) {
+									if(this.autoBet && this.userInfo.token) {
 										this.closePopup()
 										this.betDo()
 									}
@@ -516,7 +516,8 @@ export default {
 	computed: {
 		...mapState({
 			web3: state => state.web3Handler.web3,
-			currentAddr: state => state.user.currentAddr
+			currentAddr: state => state.user.currentAddr,
+			userInfo: state => state.user.userInfo
 		}),
 		peilv() {
 			return 98.5/((this.odds*1).toFixed() - 1)

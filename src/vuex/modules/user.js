@@ -31,9 +31,11 @@ const getters = {
     getUserAddress(state, getters, rootState) {
         let list = filterAddr(state.userInfo.assets)
         if(state.userInfo.assets) {   //是否有登录态
+            const token = state.userInfo.token
             if(rootState.web3Handler.web3.coinbase) { //是否有HD钱包登录
                 console.log("有HD钱包登录")
                 if(list.length > 0) {  //是否有平台账号登录态
+                    list[0].token = state.userInfo.token
                     // 有平台账号登录态
                     if(state.userInfo.assets.length > 1) {  //平台账号是否有绑定HD钱包地址
                         // 平台账号有绑定HD钱包地址
@@ -45,7 +47,7 @@ const getters = {
                                     bet: value.bet,
                                     at: Math.floor(value.at*1000) /1000,
                                     userName: list[0].userName, //使用平台账号用户名
-                                    token: value.token,
+                                    token: token,
                                     platform: value.platform,
                                     inviteCode: list[0].inviteCode   //使用平台账号邀请码
                                 })
@@ -69,7 +71,7 @@ const getters = {
                                 bet: value.bet,
                                 at: Math.floor(value.at*1000) /1000,
                                 userName: value.userName, //使用平台账号用户名
-                                token: value.token,
+                                token: token,
                                 platform: value.platform,
                                 inviteCode: ""   //使用平台账号邀请码
                             })
