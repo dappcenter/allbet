@@ -4,6 +4,7 @@
  * @date 2018/10/9
  * @version 1.0.0
  */
+// import Web3 from "web3"
 import store from "../store.js"
 import {axios} from "../axios"
 import * as types from "../vuex/mutation_types"
@@ -14,6 +15,83 @@ const language = {
     "zh-CN": LangZh,
     "en-US": LangEn
 }
+
+const getNonce = function(address, web3) {
+    console.log("getNonce")
+    axios.get("/open/metamask", {
+        params: {
+            address: address 
+        }
+    }).then(res => {
+        console.log(res)
+        if(res.code == 200) {
+            //web3.utils.fromUtf8("你好！!")
+            web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
+                console.log(signature)
+                if(err) {
+                    console.log("签名失败")
+                }else {
+                    coinLogin(signature, address, res.result)
+                }
+            });
+        }
+    })
+}
+
+const coinLogin = function(signature, address, nonce) {
+    axios.post("/open/metamask", {
+        "chainType": "ETH",
+        "message": nonce,
+        "publicAddress": address,
+        "signature": signature
+    }).then(res => {
+        if(res.code == 200) {
+            // 存储新的登录态
+            store.commit(types.SET_USERINFO, res.result)
+            // 未绑定平台账号
+            if(res.result.assets.length <= 1) {
+                store.commit(types.OPEN_CONFIRM, {
+                    content: language[store.state.locale].message.PopBindDesc2,
+                    btn: [
+                        {
+                            text: language[store.state.locale].message.PopClose
+                        },
+                        {
+                            type: "high",
+                            text: language[store.state.locale].message.accountToBound,
+                            cb: () => {
+                                router.push('account-security')
+                            }
+                        }
+                    ]
+                })
+                store.commit(types.UPDATE_WEB3_AT, {
+                    at: res.result.assets[0].at,
+                    bet: res.result.assets[0].bet,
+                    userName: res.result.assets[0].userName,
+                    token: res.result.assets[0].token,
+                    inviteCode: res.result.assets[0].inviteCode || ""
+                })
+            }else {
+                // 已绑定平台账号
+                res.result.assets.forEach(val => {
+                    if(val.coinAddress == newCoinbase) {  
+                        store.commit(types.UPDATE_WEB3_AT, {
+                            at: val.at,
+                            bet: val.bet,
+                            userName: res.result.assets[0].userName,
+                            token: val.token,
+                            inviteCode: res.result.assets[0].inviteCode
+                        })
+                    }
+                })
+            }
+        }
+    }).catch(err => {
+
+    })
+}
+
 let pollWeb3 = function() {
     let web3 = window.web3
     web3 = new Web3(web3.currentProvider)
@@ -47,55 +125,7 @@ let pollWeb3 = function() {
                                     // store.commit(types.REMOVE_USERINFO)  //清除账户登录信息
                                     //获取新地址的登录态
                                     //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-                                    axios.post("/open/login/coin", {
-                                        type: "ETH",
-                                        addr: newCoinbase
-                                    }).then(res => {
-                                        if(res.code == 200) {
-                                            // 存储新的登录态
-                                            store.commit(types.SET_USERINFO, res.result)
-                                            // 未绑定平台账号
-                                            if(res.result.assets.length <= 1) {
-                                                store.commit(types.OPEN_CONFIRM, {
-                                                    content: language[store.state.locale].message.PopBindDesc2,
-                                                    btn: [
-                                                        {
-                                                            text: language[store.state.locale].message.PopClose
-                                                        },
-                                                        {
-                                                            type: "high",
-                                                            text: language[store.state.locale].message.accountToBound,
-                                                            cb: () => {
-                                                                router.push('account-security')
-                                                            }
-                                                        }
-                                                    ]
-                                                })
-                                                store.commit(types.UPDATE_WEB3_AT, {
-                                                    at: res.result.assets[0].at,
-                                                    bet: res.result.assets[0].bet,
-                                                    userName: res.result.assets[0].userName,
-                                                    token: res.result.assets[0].token,
-                                                    inviteCode: res.result.assets[0].inviteCode || ""
-                                                })
-                                            }else {
-                                                // 已绑定平台账号
-                                                res.result.assets.forEach(val => {
-                                                    if(val.coinAddress == newCoinbase) {  
-                                                        store.commit(types.UPDATE_WEB3_AT, {
-                                                            at: val.at,
-                                                            bet: val.bet,
-                                                            userName: res.result.assets[0].userName,
-                                                            token: val.token,
-                                                            inviteCode: res.result.assets[0].inviteCode
-                                                        })
-                                                    }
-                                                })
-                                            }
-                                        }
-                                    }).catch(err => {
-                            
-                                    })
+                                    getNonce(newCoinbase, web3)
                                 }
                             }
                         })

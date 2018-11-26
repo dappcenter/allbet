@@ -1,6 +1,7 @@
 import "babel-polyfill"
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from "vue"
+import Vuex from "vuex"
+import {getLanguage} from "./util/extend_methods"
 import VuexPersistence from 'vuex-persist'
 import mutations from "./vuex/mutations"
 import actions from "./vuex/actions"
@@ -22,7 +23,7 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
     state: {
-        locale: localStorage.getItem("locale") || "en-US"
+        locale: localStorage.getItem('locale') || getLanguage()
     },
     mutations,
     actions,

@@ -102,6 +102,7 @@ const actions = {
             }
 
             function getNonce(address, web3) {
+                console.log("getNonce")
                 axios.get("/open/metamask", {
                     params: {
                         address: address 
@@ -110,7 +111,7 @@ const actions = {
                     console.log(res)
                     if(res.code == 200) {
                         //web3.utils.fromUtf8("你好！!")
-                        web3.eth.personal.sign(res.result, address, (err,signature) => {
+                        web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
                             console.log(signature)
                             if(err) {
                                 console.log("签名失败")

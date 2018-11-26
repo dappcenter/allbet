@@ -13,15 +13,37 @@
 * 5. 获取用户余额
 */
 
+
 let getWeb3 = new Promise(function(resolve, reject) {
     //检查注入web3
-    let web3js = window.web3
+    let web3js = null
+    let haveEthereum = false
+    if(window.ethereum) {
+        web3js = window.ethereum
+        haveEthereum = true
+    }else {
+        web3js = window.web3
+    }
     if(typeof web3js !== "undefined") {
-        let web3 = new Web3(web3js.currentProvider)
-        resolve({
-            // injectedWeb3: web3.isConnected(),
-            web3
-        })
+        let web3 = null
+        if(haveEthereum) {
+            web3 = new Web3(window.ethereum)
+            try {
+                ethereum.enable().then(res => {
+                    resolve({
+                        web3
+                    })
+                }).catch(err => {
+                })
+            } catch (error) {
+                reject(new Error("无法连接到Metamask"))
+            }
+        }else {
+            web3 = new Web3(web3js.currentProvider)
+            resolve({
+                web3
+            })
+        }
     }else {
         reject(new Error("无法连接到Metamask"))
     }
@@ -40,6 +62,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
     })
 }).then(result => {
     return new Promise(function(resolve, reject) {
+        result.web3.eth.personal.getAccounts(console.log)
         result.web3.eth.getCoinbase((err, coinbase) => {
             console.log(coinbase)
             if(err) {
