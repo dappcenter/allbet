@@ -49,7 +49,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">{{$t('message.homeVolume')}}</span>
-						<input type="number" :placeholder="$t('message.homeInputETH')" class="price" step="0.000001" v-model="buyEthNumber" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
+						<input type="text" :placeholder="$t('message.homeInputETH')" class="price" step="0.000001" v-model="buyEthNumber" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
 						<span class="num-right">ETH</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getAtNumber}} AT</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp1"></span></p>
@@ -76,7 +76,7 @@
 					</div>
 					<div class="price-div">
 						<span class="num">{{$t('message.homeVolume')}}</span>
-						<input type="number" :placeholder="$t('message.homeInputAT')" class="price" step="0.000001" v-model="buyAtNumber" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
+						<input type="text" :placeholder="$t('message.homeInputAT')" class="price" step="0.000001" v-model="buyAtNumber" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
 						<span class="num-right">AT</span>
 					</div>
 					<p><span>{{$t('message.homeExpectedGet')}} {{getEthNumber}} ETH</span><span>{{$t('message.homeAutomaticTrading')}}<img src="../../public/home/quote.png" alt="" @click="openHelp"></span></p>
@@ -175,7 +175,6 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 			selectTap: 2,
 
 			recentOrderList: [], //近期交易列表
-			// entrustOrderList: [], //委托单列表
 			timer: null,
 
 			curPage: 1,
@@ -193,7 +192,11 @@ import {DappABI} from "../util/constants/dapp.abi.js"
 				if(this.ethPrice == this.$t('message.homeMarketPrice')) {
 					return (1/this.ethMarketPrice * this.buyEthNumber).toFixed(8)
 				}else{
-					return isNaN((1/this.ethPrice * this.buyEthNumber).toFixed(8)) ? 0 : (1/this.ethPrice * this.buyEthNumber).toFixed(8)
+					if(Number(this.ethPrice) <= 0) {
+						return 0
+					}else {
+						return isNaN((1/this.ethPrice * this.buyEthNumber).toFixed(8)) ? 0 : (1/this.ethPrice * this.buyEthNumber).toFixed(8)
+					}
 				}
 			},
 			getEthNumber() {

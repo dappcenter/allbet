@@ -99,7 +99,7 @@
 						<label>
 							<!-- <img src="../../../public/img/eth_icon.png" alt=""> -->
 						</label>
-						<input type="text" v-model="amount" oninput="value=value.replace(/-/g,'')" onkeyup="value=value.replace(/[^\0-9\.]/g,'')" onpaste="value=value.replace(/[^\0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^\0-9\.]/g,'')">
+						<input type="text" v-model="amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
 						<div class="amount-handle">
 							<span class="add" @click="onAdd"></span>
 							<span class="minus" @click="onMinus"></span>

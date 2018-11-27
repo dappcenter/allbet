@@ -21,7 +21,7 @@
                     <img class="icon" src="../../../public/img/facebook.png" alt="">
                 </a>
             </div>
-            <p>Copyright © 2018.allbet.io</p>
+            <p>COPYRIGHT © 2018.ALLBET.IO</p>
         </div>
     </div>
 </template>

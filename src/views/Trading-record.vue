@@ -193,7 +193,8 @@ export default {
 					"coinType": this.coinType,
 					"operation": this.operation,
 					"page": this.current,
-					'pageSize': 20
+					'pageSize': 20,
+					"coinAddress": this.currentAddr.coinAddress
 				}
 			}).then((res) => {
 				if (res.code == 200) {
