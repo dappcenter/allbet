@@ -69,9 +69,7 @@ const mutations = {
 
 const actions = {
     registerWeb3({commit, rootState}) {
-        console.log("注册web3")
-        
-        getWeb3.then(result => {
+        getWeb3().then(result => {
             // 成功获取HD钱包信息
             commit(types.REGISTER_WEB3_INSTANCE, result)
             // 检测登录态
@@ -80,7 +78,6 @@ const actions = {
                 // 有登录态
                 console.log("有登录态registerWeb3")
                 const currentAddr = JSON.parse(localStorage.getItem("vuex")).user.currentAddr
-                console.log(currentAddr.coinAddress)
                 let haveHD = false
                 rootState.user.userInfo.assets.forEach((val, idx) => {
                     if(val.coinAddress == result.coinbase) {
@@ -88,7 +85,6 @@ const actions = {
                         haveHD = true
                     }
                 })
-                console.log(currentAddr.platform != "DISPATCHER")
                 if(currentAddr.platform != "DISPATCHER" && !haveHD) {
                     // 当前选中的HD钱包地址跟插件不一致
                     getNonce(result.coinbase, result.web3)
@@ -134,7 +130,6 @@ const actions = {
                         commit(types.SET_USERINFO, res.result)
                         if(res.result.assets.length <= 1) {
                             // 未绑定平台账号
-                            console.log("未绑定平台账号")
                             commit(types.OPEN_CONFIRM, {
                                 content: language[rootState.locale].message.PopBindDesc2,
                                 btn: [

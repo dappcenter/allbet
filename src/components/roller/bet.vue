@@ -218,7 +218,7 @@ export default {
 		})
 		// this.luckyRun()
 
-		
+
     },
     methods: {
 		//幸运数跳动
@@ -442,7 +442,7 @@ export default {
 										this.betDo()
 									}
 								}, 1000)
-								
+
 							}
 						}
 					}else {
@@ -645,7 +645,7 @@ export default {
 				span {
 					font-size: 12px;
 				}
-				
+
 			}
 		}
 		.game-content {
@@ -1095,7 +1095,7 @@ export default {
 						img {
 							height: .4rem;
 							margin: .05rem 0 0;
-							
+
 						}
 					}
 					span {
@@ -1148,6 +1148,7 @@ export default {
 						.enter {
 							width: 100%;
 							margin-bottom: 18px;
+							outline: none;
 						}
 						span {
 							flex: initial;

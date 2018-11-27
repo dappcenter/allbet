@@ -95,7 +95,8 @@ let pollWeb3 = function() {
     let web3 = window.web3
     web3 = new Web3(web3.currentProvider)
     let storeWeb3 = {}
-    setInterval(() => {
+    clearInterval(window.pollWeb3Timer)
+    window.pollWeb3Timer = setInterval(() => {
         storeWeb3 = store.state.web3Handler.web3
         if(web3 && storeWeb3.web3Instance) {
             // 检测地址变化
