@@ -25,6 +25,7 @@ import MBheaderBar from "@/components/common/mobile/mb_header_bar"
 //     console.log(123)
 // });
 
+
 Vue.use(someMethods)
 Vue.use(axios)
 Vue.use(MuseUI)

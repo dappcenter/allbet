@@ -20,11 +20,13 @@ const getNonce = function(address, web3) {
     console.log("getNonce")
     axios.get("/open/metamask", {
         params: {
-            address: address 
+            address: address,
+            type: "pollWeb3" 
         }
     }).then(res => {
         console.log(res)
         if(res.code == 200) {
+            console.log("pollWeb3登录签名")
             web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
                 console.log(signature)
                 if(err) {
@@ -128,6 +130,7 @@ let pollWeb3 = function() {
                                     // store.commit(types.REMOVE_USERINFO)  //清除账户登录信息
                                     //获取新地址的登录态
                                     //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+                                    
                                     getNonce(newCoinbase, web3)
                                 }
                             }

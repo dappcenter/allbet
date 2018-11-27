@@ -20,7 +20,8 @@ const state = {
     addressList: [],
     currentAddr: {},
     hdUserInfo: {},
-    lastCurAddrPf: "" 
+    lastCurAddrPf: "",
+    coinType: "ETH",   //当前启用的币种 
 }
 
 const getters = {
@@ -199,18 +200,19 @@ const actions = {
      */
     coinLogin({commit, rootState}, coinbase) {
         const newCoinbase = coinbase
-        console.log(rootState.web3Handler.web3Instance)
         getNonce(newCoinbase, rootState.web3Handler.web3.web3Instance)
 
         function getNonce(address, web3) {
+
             axios.get("/open/metamask", {
                 params: {
-                    address: address 
+                    address: address,
+                    type: "user" 
                 }
             }).then(res => {
                 console.log(res)
                 if(res.code == 200) {
-                    //web3.utils.fromUtf8("你好！!")
+                    console.log("user登录签名")
                     web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
                         console.log(signature)
                         if(err) {
@@ -236,6 +238,7 @@ const actions = {
                     // 未绑定平台账号
                     if(res.result.assets.length <= 1) {
                         if(rootState.user.currentAddr.coinAddress == newCoinbase) {
+
                             // 当前选中地址为此登录地址（提示绑定）
                             commit(types.OPEN_CONFIRM, {
                                 content: "绑定账号，赢取邀请奖励分ETH",
