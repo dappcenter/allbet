@@ -212,6 +212,7 @@ export default {
         PopFail: "Operation failed",
         PopHdLogin: "Please log in in the MetaMask plugin in the upper right corner. If you have logged in, please refresh the page.",
         PopAccountPassEmpty: "Account and password can't be empty",
+        PopSignatureFailure: "Signature Failure",
 
         PopCoinVerify: "Coin verification",
         PopConfirm: "Confirm",

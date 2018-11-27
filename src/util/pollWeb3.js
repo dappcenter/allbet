@@ -28,7 +28,10 @@ const getNonce = function(address, web3) {
             web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
                 console.log(signature)
                 if(err) {
-                    console.log("签名失败")
+                    store.commit("alert", {
+                        type: "info",
+                        msg: language[store.state.locale].message.PopSignatureFailure
+                    })
                 }else {
                     coinLogin(signature, address, res.result)
                 }

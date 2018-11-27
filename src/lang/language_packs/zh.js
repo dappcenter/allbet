@@ -212,6 +212,7 @@ export default {
         PopFail: "操作失败",
         PopHdLogin: "登录MetaMask以继续，若已登录请刷新",
         PopAccountPassEmpty: "账号密码不能为空",
+        PopSignatureFailure: "签名失败无法登录",
 
         PopCoinVerify: "提币验证",
         PopConfirm: "确定",

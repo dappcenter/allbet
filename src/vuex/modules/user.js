@@ -178,7 +178,11 @@ const actions = {
      * @author shanks
      */
     updateProperty({commit, rootState}) {
-        axios.get("/app/user/assets").then(res => {
+        axios.get("/app/user/assets", {
+            params: {
+                coinAddress: rootState.user.currentAddr.coinAddress
+            }
+        }).then(res => {
             if(res.code == 200) {
                 commit(types.UPDATE_USERINFO_PROPERTY, res.result.assets)
                 res.result.assets.forEach(val => {

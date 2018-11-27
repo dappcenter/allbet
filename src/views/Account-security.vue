@@ -418,7 +418,11 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 获取地址相关信息
 		getAssets() {
-			this.$http.get("/app/user/assets").then(res => {
+			this.$http.get("/app/user/assets", {
+				params: {
+					coinAddress: this.currentAddr.coinAddress
+				}
+			}).then(res => {
 				if(res.code == 200) {
 					let addressList = res.result.assets
 					if(addressList.length > 1) {   //有绑定平台账号
