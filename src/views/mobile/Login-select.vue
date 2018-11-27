@@ -24,14 +24,16 @@ export default {
         //HD钱包登录
         hdLogin(type) {
             if(window.web3) {
-                this.openConfirm({
-                    content: this.$t('message.PopHdLogin'),
-                    btn: [
-                        {
-                            text: this.$t('message.PopClose')
-                        }
-                    ]
-                })
+                // this.openConfirm({
+                //     content: this.$t('message.PopHdLogin'),
+                //     btn: [
+                //         {
+                //             text: this.$t('message.PopClose')
+                //         }
+                //     ]
+                // })
+                // 注册web3
+                this.$store.dispatch("registerWeb3");
             }else {
                 this.openConfirm({
                     content: this.$t('message.PopTipsDesc'),

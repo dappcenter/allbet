@@ -38,22 +38,23 @@
 						<input type="number" v-model="formData.amount">
 						ETH
 					</div>
-					<!-- <div class="poundage">
+					<!-- 手续费 -->
+					<div class="poundage">
 						<div class="">
 							<p>{{$t('message.assetsHandlingFee')}}</p>
 							<div class="input-div">
-								<input type="text" name="" value="">
+								<input type="text" name="" value="0.01" disabled>
 								ETH
 							</div>
 						</div>
 						<div class="">
 							<p>{{$t('message.assetsArrivalAmount')}}</p>
 							<div class="input-div">
-								<input type="text" name="" value="">
+								<input type="text" name="" :value="formData.amount - 0.01 < 0 ? 0 : formData.amount - 0.01" disabled>
 								ETH
 							</div>
 						</div>
-					</div> -->
+					</div>
 					<p class="attention">
 						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
@@ -90,22 +91,23 @@
 						<input type="number" v-model="formData.amount">
 						AT
 					</div>
-					<!-- <div class="poundage">
+					<!-- 手续费 -->
+					<div class="poundage">
 						<div class="">
 							<p>{{$t('message.assetsHandlingFee')}}</p>
 							<div class="input-div">
-								<input type="text" name="" value="">
-								ETH
+								<input type="text" name="" value="10" disabled>
+								AT
 							</div>
 						</div>
 						<div class="">
 							<p>{{$t('message.assetsArrivalAmount')}}</p>
 							<div class="input-div">
-								<input type="text" name="" value="">
-								ETH
+								<input type="text" name="" :value="formData.amount - 10 < 0 ? 0 : formData.amount - 10" disabled>
+								AT
 							</div>
 						</div>
-					</div> -->
+					</div>
 					<p class="attention">
 						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
@@ -126,20 +128,20 @@ import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
 import {mapMutations, mapState} from "vuex"
  export default {
-	 data () {
-		 return {
-			displayStatus: {
-				showChargeBill: false,
-				showMentionBill: false,
-				showChargeAt: false,
-				showMentionAt: false,
-			},
-			formData: {
-				"amount": "",
-				"destAddress": "",
-			}
-		 }
-	 },
+	data () {
+		return {
+		displayStatus: {
+			showChargeBill: false,
+			showMentionBill: false,
+			showChargeAt: false,
+			showMentionAt: false,
+		},
+		formData: {
+			"amount": "",
+			"destAddress": "",
+		}
+		}
+	},
     computed: {
 		...mapState({
 			currentAddr: state => state.user.currentAddr
@@ -412,8 +414,8 @@ import {mapMutations, mapState} from "vuex"
 							width: 50%;
 							.input-div {
 								height:48px;
-								background:rgba(9,19,94,1);
-								border:1px solid rgba(28,41,138,1);
+								background: #0F2551;
+								border: 1px solid #1c3b7c;
 								border-radius:4px;
 								width: 100%;
 								input {

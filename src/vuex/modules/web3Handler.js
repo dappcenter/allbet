@@ -12,6 +12,8 @@ const language = {
     "en-US": LangEn
 }
 
+
+
 const state = {
     web3: {
         isInjected: false,
@@ -67,17 +69,15 @@ const mutations = {
 
 const actions = {
     registerWeb3({commit, rootState}) {
-        console.log("注册web3")
-        getWeb3.then(result => {
+        getWeb3().then(result => {
             // 成功获取HD钱包信息
             commit(types.REGISTER_WEB3_INSTANCE, result)
             // 检测登录态
-            
+            // console.log(result.coinbase)
             if(rootState.user.userInfo.assets && rootState.user.userInfo.assets.length > 0) {
                 // 有登录态
                 console.log("有登录态registerWeb3")
                 const currentAddr = JSON.parse(localStorage.getItem("vuex")).user.currentAddr
-                console.log(currentAddr.coinAddress)
                 let haveHD = false
                 rootState.user.userInfo.assets.forEach((val, idx) => {
                     if(val.coinAddress == result.coinbase) {
@@ -87,26 +87,49 @@ const actions = {
                 })
                 if(currentAddr.platform != "DISPATCHER" && !haveHD) {
                     // 当前选中的HD钱包地址跟插件不一致
-                    coinLogin()
+                    getNonce(result.coinbase, result.web3)
                 }
                 
             }else {
                 // 没有登录态
                 //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
                 console.log("没有登录态registerWeb3")
-                coinLogin()
+                getNonce(result.coinbase, result.web3)
+            }
+
+            function getNonce(address, web3) {
+                console.log("getNonce")
+                axios.get("/open/metamask", {
+                    params: {
+                        address: address 
+                    }
+                }).then(res => {
+                    console.log(res)
+                    if(res.code == 200) {
+                        //web3.utils.fromUtf8("你好！!")
+                        web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
+                            console.log(signature)
+                            if(err) {
+                                console.log("签名失败")
+                            }else {
+                                coinLogin(signature, address, res.result)
+                            }
+                        });
+                    }
+                })
             }
             
-            function coinLogin() {
-                axios.post("/open/login/coin", {
-                    type: "ETH",
-                    addr: result.coinbase
+            function coinLogin(signature, address, nonce) {
+                axios.post("/open/metamask", {
+                    "chainType": "ETH",
+                    "message": nonce,
+                    "publicAddress": address,
+                    "signature": signature
                 }).then(res => {
                     if(res.code == 200) {
                         commit(types.SET_USERINFO, res.result)
                         if(res.result.assets.length <= 1) {
                             // 未绑定平台账号
-                            console.log("未绑定平台账号")
                             commit(types.OPEN_CONFIRM, {
                                 content: language[rootState.locale].message.PopBindDesc2,
                                 btn: [

@@ -11,7 +11,19 @@ import "./assets/less/base.less"
 import someMethods from "./util/extend_methods"
 import MBheaderBar from "@/components/common/mobile/mb_header_bar"
 
-
+// import getTronWeb from "./util/getTronWeb"
+// getTronWeb.setTronWeb(window.tronWeb)
+// console.log(getTronWeb)
+// getTronWeb.contract.postMessage("666").send({
+//     shouldPollResponse: true,
+//     callValue: 0
+// }).then(res => {
+//     console.log(res)
+// }).catch(err => {
+//     console.log(err)
+// }).then(() => {
+//     console.log(123)
+// });
 
 Vue.use(someMethods)
 Vue.use(axios)
