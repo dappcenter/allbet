@@ -3,12 +3,22 @@ import {axios} from "../../axios"
 import router from "../../router"
 
 // 筛选平台地址
-const filterAddr = function(addrList) {
+const filterAddr = function(userInfo) {
     let list = []
-    if(addrList) {
-        addrList.forEach(val => {
+    if(userInfo && userInfo.accounts) {
+        userInfo.accounts.forEach(val => {
             if(val.platform == "DISPATCHER") {
-                list.push(val)
+                list.push({
+                    coinAddress: val.userAddress,
+                    eth: val.assets.ETH.amount,
+                    assets: val.assets,
+                    bet: val.assets.AB.amount,
+                    at: Math.floor(val.assets.AT.amount*1000) /1000,
+                    userName: val.username || "", //使用平台账号用户名
+                    token: userInfo.token,
+                    platform: val.platform,
+                    inviteCode: userInfo.inviteCode || null   //使用平台账号邀请码
+                })
             } 
         })
     }
@@ -30,75 +40,77 @@ const getters = {
      * @author shanks
      */
     getUserAddress(state, getters, rootState) {
-        let list = filterAddr(state.userInfo.assets)
-        if(state.userInfo.assets) {   //是否有登录态
-            const token = state.userInfo.token
-            if(rootState.web3Handler.web3.coinbase) { //是否有HD钱包登录
-                console.log("有HD钱包登录")
-                if(list.length > 0) {  //是否有平台账号登录态
-                    list[0].token = state.userInfo.token
-                    // 有平台账号登录态
-                    if(state.userInfo.assets.length > 1) {  //平台账号是否有绑定HD钱包地址
-                        // 平台账号有绑定HD钱包地址
-                        state.userInfo.assets.forEach(value => {
-                            if(value.coinAddress == rootState.web3Handler.web3.coinbase) {  //是否有绑定当前登录的HD钱包地址
-                                list.push({
-                                    coinAddress: rootState.web3Handler.web3.coinbase,
-                                    eth: rootState.web3Handler.web3.balance,
-                                    bet: value.bet,
-                                    at: Math.floor(value.at*1000) /1000,
-                                    userName: list[0].userName, //使用平台账号用户名
-                                    token: token,
-                                    platform: value.platform,
-                                    inviteCode: list[0].inviteCode   //使用平台账号邀请码
-                                })
-                            }else {
-                                // 平台账号没有绑定当前HD钱包地址 （不启用示任何无关的HD钱包地址）
-                            }
-                        })
-                    }else {
-                        // 平台账号没有绑定HD钱包地址
+        let list = filterAddr(state.userInfo)
+        //是否有登录态
+        if(!state.userInfo.token) {
+            state.currentAddr = {}
+            return []
+        }
+        let walletAddress = null
+        switch(state.coinType) {
+            case "ETH":
+                walletAddress = rootState.web3Handler.web3.coinbase
+                break;
+            case "TRX":
+                walletAddress = rootState.tronHandler.tron.coinbase
+                break;
+            defautl: 
+                break;
+            
+        }
+
+        if(!walletAddress) {
+            console.log("无钱包登录")
+            setTimeout(() => {
+                switch(state.coinType) {
+                    case "ETH":
+                        walletAddress = rootState.web3Handler.web3.coinbase
+                        break;
+                    case "TRX":
+                        walletAddress = rootState.tronHandler.tron.coinbase
+                        break;
+                    defautl: 
+                        break;
+                    
+                }
+                if(!walletAddress) {
+                    state.currentAddr = list[0] || {}
+                    if(!list[0]) {
+                        state.userInfo = {}
                     }
-                }else {
-                    // 没有平台账号登录态
-                    let b = false
-                    console.log("没有平台账号登录态")
-                    state.userInfo.assets.forEach(value => {
-                        if(value.coinAddress == rootState.web3Handler.web3.coinbase) {
-                            b = true
-                            list.push({
-                                coinAddress: rootState.web3Handler.web3.coinbase,
-                                eth: rootState.web3Handler.web3.balance,
-                                bet: value.bet,
-                                at: Math.floor(value.at*1000) /1000,
-                                userName: value.userName, //使用平台账号用户名
-                                token: token,
-                                platform: value.platform,
-                                inviteCode: ""   //使用平台账号邀请码
-                            })
-                        }else {
-                            // 平台账号没有绑定当前HD钱包地址 （不启用示任何无关的HD钱包地址）
-                        }
-                    })
+                }
+            }, 2000)
+            return list
+        }
+        state.userInfo.accounts.forEach((val, idx) => {
+            if(val.userAddress == walletAddress) {
+                if(val.assets.ETH) {
+                    val.assets.ETH.amount = rootState.web3Handler.web3.balance
+                }
+                if(val.assets.TRX) {
+                    val.assets.TRX.amount = rootState.tronHandler.tron.balance
                 }
                 
-            }else if(list.length == 0){
-                // 未检测到HD钱包地址
-                // console.log("未检测到HD钱包地址, 清除登录态")
-                // state.userInfo = {}
-                // router.replace("dice")
+                list.push({
+                    coinAddress: val.userAddress,
+                    eth: rootState.web3Handler.web3.balance,
+                    assets: val.assets,
+                    bet: val.assets.AB.amount,
+                    at: Math.floor(val.assets.AT.amount*1000) /1000,
+                    userName: state.userInfo.username || "", //使用平台账号用户名
+                    token: state.userInfo.token,
+                    platform: val.platform,
+                    inviteCode: state.userInfo.inviteCode || null   //使用平台账号邀请码
+                })
             }
-        }else {
-            // 没有任何登录态
-
-        }
+        })
+        
 
         if(list.length == 0) {
             // 可用地址列表为空清除当前地址状态
             console.log("可用地址列表为空清除当前地址状态")
             state.currentAddr = {}
         }
-        console.log(list)
         return list
     }
 }
@@ -116,19 +128,20 @@ const mutations = {
      * @author shanks
      */
     [types.REMOVE_USERINFO](state, payload) {
+        console.log("清除用户信息")
         let b = false
         if(payload) {
-            state.userInfo.assets.forEach((val,idx) => {
+            state.userInfo.accounts.forEach((val,idx) => {
                 if(val.platform == "DISPATCHER") {
-                    state.userInfo.assets.splice(idx, 1)
+                    state.userInfo.accounts.splice(idx, 1)
                 }
             })
-            state.userInfo.assets.forEach((val2, idx2) => {
-                if(val2.coinAddress == this.state.web3Handler.web3.coinbase) {
+            state.userInfo.accounts.forEach((val2, idx2) => {
+                if(val2.userAddress == this.state.web3Handler.web3.coinbase) {
                     b = true
                 }
             })
-            if(state.userInfo.assets.length == 0 || !this.state.web3Handler.web3.coinbase) {
+            if(state.userInfo.accounts.length == 0 || !this.state.web3Handler.web3.coinbase) {
                 state.userInfo = {}
                 router.replace("dice")
             }
@@ -160,16 +173,21 @@ const mutations = {
      * @author shanks
      */
     [types.UPDATE_USERINFO_PROPERTY](state, payload) {
-        if(!state.userInfo.assets) return
+        if(!state.userInfo.accounts) return
         payload.forEach((val,idx) => {
-            state.userInfo.assets.forEach((val2,idx2) => {
-                if(val.coinAddress == val2.coinAddress) {
-                    state.userInfo.assets[idx2].at = val.at
-                    state.userInfo.assets[idx2].eth = val.eth
-                    state.userInfo.assets[idx2].bet = val.bet
+            state.userInfo.accounts.forEach((val2,idx2) => {
+                if(val.userAddress == val2.userAddress) {
+                    state.userInfo.accounts[idx2].assets = val.assets
                 }
             })
         })
+    },
+    /**
+     * 切换币种
+     * @author shanks
+     */
+    [types.CHANGE_COINTYPE](state, payload) {
+        state.coinType = payload
     }
 }
 
@@ -185,9 +203,9 @@ const actions = {
             }
         }).then(res => {
             if(res.code == 200) {
-                commit(types.UPDATE_USERINFO_PROPERTY, res.result.assets)
-                res.result.assets.forEach(val => {
-                    if(val.coinAddress == rootState.web3Handler.web3.coinbase) {
+                commit(types.UPDATE_USERINFO_PROPERTY, res.result)
+                res.result.forEach(val => {
+                    if(val.userAddress == rootState.web3Handler.web3.coinbase) {
                         commit(types.UPDATE_WEB3_AT, {at: val.at, bet: val.bet})
                     }
                 })
@@ -226,7 +244,7 @@ const actions = {
         }
         
         function coinLogin(signature, address, nonce) {
-            axios.post("/open/metamask", {
+            axios.post("/open/plugin_login", {
                 "chainType": "ETH",
                 "message": nonce,
                 "publicAddress": address,

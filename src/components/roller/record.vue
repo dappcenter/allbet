@@ -32,7 +32,7 @@
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
 				</li>
 				<li class="nominscreen">
-					<span>{{item.coinAmount}} ETH</span>
+					<span>{{item.coinAmount}} {{coinType}}</span>
 				</li>
 				<li class="nominscreen">
 					<span>{{item.guess}}</span>
@@ -44,7 +44,7 @@
 					<span>{{item.odds}}</span>
 				</li>
 				<li class="golden tr">
-					<span v-if="item.rewards > 0">{{item.rewards}} ETH</span>
+					<span v-if="item.rewards > 0">{{item.rewards}} {{coinType}}</span>
 					<span v-else>--</span>
 				</li>
 				<li class="nominscreen">
@@ -79,23 +79,32 @@ export default {
 	watch: {
 		currentAddr() {
 			this.getData(this.boardType)
+		},
+		coinType() {
+			this.getRule()
 		}
 	},
 	computed: {
 		...mapState({
-			currentAddr: state => state.user.currentAddr
+			currentAddr: state => state.user.currentAddr,
+			coinType: state => state.user.coinType
 		})
 	},
 	methods: {
 		getData(type) {
 			this.boardType = type
-			if(!this.currentAddr.coinAddress && this.boardType == "ME") {
+			let coinAddress = null
+			if(this.currentAddr.assets) {
+				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
+			}
+			if(!coinAddress && this.boardType == "ME") {
 				this.boardType = "RECENT"
 			}
 			this.$http.get('/app/dice/board', {
 				params: {
 					boardType: this.boardType,
-					coinAddress: this.currentAddr.coinAddress,
+					coinAddress: coinAddress,
+					coinType: this.coinType,
 					page: 1,
 					pageSize: this.boardType == "ME" ? 10000 : 30
 				}
@@ -107,14 +116,23 @@ export default {
 			})
 		},
 		getRule() {
-			this.$http.get('/app/dice/rule').then(res => {
+			this.$http.get('/app/dice/rule', {
+				params: {
+					coinAddress: this.currentAddr.coinAddress || "",
+					coinType: this.coinType
+				}
+			}).then(res => {
 				if(res.code == 200) {
 					this.rule = res.result
 				}
 			})
 		},
 		getDataPoll() {
-			if(!this.currentAddr.coinAddress && this.boardType == "ME") {
+			let coinAddress = null
+			if(this.currentAddr.assets) {
+				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
+			}
+			if(!coinAddress && this.boardType == "ME") {
 				this.boardType = "RECENT"
 				return
 			}
@@ -123,9 +141,10 @@ export default {
 				url: '/app/dice/board',
 				data: {
 					boardType: this.boardType,
-					coinAddress: this.currentAddr.coinAddress,
+					coinAddress: coinAddress,
+					coinType: this.coinType,
 					page: 1,
-					pageSize: this.boardType == "ME" ? 10000 : 20
+					pageSize: this.boardType == "ME" ? 10000 : 30
 				}
 			}).then(res => {
 				if(res.code == 200) {

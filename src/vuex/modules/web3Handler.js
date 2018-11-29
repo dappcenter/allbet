@@ -73,19 +73,17 @@ const actions = {
             // 成功获取HD钱包信息
             commit(types.REGISTER_WEB3_INSTANCE, result)
             // 检测登录态
-            // console.log(result.coinbase)
-            if(rootState.user.userInfo.assets && rootState.user.userInfo.assets.length > 0) {
+            if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
                 // 有登录态
                 console.log("有登录态registerWeb3")
-                const currentAddr = JSON.parse(localStorage.getItem("vuex")).user.currentAddr
                 let haveHD = false
-                rootState.user.userInfo.assets.forEach((val, idx) => {
-                    if(val.coinAddress == result.coinbase) {
+                rootState.user.userInfo.accounts.forEach((val, idx) => {
+                    if(val.userAddress == result.coinbase) {
                         // 登录态中包含插件地址
                         haveHD = true
                     }
                 })
-                if(currentAddr.platform != "DISPATCHER" && !haveHD) {
+                if(rootState.user.currentAddr.platform != "DISPATCHER" && !haveHD) {
                     // 当前选中的HD钱包地址跟插件不一致
                     getNonce(result.coinbase, result.web3)
                 }
@@ -108,7 +106,7 @@ const actions = {
                     if(res.code == 200) {
                         console.log("web3Handler登录签名")
                         web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-                            console.log(signature)
+                            console.log("收到签名收到签名收到签名收到签名收到签名", signature)
                             if(err) {
                                 console.log("签名失败")
                             }else {
@@ -120,7 +118,7 @@ const actions = {
             }
             
             function coinLogin(signature, address, nonce) {
-                axios.post("/open/metamask", {
+                axios.post("/open/plugin_login", {
                     "chainType": "ETH",
                     "message": nonce,
                     "publicAddress": address,
@@ -179,7 +177,7 @@ const actions = {
     updateWeb3({commit, rootState}, playload) {
         let have = false
         if(!playload.coinbase && rootState.user.userInfo.token) {
-            rootState.user.userInfo.assets.forEach((val, idx) => {
+            rootState.user.userInfo.accounts.forEach((val, idx) => {
                 if(val.platform == "DISPATCHER") {
                     have = true
                 }

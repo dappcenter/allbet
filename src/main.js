@@ -13,7 +13,6 @@ import MBheaderBar from "@/components/common/mobile/mb_header_bar"
 
 // import getTronWeb from "./util/getTronWeb"
 // getTronWeb.setTronWeb(window.tronWeb)
-// console.log(getTronWeb)
 // getTronWeb.contract.postMessage("666").send({
 //     shouldPollResponse: true,
 //     callValue: 0
@@ -24,7 +23,23 @@ import MBheaderBar from "@/components/common/mobile/mb_header_bar"
 // }).then(() => {
 //     console.log(123)
 // });
+// var feeLimit  = trxClient.toSun(10);
+// var callValue = trxClient.toSun(amount);
 
+// getTronWeb.contract.placeBetV1(rollUnder,modulo,orderId).send({
+//     feeLimit:feeLimit,
+//     callValue:callValue,
+//     shouldPollResponse:false
+// }
+
+
+// window.addEventListener('storage',function(e){
+//     if(e.key === "vuex" && e.newValue !== e.oldValue) {
+//         console.log(JSON.parse(e.newValue).userInfo)
+//         localStorage.setItem(e.key, e.newValue)
+
+//     }
+// })
 
 Vue.use(someMethods)
 Vue.use(axios)

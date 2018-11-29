@@ -28,6 +28,7 @@
 							<option value="ETH">ETH</option>
 							<option value="AT">AT</option>
 							<option value="AB">AB</option>
+							<option value="TRX">TRX</option>
 						</select>
 					</div>
 				</div>

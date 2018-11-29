@@ -28,7 +28,7 @@
 				<h3>{{$t("message.GameWinBox1")}}</h3>
 				<h3>{{winPopupOption.eth}} ETH</h3>
 				<p>（{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB）</p>
-				<button @click="isShowWin=false;$router.push('roller')">{{$t("message.GameWinBox3")}}</button>
+				<button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
 			</div>
 		</transition>
 
@@ -97,7 +97,9 @@ export default {
   },
   created() {
     // 注册web3
-    this.$store.dispatch("registerWeb3");
+    // this.$store.dispatch("registerWeb3");
+    // 注册tron
+    this.$store.dispatch("registerTron")
   },
   computed: {
     ...mapState({

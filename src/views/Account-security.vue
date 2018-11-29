@@ -7,14 +7,14 @@
 				<span>{{$t('message.accountSecurity')}}</span>
 			</p>
 			<div class="li-div">
-				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{pageData.userName}}</div></li>
+				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{pageData.username}}</div></li>
 				<li v-else><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
 				<!-- <li v-if="currentAddr.platform == 'DISPATCHER'"><div>{{$t('message.accountPlatformAddress')}}：</div><div class="dispatcher">{{currentAddr.coinAddress}}</div></li> -->
 				<li v-for="item in pageData.MetaMaskAddress">
 
 					<div v-if="item.platform == 'DISPATCHER'">{{$t('message.accountPlatformAddress')}}：</div>
 					<div v-else>{{$t('message.accountMetaMaskAddress')}}：</div>
-					<div :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}">{{item.coinAddress}}</div>
+					<div :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}">{{item.userAddress}}</div>
 				</li>
 				<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
 				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
@@ -424,7 +424,7 @@ import {mapMutations, mapState} from "vuex"
 				}
 			}).then(res => {
 				if(res.code == 200) {
-					let addressList = res.result.assets
+					let addressList = res.result
 					if(addressList.length > 1) {   //有绑定平台账号
 						this.pageData.isBind = true
 					}

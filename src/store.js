@@ -12,6 +12,7 @@ import roller from "./vuex/modules/roller"
 import web3Handler from "./vuex/modules/web3Handler"
 import dialogs from "./vuex/modules/dialogs"
 import user from "./vuex/modules/user"
+import tronHandler from "./vuex/modules/tronHandler"
 
 
 Vue.use(Vuex);
@@ -33,7 +34,8 @@ export default new Vuex.Store({
         roller,
         web3Handler,
         dialogs,
-        user
+        user,
+        tronHandler
     },
     plugins: [vuexLocal.plugin]
 });

@@ -3,32 +3,34 @@
 	<HeaderBar></HeaderBar>
 	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
 		<div class="content">
-			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="goRecord">{{$t('message.assetsTransactionRecord')}}</span></p>
+			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="$router.push('trading-record')">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<ul>
 				<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
+
+				<!-- ---- ETH ---- -->
 				<li>
 					<div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div>
 					<!-- 平台账号开放充提 -->
 					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
-						<span @click="chargeBill">{{$t('message.assetsRechargeCurrency')}}</span>
-						<span  @click="mentionBill" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span>
+						<span @click="showCharge = showCharge == 'chargeETH' ? '' : 'chargeETH'">{{$t('message.assetsRechargeCurrency')}}</span>
+						<span  @click="showCharge = showCharge == 'mentionETH' ? '' : 'mentionETH'" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span>
 					</div>
 					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
 						<span>--</span>
 					</div>
 				</li>
-				<div class="charge"  v-show="displayStatus.showChargeBill && currentAddr.platform == 'DISPATCHER'">
+				<div class="charge" v-show="showCharge == 'chargeETH' && currentAddr.platform == 'DISPATCHER'">
 					<div src="" alt="" id="qrcode1"></div>
 					<div class="charge-desc">
 						<p>{{$t('message.assetsRechargeAddress')}}：</p>
 						<div class="address">
 							<div id="copy_text">{{currentAddr.coinAddress}}</div>
-							<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy">{{$t('message.assetsCopy')}}</span>
+							<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy(copyBtn)">{{$t('message.assetsCopy')}}</span>
 						</div>
 						<p>{{$t('message.assetsTips')}}</p>
 					</div>
 				</div>
-				<div class="mention" v-show="displayStatus.showMentionBill && currentAddr.platform == 'DISPATCHER'">
+				<div class="mention" v-show="showCharge == 'mentionETH' && currentAddr.platform == 'DISPATCHER'">
 					<p>{{$t('message.assetsCoinAddress')}}:</p>
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
@@ -50,7 +52,7 @@
 						<div class="">
 							<p>{{$t('message.assetsArrivalAmount')}}</p>
 							<div class="input-div">
-								<input type="text" name="" :value="formData.amount - 0.01 < 0 ? 0 : formData.amount - 0.01" disabled>
+								<input type="text" name="" :value="formData.amount - 0.01 < 0 ? 0 : (formData.amount - 0.01).toFixed(8)" disabled>
 								ETH
 							</div>
 						</div>
@@ -59,29 +61,31 @@
 						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
 				</div>
+
+				<!-- ---- AT ---- -->
 				<li>
 					<div>AT</div>
 					<div>{{currentAddr.at}}</div>
 					<!-- 平台账号开放充提 -->
 					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
-						<span @click="chargeAt">{{$t('message.assetsRechargeCurrency')}}</span>
-						<span @click="mentionAt">{{$t('message.assetsExtractCoins')}}</span>
+						<span @click="showCharge = showCharge == 'chargeAT' ? '' : 'chargeAT'">{{$t('message.assetsRechargeCurrency')}}</span>
+						<span @click="showCharge = showCharge == 'mentionAT' ? '' : 'mentionAT'">{{$t('message.assetsExtractCoins')}}</span>
 					</div>
 					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
 						<span>--</span>
 					</div>
 				</li>
-				<div class="charge"  v-show="displayStatus.showChargeAt && currentAddr.platform == 'DISPATCHER'">
+				<div class="charge" v-show="showCharge == 'chargeAT' && currentAddr.platform == 'DISPATCHER'">
 					<div src="" alt="" id="qrcode2"></div>
 					<div class="charge-desc">
 						<p>{{$t('message.assetsRechargeAddress')}}：</p>
 						<div class="address"><div id="copy_text2">{{currentAddr.coinAddress}}</div>
-							<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy2">{{$t('message.assetsCopy')}}</span>
+							<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy(copyBtn2)">{{$t('message.assetsCopy')}}</span>
 						</div>
 						<p>{{$t('message.assetsTipsAT')}}</p>
 					</div>
 				</div>
-				<div class="mention" v-show="displayStatus.showMentionAt && currentAddr.platform == 'DISPATCHER'">
+				<div class="mention" v-show="showCharge == 'mentionAT' && currentAddr.platform == 'DISPATCHER'">
 					<p>{{$t('message.assetsCoinAddress')}}:</p>
 					<div class="input-div">
 						<input type="text" v-model="formData.destAddress">
@@ -103,7 +107,7 @@
 						<div class="">
 							<p>{{$t('message.assetsArrivalAmount')}}</p>
 							<div class="input-div">
-								<input type="text" name="" :value="formData.amount - 10 < 0 ? 0 : formData.amount - 10" disabled>
+								<input type="text" name="" :value="formData.amount - 10 < 0 ? 0 : (formData.amount - 10).toFixed(8)" disabled>
 								AT
 							</div>
 						</div>
@@ -113,6 +117,61 @@
 					</p>
 				</div>
 				<li><div>AB</div><div>{{currentAddr.bet}}</div><div style="color:#FFDB5B;">--</div></li>
+				
+				<!-- ---- TRX ---- -->
+				<li v-show="currentAddr.platform == 'DISPATCHER'">
+					<div>TRX</div>
+					<div v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.amount}}</div>
+					<!-- 平台账号开放充提 -->
+					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
+						<span @click="showCharge = showCharge == 'chargeTRX' ? '' : 'chargeTRX'">{{$t('message.assetsRechargeCurrency')}}</span>
+						<span @click="showCharge = showCharge == 'mentionTRX' ? '' : 'mentionTRX'">{{$t('message.assetsExtractCoins')}}</span>
+					</div>
+					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
+						<span>--</span>
+					</div>
+				</li>
+				<div class="charge" v-show="showCharge == 'chargeTRX' && currentAddr.platform == 'DISPATCHER'">
+					<div alt="" id="qrcode3" ref="qrcode3"></div>
+					<div class="charge-desc">
+						<p>{{$t('message.assetsRechargeAddress')}}：</p>
+						<div class="address"><div id="copy_text3" v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.coinAddress}}</div>
+							<span class="copy" ref="copy3" data-clipboard-action="copy" data-clipboard-target="#copy_text3" @click="copy(copyBtn3)">{{$t('message.assetsCopy')}}</span>
+						</div>
+						<p>{{$t('message.assetsTipsAT')}}</p>
+					</div>
+				</div>
+				<div class="mention" v-show="showCharge == 'mentionTRX' && currentAddr.platform == 'DISPATCHER'">
+					<p>{{$t('message.assetsCoinAddress')}}:</p>
+					<div class="input-div">
+						<input type="text" v-model="formData.destAddress">
+					</div>
+					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+					<div class="input-div">
+						<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+						TRX
+					</div>
+					<!-- 手续费 -->
+					<div class="poundage">
+						<div class="">
+							<p>{{$t('message.assetsHandlingFee')}}</p>
+							<div class="input-div">
+								<input type="text" name="" value="1" disabled>
+								TRX
+							</div>
+						</div>
+						<div class="">
+							<p>{{$t('message.assetsArrivalAmount')}}</p>
+							<div class="input-div">
+								<input type="text" name="" :value="formData.amount - 1 < 0 ? 0 : (formData.amount - 1).toFixed(8)" disabled>
+								TRX
+							</div>
+						</div>
+					</div>
+					<p class="attention">
+						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('TRX')">{{$t('message.assetsExtractCoins')}}</span>
+					</p>
+				</div>
 			</ul>
 		</div>
 	</div>
@@ -130,16 +189,14 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	data () {
 		return {
-		displayStatus: {
-			showChargeBill: false,
-			showMentionBill: false,
-			showChargeAt: false,
-			showMentionAt: false,
-		},
-		formData: {
-			"amount": "",
-			"destAddress": "",
-		}
+			formData: {
+				"amount": "",
+				"destAddress": "",
+			},
+			showCharge: "",
+			copyBtn: null,
+			copyBtn2: null,
+			copyBtn3: null
 		}
 	},
     computed: {
@@ -147,35 +204,27 @@ import {mapMutations, mapState} from "vuex"
 			currentAddr: state => state.user.currentAddr
 		})
     },
-     components: {
-	    HeaderBar,
-	    FooterBar,
-	},
 	watch: {
 		// 检测地址切换
 		currentAddr() {
 			document.getElementById("qrcode1").innerHTML = ''
 			document.getElementById("qrcode2").innerHTML = ''
+			if(document.getElementById("qrcode3")) {
+				document.getElementById("qrcode3").innerHTML = ''
+			}
 			if(this.currentAddr.coinAddress) {
 				this.makeQrCode()
 			}
 		},
-		displayStatus: {
-			handler: function() {
-				this.formData = Object.assign(this.formData, {
-					"amount": "",
-					"destAddress": "",
-				})
-			},
-			deep: true
+		showCharge() {
+			this.formData.amount = ""
+			this.formData.destAddress = ""
 		},
-	},
-	created () {
-		// this.getAssets()
 	},
 	mounted () {
 		this.copyBtn = new Clipboard(this.$refs.copy)
 		this.copyBtn2 = new Clipboard(this.$refs.copy2)
+		this.copyBtn3 = new Clipboard(this.$refs.copy3)
 		if(this.currentAddr.coinAddress) {
 			this.makeQrCode()
 		}
@@ -192,9 +241,13 @@ import {mapMutations, mapState} from "vuex"
 				height: 130,
 			});
 			qrcode.makeCode(this.currentAddr.coinAddress);
-		},
-		goRecord () {
-			this.$router.push('trading-record')
+			var qrcode3 = new QRCode(this.$refs.qrcode3, {
+				width: 130,
+				height: 130,
+			});
+			if(this.currentAddr.assets.TRX) {
+				qrcode3.makeCode(this.currentAddr.assets.TRX.coinAddress);
+			}
 		},
 		//提币
 		withdrawDo(type) {
@@ -226,9 +279,13 @@ import {mapMutations, mapState} from "vuex"
 				})
 				return false
 			}
+			let coinAddress = this.currentAddr.coinAddress
+			if(type == "TRX") {
+				coinAddress = this.currentAddr.assets[type].coinAddress
+			}
 			this.$http.post('/app/transfer/withdraw', {
 				"amount": this.formData.amount,
-				"coinAddress": this.currentAddr.coinAddress,
+				"coinAddress": coinAddress,
 				"destAddress": this.formData.destAddress,
 				"withdrawType": type
 			}).then( res => {
@@ -243,8 +300,8 @@ import {mapMutations, mapState} from "vuex"
 				}
 			})
 		},
-		copy () {
-			let clipboard = this.copyBtn
+		copy(copyBtn) {
+			let clipboard = copyBtn
 			clipboard.on('success', () => {
 					this.alert({
 							type: "success",
@@ -257,51 +314,15 @@ import {mapMutations, mapState} from "vuex"
 							msg: this.$t('message.assetsFailCopy')
 					})
 			})
-		},
-		copy2 () {
-			let clipboard = this.copyBtn2
-			clipboard.on('success', () => {
-					this.alert({
-							type: "success",
-							msg: this.$t('message.assetsSuccessCopy')
-					})
-			})
-			clipboard.on('error', () => {
-					this.alert({
-							type: "success",
-							msg: this.$t('message.assetsFailCopy')
-					})
-			})
-		},
-		chargeBill() {
-			this.displayStatus.showChargeBill = !this.displayStatus.showChargeBill
-			this.displayStatus.showMentionBill = false
-			this.displayStatus.showMentionAt = false
-			this.displayStatus.showChargeAt = false
-		},
-		mentionBill() {
-			this.displayStatus.showMentionBill = !this.displayStatus.showMentionBill
-			this.displayStatus.showChargeBill = false
-			this.displayStatus.showMentionAt = false
-			this.displayStatus.showChargeAt = false
-		},
-		chargeAt(){
-			this.displayStatus.showChargeAt = !this.displayStatus.showChargeAt
-			this.displayStatus.showMentionAt = false
-			this.displayStatus.showMentionBill = false
-			this.displayStatus.showChargeBill = false
-
-		},
-		mentionAt(){
-			this.displayStatus.showMentionAt = !this.displayStatus.showMentionAt
-			this.displayStatus.showChargeAt = false
-			this.displayStatus.showMentionBill = false
-			this.displayStatus.showChargeBill = false
 		},
 		...mapMutations({
 			alert: "alert",
 		})
- 	}
+	},
+	components: {
+		HeaderBar,
+		FooterBar,
+	}
 }
 </script>
 

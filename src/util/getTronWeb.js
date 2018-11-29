@@ -1,7 +1,7 @@
 
 import contracts from './constants/tron.abi.json';
 
-const contract = contracts['TRXMessages.sol:TRXMessages'];
+const contract = contracts['Roller'];
 
 const getTronWeb = {
     tronWeb: false,

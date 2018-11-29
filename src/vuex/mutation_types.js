@@ -115,3 +115,15 @@ export const CLOSE_POPUP = "CLOSE_POPUP"
  */
 export const CHANGE_PSDVER = "CHANGE_PSDVER"
 
+/**
+ * 切换币种
+ * @author shanks
+ * @module user
+ */
+export const CHANGE_COINTYPE = "CHANGE_COINTYPE"
+
+/**
+ * 注册tron实例
+ */
+export const REGISTER_TRON_INSTANCE = "REGISTER_TRON_INSTANCE"
+

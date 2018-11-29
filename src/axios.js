@@ -28,7 +28,7 @@ axios.interceptors.response.use(response => {
     if(response.data.code == -2) {
         store.commit('REMOVE_USERINFO')
         router.replace('dice')
-        location.reload()
+        // location.reload()
     }
     if(response.data.code == -1) {
         store.commit('CHANGE_PSDVER', true)

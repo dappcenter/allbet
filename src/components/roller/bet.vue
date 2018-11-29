@@ -3,11 +3,17 @@
 		<div class="mask"></div>
 		<!-- 币种选择 -->
 		<ul class="coin-select">
-			<li class="active">
+			<li :class="{'active' : coinType == 'ETH'}" @click="changeCoinType('ETH')">
 				<i class="eth">
 					<img src="../../../public/img/coin/ETH01.png" alt="">
 				</i>
 				<span>ETH</span>
+			</li>
+			<li :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
+				<i class="trx">
+					<img src="../../../public/img/coin/TRX01.png" alt="">
+				</i>
+				<span>TRX</span>
 			</li>
 			<li>
 				<i class="eos">
@@ -93,12 +99,10 @@
 
 			</div>
 			<div class="ctn-btm">
-				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} ETH</span></h4>
+				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} {{coinType}}</span></h4>
 				<div class="flex-wrap">
 					<div class="input-wrap">
-						<label>
-							<!-- <img src="../../../public/img/eth_icon.png" alt=""> -->
-						</label>
+						<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
 						<input type="text" v-model="amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
 						<div class="amount-handle">
 							<span class="add" @click="onAdd"></span>
@@ -106,9 +110,9 @@
 						</div>
 					</div>
 					<div class="hotkeys">
-						<span @click="onHotkeys(0.05)">0.05</span>
-						<span @click="onHotkeys(0.1)">0.1</span>
-						<span @click="onHotkeys(0.15)">0.15</span>
+						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2)}}</span>
+						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2)}}</span>
+						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2)}}</span>
 						<span @click="onHotkeys('max')">MAX</span>
 					</div>
 				</div>
@@ -119,10 +123,18 @@
 					<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 				</div>
 				<div class="bet-wrap">
-					<span class="fl nominscreen"><img src="../../../public/img/eth_icon.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
+					<span class="fl nominscreen">
+						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
+						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
+						<i v-else>0</i> {{coinType}}</span>
 					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
-					<span class="fl minscreen"><img src="../../../public/img/eth_icon.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.eth*1"></DigitalRoll></i><i v-else>0</i> ETH</span>
+					<span class="fl minscreen">
+						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
+						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
+						<i v-else>0</i> {{coinType}}</span>
 					<span class="fr"><img src="../../../public/img/ab_icon03.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
@@ -162,6 +174,8 @@ import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
+// import getTronWeb from "../../util/getTronWeb"
+
 export default {
 	props: {
 		diceStatistics: {
@@ -189,7 +203,7 @@ export default {
 			isShowHelp: false,
 			openWeixinQR: false,
 			autoBet: false,
-			isShowABpopup: false
+			isShowABpopup: false,
         }
 	},
 	created() {
@@ -216,9 +230,6 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-		// this.luckyRun()
-
-
     },
     methods: {
 		//幸运数跳动
@@ -242,9 +253,9 @@ export default {
         },
         onMinus() {
             this.amount = (Number(this.amount) - 0.01).toFixed(2)
-						if (this.amount < 0.01) {
-							this.amount = 0.01
-						}
+			if (this.amount < 0.01) {
+				this.amount = 0.01
+			}
         },
         ...mapMutations({
 			setBetInfo: "SET_ROLLER_BET_INFO",
@@ -252,7 +263,8 @@ export default {
 			openLogin: "OPEN_LOGIN",
 			openWinPopup: "OPEN_WIN_POPUP",
 			openConfirm: "OPEN_CONFIRM",
-			closePopup: "CLOSE_POPUP"
+			closePopup: "CLOSE_POPUP",
+			changeCoinType: "CHANGE_COINTYPE"
 		}),
 		onHandleClick(e) {
 			let moveWidth = e.offsetX
@@ -306,10 +318,15 @@ export default {
             }
 		},
 		getRule() {
-			this.$http.get('/app/dice/rule').then(res => {
-				console.log(res)
+			this.$http.get('/app/dice/rule', {
+				params: {
+					coinAddress: this.currentAddr.coinAddress || "",
+					coinType: this.coinType
+				}
+			}).then(res => {
 				if(res.code == 200) {
 					this.rule = res.result
+					this.amount = res.result.minInvest
 					this.luckyNum = res.result.lastLucky || "00"
 				}
 			})
@@ -345,9 +362,9 @@ export default {
 				})
 				return
 			}
-
+			
 			this.$http.post("/app/dice/dice", {
-				"coinAddress": this.currentAddr.coinAddress,
+				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
 				"guessNum": this.odds
 			}).then(res => {
@@ -361,7 +378,14 @@ export default {
 						this.luckyRun()
 						that.getBetResult(res.result.recdId)
 					}else {   //合约账号
-						this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
+						switch(res.result.coinType) {
+							case "ETH":
+								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
+								break;
+							case "TRX":
+								this.placeBetTRX(this.odds, res.result.recdId, this.amount)
+								break;
+						}
 						//注册方法与原生交互
 						window.hd.betFailed = function(payload) {
 							that.alert({
@@ -407,6 +431,34 @@ export default {
 				})
 			});
 		},
+		/**
+		 * TRX下注
+		 */
+		placeBetTRX(rollUnder, orderId, amount) {
+			let that = this
+			const feeLimit  = this.tronWeb.tronWeb.toSun(10);
+			const callValue = this.tronWeb.tronWeb.toSun(amount);
+			console.log(this.tronWeb)
+			this.tronWeb.contract.placeBetV1(rollUnder, 100, orderId).send({
+				feeLimit:feeLimit,
+				callValue:callValue,
+				shouldPollResponse:false
+			}).then(res => {
+				console.log(res)
+				that.alert({
+					type: "success",
+					msg: that.$t("message.GameBetSuc")
+				})
+				that.luckyRun()
+				that.getBetResult(orderId)
+			}).catch(err => {
+				console.log("err",err)
+				that.alert({
+					type: "error",
+					msg: that.$t("message.GameBetErr")
+				})
+			})
+		},
 		//查询下注结果
 		getBetResult(recdId) {
 			clearInterval(this.getBetResultTimer)
@@ -428,6 +480,7 @@ export default {
 								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
+									console.log(res)
 									this.openWinPopup({
 										ab: res.result.abNum,
 										eth: res.result.rewards
@@ -511,13 +564,18 @@ export default {
                 odds: this.odds,
                 amount: newVal
             })
-        }
+		},
+		coinType() {
+			this.getRule()
+		}
 	},
 	computed: {
 		...mapState({
 			web3: state => state.web3Handler.web3,
 			currentAddr: state => state.user.currentAddr,
-			userInfo: state => state.user.userInfo
+			userInfo: state => state.user.userInfo,
+			coinType: state => state.user.coinType,
+			tronWeb: state => state.tronHandler.tron.tronInstance
 		}),
 		peilv() {
 			return 98.5/((this.odds*1).toFixed() - 1)
@@ -601,6 +659,7 @@ export default {
 				text-align: center;
 				overflow: hidden;
 				margin-bottom: 10px;
+				cursor: pointer;
 				i {
 					display: block;
 					width: 40px;
@@ -760,8 +819,14 @@ export default {
 						margin: 0 0 0 3px;
 						label {
 							width: 40px;
-							background: url(../../../public/img/eth_icon.png) no-repeat center;
-							background-size: 60%;
+							&.eth {
+								background: url(../../../public/img/eth_icon.png) no-repeat center;
+								background-size: 60%;
+							}
+							&.trx {
+								background: url(../../../public/img/coin/TRX.png) no-repeat center;
+								background-size: 60%;
+							}
 						}
 						input {
 							width: 260px;

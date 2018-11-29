@@ -16,11 +16,14 @@
             <div class="statusbar">
                 <div class="address-select" v-if="addressList.length > 1">
                     <label class="nominscreen">{{$t("message.address")}}：</label>
-                    <mu-select v-model="currentAddr" :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}">
+                    <mu-select 
+                        v-model="currentAddr" 
+                        :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}"
+                        @change="currentAddrChange">
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
                 </div>
-                <div class="user-center nominscreen" v-if="storeCurrentAddr.userName">
+                <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
                     <img src="../../../public/img/user_icon.png" alt="">
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i></i>
@@ -34,7 +37,6 @@
                 <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
 
-
                 <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
                 <a href="javascript:;" class="lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
                 <!-- <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a> -->
@@ -47,36 +49,6 @@
             <ScrollNotice :text="$t('message.notice1')"></ScrollNotice>
         </div>
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
-
-        <!-- <div class="fold-menu minscreen" v-show="isShowFoldMunu">
-            <ul>
-                <router-link to="dice" tag="li">
-                    <router-link to="dice"><span>Dice</span></router-link>
-                </router-link>
-                <router-link to="index" tag="li">
-                    <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
-                </router-link>
-                <li @click="displayStatus.bonusPools = !displayStatus.bonusPools">
-                    <a href="javascript:;"><span>{{$t("message.bonusPool")}}</span></a>
-                </li>
-                <router-link to="invite" tag="li" v-show="addressList.length > 0">
-                    <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
-                </router-link>
-                <li @click="openWhiteBook">
-                    <a href="javascript:;"><span>{{$t("message.course")}}</span></a>
-                </li>
-                <li v-show="addressList.length > 1">
-                    <a href="javascript:;"><span>{{$t("message.address")}}</span></a>
-                    <mu-select v-model="currentAddr">
-                        <mu-option v-for="item,index in addressList" :key="index" :class="item.platform" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
-                    </mu-select>
-                </li>
-            </ul>
-            <div class="lang-wrap">
-                <a href="javascript:;" class="button lang" :class="{'active': locale === 'zh-CN'}" @click="changeLanguage('zh-CN')"><img src="../../../public/img/CN.png" />CN</a>
-                <a href="javascript:;" class="button lang" :class="{'active': locale === 'en-US'}" @click="changeLanguage('en-US')"><img src="../../../public/img/US.png" />EN</a>
-            </div>
-        </div> -->
 
         <!-- 登录选择 -->
         <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
@@ -382,13 +354,6 @@ export default {
 
             }
         },
-        currentAddr(newVal) {
-            this.addressList.forEach(value => {
-                if(value.coinAddress == newVal) {
-                    this.setCurrentAddr(value)
-                }
-            })
-        },
         isShowLoginBox() {
             this.displayStatus.loginSelect = true
         },
@@ -416,11 +381,26 @@ export default {
             },
             deep: true
         },
-        locale() {
-            this.btnText = this.$t('message.PopGetCaptcha')
-        }
+        storeCurrentAddr(newVal) {
+            if(newVal.coinAddress) {
+                this.currentAddr = newVal.coinAddress
+            }
+        },
+        // locale() {
+        //     this.btnText = this.$t('message.PopGetCaptcha')
+        // }
     },
     methods: {
+        // 切换地址
+        currentAddrChange(addr) {
+            console.log("地址切换了",addr)
+            this.addressList.forEach(value => {
+                if(value.coinAddress == addr) {
+                    this.setCurrentAddr(value)
+                    this.$store.dispatch('updateProperty')
+                }
+            })
+        },
         getImgCode(type) {
             this.$refs.imgcode.src = this.$window.SERVERPATH + "/open/pic_captcha?type="+ type +"&macCode="+ this.macCode +"&" + Math.random();
         },
@@ -496,7 +476,6 @@ export default {
             }
             if(!this.verifyCaptcha() || !this.verifyPassword()) return
             this.$http.post(url, obj).then(res => {
-                console.log(res)
                 if(res.code == 200) {
                     this.alert({
                         type: "success",

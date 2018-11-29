@@ -43,7 +43,7 @@ const getNonce = function(address, web3) {
 }
 
 const coinLogin = function(signature, address, nonce) {
-    axios.post("/open/metamask", {
+    axios.post("/open/plugin_login", {
         "chainType": "ETH",
         "message": nonce,
         "publicAddress": address,

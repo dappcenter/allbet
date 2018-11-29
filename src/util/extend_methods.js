@@ -109,7 +109,6 @@ const getLanguage = () => {
 	else{
 		lang = "en-US"
 	}
-	console.log(lang)
 	return lang
 }
 
