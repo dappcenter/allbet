@@ -3,16 +3,16 @@
         <MBheaderBar :title="$t('message.my')"></MBheaderBar>
         <div class="top">
             <img src="../../../public/img/my/user_icon.png" alt="">
-            <p v-if="storeCurrentAddr.userName">{{storeCurrentAddr.userName}}</p>
+            <p v-if="storeCurrentAddr.coinAddress">{{storeCurrentAddr.userName}}</p>
             <router-link to="loginselect" v-else>{{$t('message.login')}}/{{$t("message.PopRegister")}}</router-link>
         </div>
         <ul class="menu">
-            <router-link to="my-assets" tag="li" v-if="storeCurrentAddr.userName">
+            <router-link to="my-assets" tag="li" v-if="storeCurrentAddr.coinAddress">
                 <img class="item-icon" src="../../../public/img/my/wallet_icon.png" alt="">
                 <label>{{$t("message.property")}}</label>
                 <i class="arrow"></i>
             </router-link>
-            <router-link to="account-security" tag="li" v-if="storeCurrentAddr.userName">
+            <router-link to="account-security" tag="li" v-if="storeCurrentAddr.coinAddress">
                 <img class="item-icon" src="../../../public/img/my/zhaq_icon.png" alt="">
                 <label>{{$t("message.accountSecurity")}}</label>
                 <i class="arrow"></i>

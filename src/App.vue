@@ -26,7 +26,7 @@
 		<transition name="bounce">
 			<div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
 				<h3>{{$t("message.GameWinBox1")}}</h3>
-				<h3>{{winPopupOption.eth}} ETH</h3>
+				<h3>{{winPopupOption.rewards}}</h3>
 				<p>（{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB）</p>
 				<button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
 			</div>
@@ -95,11 +95,19 @@ export default {
       }
     }
   },
-  created() {
-    // 注册web3
-    // this.$store.dispatch("registerWeb3");
-    // 注册tron
-    this.$store.dispatch("registerTron")
+  mounted() {
+    switch(this.coinType) {
+      case "ETH":
+        // 注册web3
+        this.$store.dispatch("registerWeb3")
+        break;
+      case "TRX":
+        // 注册tron
+        this.$store.dispatch("registerTron")
+        break;
+      default:
+        break;
+    }
   },
   computed: {
     ...mapState({
@@ -110,7 +118,8 @@ export default {
       noMainNetwork: state => state.dialogs.noMainNetwork,
       popupStatus: state => state.dialogs.popupStatus,
       storeIsShowPsdVer: state => state.dialogs.isShowPsdVer,
-      currentAddr: state => state.user.currentAddr
+      currentAddr: state => state.user.currentAddr,
+      coinType: state => state.user.coinType
     })
   },
   methods: {

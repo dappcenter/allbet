@@ -14,7 +14,7 @@ const filterAddr = function(userInfo) {
                     assets: val.assets,
                     bet: val.assets.AB.amount,
                     at: Math.floor(val.assets.AT.amount*1000) /1000,
-                    userName: val.username || "", //使用平台账号用户名
+                    userName: userInfo.userName, //使用平台账号用户名
                     token: userInfo.token,
                     platform: val.platform,
                     inviteCode: userInfo.inviteCode || null   //使用平台账号邀请码
@@ -27,7 +27,7 @@ const filterAddr = function(userInfo) {
 
 const state = {
     userInfo: {},
-    addressList: [],
+    // addressList: [],
     currentAddr: {},
     hdUserInfo: {},
     lastCurAddrPf: "",
@@ -43,6 +43,7 @@ const getters = {
         let list = filterAddr(state.userInfo)
         //是否有登录态
         if(!state.userInfo.token) {
+            console.log("没有登录态state.userInfo.token")
             state.currentAddr = {}
             return []
         }
@@ -56,30 +57,13 @@ const getters = {
                 break;
             defautl: 
                 break;
-            
         }
 
         if(!walletAddress) {
             console.log("无钱包登录")
-            setTimeout(() => {
-                switch(state.coinType) {
-                    case "ETH":
-                        walletAddress = rootState.web3Handler.web3.coinbase
-                        break;
-                    case "TRX":
-                        walletAddress = rootState.tronHandler.tron.coinbase
-                        break;
-                    defautl: 
-                        break;
-                    
-                }
-                if(!walletAddress) {
-                    state.currentAddr = list[0] || {}
-                    if(!list[0]) {
-                        state.userInfo = {}
-                    }
-                }
-            }, 2000)
+            if(!walletAddress) {
+                state.currentAddr = list[0] || {}
+            }
             return list
         }
         state.userInfo.accounts.forEach((val, idx) => {
@@ -90,14 +74,13 @@ const getters = {
                 if(val.assets.TRX) {
                     val.assets.TRX.amount = rootState.tronHandler.tron.balance
                 }
-                
                 list.push({
                     coinAddress: val.userAddress,
                     eth: rootState.web3Handler.web3.balance,
                     assets: val.assets,
                     bet: val.assets.AB.amount,
                     at: Math.floor(val.assets.AT.amount*1000) /1000,
-                    userName: state.userInfo.username || "", //使用平台账号用户名
+                    userName: state.userInfo.userName || "", //使用平台账号用户名
                     token: state.userInfo.token,
                     platform: val.platform,
                     inviteCode: state.userInfo.inviteCode || null   //使用平台账号邀请码
@@ -109,8 +92,10 @@ const getters = {
         if(list.length == 0) {
             // 可用地址列表为空清除当前地址状态
             console.log("可用地址列表为空清除当前地址状态")
+            
             state.currentAddr = {}
         }
+        console.log(list)
         return list
     }
 }
@@ -188,6 +173,24 @@ const mutations = {
      */
     [types.CHANGE_COINTYPE](state, payload) {
         state.coinType = payload
+        let haveCoinType = false
+        state.userInfo.accounts.forEach((val, idx) => {
+            if(val.mainCoin == payload) {
+                haveCoinType = true
+            }
+        })
+        if(!haveCoinType) {
+            switch(payload) {
+                case "ETH":
+                    this.dispatch("registerWeb3")
+                    break;
+                case "TRX":
+                    this.dispatch("registerTron")
+                    break;
+                default: 
+                    break;
+            }
+        }
     }
 }
 

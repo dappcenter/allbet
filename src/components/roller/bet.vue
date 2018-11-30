@@ -174,7 +174,6 @@ import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
-// import getTronWeb from "../../util/getTronWeb"
 
 export default {
 	props: {
@@ -230,6 +229,8 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
+
+		console.log(this.tronWeb)
     },
     methods: {
 		//幸运数跳动
@@ -438,13 +439,11 @@ export default {
 			let that = this
 			const feeLimit  = this.tronWeb.tronWeb.toSun(10);
 			const callValue = this.tronWeb.tronWeb.toSun(amount);
-			console.log(this.tronWeb)
 			this.tronWeb.contract.placeBetV1(rollUnder, 100, orderId).send({
 				feeLimit:feeLimit,
 				callValue:callValue,
 				shouldPollResponse:false
 			}).then(res => {
-				console.log(res)
 				that.alert({
 					type: "success",
 					msg: that.$t("message.GameBetSuc")
@@ -452,7 +451,6 @@ export default {
 				that.luckyRun()
 				that.getBetResult(orderId)
 			}).catch(err => {
-				console.log("err",err)
 				that.alert({
 					type: "error",
 					msg: that.$t("message.GameBetErr")
@@ -483,7 +481,7 @@ export default {
 									console.log(res)
 									this.openWinPopup({
 										ab: res.result.abNum,
-										eth: res.result.rewards
+										rewards: res.result.rewards + " " + res.result.coinType
 									})
 								}else if(res.result.winFlag == "LOSE") {
 									this.noWin(res.result.abNum)

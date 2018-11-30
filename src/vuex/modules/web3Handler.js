@@ -104,9 +104,7 @@ const actions = {
                 }).then(res => {
                     console.log(res)
                     if(res.code == 200) {
-                        console.log("web3Handler登录签名")
                         web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-                            console.log("收到签名收到签名收到签名收到签名收到签名", signature)
                             if(err) {
                                 console.log("签名失败")
                             }else {

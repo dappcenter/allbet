@@ -52,7 +52,6 @@ let getWeb3 = function() {
         return new Promise(function(resolve, reject) {
             // 检测networkID
             result.web3.eth.net.getId((err, networkId) => {
-                console.log("网络ID网络ID网络ID网络ID网络ID网络ID", networkId)
                 if(err) {
                     reject(new Error("无法检索网络ID"))
                 }else {
@@ -77,7 +76,6 @@ let getWeb3 = function() {
     }).then(result => {
         return new Promise(function(resolve, reject) {
             result.web3.eth.getBalance(result.coinbase, (err, balance) => {
-                console.log("地址的余额",result.coinbase,balance)
                 if(err) {
                     reject(new Error("无法检索地址的余额:" + result.coinbase))
                 }else {

@@ -9,6 +9,7 @@ const getTronWeb = {
 
     setTronWeb(tronWeb) {
         this.tronWeb = tronWeb;
+        console.log(tronWeb)
         this.contract = tronWeb.contract(contract.abi, contract.address)
     },
 
@@ -22,6 +23,16 @@ const getTronWeb = {
             timestamp: message.time.toNumber(),
             message: message.message
         }
+    },
+    // 下注
+    placeBet(rollUnder, orderId, amount) {
+        const feeLimit  = this.tronWeb.toSun(10);
+        const callValue = this.tronWeb.toSun(amount);
+        return this.contract.placeBetV1(rollUnder, 100, orderId).send({
+            feeLimit:feeLimit,
+            callValue:callValue,
+            shouldPollResponse:false
+        })
     },
 
     async fetchMessages(recent = {}, featured = []) {

@@ -87,7 +87,7 @@ export default {
         accountSecurity: "账号安全",
         accountPlatform: "平台账号",
         accountPlatformAddress: "平台地址",
-        accountMetaMaskAddress: "MetaMask地址",
+        accountMetaMaskAddress: "钱包地址",
         accountLoginPassword: "登录密码",
         accountChange: "修改",
         accountNotBound: "暂未绑定",

@@ -85,7 +85,7 @@ export default {
         accountSecurity: "Account Security",
         accountPlatform: "Platform Account",
         accountPlatformAddress: "Platform address",
-        accountMetaMaskAddress: "MetaMask Address",
+        accountMetaMaskAddress: "Wallet Address",
         accountLoginPassword: "Login Password",
         accountChange: "Change",
         accountNotBound: "Not Bound",

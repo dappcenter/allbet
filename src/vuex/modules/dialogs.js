@@ -31,7 +31,7 @@ const state = {
         ]
     },
     winPopupOption: {
-        eth: 0,
+        rewards: 0,
         ab: 0
     },
     loginBox: false,
