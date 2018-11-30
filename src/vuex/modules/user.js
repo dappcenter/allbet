@@ -53,7 +53,7 @@ const getters = {
                 walletAddress = rootState.web3Handler.web3.coinbase
                 break;
             case "TRX":
-                walletAddress = rootState.tronHandler.tron.coinbase
+                walletAddress = rootState.tronHandler.tronWeb.coinbase
                 break;
             defautl: 
                 break;
@@ -72,7 +72,7 @@ const getters = {
                     val.assets.ETH.amount = rootState.web3Handler.web3.balance
                 }
                 if(val.assets.TRX) {
-                    val.assets.TRX.amount = rootState.tronHandler.tron.balance
+                    val.assets.TRX.amount = rootState.tronHandler.tronWeb.balance
                 }
                 list.push({
                     coinAddress: val.userAddress,
@@ -95,7 +95,6 @@ const getters = {
             
             state.currentAddr = {}
         }
-        console.log(list)
         return list
     }
 }

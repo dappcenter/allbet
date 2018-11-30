@@ -437,8 +437,9 @@ export default {
 		 */
 		placeBetTRX(rollUnder, orderId, amount) {
 			let that = this
-			const feeLimit  = this.tronWeb.tronWeb.toSun(10);
-			const callValue = this.tronWeb.tronWeb.toSun(amount);
+			console.log(this.tronWeb)
+			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
+			const callValue = this.tronWeb.tronWebInstance.toSun(amount);
 			this.tronWeb.contract.placeBetV1(rollUnder, 100, orderId).send({
 				feeLimit:feeLimit,
 				callValue:callValue,
@@ -573,7 +574,7 @@ export default {
 			currentAddr: state => state.user.currentAddr,
 			userInfo: state => state.user.userInfo,
 			coinType: state => state.user.coinType,
-			tronWeb: state => state.tronHandler.tron.tronInstance
+			tronWeb: state => state.tronHandler.tronWeb
 		}),
 		peilv() {
 			return 98.5/((this.odds*1).toFixed() - 1)

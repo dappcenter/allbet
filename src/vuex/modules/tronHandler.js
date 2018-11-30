@@ -1,12 +1,14 @@
 import * as types from "../mutation_types"
 import getTronWeb from "../../util/getTronWeb"
 import {axios} from "../../axios"
+import contracts from '../../util/constants/tron.abi.json'
 
+const contract = contracts['Roller']
 
 const state = {
-    tron: {
+    tronWeb: {
         isInjected: false,
-        tronInstance: null,
+        tronWebInstance: null,
         networkId: null,
         coinbase: null,
         balance: null,
@@ -28,9 +30,10 @@ const mutations = {
      * @author shanks
      */
     [types.REGISTER_TRON_INSTANCE](state, payload) {
-        state.tron.coinbase = payload.coinbase
-        state.tron.balance = payload.balance
-        state.tron.tronInstance = payload.tronWeb
+        state.tronWeb.coinbase = payload.coinbase
+        state.tronWeb.balance = payload.balance
+        state.tronWeb.tronWebInstance = payload.tronWebInstance
+        state.tronWeb.contract = payload.contract
         // 轮询
     },
 }
@@ -47,37 +50,35 @@ const actions = {
                 if(tries >= 10) {
                     clearInterval(timer)
                 }
-
                 installed = !!window.tronWeb
-
-                if(!installed)
+                if(!installed && tronWeb.defaultAddress.base58)
                     return tries++;
                 clearInterval(timer)
                 reselve(window.tronWeb)
             }, 100);
         }).then(tronWeb => {
             getTronWeb.setTronWeb(tronWeb)
-            console.log("TRX对象",getTronWeb.tronWeb.defaultAddress)
-            const address = getTronWeb.tronWeb.defaultAddress.base58
-            console.log("TRX钱包地址", address)
-            getTronWeb.tronWeb.trx.getBalance((err, balance) => {
-                console.log("getBalance", balance)
+            console.log("TRX对象defaultAddress", tronWeb.defaultAddress)
+            const address = tronWeb.defaultAddress.base58
+            tronWeb.trx.getBalance((err, balance) => {
+                console.log("TRX对象getBalance", balance)
                 if(err) {
                     console.log(err)
                 }else if(address){
-                    commit(types.REGISTER_TRON_INSTANCE, {
+                    commit(types.REGISTER_TRON_INSTANCE, { 
                         coinbase: address,
                         balance: Math.floor(balance/1000000),
-                        tronWeb: getTronWeb
+                        tronWebInstance: tronWeb,
+                        contract: tronWeb.contract(contract.abi, contract.address)
                     })
                 }
             });
 
             if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
                 // 有登录态
-                console.log("有登录态registerWeb3")
                 let haveHD = false
                 rootState.user.userInfo.accounts.forEach((val, idx) => {
+                    console.log(val)
                     if(val.userAddress == address) {
                         // 登录态中包含插件地址
                         haveHD = true
@@ -90,7 +91,6 @@ const actions = {
             }else {
                 // 没有登录态
                 //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-                console.log("没有登录态registerTron")
                 if(rootState.user.coinType == "TRX") {
                     coinLogin(address)
                 }
@@ -100,7 +100,7 @@ const actions = {
 
         
         function coinLogin(address) {
-            if(address) return
+            if(!address) return
             axios.post("/open/plugin_login", {
                 "chainType": "TRX",
                 "publicAddress": address,

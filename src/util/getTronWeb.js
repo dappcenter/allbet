@@ -8,8 +8,7 @@ const getTronWeb = {
     contract: false,
 
     setTronWeb(tronWeb) {
-        this.tronWeb = tronWeb;
-        console.log(tronWeb)
+        this.tronWeb = tronWeb
         this.contract = tronWeb.contract(contract.abi, contract.address)
     },
 
@@ -42,7 +41,6 @@ const getTronWeb = {
 
             if(message.toNumber() === 0)
                 break; // End of tips array
-
             featured.push(
                 message.toNumber()
             );
