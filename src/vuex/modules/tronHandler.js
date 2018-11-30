@@ -2,6 +2,7 @@ import * as types from "../mutation_types"
 import getTronWeb from "../../util/getTronWeb"
 import {axios} from "../../axios"
 import contracts from '../../util/constants/tron.abi.json'
+import pollTronWeb from "../../util/pollTronWeb"
 
 const contract = contracts['Roller']
 
@@ -35,6 +36,15 @@ const mutations = {
         state.tronWeb.tronWebInstance = payload.tronWebInstance
         state.tronWeb.contract = payload.contract
         // 轮询
+        pollTronWeb(payload.tronWebInstance)
+    },
+    /**
+     * 更新tron资产和地址
+     * @author shanks
+     */
+    [types.UPDATE_TRON_ASSET](state, payload) {
+        state.tronWeb.coinbase = payload.coinbase
+        state.tronWeb.balance = payload.balance
     },
 }
 
@@ -51,15 +61,19 @@ const actions = {
                     clearInterval(timer)
                 }
                 installed = !!window.tronWeb
-                if(!installed && tronWeb.defaultAddress.base58)
+                if(!installed)
                     return tries++;
+                if(!window.tronWeb.defaultAddress.base58) {
+                    return tries++;
+                }
                 clearInterval(timer)
+                console.log("Promise tronWeb.defaultAddress", window.tronWeb.defaultAddress)
                 reselve(window.tronWeb)
             }, 100);
         }).then(tronWeb => {
             getTronWeb.setTronWeb(tronWeb)
             console.log("TRX对象defaultAddress", tronWeb.defaultAddress)
-            const address = tronWeb.defaultAddress.base58
+            let address = tronWeb.defaultAddress.base58
             tronWeb.trx.getBalance((err, balance) => {
                 console.log("TRX对象getBalance", balance)
                 if(err) {
@@ -73,6 +87,7 @@ const actions = {
                     })
                 }
             });
+            
 
             if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
                 // 有登录态
@@ -95,6 +110,45 @@ const actions = {
                     coinLogin(address)
                 }
             }
+
+            // window.tronWeb.on('addressChanged', (res) => {
+            //     console.log("addressChanged", res)
+            //     address = res.base58
+            //     tronWeb.trx.getBalance((err, balance) => {
+            //         console.log("TRX对象getBalance", balance)
+            //         if(err) {
+            //             console.log(err)
+            //         }else if(address){
+            //             commit(types.REGISTER_TRON_INSTANCE, { 
+            //                 coinbase: address,
+            //                 balance: Math.floor(balance/1000000),
+            //                 tronWebInstance: tronWeb,
+            //                 contract: tronWeb.contract(contract.abi, contract.address)
+            //             })
+            //         }
+            //     })
+            //     if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
+            //         // 有登录态
+            //         let haveHD = false
+            //         rootState.user.userInfo.accounts.forEach((val, idx) => {
+            //             console.log(val)
+            //             if(val.userAddress == address) {
+            //                 // 登录态中包含插件地址
+            //                 haveHD = true
+            //             }
+            //         })
+            //         if(rootState.user.currentAddr.platform != "DISPATCHER" && !haveHD) {
+            //             // 当前选中的HD钱包地址跟插件不一致
+            //             coinLogin(address)
+            //         }
+            //     }else {
+            //         // 没有登录态
+            //         //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
+            //         if(rootState.user.coinType == "TRX") {
+            //             coinLogin(address)
+            //         }
+            //     }
+            // })
             
         })
 

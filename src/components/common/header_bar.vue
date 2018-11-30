@@ -671,9 +671,18 @@ export default {
         openWhiteBook() {
             if(this.locale == "en-US") {
                 window.open("pdf/whitebook_en.pdf")
+                try {
+                    window.app.openURLOnSystermBrowser(window.location.origin + "pdf/whitebook_en.pdf")
+                } catch (error) {
+                }
             }else {
                 window.open("pdf/whitebook.pdf")
+                try {
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook.pdf")
+                } catch (error) {
+                }
             }
+
         },
         //打开metamask教程
         openMetamask() {

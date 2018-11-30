@@ -5,62 +5,65 @@
 		<div class="content">
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="$router.push('trading-record')">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<ul>
-				<li><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
+				<li class="thead"><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 
 				<!-- ---- ETH ---- -->
-				<li>
-					<div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div>
-					<!-- 平台账号开放充提 -->
-					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
-						<span @click="showCharge = showCharge == 'chargeETH' ? '' : 'chargeETH'">{{$t('message.assetsRechargeCurrency')}}</span>
-						<span  @click="showCharge = showCharge == 'mentionETH' ? '' : 'mentionETH'" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span>
-					</div>
-					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
-						<span>--</span>
-					</div>
-				</li>
-				<div class="charge" v-show="showCharge == 'chargeETH' && currentAddr.platform == 'DISPATCHER'">
-					<div src="" alt="" id="qrcode1"></div>
-					<div class="charge-desc">
-						<p>{{$t('message.assetsRechargeAddress')}}：</p>
-						<div class="address">
-							<div id="copy_text">{{currentAddr.coinAddress}}</div>
-							<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy(copyBtn)">{{$t('message.assetsCopy')}}</span>
+				<div v-show="currentAddr.mainCoin !== 'TRX'">
+					<li>
+						<div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div>
+						<!-- 平台账号开放充提 -->
+						<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
+							<span @click="showCharge = showCharge == 'chargeETH' ? '' : 'chargeETH'">{{$t('message.assetsRechargeCurrency')}}</span>
+							<span  @click="showCharge = showCharge == 'mentionETH' ? '' : 'mentionETH'" v-show="currentAddr.platform != 'IMPORT'">{{$t('message.assetsExtractCoins')}}</span>
 						</div>
-						<p>{{$t('message.assetsTips')}}</p>
+						<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
+							<span>--</span>
+						</div>
+					</li>
+					<div class="charge" v-show="showCharge == 'chargeETH' && currentAddr.platform == 'DISPATCHER'">
+						<div src="" alt="" id="qrcode1"></div>
+						<div class="charge-desc">
+							<p>{{$t('message.assetsRechargeAddress')}}：</p>
+							<div class="address">
+								<div id="copy_text">{{currentAddr.coinAddress}}</div>
+								<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy(copyBtn)">{{$t('message.assetsCopy')}}</span>
+							</div>
+							<p>{{$t('message.assetsTips')}}</p>
+						</div>
 					</div>
-				</div>
-				<div class="mention" v-show="showCharge == 'mentionETH' && currentAddr.platform == 'DISPATCHER'">
-					<p>{{$t('message.assetsCoinAddress')}}:</p>
-					<div class="input-div">
-						<input type="text" v-model="formData.destAddress">
-					</div>
-					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
-					<div class="input-div">
-						<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
-						ETH
-					</div>
-					<!-- 手续费 -->
-					<div class="poundage">
-						<div class="">
-							<p>{{$t('message.assetsHandlingFee')}}</p>
-							<div class="input-div">
-								<input type="text" name="" value="0.01" disabled>
-								ETH
+					<div class="mention" v-show="showCharge == 'mentionETH' && currentAddr.platform == 'DISPATCHER'">
+						<p>{{$t('message.assetsCoinAddress')}}:</p>
+						<div class="input-div">
+							<input type="text" v-model="formData.destAddress">
+						</div>
+						<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.eth}} ETH</span></p>
+						<div class="input-div">
+							<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+							ETH
+						</div>
+						<!-- 手续费 -->
+						<div class="poundage" v-if="feeData">
+							<div class="">
+								<p>{{$t('message.assetsHandlingFee')}}</p>
+								<div class="input-div">
+									<input type="text" name="" :value="feeData.ETH" disabled>
+									ETH
+								</div>
+							</div>
+							<div class="">
+								<p>{{$t('message.assetsArrivalAmount')}}</p>
+								<div class="input-div">
+									<input type="text" name="" :value="formData.amount - feeData.ETH < 0 ? 0 : (formData.amount - feeData.ETH).toFixed(8)" disabled>
+									ETH
+								</div>
 							</div>
 						</div>
-						<div class="">
-							<p>{{$t('message.assetsArrivalAmount')}}</p>
-							<div class="input-div">
-								<input type="text" name="" :value="formData.amount - 0.01 < 0 ? 0 : (formData.amount - 0.01).toFixed(8)" disabled>
-								ETH
-							</div>
-						</div>
+						<p class="attention">
+							<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
+						</p>
 					</div>
-					<p class="attention">
-						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
-					</p>
 				</div>
+				
 
 				<!-- ---- AT ---- -->
 				<li>
@@ -96,18 +99,18 @@
 						AT
 					</div>
 					<!-- 手续费 -->
-					<div class="poundage">
+					<div class="poundage" v-if="feeData">
 						<div class="">
 							<p>{{$t('message.assetsHandlingFee')}}</p>
 							<div class="input-div">
-								<input type="text" name="" value="10" disabled>
+								<input type="text" name="" :value="feeData.AT" disabled>
 								AT
 							</div>
 						</div>
 						<div class="">
 							<p>{{$t('message.assetsArrivalAmount')}}</p>
 							<div class="input-div">
-								<input type="text" name="" :value="formData.amount - 10 < 0 ? 0 : (formData.amount - 10).toFixed(8)" disabled>
+								<input type="text" name="" :value="formData.amount - feeData.AT < 0 ? 0 : (formData.amount - feeData.AT).toFixed(8)" disabled>
 								AT
 							</div>
 						</div>
@@ -119,59 +122,62 @@
 				<li><div>AB</div><div>{{currentAddr.bet}}</div><div style="color:#FFDB5B;">--</div></li>
 				
 				<!-- ---- TRX ---- -->
-				<li v-show="currentAddr.platform == 'DISPATCHER'">
-					<div>TRX</div>
-					<div v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.amount}}</div>
-					<!-- 平台账号开放充提 -->
-					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
-						<span @click="showCharge = showCharge == 'chargeTRX' ? '' : 'chargeTRX'">{{$t('message.assetsRechargeCurrency')}}</span>
-						<span @click="showCharge = showCharge == 'mentionTRX' ? '' : 'mentionTRX'">{{$t('message.assetsExtractCoins')}}</span>
-					</div>
-					<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
-						<span>--</span>
-					</div>
-				</li>
-				<div class="charge" v-show="showCharge == 'chargeTRX' && currentAddr.platform == 'DISPATCHER'">
-					<div alt="" id="qrcode3" ref="qrcode3"></div>
-					<div class="charge-desc">
-						<p>{{$t('message.assetsRechargeAddress')}}：</p>
-						<div class="address"><div id="copy_text3" v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.coinAddress}}</div>
-							<span class="copy" ref="copy3" data-clipboard-action="copy" data-clipboard-target="#copy_text3" @click="copy(copyBtn3)">{{$t('message.assetsCopy')}}</span>
+				<div v-show="currentAddr.platform == 'DISPATCHER' || currentAddr.mainCoin == 'TRX'">
+					<li>
+						<div>TRX</div>
+						<div v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.amount}}</div>
+						<!-- 平台账号开放充提 -->
+						<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
+							<span @click="showCharge = showCharge == 'chargeTRX' ? '' : 'chargeTRX'">{{$t('message.assetsRechargeCurrency')}}</span>
+							<span @click="showCharge = showCharge == 'mentionTRX' ? '' : 'mentionTRX'">{{$t('message.assetsExtractCoins')}}</span>
 						</div>
-						<p>{{$t('message.assetsTipsAT')}}</p>
+						<div class="operation" v-show="currentAddr.platform != 'DISPATCHER'">
+							<span>--</span>
+						</div>
+					</li>
+					<div class="charge" v-show="showCharge == 'chargeTRX' && currentAddr.platform == 'DISPATCHER'">
+						<div alt="" id="qrcode3" ref="qrcode3"></div>
+						<div class="charge-desc">
+							<p>{{$t('message.assetsRechargeAddress')}}：</p>
+							<div class="address"><div id="copy_text3" v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.coinAddress}}</div>
+								<span class="copy" ref="copy3" data-clipboard-action="copy" data-clipboard-target="#copy_text3" @click="copy(copyBtn3)">{{$t('message.assetsCopy')}}</span>
+							</div>
+							<p>{{$t('message.assetsTipsAT')}}</p>
+						</div>
 					</div>
-				</div>
-				<div class="mention" v-show="showCharge == 'mentionTRX' && currentAddr.platform == 'DISPATCHER'">
-					<p>{{$t('message.assetsCoinAddress')}}:</p>
-					<div class="input-div">
-						<input type="text" v-model="formData.destAddress">
-					</div>
-					<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
-					<div class="input-div">
-						<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
-						TRX
-					</div>
-					<!-- 手续费 -->
-					<div class="poundage">
-						<div class="">
-							<p>{{$t('message.assetsHandlingFee')}}</p>
-							<div class="input-div">
-								<input type="text" name="" value="1" disabled>
-								TRX
+					<div class="mention" v-show="showCharge == 'mentionTRX' && currentAddr.platform == 'DISPATCHER'">
+						<p>{{$t('message.assetsCoinAddress')}}:</p>
+						<div class="input-div">
+							<input type="text" v-model="formData.destAddress">
+						</div>
+						<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+						<div class="input-div">
+							<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+							TRX
+						</div>
+						<!-- 手续费 -->
+						<div class="poundage" v-if="feeData">
+							<div class="">
+								<p>{{$t('message.assetsHandlingFee')}}</p>
+								<div class="input-div">
+									<input type="text" name="" :value="feeData.TRX" disabled>
+									TRX
+								</div>
+							</div>
+							<div class="">
+								<p>{{$t('message.assetsArrivalAmount')}}</p>
+								<div class="input-div">
+									<input type="text" name="" :value="formData.amount - feeData.TRX < 0 ? 0 : (formData.amount - feeData.TRX).toFixed(8)" disabled>
+									TRX
+								</div>
 							</div>
 						</div>
-						<div class="">
-							<p>{{$t('message.assetsArrivalAmount')}}</p>
-							<div class="input-div">
-								<input type="text" name="" :value="formData.amount - 1 < 0 ? 0 : (formData.amount - 1).toFixed(8)" disabled>
-								TRX
-							</div>
-						</div>
+						<p class="attention">
+							<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('TRX')">{{$t('message.assetsExtractCoins')}}</span>
+						</p>
 					</div>
-					<p class="attention">
-						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('TRX')">{{$t('message.assetsExtractCoins')}}</span>
-					</p>
 				</div>
+				
 			</ul>
 		</div>
 	</div>
@@ -196,7 +202,8 @@ import {mapMutations, mapState} from "vuex"
 			showCharge: "",
 			copyBtn: null,
 			copyBtn2: null,
-			copyBtn3: null
+			copyBtn3: null,
+			feeData: null
 		}
 	},
     computed: {
@@ -228,6 +235,8 @@ import {mapMutations, mapState} from "vuex"
 		if(this.currentAddr.coinAddress) {
 			this.makeQrCode()
 		}
+
+		this.getFee()
 	},
 	methods: {
 		makeQrCode () {
@@ -313,6 +322,14 @@ import {mapMutations, mapState} from "vuex"
 							type: "success",
 							msg: this.$t('message.assetsFailCopy')
 					})
+			})
+		},
+		// 手续费获取
+		getFee() {
+			this.$http.get('/app/transfer/withdraw').then( res => {
+				if (res.code == 200) {
+					this.feeData = res.result
+				}
 			})
 		},
 		...mapMutations({
@@ -503,9 +520,9 @@ import {mapMutations, mapState} from "vuex"
 							cursor: pointer;
 						}
 					}
-				}
-				li:first-child {
-					color: #A0ADFF;
+					&.thead {
+						color: #A0ADFF;
+					}
 				}
 			}
 		}

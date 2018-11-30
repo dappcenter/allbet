@@ -142,9 +142,9 @@
 			<div class="dig-wrap nominscreen">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
-					<h4>下注立刻获得 2000 AB</h4>
-					<p>现在投注最高可获得投注货币 2000 x AB </p>
-					<span>挖矿比例 Winer：1:1000   Loser:1:2000</span>
+					<h4>下注立刻获得 {{1/rule.winDig*amount}} AB</h4>
+					<p>现在投注最高可获得投注货币 {{1/rule.winDig}} x AB </p>
+					<span>挖矿比例 Winer：1 : {{1/rule.winDig}}   Loser：1 : {{1/rule.failDig}}</span>
 				</div>
 				<i class="help" @click="isShowABpopup = true"></i>
 			</div>
@@ -437,7 +437,6 @@ export default {
 		 */
 		placeBetTRX(rollUnder, orderId, amount) {
 			let that = this
-			console.log(this.tronWeb)
 			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
 			const callValue = this.tronWeb.tronWebInstance.toSun(amount);
 			this.tronWeb.contract.placeBetV1(rollUnder, 100, orderId).send({

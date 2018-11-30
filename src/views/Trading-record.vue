@@ -19,6 +19,9 @@
 							<option value="DICE_DIG">{{$t('message.tradeDiceDig')}}</option>
 							<option value="INVITE_BONUS_DICE_AB">{{$t('message.tradeInviteBancor')}}</option>
 							<option value="INVITE_BONUS_AB">{{$t('message.tradeRegisterIncentives')}}</option>
+							<option value="RECHARGE_AMOUNT_GIFT">{{$t('message.tradeRechargeAmountGift')}}</option>
+							<option value="DICE_TIME_GIFT">{{$t('message.tradeDiceTimeGift')}}</option>
+							<option value="DICE_AMOUNT_GIFT">{{$t('message.tradeDiceAmountGift')}}</option>
 						</select>
 					</div>
 					<div class="select-wrap">
@@ -176,6 +179,15 @@ export default {
 				break;
 				case 'INVITE_BONUS_AB':  //注册奖励
 					return this.$t('message.tradeRegisterIncentives')
+				break;
+				case 'RECHARGE_AMOUNT_GIFT':  //单次充值满送
+					return this.$t('message.tradeRechargeAmountGift')
+				break;
+				case 'DICE_TIME_GIFT':  //单天投注次数满送
+					return this.$t('message.tradeDiceTimeGift')
+				break;
+				case 'DICE_AMOUNT_GIFT':  //单天投注金额满送
+					return this.$t('message.tradeDiceAmountGift')
 				break;
 			}
 		},

@@ -17,6 +17,7 @@ const filterAddr = function(userInfo) {
                     userName: userInfo.userName, //使用平台账号用户名
                     token: userInfo.token,
                     platform: val.platform,
+                    mainCoin: val.mainCoin,
                     inviteCode: userInfo.inviteCode || null   //使用平台账号邀请码
                 })
             } 
@@ -31,7 +32,7 @@ const state = {
     currentAddr: {},
     hdUserInfo: {},
     lastCurAddrPf: "",
-    coinType: "ETH",   //当前启用的币种 
+    coinType: "TRX",   //当前启用的币种 
 }
 
 const getters = {
@@ -82,6 +83,7 @@ const getters = {
                     at: Math.floor(val.assets.AT.amount*1000) /1000,
                     userName: state.userInfo.userName || "", //使用平台账号用户名
                     token: state.userInfo.token,
+                    mainCoin: val.mainCoin,
                     platform: val.platform,
                     inviteCode: state.userInfo.inviteCode || null   //使用平台账号邀请码
                 })
@@ -173,12 +175,15 @@ const mutations = {
     [types.CHANGE_COINTYPE](state, payload) {
         state.coinType = payload
         let haveCoinType = false
-        state.userInfo.accounts.forEach((val, idx) => {
-            if(val.mainCoin == payload) {
-                haveCoinType = true
-            }
-        })
+        if(state.userInfo.accounts) {
+            state.userInfo.accounts.forEach((val, idx) => {
+                if(val.mainCoin == payload) {
+                    haveCoinType = true
+                }
+            })
+        }
         if(!haveCoinType) {
+            state.userInfo = {}
             switch(payload) {
                 case "ETH":
                     this.dispatch("registerWeb3")

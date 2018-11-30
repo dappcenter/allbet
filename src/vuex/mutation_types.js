@@ -127,3 +127,8 @@ export const CHANGE_COINTYPE = "CHANGE_COINTYPE"
  */
 export const REGISTER_TRON_INSTANCE = "REGISTER_TRON_INSTANCE"
 
+/**
+ * 更新tron资产
+ */
+export const UPDATE_TRON_ASSET = "UPDATE_TRON_ASSET"
+

@@ -138,6 +138,9 @@ export default {
         tradeDiceReward: "Dice Reward",
         tradeDiceDig: "Dice Dig",
         tradeRecharge: "AT Recharge",
+        tradeRechargeAmountGift: "Recharge Amount Gift",
+        tradeDiceTimeGift: "Dice Time Gift",
+        tradeDiceAmountGift: "Dice Amount Gift",
 
         tradeDetail: "Trade Detail",
         tradeBlockchain: "Blockchain Trading ID",
@@ -267,7 +270,7 @@ export default {
         GameWinBox3: "Play again",
         GameNoWin: "It's a pity to fail. Don't lose heart",
         GameKnow: "I know",
-        GameHelp: "<p style='text-align: justify'>1. You can adjust the slider to choose PREDICTION number you'd like to roll under. As you move the slider, your payout and win chance will adjust automatically.<br /><br />2. Click GUESS LESS THAN50 to place your bet. The smart contracts will then randomly generate a LUCKY number from 1~100.<br /><br />3. If the lucky number is less than your prediction then you WIN! <br /><br />4. Each bet placed will give you AB tokens, for more information check out our INFO.<br /><br />5. Make sure you have a account or MetaMask. For more information on how to install MetaMask, Please see the white paper.<br /><br />6. Set your BET NUMBER. This is the amount of ETH you will be betting.<br /><br />Still have questions? Join our WeChat group and we'll be more than happy to help!</p>",
+        GameHelp: "<p style='text-align: justify'>1. You can adjust the slider to choose PREDICTION number you'd like to roll under. As you move the slider, your payout and win chance will adjust automatically.<br /><br />2. Click GUESS LESS THAN50 to place your bet. The smart contracts will then randomly generate a LUCKY number from 1~100.<br /><br />3. If the lucky number is less than your prediction then you WIN! <br /><br />4. Each bet placed will give you AB tokens, for more information check out our INFO.<br /><br />5. Make sure you have a account or MetaMask. For more information on how to install MetaMask, Please see the white paper.<br /><br />6. Set your BET NUMBER. This is the amount of you will be betting.<br /><br />Still have questions? Join our WeChat group and we'll be more than happy to help!</p>",
         GameHowToPlay: "Rules",
         GameTips1: "The data is delayed by up to three minutes and reset daily at UTC 00:00",
         GameRule: "The rules of the game",

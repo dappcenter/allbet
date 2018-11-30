@@ -32,7 +32,7 @@
         return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
     }
 
-    ['share','openWebView', 'closeWebView', 'getVersion', 'changeLanguage'].forEach(function(key) {
+    ['share','openWebView', 'closeWebView', 'getVersion', 'changeLanguage', 'openURLOnSystermBrowser'].forEach(function(key) {
         if (app[key]) {
             console.log("androidAPP")
             window.isInAndroidAPP = true
