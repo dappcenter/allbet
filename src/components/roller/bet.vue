@@ -426,10 +426,10 @@ export default {
 				that.getBetResult(recdId)
 			})
 			.on("error", function(error) {
-				that.alert({
-					type: "error",
-					msg: that.$t("message.GameBetErr")
-				})
+				// that.alert({
+				// 	type: "error",
+				// 	msg: that.$t("message.GameBetErr")
+				// })
 			});
 		},
 		/**
@@ -451,10 +451,10 @@ export default {
 				that.luckyRun()
 				that.getBetResult(orderId)
 			}).catch(err => {
-				that.alert({
-					type: "error",
-					msg: that.$t("message.GameBetErr")
-				})
+				// that.alert({
+				// 	type: "error",
+				// 	msg: that.$t("message.GameBetErr")
+				// })
 			})
 		},
 		//查询下注结果
