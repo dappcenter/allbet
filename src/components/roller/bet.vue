@@ -9,12 +9,12 @@
 				</i>
 				<span>ETH</span>
 			</li>
-			<li :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
+			<!-- <li :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
 				<i class="trx">
 					<img src="../../../public/img/coin/TRX01.png" alt="">
 				</i>
 				<span>TRX</span>
-			</li>
+			</li> -->
 			<li>
 				<i class="eos">
 					<img src="../../../public/img/coin/EOS01.png" alt="">
@@ -363,7 +363,7 @@ export default {
 				})
 				return
 			}
-			
+
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,

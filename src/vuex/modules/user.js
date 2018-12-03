@@ -20,7 +20,7 @@ const filterAddr = function(userInfo) {
                     mainCoin: val.mainCoin,
                     inviteCode: userInfo.inviteCode || null   //使用平台账号邀请码
                 })
-            } 
+            }
         })
     }
     return list
@@ -32,7 +32,7 @@ const state = {
     currentAddr: {},
     hdUserInfo: {},
     lastCurAddrPf: "",
-    coinType: "TRX",   //当前启用的币种 
+    coinType: "ETH",   //当前启用的币种
 }
 
 const getters = {
@@ -56,7 +56,7 @@ const getters = {
             case "TRX":
                 walletAddress = rootState.tronHandler.tronWeb.coinbase
                 break;
-            defautl: 
+            defautl:
                 break;
         }
 
@@ -89,12 +89,12 @@ const getters = {
                 })
             }
         })
-        
+
 
         if(list.length == 0) {
             // 可用地址列表为空清除当前地址状态
             console.log("可用地址列表为空清除当前地址状态")
-            
+
             state.currentAddr = {}
         }
         return list
@@ -191,7 +191,7 @@ const mutations = {
                 case "TRX":
                     this.dispatch("registerTron")
                     break;
-                default: 
+                default:
                     break;
             }
         }
@@ -232,7 +232,7 @@ const actions = {
             axios.get("/open/metamask", {
                 params: {
                     address: address,
-                    type: "user" 
+                    type: "user"
                 }
             }).then(res => {
                 console.log(res)
@@ -249,7 +249,7 @@ const actions = {
                 }
             })
         }
-        
+
         function coinLogin(signature, address, nonce) {
             axios.post("/open/plugin_login", {
                 "chainType": "ETH",
@@ -291,7 +291,7 @@ const actions = {
                     }else {
                         // 已绑定平台账号
                         res.result.assets.forEach(val => {
-                            if(val.coinAddress == newCoinbase) {  
+                            if(val.coinAddress == newCoinbase) {
                                 commit(types.UPDATE_WEB3_AT, {
                                     at: val.at,
                                     bet: val.bet,
@@ -304,7 +304,7 @@ const actions = {
                     }
                 }
             }).catch(err => {
-    
+
             })
         }
     }
