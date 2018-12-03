@@ -265,7 +265,7 @@ export default {
         GameAmountTooLow: "下注金额不能低于",
         GameAmountTooLarge: "下注金额不能大于",
         GameBetSuc: "下注成功",
-        GameBetErr: "下注失败",
+        GameBetErr: "取消支付",
         GameWinBox1: "恭喜您",
         GameWinBox2: "获得AB数：",
         GameWinBox3: "再玩一次",

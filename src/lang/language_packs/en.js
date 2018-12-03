@@ -264,7 +264,7 @@ export default {
         GameAmountTooLow: "You can't bet less than that",
         GameAmountTooLarge: "The amount of the bet cannot be greater than",
         GameBetSuc: "Betting on success",
-        GameBetErr: "Bet failure",
+        GameBetErr: "Cancel the payment",
         GameWinBox1: "Congratulations",
         GameWinBox2: "Get number of AB:",
         GameWinBox3: "Play again",

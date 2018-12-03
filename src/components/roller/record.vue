@@ -1,9 +1,9 @@
 <template>
 	<section class="module-roller-record">
 		<div class="nav">
-			<a href="javascript:;" class="white tl" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
-			<a href="javascript:;" class="golden" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
-			<a href="javascript:;" class="green" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
+			<a href="javascript:;" class="tl" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
+			<a href="javascript:;" class="" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
+			<a href="javascript:;" class="" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
 			<a href="javascript:;" class="tr" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
@@ -12,46 +12,49 @@
 			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn || 0}}</i>{{coinType}}</span>
 			<span class="fr nominscreen">{{$t("message.GameTips1")}}</span>
 		</div>
-		<div class="t-head">
-			<span class="tl">{{$t("message.GameTime")}}</span>
-			<span>{{$t("message.GamePlay")}}</span>
-			<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
-			<span class="nominscreen">{{$t("message.GameForecast")}}</span>
-			<span class="nominscreen">{{$t("message.GameLucky")}}</span>
-			<span class="nominscreen">{{$t("message.GameOdds")}}</span>
-			<span class="tr">{{$t("message.GameReward")}}</span>
-			<span class="nominscreen">AB</span>
+		<div class="table-record">
+			<div class="t-head">
+				<span>{{$t("message.GamePlay")}}</span>
+				<span class="tl">{{$t("message.GameTime")}}</span>
+				<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
+				<span class="nominscreen">{{$t("message.GameForecast")}}</span>
+				<span class="nominscreen">{{$t("message.GameLucky")}}</span>
+				<span class="nominscreen">{{$t("message.GameOdds")}}</span>
+				<span class="tr">{{$t("message.GameReward")}}</span>
+				<span class="nominscreen">AB</span>
+			</div>
+			<div class="t-body">
+				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE'}" v-for="item in recordsList">
+					<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN'}">
+						<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
+					</li>
+					<li class="tl">
+						<span>{{$fmtDate(item.createTime, "time")}}</span>
+						<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
+					</li>
+					<li class="nominscreen">
+						<span>{{item.coinAmount}} {{coinType}}</span>
+					</li>
+					<li class="nominscreen">
+						<span>{{item.guess}}</span>
+					</li>
+					<li class="nominscreen">
+						<span>{{item.luckyNum}}</span>
+					</li>
+					<li class="nominscreen">
+						<span>{{item.odds}}</span>
+					</li>
+					<li class="golden tr">
+						<span v-if="item.rewards > 0">{{item.rewards}} {{coinType}}</span>
+						<span v-else>--</span>
+					</li>
+					<li class="nominscreen">
+						<span>{{item.abNum}} AB</span>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<div class="t-body">
-			<ul class="list-content" v-for="item in recordsList">
-				<li class="tl">
-					<span>{{$fmtDate(item.createTime, "month")}}</span>
-					<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
-				</li>
-				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
-					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
-				</li>
-				<li class="nominscreen">
-					<span>{{item.coinAmount}} {{coinType}}</span>
-				</li>
-				<li class="nominscreen">
-					<span>{{item.guess}}</span>
-				</li>
-				<li class="nominscreen">
-					<span>{{item.luckyNum}}</span>
-				</li>
-				<li class="nominscreen">
-					<span>{{item.odds}}</span>
-				</li>
-				<li class="golden tr">
-					<span v-if="item.rewards > 0">{{item.rewards}} {{coinType}}</span>
-					<span v-else>--</span>
-				</li>
-				<li class="nominscreen">
-					<span>{{item.abNum}} AB</span>
-				</li>
-			</ul>
-		</div>
+		
 	</section>
 </template>
 
@@ -170,27 +173,24 @@ export default {
 .module-roller-record {
     box-sizing: border-box;
 	position: relative;
-	background: url(../../../public/img/game_bg03.png) repeat-y top;
+	background-color: #161220;
 	background-size: 100%;
+	
 	.nav {
 		display: flex;
 		justify-content: center;
-		font-size: 18px;
-		height: 90px;
-		background: -webkit-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Safari 5.1 - 6.0 */
-		background: -o-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Opera 11.1 - 12.0 */
-		background: -moz-linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* Firefox 3.6 - 15 */
-		background: linear-gradient(rgba(0, 0, 0, 0.9), transparent); /* 标准的语法（必须放在最后） */
-		border-bottom: 1px solid #101F4E;
+		font-size: 20px;
+		height: 72px;
+		line-height: 72px;
 		a {
-			color: #D2D2D2;
-			line-height: 90px;
+			color: #54506D;
 			width: 100px;
 			margin: 0 60px;
 			text-align: center;
+			font-weight: 700;
 			&.active {
 				color: #fff;
-				font-weight: 700;
+				border-bottom: 2px solid #fff;
 			}
 			&.white {
 				text-shadow: 0px 0px 6px #FFF;
@@ -223,47 +223,23 @@ export default {
 			font-style: normal;
 		}
 	}
-	.t-head {
-		display: flex;
-		align-items: center;
-		color: #D2D2D2;
-		font-size: 18px;
-		height: 64px;
-		padding: 0 120px;
-		span {
-			flex: 1;
-			text-align: center;
-			&:first-child {
-				flex: 1;
-				text-align: left;
-			}
-			&:last-child {
-				flex: 1;
-				text-align: right;
-			}
-			i {
-				display: block;
-				width: 25px;
-				height: 25px;
-				background: url("../../../public/img/flower.png") no-repeat center;
-				background-size: 80%;
-			}
-		}
-	}
-	.t-body {
-		.list-content {
+	.table-record {
+		max-width: 1100px;
+		margin: 0 auto;
+		font-family: sans-serif;
+		padding-bottom: 120px;
+		.t-head {
 			display: flex;
-			font-size: 18px;
-			padding: 0px 120px;
-			position: relative;
-			.user {
-				text-shadow: 0px 0px 6px #FFF;
-			}
-			li {
+			align-items: center;
+			color: #D2D2D2;
+			font-size: 16px;
+			height: 55px;
+			font-weight: 700;
+			background-color: #030014;
+			padding: 0 50px;
+			span {
 				flex: 1;
 				text-align: center;
-				line-height: 64px;
-				overflow: hidden;
 				&:first-child {
 					flex: 1;
 					text-align: left;
@@ -272,30 +248,84 @@ export default {
 					flex: 1;
 					text-align: right;
 				}
-				&.white {
-					text-shadow: 0px 0px 6px #FFF;
-				}
-				&.green {
-					color: #99FF7E !important;
-					text-shadow: 0px 0px 6px #99FF7E !important;
-				}
-				&.golden {
-					color: #FFDB5B;
-					text-shadow: 0px 0px 6px #FFDB5B;
-				}
-				span {
+				i {
 					display: block;
-					width: 100%;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
+					width: 25px;
+					height: 25px;
+					background: url("../../../public/img/flower.png") no-repeat center;
+					background-size: 80%;
 				}
-				.minscreen {
-					display: none;
+			}
+		}
+		.t-body {
+			background-color: rgba(3,0,20,.4);
+			padding-bottom: 40px;
+			.list-content {
+				display: flex;
+				font-size: 16px;
+				position: relative;
+				padding: 0 50px;
+				font-weight: 700;
+				&.win {
+					background-color:rgba(19,246,147,.3);
+					border-top: 1px solid rgba(19,246,147,1);
+					&.rich {
+						background: rgba(19,246,147,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+						background-size: 53px 53px;
+					}
+					&.lucky {
+						background: rgba(19,246,147,.3) url(../../../public/img/lucky_ch.png) no-repeat left top;
+						background-size: 53px 53px;
+					}
+				}
+				&.lose {
+					background-color:rgba(254,14,78,.3);
+					border-top: 1px solid rgba(254,14,78,1);
+					&.rich {
+						background: rgba(254,14,78,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+						background-size: 53px 53px;
+					}
+				}
+				
+				li {
+					flex: 1;
+					text-align: center;
+					line-height: 59px;
+					overflow: hidden;
+					&:first-child {
+						flex: 1;
+						text-align: left;
+					}
+					&:last-child {
+						flex: 1;
+						text-align: right;
+					}
+					&.white {
+						text-shadow: 0px 0px 6px #FFF;
+					}
+					&.green {
+						color: #99FF7E !important;
+						text-shadow: 0px 0px 6px #99FF7E !important;
+					}
+					&.golden {
+						color: #FFDB5B;
+						// text-shadow: 0px 0px 6px #FFFC00;
+					}
+					span {
+						display: block;
+						width: 100%;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+					.minscreen {
+						display: none;
+					}
 				}
 			}
 		}
 	}
+	
 	.slide-fade-enter-active {
 		transition: all .3s ease;
 	}

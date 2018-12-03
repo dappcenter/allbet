@@ -1,27 +1,34 @@
 <template>
     <div class="footerbar nominscreen">
-        <div class="container">
-            <div class="linklist">
-                <a href="https://twitter.com/allbet10">
-                    <img class="icon" src="../../../public/img/Twitter.png" alt="">
-                </a>
-                <a href="javascript:;">
-                    <img class="icon" src="../../../public/img/weixin_icon.png" alt="">
-                    <div class="qrcode">
-                        <img src="../../../public/img/weixin_qrcode.png" alt="">
-                    </div>
-                </a>
-                <a href="https://weibo.com/6773769402/profile?rightmod=1&wvr=6&mod=personinfo">
-                    <img class="icon" src="../../../public/img/Weibo.png" alt="">
-                </a>
-                <a href="https://t.me/allbetAB">
-                    <img class="icon" src="../../../public/img/Telegram.png" alt="">
-                </a>
-                <a href="https://www.facebook.com/bet.all.315">
-                    <img class="icon" src="../../../public/img/facebook.png" alt="">
-                </a>
+        <div class="content">
+            <div class="top">
+                <div class="logo">
+                    <img src="../../../public/img/allbet01.png" alt="">
+                </div>
+                <div class="linklist">
+                    <a href="https://twitter.com/allbet10">
+                        <img class="icon" src="../../../public/img/Twitter.png" alt="">
+                    </a>
+                    <a href="javascript:;">
+                        <img class="icon" src="../../../public/img/weixin_icon.png" alt="">
+                        <div class="qrcode">
+                            <img src="../../../public/img/weixin_qrcode.png" alt="">
+                        </div>
+                    </a>
+                    <a href="https://weibo.com/6773769402/profile?rightmod=1&wvr=6&mod=personinfo">
+                        <img class="icon" src="../../../public/img/Weibo.png" alt="">
+                    </a>
+                    <a href="https://t.me/allbetAB">
+                        <img class="icon" src="../../../public/img/Telegram.png" alt="">
+                    </a>
+                    <a href="https://www.facebook.com/bet.all.315">
+                        <img class="icon" src="../../../public/img/facebook.png" alt="">
+                    </a>
+                </div>
             </div>
-            <p>COPYRIGHT © 2018.ALLBET.IO</p>
+            
+            <p>The games provided by ALLBET are based on blockchain, fair and transparent. When you start playing these games, please note that online gambling and lottery is an entertainment vehicle 
+and that it carries with it a certain degree of financial risk. Players should be aware of this risk, and govern themselves accordingly.</p>
         </div>
     </div>
 </template>
@@ -42,22 +49,31 @@ export default {
 
 <style lang="less">
 .footerbar {
-    background-color: #041527;
-    height: 60px;
-    .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0 auto;
-        height: 60px;
+    background-color: #030014;
+    padding: 0 123px;
+    .content {
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 auto;
+            border-bottom: 1px solid #241F33;
+            padding: 48px 0;
+            .logo {
+                img {
+                    height: 72px;
+                }
+            }
+        }
+        
         .linklist {
             a {
                 display: inline-block;
-                margin-right: 40px;
+                margin-right: 30px;
                 position: relative;
                 .icon {
-                    width: 30px;
-                    height: 30px;
+                    width: 42px;
+                    height: 42px;
                 }
                 &:hover {
                     .qrcode {
@@ -70,7 +86,7 @@ export default {
                     img {
                         width: 170px;
                     }
-                    bottom: 42px;
+                    bottom: 52px;
                     left: -67px;
                 }
             }
@@ -78,8 +94,9 @@ export default {
         }
     }
     p {
-        font-size: 16px;
-        color: #fff;
+        font-size: 14px;
+        color: #D3CDFF;
+        padding: 39px 0;
     }
 }
 @media screen and (max-width: 800px){

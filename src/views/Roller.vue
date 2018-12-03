@@ -58,7 +58,6 @@ export default {
 .roller-page {
     margin: 0 auto;
     .main {
-        background: url(../../public/img/game_bg03.jpg) repeat-y top;
 	    background-size: 100%;
     }
 }

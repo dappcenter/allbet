@@ -1,54 +1,48 @@
 <template>
 	<section class="module-roller-bet">
-		<div class="mask"></div>
+		<!-- <div class="mask"></div> -->
 		<!-- 币种选择 -->
 		<ul class="coin-select">
-			<li :class="{'active' : coinType == 'ETH'}" @click="changeCoinType('ETH')">
+			<li class="online" :class="{'active' : coinType == 'ETH'}" @click="changeCoinType('ETH')">
 				<i class="eth">
 					<img src="../../../public/img/coin/ETH01.png" alt="">
 				</i>
 				<span>ETH</span>
 			</li>
-			<li :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
+			<li class="online" :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
 				<i class="trx">
 					<img src="../../../public/img/coin/TRX01.png" alt="">
 				</i>
 				<span>TRX</span>
 			</li>
-			<li>
+			<li class="not-online" :data-text="$t('message.BPSoon')">
 				<i class="eos">
 					<img src="../../../public/img/coin/EOS01.png" alt="">
 				</i>
-				<span>{{$t("message.BPSoon")}}</span>
+				<span>EOS</span>
 			</li>
-			<li>
-				<i class="trx">
-					<img src="../../../public/img/coin/TRX01.png" alt="">
-				</i>
-				<span>{{$t("message.BPSoon")}}</span>
-			</li>
-			<li>
+			<li class="not-online" :data-text="$t('message.BPSoon')">
 				<i class="ab">
 					<img src="../../../public/img/coin/AB01.png" alt="">
 				</i>
-				<span>{{$t("message.BPSoon")}}</span>
+				<span>AB</span>
 			</li>
-			<li>
+			<li class="not-online" :data-text="$t('message.BPSoon')">
 				<i class="sac">
 					<img src="../../../public/img/coin/SAC01.png" alt="">
 				</i>
-				<span>{{$t("message.BPSoon")}}</span>
+				<span>SAC</span>
 			</li>
 		</ul>
 		<!-- 联系方式 -->
-		<ul class="contact-select nominscreen">
+		<!-- <ul class="contact-select nominscreen">
 			<li class="active" @click="$window.open('https://t.me/allbetAB')">
 				<img src="../../../public/img/telegram-plane@2x.png" alt="">
 			</li>
 			<li @click="openWeixinQR = true">
 				<img src="../../../public/img/gongzhonghao@2x.png" alt="">
 			</li>
-		</ul>
+		</ul> -->
 		<div class="game-content" ref="gameContent">
 			<div class="game-status nominscreen">
 				<div class="">
@@ -77,7 +71,7 @@
 					<label>{{$t("message.GameOdds")}}</label>
 					<span>{{Math.floor(peilv*1000) / 1000}}x</span>
 				</li>
-				<li class="green">
+				<li class="">
 					<label>{{$t("message.GameIncome")}}</label>
 					<span>{{bonus}}</span>
 				</li>
@@ -118,9 +112,12 @@
 				</div>
 				<!-- 自动下注 -->
 				<div class="auto-bet">
-					<label>自动投注:</label>
-					<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
-					<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
+					<div class="mid">
+						<label>自动投注:</label>
+						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
+						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
+					</div>
+					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen">
@@ -128,7 +125,7 @@
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}}{{odds}}</button>
+					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 					<span class="fl minscreen">
 						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
@@ -609,18 +606,9 @@ export default {
 		-webkit-user-select:none; /*webkit浏览器*/
 		-ms-user-select:none; /*IE10*/
 		user-select:none;
-		background: url(../../../public/img/bg.jpg) repeat center;
-		background-size: 200px;
+		background: #22202c url(../../../public/img/game_bg01.png) no-repeat center;
+		background-size: 100% 100%;
 		overflow: hidden;
-		.mask {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			background: -webkit-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Safari 5.1 - 6.0 */
-			background: -o-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Opera 11.1 - 12.0 */
-			background: -moz-linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* Firefox 3.6 - 15 */
-			background: linear-gradient(rgba(0, 0, 0, 0.5), transparent, rgba(0, 0, 0, 0.9)); /* 标准的语法（必须放在最后） */
-		}
 		.game-status {
 			position: relative;
 			z-index: 1;
@@ -645,38 +633,72 @@ export default {
 
 		}
 		.coin-select {
-			position: absolute;
+			position: relative;
 			z-index: 2;
-			left: 0;
-			top: 80px;
+			display: flex;
+			justify-content: space-around;
+			padding: 20px;
+			width: 722px;
+			margin: 0 auto;
 			li {
-				width: 80px;
-				height: 80px;
-				background-color: #2A3C7E;
-				border-radius:0px 6px 6px 0px;
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				width: 100px;
+				height: 32px;
+				padding: 0 10px;
+				background-color: #54506D;
+				border-radius: 2px;
 				text-align: center;
 				overflow: hidden;
-				margin-bottom: 10px;
 				cursor: pointer;
 				i {
-					display: block;
-					width: 40px;
-					height: 40px;
+					width: 24px;
+					height: 24px;
 					border-radius: 50%;
-					margin: 12px auto 2px;
-					background-color: #1D2F71;
+					background-color: #41375B;
 					img {
-						height: 30px;
+						height: 15px;
 						margin: 5px auto 0;
 					}
 				}
 				span {
-					font-size: 12px;
+					font-size: 16px;
+					font-weight: 700;
+				}
+				&.online {
+					&:hover {
+						background-color: #FFC425;
+						i {
+							background-color: #B88C16;
+						}
+						span {
+							color: #030014;
+						}
+					}
+				}
+				&.not-online {
+					position: relative;
+					&:hover {
+						&:after {
+							content: attr(data-text);
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							background:rgba(0,177,100,.9);
+							font-size: 16px;
+							font-weight: 700;
+							line-height: 32px;
+						}
+					}
 				}
 				&.active {
-					background:linear-gradient(140deg,rgba(100,180,239,1),rgba(57,94,236,1));
+					background-color: #FFC425;
 					i {
-						background-color: #4387DD;
+						background-color: #B88C16;
+					}
+					span {
+						color: #030014;
 					}
 				}
 			}
@@ -708,7 +730,7 @@ export default {
 		.game-content {
 			position: relative;
 			z-index: 2;
-			width: 700px;
+			width: 722px;
 			margin: 0 auto;
 			border-radius:6px;
 			padding: 0 20px 20px;
@@ -758,36 +780,24 @@ export default {
 			}
 			.ctn-mdl {
 				display: flex;
-				background: url(../../../public/img/game_bg02.png) no-repeat center;
-				background-size: 100% 100%;
+				background-color: #161220;
 				margin: 10px 0 0 0;
 				border-radius:6px;
 				padding: 10px 0;
 				li {
 					flex: 1;
 					position: relative;
-					border-right: 1px solid #0E3282;
+					border-right: 1px solid #030014;
 					&:last-child {
 						border: none;
 					}
 					label {
 						display: block;
+						color: #676284;
 					}
 					span {
 						font-size: 16px;
 						font-weight: 700;
-					}
-					&:nth-child(1),&:nth-child(2) {
-						&:after {
-							content: "";
-							position: absolute;
-							top: 20%;
-							right: 0;
-							height: 60%;
-							width: 1px;
-							background-color: #476FCA;
-							box-shadow: 0 0 5px #476FCA;
-						}
 					}
 					&.green {
 						color: #99FF7E !important;
@@ -873,61 +883,68 @@ export default {
 				.auto-bet {
 					position: relative;
 					display: flex;
-					justify-content: center;
+					justify-content: space-between;
 					align-items: center;
 					margin: 23px 0 0;
-					.switch {
-						position: relative;
-						width: 60px;
-						height: 24px;
-						background-color: #2A3C7E;
-						border-radius: 12px;
-						margin: 0 10px;
-						cursor: pointer;
-						transition: all 2s;
-						&.on {
-							background-color: lime;
+					.mid {
+						display: flex;
+						justify-content: center;
+						.switch {
+							position: relative;
+							width: 60px;
+							height: 24px;
+							background-color: #2A3C7E;
+							border-radius: 12px;
+							margin: 0 10px;
+							cursor: pointer;
+							transition: all 2s;
+							&.on {
+								background-color: #2EA974;
+								&:after {
+									margin-left: 36px;
+								}
+							}
 							&:after {
-								margin-left: 36px;
+								content: "";
+								position: absolute;
+								top: 2px;
+								left: 2px;
+								width: 20px;
+								height: 20px;
+								border-radius: 50%;
+								background-color: #fff;
+								transition: all .5s;
 							}
 						}
-						&:after {
-							content: "";
-							position: absolute;
-							top: 2px;
-							left: 2px;
-							width: 20px;
-							height: 20px;
-							border-radius: 50%;
-							background-color: #fff;
-							transition: all .5s;
+						.help {
+							position: relative;
+							width: 24px;
+							height: 24px;
+							background: url(../../../public/img/help_icon.png) no-repeat center;
+							background-size: 70%;
+							cursor: pointer;
+							&:hover {
+								&:after {
+									content: attr(data-text);
+									position: absolute;
+									bottom: 30px;
+									right: -37px;
+									width: 240px;
+									font-size: 12px;
+									background-color: rgba(0, 0, 0, 0.9);
+									text-align: left;
+									color: #ccc;
+									font-size: 15px;
+									padding: 10px;
+									border-radius: 4px;
+									z-index: 5;
+									font-style: normal;
+								}
+							}
 						}
 					}
-					.help {
-						position: relative;
-						width: 24px;
-						height: 24px;
-						background: url(../../../public/img/help_icon.png) no-repeat center;
-						background-size: 70%;
-						cursor: pointer;
-						&:hover {
-							&:after {
-								content: attr(data-text);
-								position: absolute;
-								bottom: 30px;
-    							right: -37px;
-								width: 240px;
-								font-size: 12px;
-								background-color: rgba(0, 0, 0, 0.9);
-								text-align: left;
-								color: #ccc;
-								font-size: 15px;
-								padding: 10px;
-								border-radius: 4px;
-								z-index: 5;
-								font-style: normal;
-							}
-						}
+					a {
+						color: #D3CDFF;
 					}
 				}
 				.bet-wrap {
@@ -936,13 +953,14 @@ export default {
 					align-items: center;
 					margin-top: 30px;
 					button {
-						width: 300px;
-						height: 40px;
-						background-color: #64B4EF;
-						color: #fff;
+						width: 360px;
+						height: 52px;
+						background-color: #FFC425;
+						color:#1A0D59;
 						border: none;
-						border-radius:4px;
+						border-radius: 26px;
 						font-weight: 700;
+						font-size: 20px;
 						cursor: pointer;
 					}
 					span {
@@ -955,7 +973,7 @@ export default {
 							margin-right: 10px;
 						}
 						i {
-							color: #99FF7E;
+							color: #FFC425;
 							font-style: normal;
 						}
 						&.fr {
@@ -970,7 +988,7 @@ export default {
 				align-items: center;
 				width: 480px;
 				height: 90px;
-				background-color: #1E2E69;
+				background-color: rgba(3,0,20,.7);
 				margin: 28px auto 0;
 				border-radius: 45px;
 				padding: 0 40px;
@@ -1029,7 +1047,7 @@ export default {
 			}
 			.slider {
 				position: relative;
-				background-color: #F3434B;
+				background-color: #FE0E4E;
 				height: 14px;
 				box-shadow: inset 0 1px 0 #2a365a;
 				border-radius: 7px;
@@ -1057,14 +1075,13 @@ export default {
 					}
 				}
 				.bar {
-					background-color: lime;
+					background-color: #13F693;
 					height: 14px;
 					width: 50%;
 					top: 0;
 					left: 0;
 					border-top-left-radius: 7px;
 					border-bottom-left-radius: 7px;
-					opacity: 0.75;
 					margin-right: 10px;
 					box-shadow: 0 0 10px #fff;
 				}
