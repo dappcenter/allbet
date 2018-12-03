@@ -162,7 +162,7 @@ export default {
         invitateCopyCode: "Copy invitation code",
         invitateCopyLink: "Copy Link",
         InvitationRules: "Invitation Rules: ",
-        InvitationRules1: "1. Register for an account to get 5000AB coins;",
+        InvitationRules1: "1. Register for an account to get 1000AB coins;",
         InvitationRules2: "2. Invite a friend to successfully system. The airdrop will be 10%. The invitee will hold the AB coin, 8% will be owned by the inviter, and 2% will be owned by the invitee.",
         InvitePeople: "People",
         InviteBind: "Please bind the account first, then invite friends to participate in the game.",
@@ -286,10 +286,10 @@ export default {
         BPtip2: "Coming online EOS, TRX, AB, SAC game betting mining, multi-currency bonus pool and so on you to receive.",
 
         // 公告
-        notice1: "Announcement：ALLBET has been launched! Register now and earn up 0.01ETH + 5000AB! Invite your friend to get extra rewards!",
+        notice1: "Announcement：ALLBET has been launched! Register now and earn up 0.01ETH + 1000AB! Invite your friend to get extra rewards!",
 
         // 邀请
-        inviteText: "【ALLBET game platform online】\n【Register ALLBET to send 0.01ETH+5000AB】\n【ALLBET】As an all-ecology DAPP platform, it implements Token's economic concept, transparent assets, income sharing and community co-governance.\n“Game mining AB, daily dividends, invite registration Award 'synchronous opening. 1 everyone has the invitation to promote the award.❗️ ❗️ 【Invitation to Promotion Award】🏆After the invitee holds AB coins, the invitee will reward 8% of the invitee's AB coins, and the invitee will reward 2% of the number of AB coins. All the rewards come from the system airdrop.💰🎀That is to say, as long as everyone registers and sends 5000AB, the invitee will get 8% of the reward after the invitee's game mining gets AB, and the invitee will also get 2% of the reward. These rewards are all direct airdrops of the system, so that everyone can make money together.🎀🎀If everyone can recommend 3 people quickly, everyone can make money easily.🎉🎉🎉🎉🎉 \nRegistration link：",
+        inviteText: "【ALLBET game platform online】\n【Register ALLBET to send 0.01ETH+1000AB】\n【ALLBET】As an all-ecology DAPP platform, it implements Token's economic concept, transparent assets, income sharing and community co-governance.\n“Game mining AB, daily dividends, invite registration Award 'synchronous opening. 1 everyone has the invitation to promote the award.❗️ ❗️ 【Invitation to Promotion Award】🏆After the invitee holds AB coins, the invitee will reward 8% of the invitee's AB coins, and the invitee will reward 2% of the number of AB coins. All the rewards come from the system airdrop.💰🎀That is to say, as long as everyone registers and sends 1000AB, the invitee will get 8% of the reward after the invitee's game mining gets AB, and the invitee will also get 2% of the reward. These rewards are all direct airdrops of the system, so that everyone can make money together.🎀🎀If everyone can recommend 3 people quickly, everyone can make money easily.🎉🎉🎉🎉🎉 \nRegistration link：",
 
         //APP.vue
         AppMainNet: "Switch to the main network",

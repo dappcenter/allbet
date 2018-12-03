@@ -14,9 +14,12 @@
 		</div>
 		<div class="t-head">
 			<span class="tl">{{$t("message.GameTime")}}</span>
-			<span>{{$t("message.GamePlay")}}</span>
+			<span :class="['minscreen',boardType == 'ME'?'disapper':'']">{{$t("message.GamePlay")}}</span>
+			<span class="nominscreen">{{$t("message.GamePlay")}}</span>
 			<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
+			<span :class="['minscreen',boardType == 'ME'?'':'disapper']">{{$t("message.GameForecast")}}</span>
 			<span class="nominscreen">{{$t("message.GameForecast")}}</span>
+			<span :class="['minscreen',boardType == 'ME'?'':'disapper']">{{$t("message.GameLucky")}}</span>
 			<span class="nominscreen">{{$t("message.GameLucky")}}</span>
 			<span class="nominscreen">{{$t("message.GameOdds")}}</span>
 			<span class="tr">{{$t("message.GameReward")}}</span>
@@ -25,10 +28,13 @@
 		<div class="t-body">
 			<ul class="list-content" v-for="item in recordsList">
 				<li class="tl">
-					<span>{{$fmtDate(item.createTime, "month")}}</span>
-					<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
+					<span class="nominscreen">{{$fmtDate(item.createTime, "month")}}</span>
+					<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
 				</li>
-				<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
+				<li class="user nominscreen" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
+					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
+				</li>
+				<li class="user minscreen" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount,'disapper': boardType == 'ME'}">
 					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
 				</li>
 				<li class="nominscreen">
@@ -37,7 +43,13 @@
 				<li class="nominscreen">
 					<span>{{item.guess}}</span>
 				</li>
+				<li :class="['minscreen',boardType == 'ME'?'':'disapper']">
+					<span>{{item.guess}}</span>
+				</li>
 				<li class="nominscreen">
+					<span>{{item.luckyNum}}</span>
+				</li>
+				<li :class="['minscreen',boardType == 'ME'?'':'disapper']">
 					<span>{{item.luckyNum}}</span>
 				</li>
 				<li class="nominscreen">
@@ -230,6 +242,9 @@ export default {
 		font-size: 18px;
 		height: 64px;
 		padding: 0 120px;
+		.disapper {
+			display: none;
+		}
 		span {
 			flex: 1;
 			text-align: center;
@@ -293,6 +308,9 @@ export default {
 				.minscreen {
 					display: none;
 				}
+			}
+			.disapper {
+				display: none;
 			}
 		}
 	}
