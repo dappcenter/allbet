@@ -182,6 +182,7 @@ export default {
         PopInputCaptcha: "请输入短信验证码",
         PopInputEmailCaptcha: "请输入邮箱验证码",
         PopPassword: "密码",
+        PopOldPassword: "旧密码",
         PopNewPassword: "新密码",
         PopPasswordConfirm: "确认密码",
         PopPasswordPlaceholder: "数字字母组成，8~12位",
@@ -203,7 +204,8 @@ export default {
 
         // 提示语
         PopCaptchaEmpty: "短信验证码不能为空",
-        PopPassEmpty: "密码不能为空",
+        PopOldPassEmpty: "旧密码不能为空",
+        PopPassEmpty: "新密码不能为空",
         PopPass2Empty: "再次确认密码不能为空",
         PopPassDiff: "两次输入的密码不一致",
         PopPhoneWrong: "手机号输入有误",
@@ -333,7 +335,7 @@ export default {
         abEthpool: 'AT币的ETH资金池',
         abPool: 'AB分红池',
 
-        // 
+        //
 
     }
 }
