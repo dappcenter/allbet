@@ -106,19 +106,23 @@
 			<label>{{$t('message.PopAccount')}}:</label>
 			<input type="text" :value="currentAddr.userName" :placeholder="$t('message.PopGraphicEnter')" disabled>
 		</div>
-		<div class="input-wrap">
+		<!-- <div class="input-wrap">
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
 				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=RESET_PWD&macCode=' + macCode" alt="" @click="getImgCode('RESET_PWD')" ref="imgcode">
 			</div>
-		</div>
-		<div class="input-wrap">
+		</div> -->
+		<!-- <div class="input-wrap">
 			<label>{{$t('message.PopCaptcha')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.resetCaptcha" :placeholder="$t('message.PopInputCaptcha')">
 				<a href="javascript:;" @click="getSMScode('RESET_PASS')">{{formData.btnText}}</a>
 			</div>
+		</div> -->
+		<div class="input-wrap">
+			<label>{{$t('message.PopOldPassword')}}</label>
+			<input type="password" v-model="formData.oldLoginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
 		</div>
 		<div class="input-wrap">
 			<label>{{$t('message.PopNewPassword')}}</label>
@@ -170,6 +174,7 @@ import {mapMutations, mapState} from "vuex"
 				"email2": "",
 
 				"resetCaptcha": "", // 重置登陆密码
+				"oldLoginPwd": "",
 				"resetLoginPwd": "",
 				"resetLoginPwd2": "",
 				"bindingType": "PHONE"
@@ -210,6 +215,7 @@ import {mapMutations, mapState} from "vuex"
 					picCode: "", //图形验证码
 					resetLoginPwd: "",
 					resetLoginPwd2: "",
+					oldLoginPwd: '',
 				})
 			},
 			deep: true
@@ -366,10 +372,10 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 确认重置密码
 		passResetDo () {
-			if(this.formData.resetCaptcha == "") {
+			if(this.formData.oldLoginPwd == "") {
 				this.alert({
 					type: "info",
-					msg: this.$t('message.PopCaptchaEmpty')
+					msg: this.$t('message.PopOldPassEmpty')
 				})
 				return
 			}
@@ -403,8 +409,8 @@ import {mapMutations, mapState} from "vuex"
 				return false
 			}
 			this.$http.post("/app/user/password/reset", {
-				'captcha': this.formData.resetCaptcha,
-				'pwd': Md5(this.formData.resetLoginPwd)
+				'oldPwd': Md5(this.formData.oldLoginPwd),
+				'newPwd': Md5(this.formData.resetLoginPwd)
 			}).then(res => {
 				if(res.code == 200) {
 					this.alert({
@@ -584,24 +590,26 @@ import {mapMutations, mapState} from "vuex"
 			top: 39%;
 			padding: 30px;
 			transform: translate(-50%,-50%);
-			h4 {
-				text-align: center;
-				color: #646464;
-				font-size: 20px;
-			}
+			// h4 {
+			// 	text-align: center;
+			// 	color: #CCBCF8;
+			// 	font-size: 24px;
+			// }
 			.mu-dialog {
 				max-width: initial !important;
-				background-color: #214797;
+				background-color: #52476F;
+				.mu-dialog-body {
+					width: 380px;
+				}
 				.primary-btn {
 					display: block;
 					width: 240px;
 					height: 40px;
 					margin-top: 20px;
 					cursor: pointer;
-					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
-					box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
+					background:#FFC425;
 					border-radius:4px;
-					color: #fff;
+					color: #1A0D59;
 					border: none;
 					&.hd {
 						background:linear-gradient(90deg,rgba(84,190,202,1),rgba(61,143,242,1));
@@ -611,7 +619,10 @@ import {mapMutations, mapState} from "vuex"
         &.bind-accout {
             h4 {
 				margin-bottom: 40px;
-				color: #fff;
+				color: #CCBCF8;
+				font-size: 24px;
+				text-align: center;
+
             }
             .input-wrap {
                 display: flex;
@@ -619,18 +630,18 @@ import {mapMutations, mapState} from "vuex"
                 font-size: 14px;
                 margin-top: 20px;
                 label {
-					width: 80px;
-					color: #C8C8C8;
+								width: 80px;
+								color: #CCBCF8;
                 }
                 input {
                     flex: 1;
 					width: 60%;
                     height:40px;
-					background:#173167;
-		            border:1px solid #173167;
+					background:#443A60;
 		            color: #fff;
                     border-radius:4px;
                     padding: 0 10px;
+										    border: none;
                 }
                 .input-flex {
                     flex: 1;

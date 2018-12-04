@@ -52,7 +52,7 @@
 					<div>{{filterState(item)}}</div>
 					<div class="vol">{{item.amount}}</div>
 					<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-					<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1 && item.platform !='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+					<div class="operation btn nominscreen" v-if="['RECHARGE', 'WITHDRAW'].indexOf(item.realOperation) > -1 && item.platform =='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
 					<div class="operation nominscreen" v-else>- -</div>
 				</li>
 			</div>
@@ -73,30 +73,34 @@
 			</mu-container>
 
 			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
-				<p>{{$t('message.tradeDetail')}}</p>
-				<li v-if="currentAddr.coinAddress">
-					<span>{{$t('message.tradeAddress')}}:</span>
-					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
+				<p v-if="itemDetail.realOperation == 'RECHARGE'">{{$t('message.tradeEthRecharge')}}</p>
+				<p v-else>{{$t('message.tradeEthWithdraw')}}</p>
+
+				<!-- 充币地址 -->
+				<li v-if="itemDetail.realOperation == 'RECHARGE'">
+					<span>{{$t('message.assetsRechargeAddress')}}:</span>
+					<div>{{detailData.coinAddress}}</div>
 				</li>
-				<li v-if="detailData.bancorPrice">
+				<!-- AT价格 -->
+				<!-- <li v-if="detailData.bancorPrice">
 					<span>{{$t('message.homeAtPrice')}}:</span>
 					<div>{{detailData.bancorPrice}}</div>
-				</li>
-				<!-- 提币地址 -->
-				<!-- <li>
-					<span>{{$t('message.assetsCoinAddress')}}:</span>
-					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
 				</li> -->
+				<!-- 提币地址 -->
+				<li v-if="itemDetail.realOperation == 'WITHDRAW'">
+					<span>{{$t('message.assetsCoinAddress')}}:</span>
+					<div>{{detailData.destAddress}}</div>
+				</li>
 				<!-- 区块链交易ID -->
 				<li v-if="detailData.txId">
 					<span>{{$t('message.tradeBlockchain')}}:</span>
 					<div>{{detailData.txId}}</div>
 				</li>
 				<!-- 手续费 -->
-				<!-- <li>
+				<li v-if="itemDetail.realOperation != 'RECHARGE'">
 					<span>{{$t('message.tradePlatform')}}:</span>
-					<div>0.005 ETH</div>
-				</li> -->
+					<div>{{detailData.fee}} {{detailData.transferCoinType}}</div>
+				</li>
 				<!-- 处理时间 -->
 				<li v-if="detailData.updateTime">
 					<span>{{$t('message.tradeProcessingTime')}}:</span>
@@ -128,6 +132,7 @@ export default {
 			dealingTime: "", //钱包处理时间
 			tradingDetail: false, // 交易详情
 			detailData: {},
+			itemDetail: {}, // 点击详情item的值
 		}
 	},
 	mounted() {
@@ -220,7 +225,8 @@ export default {
 		},
 		// 详情
 		goDetail (item) {
-			if (item.platform =='DISPATCHER') return
+			this.itemDetail = item
+			if (item.platform !='DISPATCHER') return
 			this.$http.get("/app/user/trade_records/" + item.id,{
 
 			}).then((res) => {
@@ -366,25 +372,25 @@ export default {
 					width: 42%;
 				}
 				.mu-dialog-body {
-					background-color: #214797;
-					color: #fff;
+					background-color: #52476F;
+					color: #CCBCF8;
 					p {
-						font-size:18px;
+						font-size:20px;
 						font-weight:bold;
 						text-align: center;
 						padding: 10px;
+						margin-bottom: 10px;
 					}
 					li {
 						font-size: 14px;
-						color: #fff;
 						display: flex;
 						justify-content: flex-start;
 						align-items: center;
 						border-bottom: none;
+						margin-top: 5px;
 						span {
-							color: #C8C8C8;
 							text-align: left;
-							width: 25%;
+							width: 38%;
 						}
 						div {
 							text-align: right;

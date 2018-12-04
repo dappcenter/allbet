@@ -150,7 +150,10 @@
 						<div class="input-div">
 							<input type="text" v-model="formData.destAddress">
 						</div>
-						<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+						<p class="available">
+							<span>{{$t('message.assetsQuantity')}}:</span>
+							<span v-if="currentAddr.assets.TRX">{{$t('message.homeAvailable')}}{{currentAddr.assets.TRX.amount}} TRX</span>
+						</p>
 						<div class="input-div">
 							<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
 							TRX
