@@ -13,8 +13,8 @@
             <td>30%</td>
             </tr>
             <tr>
-            <td>{{$t('message.abGameDig')}}</td>
-            <td>70%</td>
+            <td class="no-bt-bd">{{$t('message.abGameDig')}}</td>
+            <td class="no-bt-bd">70%</td>
             </tr>
         </table>
         <p class="tip1 tip2">{{$t('message.abFourYear')}}</p>
@@ -22,19 +22,6 @@
         <p class="tip1 tip2">{{$t('message.abGet')}}</p>
         <h4>{{$t('message.abShareTitle')}}</h4>
         <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
-        <p class="tip1 tip2 tip3">{{$t('message.abExmaple')}}</p>
-        <p class="tip1 tip2 tip3">{{$t('message.abFirst')}}</p>
-        <p class="tip1 tip2">{{$t('message.abLast')}}</p>
-        <table>
-            <tr>
-            <td>{{$t('message.abEthpool')}}</td>
-            <td>3000ETH</td>
-            </tr>
-            <tr>
-            <td>{{$t('message.abPool')}}</td>
-            <td>7000ETH</td>
-            </tr>
-        </table>
     </mu-dialog>
 </template>
 
@@ -76,12 +63,14 @@ export default {
     z-index: 20181248 !important;
     .mu-dialog {
         width: 40%;
-        background-color: #214797;
-        
+        border-radius: 6px;
+        overflow: hidden;
     }
     .mu-dialog-body {
         position: relative;
-        color: #fff;
+        color: #CCBCF8;
+        background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+        background-size: 40%;
         .close-btn {
             position: absolute;
             right: 20px;
@@ -94,21 +83,31 @@ export default {
     table{
         border-collapse:collapse;
         width:100%;
-        }
+        background-color: #4D426A;
+        border-radius: 4px;
+    }
 
-    table, td, th
+    td, th
+
         {
-        border:1px solid #577AC3;
+            border-bottom:1px solid #3A2F57;
+            border-right: 1px solid #3A2F57;
+            &:nth-child(2n) {
+                border-right: none;
+            }
+            &.no-bt-bd {
+                border-bottom: none;
+            }
         }
         td{
         text-align:center;
         vertical-align:middle;
-        height:50px;
+        height:80px;
         width: 50%;
         font-size: 14px;
         }
         th {
-        height:40px;
+            height:80px;
         }
         .tip1 {
             margin-bottom: 10px;

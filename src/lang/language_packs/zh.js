@@ -235,6 +235,9 @@ export default {
         PopBindDesc: "使用账号登录赢取邀请奖励分ETH，玩游戏享受收益秒到账",
         PopBindDesc2: "绑定账号，赢取邀请奖励分ETH",
 
+        PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网节点，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载（两款钱包 均支持 TRONDICE） TronLink https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</p>",
+
         PopHttpTimeout: "请刷新页面",
         // 游戏页
         GameForecast: "预测数",
@@ -315,13 +318,14 @@ export default {
         abBancorDig: 'AB代币挖矿',
         abGet: '玩家通过玩游戏获取 AB 代币，每次投注都可以获得一定数量的代币。AB 代币的挖矿难度会随着 AB 代币的释放而增加。',
         abShareTitle: '利润分享',
-        abShareDesc: '平台盈利 100% 分红平台玩家，其中 70% 分红给持有 AB的 用户，30% 分红给持有 AT 的用户。',
+        abShareDesc: '平台盈利 100% 分红给持有 AB 代币的玩家。',
         abExmaple: '举例说明：',
         abFirst: '假如第一次分红的利润是 10000 ETH。',
         abLast: '则最后的分配情况如下为：',
         abEthpool: 'AT币的ETH资金池',
         abPool: 'AB分红池',
 
+        // 
 
     }
 }

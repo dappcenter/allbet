@@ -24,12 +24,19 @@
 		<div class="shade" v-show="isShowWin || noMainNetwork"></div>
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
-			<div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
-				<h3>{{$t("message.GameWinBox1")}}</h3>
-				<h3>{{winPopupOption.rewards}}</h3>
-				<p>（{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB）</p>
-				<button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
-			</div>
+      <div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
+        <div class="lighting"></div>
+        <div class="centent">
+          <img src="../public/img/win_box/gxn.png" v-show="locale == 'zh-CN'" />
+          <img src="../public/img/win_box/Win.png" v-show="locale == 'en-US'" />
+          <h3 class="rewards">{{winPopupOption.rewards}}</h3>
+          <h3 class="cointype">{{winPopupOption.coinType}}</h3>
+          <p>{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB</p>
+          <button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
+          <i class="close-btn" @click="isShowWin = false"></i>
+        </div>
+      </div>
+      
 		</transition>
 
     <!-- HD钱包网络弹框提示 -->
@@ -119,7 +126,8 @@ export default {
       popupStatus: state => state.dialogs.popupStatus,
       storeIsShowPsdVer: state => state.dialogs.isShowPsdVer,
       currentAddr: state => state.user.currentAddr,
-      coinType: state => state.user.coinType
+      coinType: state => state.user.coinType,
+      locale: state => state.locale
     })
   },
   methods: {
@@ -265,39 +273,95 @@ body {
     background-color: rgba(000, 000, 000, 0.5);
   }
   .win-box {
-    position: fixed;
-    left: calc(50% - 180px);
-    top: calc(50% - 180px);
-    width: 360px;
-    height: 360px;
-    background: url(../public/img/win.png) no-repeat center;
-    background-size: 100%;
-    text-align: center;
-    padding: 120px 0 0 0;
-    z-index: 9999999999;
-
-    h3 {
-      font-size: 30px;
-    }
-    button {
-      width: 180px;
-      height: 48px;
-      background: linear-gradient(
-        45deg,
-        rgba(241, 182, 40, 1),
-        rgba(251, 229, 110, 1)
-      );
-      box-shadow: 0px 0px 0px 1px rgba(237, 215, 84, 1);
-      border-radius: 6px;
-      border: none;
-      font-size: 20px;
-      color: #e34142;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 30px;
-      outline: none;
-    }
+      position: fixed;
+      left: calc(50% - 400px);
+      top: calc(50% - 400px);
+      width: 800px;
+      height: 800px;
+      z-index: 9999999999;
+      .lighting {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url(../public/img/win_box/lighting.png) no-repeat center;
+        background-size: 80%;
+        -webkit-animation: spin 12s linear 12s 5 alternate;
+        animation: spin 12s linear infinite;
+      }
+      .centent {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        background: url(../public/img/win_box/bg.png) no-repeat center;
+        background-size: 100%;
+        text-align: center;
+        padding: 240px 0 0 0;
+        img {
+          height: 44px;
+        }
+        h3 {
+          font-size: 35px;
+          color: #FFE825;
+          &.rewards {
+            font-size: 50px;
+            margin-top: 15px;
+          }
+          &.cointype {
+            font-size: 25px;
+          }
+        }
+        p {
+          position: relative;
+          font-size: 16px;
+          width: 400px;
+          margin: 15px auto 0;
+          &:after {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            height: 1px;
+            margin-left: 20px;
+            width: 60px;
+            background-color: #FFE825;
+          }
+          &:before {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+            height: 1px;
+            width: 60px;
+            background-color: #FFE825;
+          }
+        }
+        button {
+          width: 200px;
+          height: 40px;
+          background: url(../public/img/win_box/Button.png) no-repeat center;
+          background-size: 100% 100%;
+          border-radius: 6px;
+          border: none;
+          font-size: 20px;
+          color: #744C00;
+          font-weight: 700;
+          cursor: pointer;
+          margin-top: 25px;
+          outline: none;
+        }
+        .close-btn {
+          position: absolute;
+          top: 20%;
+          right: 20%;
+          width: 30px;
+          height: 30px;
+          background: url(../public/img/win_box/close.png) no-repeat center;
+          background-size: 100%;
+          cursor: pointer;
+        }
+      }
   }
+  
   .newwork-box {
     position: fixed;
     left: calc(50% - 250px);
@@ -389,7 +453,7 @@ body {
   animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-  animation: bounce-in 0.5s reverse;
+  // animation: bounce-in 0.5s reverse;
 }
 @keyframes bounce-in {
   0% {
@@ -401,6 +465,23 @@ body {
   100% {
     transform: scale(1);
   }
+}
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media screen and (max-width: 800px) {

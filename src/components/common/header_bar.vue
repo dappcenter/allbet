@@ -24,7 +24,7 @@
                     </mu-select>
                 </div>
                 <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
-                    <img src="../../../public/img/user_icon.png" alt="">
+                    <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i></i>
                     <div class="router-list">
@@ -57,11 +57,10 @@
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
 
         <!-- 登录选择 -->
-        <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
+        <!-- <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
             <h4>{{$t("message.login")}}</h4>
             <img src="../../../public/img/Logo02.png" alt="">
             <button class="primary-btn nominscreen" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
-            <!-- mobile登录按钮 -->
             <button class="primary-btn minscreen" @click="$router.push('login')">{{$t("message.accountLogin")}}</button>
 
             <button class="primary-btn hd nominscreen" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
@@ -69,10 +68,11 @@
             <p>
                 {{$t("message.notRegister")}}
                 <a href="javascript:;" class="nominscreen" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a>
-                <!-- mobile注册 -->
                 <a href="javascript:;" class="minscreen" @click="$router.push('register')">{{$t("message.nowRegister")}}</a>
             </p>
-        </mu-dialog>
+        </mu-dialog> -->
+        <LoginSelectPopup v-model="displayStatus.loginSelect"></LoginSelectPopup>
+
         <!-- 账号登录 -->
         <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
             <h4>{{$t("message.login")}}</h4>
@@ -250,6 +250,7 @@ import RegisterPop from "@/components/account/register"
 import MBheaderNav from "@/components/common/mobile/mb_header_nav"
 import AbPopup from "@/components/common/ab_popup"
 import BPPopup from "@/components/common/bonusPools_popup"
+import LoginSelectPopup from "@/components/account/login_select_popup"
 export default {
     props: {
         type: {
@@ -730,7 +731,8 @@ export default {
         RegisterPop,
         MBheaderNav,
         AbPopup,
-        BPPopup
+        BPPopup,
+        LoginSelectPopup
     },
     destroyed() {
         //销毁事件
@@ -972,7 +974,7 @@ export default {
         // top: 40px;
         padding: 30px;
         .mu-dialog-body {
-            background-color: #214797;
+            background-color: #52476F;
             color: #fff;
         }
         h4 {

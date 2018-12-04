@@ -209,7 +209,9 @@ export default {
 		line-height: 40px;
 		background:rgba(17,28,66,.5);
 		overflow: hidden;
-		padding: 0px 120px;
+		padding: 0px 10px;
+		max-width: 1100px;
+		margin: 0 auto;
 		.fl {
 			float: left;
 		}
@@ -218,8 +220,8 @@ export default {
 			margin-left: 40px;
 		}
 		i {
-			color: #99FF7E;
-			text-shadow: 0px 0px 6px #99FF7E !important;
+			color: #FFC425;
+			text-shadow: 0px 0px 6px #FFC425 !important;
 			font-style: normal;
 		}
 	}

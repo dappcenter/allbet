@@ -34,15 +34,6 @@
 				<span>SAC</span>
 			</li> -->
 		</ul>
-		<!-- 联系方式 -->
-		<!-- <ul class="contact-select nominscreen">
-			<li class="active" @click="$window.open('https://t.me/allbetAB')">
-				<img src="../../../public/img/telegram-plane@2x.png" alt="">
-			</li>
-			<li @click="openWeixinQR = true">
-				<img src="../../../public/img/gongzhonghao@2x.png" alt="">
-			</li>
-		</ul> -->
 		<div class="game-content" ref="gameContent">
 			<div class="ctn-top">
 				<div class="bet-input">
@@ -137,10 +128,10 @@
 			</div>
 		</div>
 		<!-- 游戏规则 -->
-		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="confirm">
+		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="gamerule">
 			<a href="javascript:;" class="close-btn" @click="isShowHelp = false"></a>
 			<h4>{{$t("message.GameRule")}}</h4>
-			<p class="content-text" v-html="$t('message.GameHelp')"></p>
+			<div class="content-text" v-html="$t('message.GameHelp')"></div>
 			<div class="btn-wrap">
 				<button class="high" @click="isShowHelp = false">{{$t("message.GameKnow")}}</button>
 			</div>
@@ -466,7 +457,8 @@ export default {
 									console.log(res)
 									this.openWinPopup({
 										ab: res.result.abNum,
-										rewards: res.result.rewards + " " + res.result.coinType
+										rewards: res.result.rewards,
+										coinType: res.result.coinType
 									})
 								}else if(res.result.winFlag == "LOSE") {
 									this.noWin(res.result.abNum)
@@ -937,6 +929,7 @@ export default {
 						border-radius: 26px;
 						font-weight: 700;
 						font-size: 20px;
+						outline: none;
 						cursor: pointer;
 					}
 					span {
@@ -1075,15 +1068,15 @@ export default {
 				}
 			}
 		}
-		.confirm {
+		.gamerule {
 			text-align: center;
 			.mu-dialog {
-			border-radius: 4px;
-			overflow: hidden;
+				border-radius: 4px;
+				overflow: hidden;
 			}
 			.mu-dialog-body {
 				position: relative;
-				background: rgba(33, 71, 151, 1);
+				background: #52476F;
 				.close-btn {
 					position: absolute;
 					right: 20px;
@@ -1093,43 +1086,35 @@ export default {
 					background: url(../../../public/img/close_icon01.png) no-repeat center;
 					background-size: 100%;
 				}
-			h4 {
-				font-size: 20px;
-				color: #fff;
-			}
-			.content-text {
-				margin: 40px 0;
-				font-size: 16px;
-				text-align: center;
-				color: #fff;
-			}
-			.other {
-				color: #C8C8C8;
-				font-size: 14px;
-				margin-bottom: 10px;
-			}
-			}
-			.btn-wrap {
-			display: flex;
-			justify-content: space-around;
-			button {
-				width: 40%;
-				height: 40px;
-				text-align: center;
-				border-radius: 6px;
-				border: none;
-				background-color: #458ad8;
-				color: #fff;
-				&.high {
-				background: linear-gradient(
-					90deg,
-					rgba(100, 180, 239, 1),
-					rgba(57, 94, 236, 1)
-				);
-				color: #fff;
-				border: none;
+				h4 {
+					font-size: 20px;
+					color: #fff;
+				}
+				.content-text {
+					margin: 40px 0;
+					font-size: 16px;
+					text-align: center;
+					color: #CCBCF8;
+				}
+				.other {
+					color: #C8C8C8;
+					font-size: 14px;
+					margin-bottom: 10px;
 				}
 			}
+			.btn-wrap {
+				display: flex;
+				justify-content: space-around;
+				button {
+					width: 40%;
+					height: 40px;
+					text-align: center;
+					border-radius: 4px;
+					border: none;
+					background-color: #FFC425;
+					color: #1A0D59;
+					font-weight: 700;
+				}
 			}
 		}
 	}

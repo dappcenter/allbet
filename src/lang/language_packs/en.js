@@ -314,7 +314,7 @@ export default {
         abBancorDig: 'AB Token Mining',
         abGet: 'Play our games can get the AB token. Meanwhile，the difficulty of mining the AB token will increase with the release of the ABtoken',
         abShareTitle: 'Profit Sharing',
-        abShareDesc: 'We give 100 percent of the profits to users who hold AB and AT coins, and the platform does not participate in any draw, 70 percent of which goes to AB holders and 30 percent to Bancor ETH reserves in the form of ETH to boost the value of AT coins.',
+        abShareDesc: 'The platform gains 100% dividends to the players who hold AB tokens.',
         abExmaple: 'For example:',
         abFirst: 'Let’s assume there are 10,000 ETH dividends for the first time.',
         abLast: 'The dividends will distribute as follow:',
