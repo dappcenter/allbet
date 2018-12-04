@@ -36,7 +36,7 @@
 					</div>
 				</div>
 			</div>
-			<li style="color: #A0ADFF;">
+			<li class="head-title">
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
 				<div>{{$t('message.tradeType')}}</div>
@@ -44,16 +44,18 @@
 				<div class="nominscreen">{{$t('message.homeState')}}</div>
 				<div class="nominscreen">{{$t('message.homeOperation')}}</div>
 			</li>
-			<li v-for="item in list">
-				<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
-				<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
-				<div class="nominscreen">{{item.coinType}}</div>
-				<div>{{filterState(item)}}</div>
-				<div class="vol">{{item.amount}}</div>
-				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-				<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1 && item.platform !='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
-				<div class="operation nominscreen" v-else>- -</div>
-			</li>
+			<div class="padding">
+				<li class="" v-for="item in list">
+					<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
+					<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
+					<div class="nominscreen">{{item.coinType}}</div>
+					<div>{{filterState(item)}}</div>
+					<div class="vol">{{item.amount}}</div>
+					<div class="nominscreen">{{$t("message.tradeDone")}}</div>
+					<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1 && item.platform !='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+					<div class="operation nominscreen" v-else>- -</div>
+				</li>
+			</div>
 			<!-- <div class="charge">
 				<div class="desc address">
 					<p class="left">{{$t('message.assetsCoinAddress')}}：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</span></p>
@@ -241,24 +243,24 @@ export default {
 	.trading-record {
 		margin: 0 auto;
 		.main {
-			background-color: #040810;
+			background-color: #22202C;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #193570;
+				background-color: #49425C;
 				margin: auto;
-				padding: 0 40px;
+				// padding: 0 40px;
 				.title {
 					display: flex;
 			    	justify-content: left;
-					padding: 15px 0;
+					padding: 15px 40px;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
-					color: #fff;
-					font-size: 18px;
+					color: #D3CDFF;
+					font-size: 16px;
 					nav{
 						flex: 1;
 						a {
-							color: #C8C8C8 !important;
+							color: #A29ADF !important;
 						}
 					}
 					.control {
@@ -271,8 +273,8 @@ export default {
 							}
 							select {
 								width: 120px;
-								background-color: #123789;
-								border: 1px solid rgba(47,89,183,1);
+								background-color: #030014;
+								border: none;
 								border-radius: 4px;
 								outline: none;
 								color: white;
@@ -314,7 +316,7 @@ export default {
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					border-bottom: 1px solid #123990;
+					border-bottom: 1px solid #2F2840;
 					line-height: 3.5;
 					&>div {
 						width: 33.3%;
@@ -338,6 +340,27 @@ export default {
 					 .transparent {
 					 	color: transparent;
 					 }
+				}
+				.padding {
+					 padding: 0 40px;
+				}
+				.head-title {
+					background-color: #3F3753;
+					font-size: 14px;
+					color: #9882D0;
+					padding: 0 40px;
+					line-height: 2.5;
+					border-bottom: 1px solid transparent;
+				}
+				.align-items-start {
+					    padding: 15px 0;
+				}
+				.mu-pagination-item.mu-button.is-current {
+					background-color: transparent;
+
+				}
+				.mu-pagination li {
+					border-bottom: 1px solid transparent !important;
 				}
 				.mu-dialog {
 					width: 42%;
@@ -396,8 +419,8 @@ export default {
 								}
 								select {
 									width: 120px;
-									background-color: #123789;
-									border: 1px solid rgba(47,89,183,1);
+									background-color: #030014;
+							    border: none;
 									border-radius: 4px;
 									outline: none;
 									color: white;

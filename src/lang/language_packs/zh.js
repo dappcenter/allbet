@@ -162,7 +162,7 @@ export default {
         invitateCopyLink: "复制链接",
         InvitationRules: "邀请规则：",
         InvitationRules1: "1、注册账号即可获得 5000AB 币；",
-        InvitationRules2: "2、被邀请人持有AB币后，邀请人奖励8%被邀请人AB币数量，被邀请人奖励2%持有AB币数量，所有奖励来自系统空投。",
+        InvitationRules2: "被邀请人持有AB币后，邀请人奖励8%被邀请人AB币数量，被邀请人奖励2%持有AB币数量，所有奖励来自系统空投。",
         InvitePeople: "人",
         InviteBind: "请先绑定账号，再邀请好友参与游戏",
         InviteQrcode: "专属邀请二维码",

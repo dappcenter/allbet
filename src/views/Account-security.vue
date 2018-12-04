@@ -13,7 +13,7 @@
 				<li v-for="item in pageData.MetaMaskAddress">
 					<div v-if="item.platform == 'DISPATCHER'">{{$t('message.accountPlatformAddress')}}：</div>
 					<div v-else>{{$t('message.accountMetaMaskAddress')}}：</div>
-					<div :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}">{{item.userAddress}}</div>
+					<div>{{item.userAddress}}</div>
 				</li>
 				<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
 				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
@@ -84,7 +84,7 @@
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
-		
+
 		<div class="input-wrap" style="width:338px;">
 			<label>{{$t('message.PopPassword')}}</label>
 			<input type="password" v-model="formData.loginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
@@ -531,20 +531,19 @@ import {mapMutations, mapState} from "vuex"
 	.account-security {
 		margin: 0 auto;
 		.main {
-			background-color: #040810;;
+			background-color: #22202C;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #172F61;
+				background-color: #49425C;
 				margin: auto;
 				.title {
 					position: relative;
-					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
 					font-size: 16px;
-          			font-weight: bold;
-					background-color: #193570;
-					padding: 16px 0 16px 40px;
+          font-weight: bold;
+					padding: 14px 0 14px 40px;
+					border-bottom: 1px solid #2F2840;
 				}
 				.li-div {
 					padding: 0 40px;
@@ -552,11 +551,12 @@ import {mapMutations, mapState} from "vuex"
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						border-bottom: 1px solid #1C3B7C;
-						line-height: 3.5;
+						border-bottom: 1px solid #2F2840;
+						line-height: 3.7;
 	          			font-size: 16px;
 						div {
 	            			text-align: left;
+										font-size: 14px;
 						}
 						div:first-child {
 							width: 30%;
