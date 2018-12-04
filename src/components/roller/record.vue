@@ -170,7 +170,6 @@ export default {
 	position: relative;
 	background-color: #161220;
 	background-size: 100%;
-	
 	.nav {
 		display: flex;
 		justify-content: center;

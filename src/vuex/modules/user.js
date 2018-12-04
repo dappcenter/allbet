@@ -116,6 +116,7 @@ const mutations = {
     [types.REMOVE_USERINFO](state, payload) {
         console.log("清除用户信息")
         let b = false
+        console.log(payload)
         if(payload) {
             state.userInfo.accounts.forEach((val,idx) => {
                 if(val.platform == "DISPATCHER") {
@@ -177,7 +178,8 @@ const mutations = {
         let haveCoinType = false
         if(state.userInfo.accounts) {
             state.userInfo.accounts.forEach((val, idx) => {
-                if(val.mainCoin == payload) {
+                console.log()
+                if(val.mainCoin == payload || val.platform == 'DISPATCHER') {
                     haveCoinType = true
                 }
             })
