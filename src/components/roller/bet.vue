@@ -27,12 +27,12 @@
 				</i>
 				<span>AB</span>
 			</li>
-			<li class="not-online" :data-text="$t('message.BPSoon')">
+			<!-- <li class="not-online" :data-text="$t('message.BPSoon')">
 				<i class="sac">
 					<img src="../../../public/img/coin/SAC01.png" alt="">
 				</i>
 				<span>SAC</span>
-			</li>
+			</li> -->
 		</ul>
 		<!-- 联系方式 -->
 		<!-- <ul class="contact-select nominscreen">
@@ -44,36 +44,42 @@
 			</li>
 		</ul> -->
 		<div class="game-content" ref="gameContent">
-			<div class="game-status nominscreen">
-				<div class="">
-					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
-					<!-- <span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span> -->
-					<!-- <span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span> -->
-					<p></p>
-					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
-				</div>
-			</div>
 			<div class="ctn-top">
-				<div class="number-show">
-					<div>
-						<h3>{{odds}}</h3>
-						<span>{{$t("message.GameForecast")}}</span>
+				<div class="bet-input">
+					<p>投注金额</p>
+					<div class="flex-wrap">
+						<div class="input-wrap">
+							<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
+							<input type="text" v-model="amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+							<span>{{coinType}}</span>
+						</div>
+						<div class="hotkeys">
+							<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2))">0.05</span>
+							<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2))">1/2</span>
+							<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2))">2X</span>
+							<span @click="onHotkeys('max')">MAX</span>
+						</div>
 					</div>
+				</div>
+				<div class="award">
+					<p>赢取奖金</p>
 					<div>
-						<h3 :class="luckyColor">{{luckyNum}}</h3>
-						<span>{{$t("message.GameLucky")}}</span>
+						<img src="../../../public/img/coin/ETH01.png" alt="" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/TRX01.png" alt="" v-show="coinType == 'TRX'">
+						<span>{{bonus}}</span>
+						<i>{{coinType}}</i>
 					</div>
 				</div>
 			</div>
 			<!-- 赔率预览 -->
 			<ul class="ctn-mdl">
 				<li>
+					<label>小于该数获胜</label>
+					<span>{{odds}} <img src="../../../public/img/arrow_bottom.png" /></span>
+				</li>
+				<li>
 					<label>{{$t("message.GameOdds")}}</label>
 					<span>{{Math.floor(peilv*1000) / 1000}}x</span>
-				</li>
-				<li class="">
-					<label>{{$t("message.GameIncome")}}</label>
-					<span>{{bonus}}</span>
 				</li>
 				<li>
 					<label>{{$t("message.GameProbability")}}</label>
@@ -93,31 +99,15 @@
 
 			</div>
 			<div class="ctn-btm">
-				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} {{coinType}}</span></h4>
-				<div class="flex-wrap">
-					<div class="input-wrap">
-						<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
-						<input type="text" v-model="amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
-						<div class="amount-handle">
-							<span class="add" @click="onAdd"></span>
-							<span class="minus" @click="onMinus"></span>
-						</div>
-					</div>
-					<div class="hotkeys">
-						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2)}}</span>
-						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2)}}</span>
-						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2)}}</span>
-						<span @click="onHotkeys('max')">MAX</span>
-					</div>
-				</div>
 				<!-- 自动下注 -->
 				<div class="auto-bet">
+					<p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p>
 					<div class="mid">
 						<label>自动投注:</label>
 						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 					</div>
-					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
+					<a href="javascript:;" class="nominscreen" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen">
@@ -139,7 +129,7 @@
 			<div class="dig-wrap nominscreen">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
-					<h4>下注立刻获得 {{1/rule.winDig*amount}} AB</h4>
+					<h4>下注立刻获得 {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
 					<p>现在投注最高可获得投注货币 {{1/rule.winDig}} x AB </p>
 					<span>挖矿比例 Winer：1 : {{1/rule.winDig}}   Loser：1 : {{1/rule.failDig}}</span>
 				</div>
@@ -226,8 +216,6 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-
-		console.log(this.tronWeb)
     },
     methods: {
 		//幸运数跳动
@@ -270,7 +258,7 @@ export default {
 			const sliderWidth = this.$refs.slider.clientWidth - deductWidth
 			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
 			this.$refs.handle.style.left = moveWidth + "px"
-			this.$refs.bar.style.width = moveWidth + "px"
+			this.$refs.bar.style.width = moveWidth + 10 + "px"
 			this.odds = (moveWidth / (sliderWidth / this.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / this.maxNum)).toFixed()
 			this.setBetInfo({
 				odds: this.odds,
@@ -288,7 +276,7 @@ export default {
                 moveWidth = e.clientX - sliderOffsetL - ofX
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
-                that.$refs.bar.style.width = moveWidth + "px"
+                that.$refs.bar.style.width = moveWidth + 10 + "px"
                 that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
@@ -307,7 +295,7 @@ export default {
                 moveWidth = e.touches[0].clientX - sliderOffsetL
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
-				that.$refs.bar.style.width = moveWidth + "px"
+				that.$refs.bar.style.width = moveWidth + 10 + "px"
                 that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
@@ -735,45 +723,87 @@ export default {
 			border-radius:6px;
 			padding: 0 20px 20px;
 			.ctn-top {
-				background: url(../../../public/img/game_bg02.png) no-repeat center;
+				display: flex;
 				background-size: 100% 100%;
 				overflow: hidden;
-				border-radius:6px;
-				.number-show {
-					display: flex;
-					justify-content: space-between;
+				p {
+					text-align: left;
+					color: #676284;
+				}
+				.bet-input {
+					.flex-wrap {
+						display: flex;
+						background-color: #161220;
+						padding: 4px;
+						border-radius:4px;
+						.input-wrap {
+							display: flex;
+							align-items: center;
+							background-color: #030014;
+							height: 40px;
+							border-radius:4px;
+							label {
+								width: 40px;
+								height: 40px;
+								&.eth {
+									background: url(../../../public/img/eth_icon.png) no-repeat center;
+									background-size: 60%;
+								}
+								&.trx {
+									background: url(../../../public/img/coin/TRX.png) no-repeat center;
+									background-size: 60%;
+								}
+							}
+							input {
+								width: 180px;
+								background-color: #030014;
+								border: none;
+								color: #fff;
+								text-align: center;
+								font-size: 22px;
+								outline: none;
+							}
+							span {
+								font-size: 14px;
+								color: #676284;
+								padding: 0 15px;
+							}
+						}
+						.hotkeys {
+							display: flex;
+							align-items: center;
+							color: #676284;
+							span {
+								border-right: 1px solid #030014;
+								font-size: 14px;
+								width: 44px;
+								&:last-child {
+									border: none;
+								}
+							}
+						}
+					}
+				}
+				.award {
+					flex: 1;
+					margin-left: 10px;
 					div {
-						flex: 1;
-						position: relative;
-						h3 {
-							font-size: 72px;
-							text-shadow: 0 0 10px #fff;
-							&.green {
-								color: #99FF7E;
-							}
-							&.red {
-								color: #c33;
-							}
-							&.golden {
-								color: #FFDB5B;
-							}
-						}
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						background-color: #161220;
+						height: 48px;
+						padding: 0 12px;
+						border-radius: 4px;
 						span {
-							font-size: 16px;
-							position: relative;
-							top: -17px;
+							font-size: 22px;
 						}
-						&:nth-child(1) {
-							&:after {
-								content: "";
-								position: absolute;
-								top: 20%;
-								right: 0;
-								height: 60%;
-								width: 1px;
-								background-color: #476FCA;
-								box-shadow: 0 0 5px #476FCA;
-							}
+						img {
+							height: 18px;
+						}
+						i {
+							font-style: normal;
+							color: #676284;
 						}
 					}
 				}
@@ -783,7 +813,7 @@ export default {
 				background-color: #161220;
 				margin: 10px 0 0 0;
 				border-radius:6px;
-				padding: 10px 0;
+				padding: 17px 0;
 				li {
 					flex: 1;
 					position: relative;
@@ -796,8 +826,12 @@ export default {
 						color: #676284;
 					}
 					span {
-						font-size: 16px;
+						font-size: 40px;
 						font-weight: 700;
+						img {
+							width: 18px;
+							height: 23px;
+						}
 					}
 					&.green {
 						color: #99FF7E !important;
@@ -816,76 +850,13 @@ export default {
 						float: right;
 					}
 				}
-				.flex-wrap {
-					display: flex;
-					.input-wrap {
-						display: flex;
-						background-color: #1D44B6;
-						height: 40px;
-						border-radius: 6px;
-						overflow: hidden;
-						margin: 0 0 0 3px;
-						label {
-							width: 40px;
-							&.eth {
-								background: url(../../../public/img/eth_icon.png) no-repeat center;
-								background-size: 60%;
-							}
-							&.trx {
-								background: url(../../../public/img/coin/TRX.png) no-repeat center;
-								background-size: 60%;
-							}
-						}
-						input {
-							width: 260px;
-							height: 100%;
-							background-color: #152E79;
-							border: none;
-							color: #FEFEFE;
-							text-align: center;
-							outline: none;
-						}
-						.amount-handle {
-							width: 40px;
-							span {
-								display: block;
-								height: 20px;
-								cursor: pointer;
-								&.add {
-									background: url(../../../public/img/arrow_up.png) no-repeat center 13px;
-									background-size: 20%;
-								}
-								&.minus {
-									background: url(../../../public/img/arrow_down.png) no-repeat center 5px;
-									background-size: 20%;
-								}
-							}
-						}
-					}
-					.hotkeys {
-						flex: 1;
-						display: flex;
-						align-items: center;
-						height: 40px;
-						margin-left: 20px;
-						span {
-							flex: 1;
-							background-color: #0F2A77;
-							color: #B6C3FF;
-							font-size: 16px;
-							line-height: 40px;
-							margin-left: 10px;
-							border-radius:6px;
-							cursor: pointer;
-						}
-					}
-				}
 				.auto-bet {
 					position: relative;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					margin: 23px 0 0;
+					color: #D3CDFF;
 					.mid {
 						display: flex;
 						justify-content: center;
@@ -893,7 +864,7 @@ export default {
 							position: relative;
 							width: 60px;
 							height: 24px;
-							background-color: #2A3C7E;
+							background-color: #161220;
 							border-radius: 12px;
 							margin: 0 10px;
 							cursor: pointer;
@@ -941,6 +912,11 @@ export default {
 									font-style: normal;
 								}
 							}
+						}
+					}
+					p {
+						a {
+							color: #FFC425;
 						}
 					}
 					a {
@@ -1000,6 +976,7 @@ export default {
 					flex: 1;
 					text-align: left;
 					margin: 0 40px;
+					text-align: center;
 					h4 {
 						font-size: 14px;
 					}
@@ -1054,17 +1031,17 @@ export default {
 				margin: 5px 0px 0px;
 				.handle {
 					position: absolute;
-					height: 40px;
-					width: 16px;
-					background: #ced4e8;
-					border-radius: 8px;
-					top: -13px;
-					left: 49%;
+					height: 36px;
+					width: 36px;
+					background: rgba(255,255,255,.5);
+					border-radius: 50%;
+					top: -12px;
+					left: 48%;
 					cursor: pointer;
 					i {
 						position: absolute;
 						top: -31px;
-						left: -10px;
+						left: -1px;
 						color: #1F47A0;
 						font-size: 17px;
 						font-style: normal;
@@ -1072,6 +1049,17 @@ export default {
 						height: 28px;
 						background: url(../../../public/img/qipao.png) no-repeat center;
 						background-size: 100%;
+					}
+					&:after {
+						position: absolute;
+						left: 4px;
+						top:4px;
+						content: "";
+						width: 28px;
+						height: 28px;
+						border-radius: 50%;
+						background-color: #fff;
+
 					}
 				}
 				.bar {
