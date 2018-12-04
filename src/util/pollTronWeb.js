@@ -17,7 +17,7 @@ const pollTronWeb = function(tronWeb) {
             }else if(address){
                 store.commit(types.UPDATE_TRON_ASSET, { 
                     coinbase: address,
-                    balance: Math.floor(balance/1000000),
+                    balance: Math.floor(balance/1000)/1000,
                 })
             }
         })

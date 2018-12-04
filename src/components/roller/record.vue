@@ -19,21 +19,19 @@
 				<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
 				<span class="nominscreen">{{$t("message.GameForecast")}}</span>
 				<span class="nominscreen">{{$t("message.GameLucky")}}</span>
-				<span class="nominscreen">{{$t("message.GameOdds")}}</span>
 				<span class="tr">{{$t("message.GameReward")}}</span>
 				<span class="nominscreen">AB</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE'}" v-for="item in recordsList">
+				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
 					<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN'}">
-						<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
+						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
 					<li class="tl">
 						<span>{{$fmtDate(item.createTime, "time")}}</span>
-						<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
 					</li>
 					<li class="nominscreen">
-						<span>{{item.coinAmount}} {{coinType}}</span>
+						<span>{{item.coinAmount}}</span>
 					</li>
 					<li class="nominscreen">
 						<span>{{item.guess}}</span>
@@ -41,15 +39,12 @@
 					<li class="nominscreen">
 						<span>{{item.luckyNum}}</span>
 					</li>
-					<li class="nominscreen">
-						<span>{{item.odds}}</span>
-					</li>
 					<li class="golden tr">
-						<span v-if="item.rewards > 0">{{item.rewards}} {{coinType}}</span>
+						<span v-if="item.rewards > 0">{{item.rewards}}</span>
 						<span v-else>--</span>
 					</li>
 					<li class="nominscreen">
-						<span>{{item.abNum}} AB</span>
+						<span>{{item.abNum}}</span>
 					</li>
 				</ul>
 			</div>
@@ -184,7 +179,6 @@ export default {
 		line-height: 72px;
 		a {
 			color: #54506D;
-			width: 100px;
 			margin: 0 60px;
 			text-align: center;
 			font-weight: 700;
@@ -207,9 +201,9 @@ export default {
 	}
 	.myinfo {
 		line-height: 40px;
-		background:rgba(17,28,66,.5);
+		background:#0C0A1B;
 		overflow: hidden;
-		padding: 0px 10px;
+		padding: 0px 50px;
 		max-width: 1100px;
 		margin: 0 auto;
 		.fl {

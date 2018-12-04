@@ -75,13 +75,12 @@ const actions = {
             console.log("TRX对象defaultAddress", tronWeb.defaultAddress)
             let address = tronWeb.defaultAddress.base58
             tronWeb.trx.getBalance((err, balance) => {
-                console.log("TRX对象getBalance", balance)
                 if(err) {
                     console.log(err)
                 }else if(address){
                     commit(types.REGISTER_TRON_INSTANCE, { 
                         coinbase: address,
-                        balance: Math.floor(balance/1000000),
+                        balance: Math.floor(balance/1000)/1000,
                         tronWebInstance: tronWeb,
                         contract: tronWeb.contract(contract.abi, contract.address)
                     })
@@ -110,45 +109,6 @@ const actions = {
                     coinLogin(address)
                 }
             }
-
-            // window.tronWeb.on('addressChanged', (res) => {
-            //     console.log("addressChanged", res)
-            //     address = res.base58
-            //     tronWeb.trx.getBalance((err, balance) => {
-            //         console.log("TRX对象getBalance", balance)
-            //         if(err) {
-            //             console.log(err)
-            //         }else if(address){
-            //             commit(types.REGISTER_TRON_INSTANCE, { 
-            //                 coinbase: address,
-            //                 balance: Math.floor(balance/1000000),
-            //                 tronWebInstance: tronWeb,
-            //                 contract: tronWeb.contract(contract.abi, contract.address)
-            //             })
-            //         }
-            //     })
-            //     if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
-            //         // 有登录态
-            //         let haveHD = false
-            //         rootState.user.userInfo.accounts.forEach((val, idx) => {
-            //             console.log(val)
-            //             if(val.userAddress == address) {
-            //                 // 登录态中包含插件地址
-            //                 haveHD = true
-            //             }
-            //         })
-            //         if(rootState.user.currentAddr.platform != "DISPATCHER" && !haveHD) {
-            //             // 当前选中的HD钱包地址跟插件不一致
-            //             coinLogin(address)
-            //         }
-            //     }else {
-            //         // 没有登录态
-            //         //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-            //         if(rootState.user.coinType == "TRX") {
-            //             coinLogin(address)
-            //         }
-            //     }
-            // })
             
         })
 

@@ -62,7 +62,7 @@ export default {
 .ab-bancor {
     z-index: 20181248 !important;
     .mu-dialog {
-        width: 40%;
+        width: 580px;
         border-radius: 6px;
         overflow: hidden;
     }

@@ -57,21 +57,7 @@
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
 
         <!-- 登录选择 -->
-        <!-- <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
-            <h4>{{$t("message.login")}}</h4>
-            <img src="../../../public/img/Logo02.png" alt="">
-            <button class="primary-btn nominscreen" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
-            <button class="primary-btn minscreen" @click="$router.push('login')">{{$t("message.accountLogin")}}</button>
-
-            <button class="primary-btn hd nominscreen" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
-            <button class="primary-btn hd minscreen" @click="hdLogin('mobile')">{{$t("message.hdWalletLogin")}}</button>
-            <p>
-                {{$t("message.notRegister")}}
-                <a href="javascript:;" class="nominscreen" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a>
-                <a href="javascript:;" class="minscreen" @click="$router.push('register')">{{$t("message.nowRegister")}}</a>
-            </p>
-        </mu-dialog> -->
-        <LoginSelectPopup v-model="displayStatus.loginSelect"></LoginSelectPopup>
+        <LoginSelectPopup v-model="displayStatus.loginSelect" :showLoginPopup="showLoginPopup"></LoginSelectPopup>
 
         <!-- 账号登录 -->
         <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
@@ -83,6 +69,7 @@
                 <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
+            <i class="close-btn" @click="displayStatus.loginAccount = false"></i>
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
@@ -393,9 +380,6 @@ export default {
                 this.currentAddr = newVal.coinAddress
             }
         },
-        // locale() {
-        //     this.btnText = this.$t('message.PopGetCaptcha')
-        // }
     },
     methods: {
         // 切换地址
@@ -702,6 +686,10 @@ export default {
         switchBonusPools() {
             this.displayStatus.bonusPools = !this.displayStatus.bonusPools
         },
+        showLoginPopup() {
+            this.displayStatus.loginAccount = true
+            this.displayStatus.loginSelect = false
+        },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
             alert: "alert",
@@ -888,24 +876,6 @@ export default {
                 }
             }
         }
-        .fold-menu-on {
-            width: 20px;
-            height: 20px;
-            background: url(../../../public/img/menu_icon.png) no-repeat center;
-            background-size: 100%;
-            margin: 6px 10px 0 20px;
-        }
-        .fold-menu-off {
-            width: 20px;
-            height: 20px;
-            background: url(../../../public/img/menu_icon_off.png) no-repeat center;
-            background-size: 90%;
-            margin: 6px 10px 0 20px;
-            &.on {
-                background: url(../../../public/img/menu_icon.png) no-repeat center;
-                background-size: 100%;
-            }
-        }
         // 语言按钮
         .language-select {
             position: relative;
@@ -968,14 +938,21 @@ export default {
         background:rgba(73,111,255,.2);
     }
     .mu-dialog-wrapper {
-        // left: initial;
-        // bottom: initial;
-        // right: 40px;
-        // top: 40px;
         padding: 30px;
         .mu-dialog-body {
+            position: relative;
             background-color: #52476F;
             color: #fff;
+            .close-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 28px;
+                height: 28px;
+                background: url(../../../public/img/win_box/close.png) no-repeat center;
+                background-size: 100%;
+                cursor: pointer;
+            }
         }
         h4 {
             text-align: center;
@@ -987,12 +964,14 @@ export default {
             overflow: hidden;
             .primary-btn {
                 display: block;
-                min-width: 240px;
+                width: 300px;
                 height: 40px;
                 margin: 20px auto 0;
-                color: #fff;
+                color: #1A0D59;
+                font-size: 16px;
+                font-weight: 700;
                 cursor: pointer;
-                background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+                background-color: #FFC425;
                 box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
                 border-radius:4px;
                 border: none;
@@ -1001,44 +980,29 @@ export default {
                 }
             }
         }
-
-        &.login-select {
-            .mu-dialog {
-                img {
-                    display: block;
-                    margin: 50px auto;
-                    height: 100px;
-                }
-
-                p {
-                    text-align: center;
+        &.login-accout {
+            .mu-dialog-body {
+                width: 420px;
+                button {
                     margin-top: 40px;
-                    a {
-                        color: #5480D9;
-                    }
-                }
-                .primary-btn {
-                    &.minscreen {
-                        display: none;
-                    }
+                    
                 }
             }
-        }
-        &.login-accout {
             h4 {
                 margin-bottom: 60px;
             }
             input {
                 display: block;
                 width: 100%;
-                background:#173167;
-                border:1px solid #173167;
-                color: #fff;
+                background:#443A60;
+                color: #8378A3;
+                border: none;
                 border-radius:4px;
                 height: 40px;
                 margin-top: 20px;
                 text-align: center;
                 font-size: 14px;
+                outline: none;
             }
             .flex-wrap {
                 display: flex;
@@ -1046,15 +1010,13 @@ export default {
                 font-size: 14px;
                 margin-top: 40px;
                 p {
-                    color: #969696;
+                    color: #CCBCF8;
                     a {
-                        color: #5480D9;
+                        color: #FFC425;
                     }
                 }
             }
-            button {
-                margin-top: 40px;
-            }
+            
         }
         &.register-accout {
             h4 {
@@ -1073,8 +1035,8 @@ export default {
                     flex: 1;
                     width: 60%;
                     height:40px;
-                    background:#173167;
-                    border:1px solid #173167;
+                    background:#443A60;
+                    border: none;
                     border-radius:4px;
                     padding: 0 10px;
                     color: #fff;
@@ -1100,13 +1062,13 @@ export default {
                         margin-left: 10px;
                     }
                     &.prefix {
-                        background:#173167;
-                        border:1px solid #173167;
+                        background:#443A60;
+                        border:none;
                         border-radius:4px;
                         .mu-menu {
                             line-height: 40px;
                             padding: 0 10px;
-                            border-right: 1px solid #3057A8;
+                            border-right: 1px solid #625681;
                             font-weight: 700;
                         }
                         input {
@@ -1128,6 +1090,7 @@ export default {
             }
             .primary-btn {
                 margin: 40px auto 0;
+                background-color: #FFC425;
             }
         }
     }

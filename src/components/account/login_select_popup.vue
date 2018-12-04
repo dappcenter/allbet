@@ -1,9 +1,9 @@
 <template>
     <mu-dialog :open.sync="isShow" :append-body="false" class="login-select-popup">
         <h3>请登录 Chrome 插件钱包</h3>
-        <div class="content-text" v-html="$t('message.PopLoginSelectETH')"></div>
-        <button @click="isShow = false">确认</button>
-        <p class="other">快速体验游戏，<a href="javascript:;">登录 / 注册</a></p>
+        <div class="content-text" v-html="$t('message.PopLoginSelect' + coinType)"></div>
+        <button @click="isShow = false">{{$t('message.PopConfirm')}}</button>
+        <p class="other">{{$t('message.PopLoginText1')}}<a href="javascript:;" @click="showLoginPopup">{{$t('message.login')}} / {{$t('message.PopRegister')}}</a></p>
         <i class="close-btn" @click="isShow = false"></i>
     </mu-dialog>
 </template>
@@ -14,6 +14,9 @@ export default {
         isShowPopup: {
             type: Boolean,
             default: false
+        },
+        showLoginPopup: {
+            type: Function
         }
     },
     data() {
@@ -28,9 +31,12 @@ export default {
             }
         },
         isShowPopup(newVal) {
-            if(newVal) {
-                this.isShow = true
-            }
+            this.isShow = newVal
+        }
+    },
+    computed: {
+        coinType() {
+            return this.$store.state.user.coinType
         }
     },
     model: {
@@ -70,6 +76,7 @@ export default {
             height: 42px;
             border-radius: 2px;
             margin: 0 auto;
+            cursor: pointer;
         }
         .other {
             font-size: 12px;

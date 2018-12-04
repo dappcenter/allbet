@@ -37,7 +37,7 @@
 		<div class="game-content" ref="gameContent">
 			<div class="ctn-top">
 				<div class="bet-input">
-					<p>投注金额</p>
+					<p>{{$t('message.GameBetAmount')}}</p>
 					<div class="flex-wrap">
 						<div class="input-wrap">
 							<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="award">
-					<p>赢取奖金</p>
+					<p>{{$t('message.GamePlayOutWin')}}</p>
 					<div>
 						<img src="../../../public/img/coin/ETH01.png" alt="" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX01.png" alt="" v-show="coinType == 'TRX'">
@@ -65,16 +65,16 @@
 			<!-- 赔率预览 -->
 			<ul class="ctn-mdl">
 				<li>
-					<label>小于该数获胜</label>
+					<label>{{$t('message.GameRUTW')}}</label>
 					<span>{{odds}} <img src="../../../public/img/arrow_bottom.png" /></span>
 				</li>
 				<li>
 					<label>{{$t("message.GameOdds")}}</label>
-					<span>{{Math.floor(peilv*1000) / 1000}}x</span>
+					<span>{{Math.floor(peilv*1000) / 1000}} x</span>
 				</li>
 				<li>
 					<label>{{$t("message.GameProbability")}}</label>
-					<span>{{odds-1}}%</span>
+					<span>{{odds-1}} <i style="font-size:31px; font-style: normal;">%</i></span>
 				</li>
 			</ul>
 			<!-- 滑块 -->
@@ -94,7 +94,7 @@
 				<div class="auto-bet">
 					<p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p>
 					<div class="mid">
-						<label>自动投注:</label>
+						<label>{{$t('message.GameAutoBet')}}</label>
 						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 					</div>
@@ -120,9 +120,9 @@
 			<div class="dig-wrap nominscreen">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
-					<h4>下注立刻获得 {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
-					<p>现在投注最高可获得投注货币 {{1/rule.winDig}} x AB </p>
-					<span>挖矿比例 Winer：1 : {{1/rule.winDig}}   Loser：1 : {{1/rule.failDig}}</span>
+					<h4>{{$t('message.GameBetToGet')}} {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
+					<p>{{$t('message.GameHigGet')}} {{1/rule.winDig}} x AB </p>
+					<span>{{$t('message.GameDigProportion')}} WIN：1 : {{1/rule.winDig}}   LOSE：1 : {{1/rule.failDig}}</span>
 				</div>
 				<i class="help" @click="isShowABpopup = true"></i>
 			</div>
@@ -667,7 +667,6 @@ export default {
 							height: 100%;
 							background:rgba(0,177,100,.9);
 							font-size: 16px;
-							font-weight: 700;
 							line-height: 32px;
 						}
 					}
@@ -968,7 +967,7 @@ export default {
 				.content {
 					flex: 1;
 					text-align: left;
-					margin: 0 40px;
+					margin: 0 20px;
 					text-align: center;
 					h4 {
 						font-size: 14px;
@@ -1017,7 +1016,7 @@ export default {
 			}
 			.slider {
 				position: relative;
-				background-color: #FE0E4E;
+				background-color: rgba(254,14,78,1);
 				height: 14px;
 				box-shadow: inset 0 1px 0 #2a365a;
 				border-radius: 7px;
@@ -1056,7 +1055,7 @@ export default {
 					}
 				}
 				.bar {
-					background-color: #13F693;
+					background-color: rgba(19,246,147,1);
 					height: 14px;
 					width: 50%;
 					top: 0;
@@ -1064,7 +1063,7 @@ export default {
 					border-top-left-radius: 7px;
 					border-bottom-left-radius: 7px;
 					margin-right: 10px;
-					box-shadow: 0 0 10px #fff;
+					box-shadow: 0 0 7px #29f294;
 				}
 			}
 		}

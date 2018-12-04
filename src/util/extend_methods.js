@@ -49,7 +49,7 @@ const fmtAccount = (str) => {
 	}else if(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(str)) {
 		return str.replace(/(.{2}).*(@.{6})/, "$1****$2")
 	}else {
-		return str.replace(/(.{4}).*(.{6})/, "$1....$2")
+		return str.replace(/(.{4}).*(.{4})/, "$1....$2")
 	}
 }
 
