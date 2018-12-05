@@ -241,7 +241,7 @@ export default {
 
         PopLoginSelectTitle: "请登录 Chrome 插件钱包",
         PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网节点，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /> <br />请注意钱包使用主网节点，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br /> <br />请注意钱包使用主网节点，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
         PopLoginText1: "快速体验游戏，",
 
         PopHttpTimeout: "请刷新页面",

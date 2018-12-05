@@ -1,5 +1,5 @@
 <template>
-    <div class="ab-page">
+    <div class="ab-page" :style="{minHeight: $window.innerHeight + 'px'}">
         <HeaderBar></HeaderBar>
         <div class="main">
             <h4>{{$t('message.abTitle')}}</h4>
@@ -13,9 +13,9 @@
                 <td>{{$t('message.abTeam')}}</td>
                 <td>30%</td>
                 </tr>
-                <tr>
-                <td>{{$t('message.abGameDig')}}</td>
-                <td>70%</td>
+                <tr class="no-bt-bd">
+                    <td class="no-bt-bd">{{$t('message.abGameDig')}}</td>
+                    <td class="no-bt-bd">70%</td>
                 </tr>
             </table>
             <p class="tip1 tip2">{{$t('message.abFourYear')}}</p>
@@ -24,39 +24,46 @@
             <h4>{{$t('message.abShareTitle')}}</h4>
             <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
         </div>
-        <FooterBar ref="ft"></FooterBar>
     </div>
 </template>
 
 <script>
 import HeaderBar from "@/components/common/header_bar"
-import FooterBar from "@/components/common/footer_bar"
 export default {
     components: {
         HeaderBar,
-        FooterBar
     }
 }
 </script>
 
 <style lang="less">
 .ab-page {
+    background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+    background-size: 40%;
     .main {
         padding: .2rem;
-        background-color: #52476F;
         color: #CCBCF8;
         h4 {
             text-align: center;
             font-size: .3rem;
+            margin-top: .8rem;
         }
         table{
             border-collapse:collapse;
             width:100%;
             background-color: #4D426A;
+            border-radius: .06rem;
         }
 
-        table, td, th{
-            border:1px solid #3A2F57;
+        td, th{
+            border-bottom:1px solid #3A2F57;
+            border-right: 1px solid #3A2F57;
+            &:nth-child(2n) {
+                border-right: none;
+            }
+            &.no-bt-bd {
+                border-bottom: none;
+            }
         }
         td {
             text-align:center;

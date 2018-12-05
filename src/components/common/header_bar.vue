@@ -1,9 +1,8 @@
 <template>
     <div class="headerbar" :class="type">
-        <div class="container flex-wrap">
+        <div class="flex-wrap">
             <router-link tag="div" to="dice" class="logo">
-                <img class="nominscreen" src="../../../public/img/LOGO.png" alt="" style="display: block">
-                <img class="minscreen" src="../../../public/img/AllBet.png" alt="">
+                <img class="" src="../../../public/img/LOGO.png" alt="" style="display: block">
             </router-link>
             <menu class="nominscreen">
                 <router-link to="dice"><span>DICE</span></router-link>
@@ -14,7 +13,7 @@
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
             <div class="statusbar">
-                <div class="address-select" v-if="addressList.length > 1">
+                <!-- <div class="address-select" v-if="addressList.length > 1">
                     <label class="nominscreen">{{$t("message.address")}}：</label>
                     <mu-select 
                         v-model="currentAddr" 
@@ -22,6 +21,17 @@
                         @change="currentAddrChange">
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
+                </div> -->
+                <div class="contact nominscreen">
+                    <a href="javascript:;">
+                        <img class="icon" src="../../../public/img/weixin_icon.png" alt="">
+                        <div class="qrcode">
+                            <img src="../../../public/img/weixin_qrcode.png" alt="">
+                        </div>
+                    </a>
+                    <a href="https://t.me/allbetAB" target="_blank">
+                        <img class="icon" src="../../../public/img/Telegram.png" alt="">
+                    </a>
                 </div>
                 <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
@@ -37,12 +47,12 @@
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
 
                 <div class="language-select">
-                    <a href="javascript:;" class="lang" v-show="locale === 'zh-CN'"><img src="../../../public/img/china_icon.png" /></a>
-                    <a href="javascript:;" class="lang" v-show="locale === 'en-US'"><img src="../../../public/img/usa_icon.png" /></a>
-                    <div class="pull">
+                    <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
+                    <a href="javascript:;" class="lang" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
+                    <!-- <div class="pull">
                         <a href="javascript:;" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
                         <a href="javascript:;" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- mobile登录按钮 -->
                 <a href="javascript:;" class="login minscreen" @click="$router.push('my')"></a>
@@ -51,9 +61,6 @@
 
         <MBheaderNav class="minscreen" :openWhiteBook="openWhiteBook" :switchBonusPools="switchBonusPools" :addressList="addressList"></MBheaderNav>
 
-        <!-- <div class="notice" v-if="notice">
-            <ScrollNotice :text="$t('message.notice1')"></ScrollNotice>
-        </div> -->
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
 
         <!-- 登录选择 -->
@@ -737,6 +744,7 @@ export default {
     position: relative;
     width: 100%;
     z-index: 20181212;
+    padding: 0 120px;
     &.steep {
         position: fixed;
     }
@@ -800,6 +808,33 @@ export default {
                 min-height: auto;
             }
         }
+        .contact {
+            height: 32px;
+            a {
+                position: relative;
+                display: inline-block;
+                margin-left: 10px;
+                .icon {
+                    width: 32px;
+                    height: 32px;
+                    display: block;
+                }
+                &:hover {
+                    .qrcode {
+                        display: block;
+                    }
+                }
+                .qrcode {
+                    position: absolute;
+                    left: -70px;
+                    top: 50px;
+                    display: none;
+                    img {
+                        width: 200px;
+                    }
+                }   
+            }
+        }
         .user-center {
             color: #fff;
             margin-left: 30px;
@@ -858,16 +893,16 @@ export default {
         .button {
             width: 64px;
             height: 30px;
-            border-radius: 2px;
-            line-height: 30px;
-            color: #030014;
+            line-height: 26px;
+            color: #D3CDFF;
             text-align: center;
             font-weight: 700;
             margin-left: 20px;
             transition: all 2s;
             position: relative;
             z-index: 1;
-            background-color: #FFC425;
+            border:2px solid rgba(211,205,255,1);
+            border-radius:4px;
             img {
                 height: 15px;
                 vertical-align: sub;
@@ -886,7 +921,7 @@ export default {
             height: 60px;
             margin-left: 16px;
             .lang {
-                display: block;
+                display: inline-block;
                 img {
                     display: block;
                     width: 43px;
@@ -1101,8 +1136,13 @@ export default {
 }
 @media screen and (max-width: 800px){
     .headerbar {
+        padding: 0;
         .logo {
             flex: 1;
+            img {
+                height: .5rem;
+                margin-left: .3rem;
+            }
         }
         .statusbar {
             .address-select {
