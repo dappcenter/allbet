@@ -1,34 +1,35 @@
 <template>
     <div class="login-page">
-        <div class="top">
+      <MBheaderBar title="登陆"></MBheaderBar>
+        <!-- <div class="top">
             <a href="javascript:;" class="backarrow" @click="$goBack"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
                 <a href="javascript:;" class="phone" @click="formData.loginType = 'Phone';formData.password = ''" :class="{'active': formData.loginType == 'Phone'}">{{$t('message.loginPhone')}}</a>
                 <a href="javascript:;" @click="formData.loginType = 'Email';formData.password = ''" :class="{'active': formData.loginType == 'Email'}">{{$t('message.loginEmail')}}</a>
             </div>
-        </div>
+        </div> -->
         <div class="bottom">
             <!-- 手机号 -->
-            <div class="input-wrap" v-if="formData.loginType == 'Phone'">
-                <label>{{$t('message.PopPhone')}}</label>
-                <input type="tel" v-model.trim="formData.phoneLogin.phone" :placeholder="$t('message.PopRegisterPhone')">
+            <div class="input-wrap">
+                <!-- <label>{{$t('message.PopPhone')}}</label> -->
+                <input type="tel" v-model.trim="formData.phoneLogin.phone" :placeholder="$t('message.PopLoginPlaceholder')">
             </div>
             <!-- 邮箱号 -->
-            <div class="input-wrap" v-else>
+            <!-- <div class="input-wrap" v-else>
                 <label>{{$t('message.PopEmail')}}</label>
                 <input type="text" v-model.trim="formData.emailLogin.email" :placeholder="$t('message.PopRegisterEmail')">
-            </div>
+            </div> -->
             <!-- 密码 -->
             <div class="input-wrap">
-                <label>{{$t('message.PopPassword')}}</label>
-                <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
+                <!-- <label>{{$t('message.PopPassword')}}</label> -->
+                <input type="password" v-model="formData.password" :placeholder="$t('message.PopLoginPass')">
             </div>
-            
+
             <button class="primary-btn" @click="loginDo()">{{$t('message.login')}}</button>
             <p>
                 <router-link to="findpwd">{{$t("message.forgetPassword")}}</router-link>
-                <router-link to="register" replace>{{$t("message.noAccount")}}</router-link>
+                <router-link to="register" replace><span>{{$t("message.noAccount")}}</span>{{$t("message.registerNow")}}</router-link>
             </p>
         </div>
     </div>
@@ -75,7 +76,7 @@ export default {
                     if(val.coinAddress == this.storeWeb3.coinbase) {
                         v = val
                     }
-                    
+
                 })
                 if(!b) {
                     if(v) {
@@ -86,7 +87,7 @@ export default {
                         this.setCurrentAddr(newVal[0])
                     }
                 }
-                
+
             }
         },
         currentAddr(newVal) {
@@ -100,12 +101,13 @@ export default {
     methods: {
         //登录
         loginDo() {
-            const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
-            if(this.formData.loginType == "Phone") {
-                if(!this.verifyPhone()) return
-            }else {
-                if(!this.verifyEmail()) return
-            }
+            // const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+            // if(this.formData.loginType == "Phone") {
+            //     if(!this.verifyPhone()) return
+            // }else {
+            //     if(!this.verifyEmail()) return
+            // }
+            if(!this.verifyPhone() && !this.verifyEmail()) return
             if(this.formData.password == "") {
                 this.alert({
                     type: "info",
@@ -145,7 +147,7 @@ export default {
         },
         //邮箱验证
         verifyEmail() {
-            if(this.formData.emailLogin.email == "" || !/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.formData.emailLogin.email)) {
+            if(this.formData.emailLogin.phone == "" || !/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.formData.emailLogin.phone)) {
                 this.alert({
                     type: "info",
                     msg: this.$t('message.PopEmailWrong')
@@ -179,7 +181,7 @@ export default {
 
 <style lang="less">
 .login-page {
-    background-color: #191A2A;
+    background-color: #22202C;
     .top {
         position: relative;
         background: url(../../../public/img/bg04.png) no-repeat center;
@@ -230,16 +232,15 @@ export default {
                         transform: translateX(-50%);
                         border: .14rem solid transparent;
                         border-bottom-color: #191A2A;
-                    }   
+                    }
                 }
             }
         }
     }
     .bottom {
-        background-color: #191A2A;
         overflow: hidden;
         padding: 0 .4rem;
-        
+
         .input-wrap {
             display: flex;
             align-items: center;
@@ -248,7 +249,7 @@ export default {
             overflow: hidden;
             label {
                 width: 1.4rem;
-                color: #7A7B91;
+                color: #D3CDFF;
                 font-size: .3rem;
                 margin-right: .1rem;
             }
@@ -256,11 +257,12 @@ export default {
                 flex: 1;
                 width: 60%;
                 height:40px;
-                background:#131422;
-                border:1px solid #393A50;
+                background:#030014;
                 border-radius:4px;
                 padding: 0 10px;
                 color: #fff;
+                outline: none;
+                border: none;
             }
             .input-flex {
                 flex: 1;
@@ -306,11 +308,12 @@ export default {
             width: 100%;
             border: none;
             font-size: .3rem;
-            color: #fff;
+            color: #282440;
             text-align: center;
             border-radius: .06rem;
             margin-top: .6rem;
-            background:linear-gradient(90deg,rgba(69,182,245,1),rgba(45,92,245,1));
+            background:#FFC425;
+            outline: none;
             &.disabled {
                 background-color: #393A50;
             }
@@ -322,13 +325,13 @@ export default {
             text-align: center;
             a {
                 font-size: .24rem;
-                color: #6A89C4;
+                color: #FFC425;
+                span {
+                  color: #969696;
+                }
             }
         }
-        
+
     }
 }
 </style>
-
-
-

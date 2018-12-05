@@ -24,7 +24,7 @@
             <h4>{{$t('message.abShareTitle')}}</h4>
             <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
         </div>
-        
+
     </div>
 </template>
 
@@ -41,6 +41,8 @@ export default {
 .ab-page {
     .main {
         padding: .2rem;
+        background-color: #52476F;
+        color: #CCBCF8;
         h4 {
             text-align: center;
             font-size: .3rem;
@@ -48,10 +50,11 @@ export default {
         table{
             border-collapse:collapse;
             width:100%;
+            background-color: #4D426A;
         }
 
         table, td, th{
-            border:1px solid #577AC3;
+            border:1px solid #3A2F57;
         }
         td {
             text-align:center;
@@ -79,5 +82,3 @@ export default {
     }
 }
 </style>
-
-

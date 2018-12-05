@@ -244,18 +244,18 @@ import {mapMutations, mapState} from "vuex"
 	methods: {
 		makeQrCode () {
 			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-				width: 130,
-				height: 130,
+				width: 100,
+				height: 100,
 			});
 			qrcode2.makeCode(this.currentAddr.coinAddress);
 			var qrcode = new QRCode(document.getElementById("qrcode1"), {
-				width: 130,
-				height: 130,
+				width: 100,
+				height: 100,
 			});
 			qrcode.makeCode(this.currentAddr.coinAddress);
 			var qrcode3 = new QRCode(this.$refs.qrcode3, {
-				width: 130,
-				height: 130,
+				width: 100,
+				height: 100,
 			});
 			if(this.currentAddr.assets.TRX) {
 				qrcode3.makeCode(this.currentAddr.assets.TRX.coinAddress);
@@ -545,12 +545,17 @@ import {mapMutations, mapState} from "vuex"
 		.my-assets {
 			.main {
 				.content {
-					width: 100%;
+					width: 90%;
+					// margin:
 					.title {
 						padding: 10px;
 					}
+					.thead {
+						padding: 0 10px !important;
+					}
 					ul {
 						padding: 0 10px;
+						font-size: normal;
 					}
 					.charge {
 						flex-direction: column;
@@ -563,7 +568,7 @@ import {mapMutations, mapState} from "vuex"
 								margin-top: 15px;
 							}
 							.address {
-								font-size: 16px;
+								font-size: 12px;
 								width: 100%;
 								div {
 									display: block;
@@ -577,9 +582,24 @@ import {mapMutations, mapState} from "vuex"
 					}
 					.mention {
 						padding: 0 10px 30px 10px;
+						p {
+							font-weight: normal;
+							margin: 18px 0 8px 0;
+						}
 						.input-div {
 							input {
 								width: 87%;
+							}
+						}
+						.poundage {
+							flex-direction: column;
+							div {
+								width: 100%;
+								.input-div {
+									input {
+										width: 87%;
+									}
+								}
 							}
 						}
 						.take-out {
