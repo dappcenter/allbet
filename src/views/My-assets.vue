@@ -1,7 +1,7 @@
 <template>
 	<div class="my-assets">
 	<HeaderBar></HeaderBar>
-	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
+	<div class="main" :style="{minHeight: $window.innerHeight - 355 + 'px'}">
 		<div class="content">
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="$router.push('trading-record')">{{$t('message.assetsTransactionRecord')}}</span></p>
 			<li class="thead"><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>

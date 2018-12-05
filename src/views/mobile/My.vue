@@ -55,6 +55,7 @@ export default {
 
 <style lang="less">
 .my-page {
+    background-color: #22202C;
     .top {
         padding: .8rem 0;
         text-align: center;

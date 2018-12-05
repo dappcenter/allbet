@@ -2,7 +2,7 @@
     <div class="about-page">
         <MBheaderBar :title="$t('message.MyAbout')"></MBheaderBar>
         <div class="main">
-            <img class="logo" src="../../../public/img/logo03.png" alt="">
+            <img class="logo" src="../../../public/img/LOGO.png" alt="">
             <ul class="menu">
                 <a href="https://t.me/allbetAB">
                     <label>Telegram</label>
@@ -41,11 +41,11 @@ export default {
 
 <style lang="less">
 .about-page {
+    background-color: #22202C;
     .main {
         .logo {
             display: flex;
             width: 2.6rem;
-            height: 2.1rem;
             margin: .6rem auto;
         }
         .menu {
@@ -56,7 +56,7 @@ export default {
                 padding: 0 .42rem;
                 height: 1.2rem;
                 margin-top: .2rem;
-                background-color: #202234;
+                background-color: #49425C;
                 border-radius: .04rem;
                 .item-icon {
                     width: .32rem;
