@@ -545,7 +545,7 @@ import {mapMutations, mapState} from "vuex"
 				margin: auto;
 				.title {
 					position: relative;
-					color: #fff;
+					color: #D3CDFF;
 					font-size: 16px;
           font-weight: bold;
 					padding: 14px 0 14px 40px;
@@ -698,7 +698,7 @@ import {mapMutations, mapState} from "vuex"
 		.account-security {
 			.main {
 				.content {
-					width: auto;
+					width: 90%;
 					.title {
 						padding-left: 10px;
 					}
@@ -706,8 +706,8 @@ import {mapMutations, mapState} from "vuex"
 					padding: 0 10px;
 					li {
 						line-height: inherit;
-						font-size: 16px;
-						padding: 20px 0;
+						font-size: 12px;
+						padding: 15px 0;
 						div:first-child {
 							width: 40%;
 						}
@@ -733,7 +733,8 @@ import {mapMutations, mapState} from "vuex"
 		    top: 0;
 				transform: translate(0, 0);
 				.mu-dialog-body {
-					padding: 10px;
+					padding: 20px;
+					width: auto !important;
 				}
 			}
 		}

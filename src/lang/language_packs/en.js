@@ -301,6 +301,7 @@ export default {
         BPcurrentAmount: "Bonus Pool",
         BPSoon: "Coming",
         BPtip2: "Coming online EOS, AB game betting mining, multi-currency bonus pool and so on you to receive.",
+        BPTotal: 'Current AB currency circulation:',
 
         // 公告
         notice1: "Announcement：ALLBET has been launched! Register now and earn up 0.01ETH + 5000AB! Invite your friend to get extra rewards!",
