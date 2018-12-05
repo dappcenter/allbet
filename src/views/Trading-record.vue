@@ -40,9 +40,9 @@
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
 				<div>{{$t('message.tradeType')}}</div>
-				<div class="vol">{{$t('message.homeVolume')}}</div>
+				<div class="vol nominscreen">{{$t('message.homeVolume')}}</div>
 				<div class="nominscreen">{{$t('message.homeState')}}</div>
-				<div class="nominscreen">{{$t('message.homeOperation')}}</div>
+				<div class="">{{$t('message.homeOperation')}}</div>
 			</li>
 			<div class="padding">
 				<li class="" v-for="item in list">
@@ -50,10 +50,10 @@
 					<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
 					<div class="nominscreen">{{item.coinType}}</div>
 					<div>{{filterState(item)}}</div>
-					<div class="vol">{{item.amount}}</div>
+					<div class="vol nominscreen">{{item.amount}}</div>
 					<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-					<div class="operation btn nominscreen" v-if="['RECHARGE', 'WITHDRAW'].indexOf(item.realOperation) > -1 && item.platform =='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
-					<div class="operation nominscreen" v-else>- -</div>
+					<div class="operation btn" v-if="['RECHARGE', 'WITHDRAW'].indexOf(item.realOperation) > -1 && item.platform =='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+					<div class="operation" v-else>- -</div>
 				</li>
 			</div>
 			<!-- <div class="charge">
@@ -408,10 +408,11 @@ export default {
 		.trading-record {
 			.main {
 				.content {
-					width: 100%;
+					width: 90%;
 					padding: 0 10px;
 					.title {
 						display: block;
+						padding: 15px 0px;
 						nav{
 							width: 100%;
 							margin-bottom: 10px;
@@ -422,6 +423,7 @@ export default {
 								margin-left: 0;
 								label {
 									display: block;
+									font-size: 12px;
 								}
 								select {
 									width: 120px;
@@ -430,11 +432,19 @@ export default {
 									border-radius: 4px;
 									outline: none;
 									color: white;
-									font-size: 12px;
+									font-size: 10px;
 									height: 24px;
 								}
 							}
 						}
+					}
+					.head-title {
+						padding: 5px;
+						background-color: transparent;
+					}
+					.padding {
+						padding: 0 5px;
+						font-size: 12px;
 					}
 					li {
 						.vol {

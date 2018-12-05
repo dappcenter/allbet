@@ -88,6 +88,11 @@ export default new Router({
             component: () => import("./views/mobile/AB.vue")
         },
         {
+            path: "/bonus-pool",
+            name: "bonus-pool",
+            component: () => import("./views/mobile/BonusPool.vue")
+        },
+        {
             path: "/mobile-invite",
             name: "mobileinvite",
             component: () => import("./views/mobile/Mobile-invite.vue")

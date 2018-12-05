@@ -301,6 +301,7 @@ export default {
         BPcurrentAmount: "当前分红池累计",
         BPSoon: "即将上线",
         BPtip2: "即将上线 EOS、AB 游戏投注挖矿，多币种分红池等您来领取。",
+        BPTotal: '当前 AB 币流通量：',
 
         // 公告
         notice1: "公告：ALLBET游戏平台已上线，注册即送0.01ETH+5000AB，更多的邀请奖励等您来领取！",
