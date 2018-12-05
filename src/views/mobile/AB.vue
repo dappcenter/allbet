@@ -24,15 +24,17 @@
             <h4>{{$t('message.abShareTitle')}}</h4>
             <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
         </div>
-
+        <FooterBar ref="ft"></FooterBar>
     </div>
 </template>
 
 <script>
 import HeaderBar from "@/components/common/header_bar"
+import FooterBar from "@/components/common/footer_bar"
 export default {
     components: {
-        HeaderBar
+        HeaderBar,
+        FooterBar
     }
 }
 </script>

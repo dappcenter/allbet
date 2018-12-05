@@ -4,35 +4,21 @@
 		<!-- 币种选择 -->
 		<ul class="coin-select">
 			<li class="online" :class="{'active' : coinType == 'ETH'}" @click="changeCoinType('ETH')">
-				<i class="eth">
-					<img src="../../../public/img/coin/ETH01.png" alt="">
-				</i>
+				<img src="../../../public/img/coin/ETH.png" alt="">
 				<span>ETH</span>
 			</li>
 			<li class="online" :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
-				<i class="trx">
-					<img src="../../../public/img/coin/TRX01.png" alt="">
-				</i>
+				<img src="../../../public/img/coin/TRX.png" alt="">
 				<span>TRX</span>
 			</li>
 			<li class="not-online" :data-text="$t('message.BPSoon')">
-				<i class="eos">
-					<img src="../../../public/img/coin/EOS01.png" alt="">
-				</i>
+				<img src="../../../public/img/coin/EOS.png" alt="">
 				<span>EOS</span>
 			</li>
 			<li class="not-online" :data-text="$t('message.BPSoon')">
-				<i class="ab">
-					<img src="../../../public/img/coin/AB01.png" alt="">
-				</i>
+				<img src="../../../public/img/coin/AB.png" alt="">
 				<span>AB</span>
 			</li>
-			<!-- <li class="not-online" :data-text="$t('message.BPSoon')">
-				<i class="sac">
-					<img src="../../../public/img/coin/SAC01.png" alt="">
-				</i>
-				<span>SAC</span>
-			</li> -->
 		</ul>
 		<div class="game-content" ref="gameContent">
 			<div class="ctn-top">
@@ -117,7 +103,7 @@
 				</div>
 			</div>
 			<!-- 挖矿数量 -->
-			<div class="dig-wrap nominscreen">
+			<div class="dig-wrap">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
 					<h4>{{$t('message.GameBetToGet')}} {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
@@ -643,15 +629,12 @@ export default {
 				text-align: center;
 				overflow: hidden;
 				cursor: pointer;
-				i {
+				img {
 					width: 24px;
 					height: 24px;
 					border-radius: 50%;
 					background-color: #41375B;
-					img {
-						height: 15px;
-						margin: 5px auto 0;
-					}
+					vertical-align: middle;
 				}
 				span {
 					font-size: 16px;
@@ -1125,6 +1108,19 @@ export default {
 					word-break: break-all;
 					height: 300px;
 					overflow-y: scroll;
+					padding-right: 10px;
+					&::-webkit-scrollbar {/*滚动条整体样式*/
+							width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+							height: 8px;
+						}
+					&::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+							border-radius: 10px;
+							background: #8D86C1;
+						}
+					&::-webkit-scrollbar-track {/*滚动条里面轨道*/
+							border-radius: 10px;
+							background: #322A46;
+						}
 					a {
 						color: #CCBCF8;
 					}
@@ -1156,47 +1152,102 @@ export default {
 			.coin-select {
 				position: relative;
 				top: 0;
-				padding: 0 20px;
+				padding: 0 .2rem;
 				white-space: nowrap;
 				overflow-x: scroll;
 				margin: .3rem 0 0 0;
+				width: auto;
 				li {
 					display: inline-block;
-					width: 1.8rem;
-					height: auto;
+					width: 1.2rem;
+					height: .48rem;
 					background-color: #2A3C7E;
 					border-radius: .06rem;
 					text-align: center;
 					overflow: hidden;
-					padding: .1rem 0;
 					margin: 0 .1rem 0 0;
-					i {
+					padding: 0;
+					img {
 						display: inline-block;
-						width: .5rem;
-						height: .5rem;
-						border-radius: 50%;
-						background-color: #1D2F71;
+						height: .38rem;
+						width: .38rem;
 						margin: 0;
-						vertical-align: middle;
-						img {
-							height: .4rem;
-							margin: .05rem 0 0;
-
-						}
 					}
 					span {
-						font-size: .16rem;
-						vertical-align: middle;
+						font-size: .2rem;
 						margin-left: .1rem;
+					}
+					&.not-online {
+						&:hover {
+							&:after {
+								left: 0;
+								top: 0;
+								font-size: .12rem;
+								line-height:.48rem;
+							}
+						}
 					}
 				}
 			}
 			.game-content {
 				width: auto;
 				margin: 0 auto;
-				padding: 0 20px 20px;
+				padding: 0 .2rem .2rem;
 				.slider-wrap {
 					margin: 40px 0;
+				}
+				.ctn-top {
+					display: initial;
+					.bet-input {
+						margin-top: .3rem;
+						.flex-wrap {
+							.input-wrap {
+								flex: 1;
+								height: .52rem;
+								input {
+									flex: 1;
+									font-size: .24rem;
+									width: 1.5rem;
+									height: .52rem;
+									line-height: .52rem;
+								}
+							}
+							.hotkeys {
+								span {
+									height: .52rem;
+									font-size: .24rem;
+									width: .7rem;
+									line-height: .52rem;
+								}
+							}
+						}
+					}
+					.award {
+						margin: .3rem 0 0 0;
+						div {
+							height: .6rem;
+							span {
+								font-size: .24rem;
+							}
+						}
+					}
+				}
+				.ctn-mdl {
+					li {
+						label {
+							font-size: .18rem;
+						}
+						span {
+							font-size: .42rem;
+							img {
+								height: .23rem;
+								width: .18rem;
+							}
+							i {
+								font-size: .32rem !important;
+							}
+						}
+					}
 				}
 				.ctn-btm {
 					h4 {
@@ -1229,15 +1280,56 @@ export default {
 						}
 					}
 					.bet-wrap {
-						flex-wrap: wrap;
-						margin-top: 20px;
+						display: block;
+						margin: .6rem 0;
+						overflow: hidden;
 						.enter {
-							width: 100%;
-							margin-bottom: 18px;
+							display: block;
+							width: 3rem;
+							height: .64rem;
+							margin: 0 auto .2rem;
 							outline: none;
+							font-size: .24rem;
+
 						}
 						span {
-							flex: initial;
+							font-size: .16rem;
+							&.fl {
+								width: 50%;
+								float: left;
+							}
+							&.fr {
+								width: 50%;
+								float: right;
+								text-align: right;
+							}
+							img {
+								width: .4rem;
+							}
+						}
+					}
+				}
+				.slider-wrap {
+					margin: .5rem 0;
+				}
+				.dig-wrap {
+					width: 100%;
+					height: auto;
+					padding: .22rem .4rem;
+					img {
+						width: .64rem;
+						height: .64rem;
+					}
+					.content {
+						margin: 0;
+						h4 {
+							font-size: .18rem;
+						}
+						p {
+							font-size: .16rem;
+						}
+						span {
+							font-size: .14rem;
 						}
 					}
 				}

@@ -1,5 +1,5 @@
 <template>
-    <div class="footerbar nominscreen">
+    <div class="footerbar">
         <div class="content">
             <div class="top">
                 <div class="logo">
@@ -101,24 +101,38 @@ export default {
 }
 @media screen and (max-width: 800px){
     .footerbar {
-        padding: 22px 0;
+        padding: 0 .4rem;
         height: auto;
-        .container {
+        .content {
             flex-wrap: wrap;
             height: auto;
-            .linklist {
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
-                padding: 0 40px;
-                a {
-                    margin-right: 0;
+            .top {
+                padding: .4rem 0;
+                .logo {
+                    img {
+                        height: .72rem;
+                    }
+                }
+                .linklist {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding: 0 0 0 1.4rem;
+                    a {
+                        margin-right: 0;
+                        .icon {
+                            height: .42rem;
+                            width: .42rem;
+                        }
+                    }
                 }
             }
+            
             p {
                 width: 100%;
-                text-align: center;
-                margin-top: 20px;
+                text-align: left;
+                padding: .4rem 0;
+                font-size: .2rem;
             }
         }
         

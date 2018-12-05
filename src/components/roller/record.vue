@@ -40,8 +40,7 @@
 						<span>{{item.luckyNum}}</span>
 					</li>
 					<li class="golden tr">
-						<span v-if="item.rewards > 0">{{item.rewards}}</span>
-						<span v-else>--</span>
+						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
 					</li>
 					<li class="nominscreen">
 						<span>{{item.abNum}}</span>
@@ -335,7 +334,7 @@ export default {
 }
 @media screen and (max-width: 800px){
 	.module-roller-record {
-		padding: 0 20px;
+		padding: 0 .2rem;
 		.tl {
 			text-align: left !important;
 		}
@@ -345,30 +344,64 @@ export default {
 		.nav {
 			justify-content: space-between;
 			height: auto;
+			font-size: .24rem;
 			a {
 				margin: 0;
-				line-height: 60px;
+				line-height: 1rem;
+				padding: 0 .1rem;
 			}
 		}
 		.myinfo {
 			padding: 0;
+			line-height: .8rem;
+			font-size: .18rem;
+			.fr {
+				margin-left: .4rem;
+			}
 		}
-		.t-head {
-			padding: 0;
-			height: 40px;
-		}
-		.t-body {
-			.list-content {
-				padding: 0;
-				font-size: 10px;
-				li {
-					line-height: 40px;
-					.minscreen {
-						display: block;
+		.table-record {
+			padding-bottom: .5rem;
+			.t-head {
+				padding: 0 .4rem;
+				height: .8rem;
+				font-size: .24rem;
+				.tl {
+					text-align: center !important;
+				}
+			}
+			.t-body {
+				.list-content {
+					padding: 0 .4rem;
+					font-size: 10px;
+					.tl {
+						text-align: center !important;
+					}
+					&.win {
+						&.rich {
+							background: rgba(19,246,147,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+							background-size: .53rem .53rem;
+						}
+						&.lucky {
+							background: rgba(19,246,147,.3) url(../../../public/img/lucky_ch.png) no-repeat left top;
+							background-size: .53rem .53rem;
+						}
+					}
+					&.lose {
+						&.rich {
+							background: rgba(254,14,78,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+							background-size: .53rem .53rem;
+						}
+					}
+					li {
+						line-height: 40px;
+						.minscreen {
+							display: block;
+						}
 					}
 				}
 			}
 		}
+		
 	}
 }
 </style>

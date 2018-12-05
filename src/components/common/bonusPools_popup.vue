@@ -7,14 +7,14 @@
                 <img src="../../../public/img/coin/ETH.png" />
                 <span>{{$t('message.BPcurrentAmount')}}</span>
             </div>
-            <h3>{{Number(bonusPoolsData.pool) > 0 ? Number(bonusPoolsData.pool).toFixed(8) : 0}} ETH</h3>
+            <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(8) : 0}} ETH</h3>
         </div>
         <div class="coin-wrap eth">
             <div class="coin-logo">
                 <img src="../../../public/img/coin/TRX.png" />
                 <span>{{$t('message.BPcurrentAmount')}}</span>
             </div>
-            <h3>{{Number(bonusPoolsData.pool) > 0 ? Number(bonusPoolsData.pool).toFixed(8) : 0}} TRX</h3>
+            <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(8) : 0}} TRX</h3>
         </div>
         <ul>
             <li>
@@ -31,6 +31,7 @@
             <p v-if="storeCurrentAddr.bet">{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
             <!-- <p>当前 AB 币流通量：100000000 AB</p> -->
         </div>
+        <i class="close-btn" @click="isShow = false"></i>
     </mu-dialog>
 </template>
 
@@ -173,6 +174,16 @@ export default {
                     color: #fff;
                 }
             }
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 28px;
+            height: 28px;
+            background: url(../../../public/img/close_icon02.png) no-repeat center !important;
+            background-size: 100% !important;
+            cursor: pointer;
         }
     }
 }

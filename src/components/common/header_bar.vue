@@ -116,6 +116,7 @@
             </div>
             <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
             <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">{{$t('message.PopEmailRegister')}}</a></p>
+            <i class="close-btn" @click="displayStatus.registerAccount = false"></i>
         </mu-dialog>
         <!-- 邮箱注册账号 -->
         <mu-dialog :open.sync="displayStatus.emailRegisterAccount" :append-body="false" class="register-accout">
@@ -153,6 +154,7 @@
             </div>
             <button class="primary-btn" @click="registerDo('email')">{{$t('message.PopRegister')}}</button>
             <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">{{$t('message.PopPhoneRegister')}}</a></p>
+            <i class="close-btn" @click="displayStatus.emailRegisterAccount = false"></i>
         </mu-dialog>
         <!-- 找回密码 -->
         <mu-dialog :open.sync="findPassword" :append-body="false" class="register-accout">
@@ -212,6 +214,7 @@
                 <a href="javascript:;" @click="switchFindPassword('EMAIL')" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
                 <a href="javascript:;" @click="switchFindPassword('PHONE')" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
             </p>
+            <i class="close-btn" @click="findPassword = false"></i>
         </mu-dialog>
 
         <!-- 分红池 -->
