@@ -99,6 +99,7 @@ export default {
     .mu-dialog-body {
         background: url(../../../public/img/bonus-pools.png) no-repeat center;
         background-size: 100% 100%;
+        color: #fff !important;
         h4 {
             color: #FFD558;
         }
