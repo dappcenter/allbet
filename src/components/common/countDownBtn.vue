@@ -60,7 +60,7 @@ export default {
 <style lang="less">
 .aef-countdownbtn {
     button {
-        background-color: #5AA0EE;
+        background-color: #4FB228;
         line-height: 38px;
         margin-left: 10px;
         width: 90px;

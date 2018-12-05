@@ -23,19 +23,6 @@
             <p class="tip1 tip2">{{$t('message.abGet')}}</p>
             <h4>{{$t('message.abShareTitle')}}</h4>
             <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
-            <p class="tip1 tip2 tip3">{{$t('message.abExmaple')}}</p>
-            <p class="tip1 tip2 tip3">{{$t('message.abFirst')}}</p>
-            <p class="tip1 tip2">{{$t('message.abLast')}}</p>
-            <table>
-                <tr>
-                <td>{{$t('message.abEthpool')}}</td>
-                <td>3000ETH</td>
-                </tr>
-                <tr>
-                <td>{{$t('message.abPool')}}</td>
-                <td>7000ETH</td>
-                </tr>
-            </table>
         </div>
         
     </div>

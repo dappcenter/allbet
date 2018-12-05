@@ -237,9 +237,10 @@ export default {
         PopBindDesc: "Use the account login to win the invitation bonus ETH, play the game and enjoy the income seconds.",
         PopBindDesc2: "Bind the account to win the invitation award points ETH",
 
-        PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网节点，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载（两款钱包 均支持 TRONDICE）<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /> <br />请注意钱包使用主网节点，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginText1: "快速体验游戏，",
+        PopLoginSelectTitle: "Please log in Chrome Wallet",
+        PopLoginSelectETH: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />Please switch wallet to mainnet node, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /> <br />Please switch wallet to mainnet node, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginText1: "Quick experience,",
 
         PopHttpTimeout: "please refresh page",
         // 游戏页
@@ -277,7 +278,7 @@ export default {
         GameWinBox3: "Play again",
         GameNoWin: "It's a pity to fail. Don't lose heart",
         GameKnow: "I know",
-        GameHelp: "<p style='text-align: justify'>1. You can adjust the slider to choose PREDICTION number you'd like to roll under. As you move the slider, your payout and win chance will adjust automatically.<br /><br />2. Click GUESS LESS THAN50 to place your bet. The smart contracts will then randomly generate a LUCKY number from 1~100.<br /><br />3. If the lucky number is less than your prediction then you WIN! <br /><br />4. Each bet placed will give you AB tokens, for more information check out our INFO.<br /><br />5. Make sure you have a account or MetaMask. For more information on how to install MetaMask, Please see the white paper.<br /><br />6. Set your BET NUMBER. This is the amount of you will be betting.<br /><br />Still have questions? Join our WeChat group and we'll be more than happy to help!</p>",
+        GameHelp: "<p style='text-align: justify'>1. You can adjust the slider to choose the number you'd like to roll under. The smart contracts will then randomly generate a LUCKY number from 1-100.If the lucky number is below your prediction number then you WIN! Fail when the lucky number is greater than or equal to your predicted number.<br /><br />2. The smaller the predicted number you choose, the higher the odds and the lower the winning percentage. The larger the predicted number you choose, the smaller the odds and the higher the winning rate. If you want to win, you can choose a big predict number.<br /><br />3. ALLBET returns AB Coin to your wallet when you join in 'Gaming is Minmin'.<br /><br />4. If you want to join in game with TRX,please Login TronLink wallet.If you don't install,check the link to install TronLink：<a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'>https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /><br />5. If you want to join in game with ETH,please Login MetaMask wallet.If you don't install,check the link to install MetaMask：<a href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' target='_blank'>https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn</a><br /><br />6. After logging in to the wallet or switching accounts, please refresh the page before starting the game.<br /><br />7.Set your BET AMOUNT. This is the amount of TRX or ETH you will be betting.<br /><br />Still have questions? Join our community and we'll be more than happy to help!</p>",
         GameHowToPlay: "Rules",
         GameTips1: "The data is delayed by up to three minutes and reset daily at UTC 00:00",
         GameRule: "The rules of the game",
@@ -297,7 +298,7 @@ export default {
         BPab: "My AB balance",
         BPcurrentAmount: "Bonus Pool",
         BPSoon: "Coming",
-        BPtip2: "Coming online EOS, TRX, AB, SAC game betting mining, multi-currency bonus pool and so on you to receive.",
+        BPtip2: "Coming online EOS, AB game betting mining, multi-currency bonus pool and so on you to receive.",
 
         // 公告
         notice1: "Announcement：ALLBET has been launched! Register now and earn up 0.01ETH + 5000AB! Invite your friend to get extra rewards!",
@@ -324,7 +325,7 @@ export default {
         abRate: 'Proportion',
         abTeam: 'Team of ALLBET',
         abGameDig: 'Game Mining(for game、Referral、Airdrop)',
-        abFourYear: "AB Token will be locked for four years and will be released in equal proportion every month. The first phase is unlocked on November 30th. Of the remaining 70%, 10% or 1 billion will be released in the form of 'Game Mining'",
+        abFourYear: "AB token lock warehouse for four years, monthly release in equal proportion.Of the remaining 70%, 10% (700 million pieces) will be released in the form of 'game mining'.",
         abBancorDig: 'AB Token Mining',
         abGet: 'Play our games can get the AB token. Meanwhile，the difficulty of mining the AB token will increase with the release of the ABtoken',
         abShareTitle: 'Profit Sharing',

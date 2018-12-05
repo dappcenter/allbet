@@ -34,7 +34,7 @@ export default {
         homeAllet: "基于bancor的实用增强型通证协议,多维Dapp游戏生态系统",
         homeAlletDesc: "AT 即 allbet Token，固定总量1000万。是allbet生态中代表allbet用户以及开发者权益的应用型通证，也是连接钱包、用户以及项目开发者的重要纽带。发行后所有通证都存储在一个合约控制的AT通证池里（非团队所有），同时有一个对应的ETH资金池，用户从通证池购买通证，花费的ETH会进入ETH资金池（非团队所有）。所有操作都是协议合约直接控制的，区块链上信息可查。",
         homeTotalAt: "我的总AT量：",
-        homeReservePool:"储备金",
+        homeReservePool: "储备金",
         homeETHReserve: "ETH 资金池",
         homeATReserve: "AT 资金池",
         homeBuyAT: "买入 AT",
@@ -237,8 +237,9 @@ export default {
         PopBindDesc: "使用账号登录赢取邀请奖励分ETH，玩游戏享受收益秒到账",
         PopBindDesc2: "绑定账号，赢取邀请奖励分ETH",
 
+        PopLoginSelectTitle: "请登录 Chrome 插件钱包",
         PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网节点，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载（两款钱包 均支持 TRONDICE）<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /> <br />请注意钱包使用主网节点，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /> <br />请注意钱包使用主网节点，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
         PopLoginText1: "快速体验游戏，",
 
         PopHttpTimeout: "请刷新页面",
@@ -277,7 +278,7 @@ export default {
         GameWinBox3: "再玩一次",
         GameNoWin: "很遗憾预测失败，别灰心",
         GameKnow: "我知道了",
-        GameHelp: "<p style='text-align: justify'>1.您可以调整滑块选择想要的预测数。移动滑块时，您可赢得的总金额和胜率都将自动调整。想要赢的话可选择一个大的预测数。<br /><br />2.点击猜小于50按钮开始游戏。智能合约随后将从1-100之间随机生成一个幸运数字。<br /><br />3.如果幸运数字小于您的预测数，您就赢了！<br /><br />4.每次下注系统都会将挖矿所得AB返还到您的钱包，更多相关信息，请查看我们的白皮书。<br /><br />5.确保您有一个平台账号或MetaMask插件。有关如何下载MetaMask插件，请查看白皮书。<br /><br />6.设置您的竞猜数量，也就是您要下注的数量。<br /><br />仍然还有疑问？欢迎加入我们的微信群，我们非常乐意为您提供帮助！</p>",
+        GameHelp: "<p style='text-align: justify'>1.您可以调整滑块选择想要的“预测数”，点击“猜小于预测数”按钮开始游戏，智能合约随后将从1-100之间随机生成一个幸运数字，当幸运数字小于您的“预测数”时即中奖，当幸运数字大于或等于您的“预测数“时即失败。<br /><br />2.您选择的“预测数”越小则赔率越大&胜率越低，选择的“预测数”越大则赔率越小&胜率越高，如果想要赢的话建议可选择一个大的“预测数”。<br /><br />3.每次下注系统都会将挖矿所得AB返还到您的钱包。<br /><br />4.如果选择TRX体系开始游戏，请登录TronLink插件。若无可点击以下链接进行下载 TronLink：<br /><a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'>https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec</a><br /><br />5.如果选择ETH体系开始游戏，请登录MetaMask插件。若无可点击以下链接进行下载 MetaMask：<br /><a href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn' target='_blank'>https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn</a><br /><br />6.登录钱包或切换账号后请刷新页面再开始游戏。<br /><br />7.设置您的竞猜数量，也就是您要下注的TRX、ETH数量。<br /><br />仍然还有疑问？欢迎加入我们的社群，我们非常乐意为您提供帮助！</p>",
         GameHowToPlay: "玩法介绍",
         GameRule: "游戏规则",
         GameTips1: "数据最多延迟三分钟并于每天UTC 00:00 重置",
@@ -297,7 +298,7 @@ export default {
         BPab: "我的 AB 余额",
         BPcurrentAmount: "当前分红池累计",
         BPSoon: "即将上线",
-        BPtip2: "即将上线 EOS、TRX、AB、SAC 游戏投注挖矿，多币种分红池等您来领取。",
+        BPtip2: "即将上线 EOS、AB 游戏投注挖矿，多币种分红池等您来领取。",
 
         // 公告
         notice1: "公告：ALLBET游戏平台已上线，注册即送0.01ETH+5000AB，更多的邀请奖励等您来领取！",
@@ -307,7 +308,7 @@ export default {
 
         //APP.vue
         AppMainNet: "切换到主网",
-        AppMeta:"我们的游戏仅在主网上提供，请通过Metamask进行切换",
+        AppMeta: "我们的游戏仅在主网上提供，请通过Metamask进行切换",
 
         //My.vue
         my: "我的",
@@ -324,7 +325,7 @@ export default {
         abRate: '比例',
         abTeam: '开发者团队',
         abGameDig: '游戏挖矿（游戏、邀请奖励、空投）',
-        abFourYear: "AB代币锁仓四年，每月等比例释放，第一期解锁为11月30日。剩余的70%中，将拿出 10%（即7亿枚）通过“游戏即挖矿”的形式陆续释放",
+        abFourYear: "AB 代币锁仓四年，每月等比例释放。剩余的 70% 中，将拿出 10%（即 7 亿枚）通过“游戏即挖矿”的形式陆续释放。",
         abBancorDig: 'AB代币挖矿',
         abGet: '玩家通过玩游戏获取 AB 代币，每次投注都可以获得一定数量的代币。AB 代币的挖矿难度会随着 AB 代币的释放而增加。',
         abShareTitle: '利润分享',

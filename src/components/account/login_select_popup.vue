@@ -1,6 +1,6 @@
 <template>
     <mu-dialog :open.sync="isShow" :append-body="false" class="login-select-popup">
-        <h3>请登录 Chrome 插件钱包</h3>
+        <h3>{{$t('message.PopLoginSelectTitle')}}</h3>
         <div class="content-text" v-html="$t('message.PopLoginSelect' + coinType)"></div>
         <button @click="isShow = false">{{$t('message.PopConfirm')}}</button>
         <p class="other">{{$t('message.PopLoginText1')}}<a href="javascript:;" @click="showLoginPopup">{{$t('message.login')}} / {{$t('message.PopRegister')}}</a></p>
@@ -61,6 +61,7 @@ export default {
             margin: 50px 0;
             font-size: 14px;
             color: #E3DFFF;
+            word-break: break-all;
             a {
                 color: #E3DFFF;
             }

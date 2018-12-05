@@ -4,10 +4,17 @@
         <p class="tip1">{{$t('message.BPtip')}}</p>
         <div class="coin-wrap eth">
             <div class="coin-logo">
-                <img src="../../../public/img/eth_icon.png" />
+                <img src="../../../public/img/coin/ETH.png" />
                 <span>{{$t('message.BPcurrentAmount')}}</span>
             </div>
             <h3>{{Number(bonusPoolsData.pool) > 0 ? Number(bonusPoolsData.pool).toFixed(8) : 0}} ETH</h3>
+        </div>
+        <div class="coin-wrap eth">
+            <div class="coin-logo">
+                <img src="../../../public/img/coin/TRX.png" />
+                <span>{{$t('message.BPcurrentAmount')}}</span>
+            </div>
+            <h3>{{Number(bonusPoolsData.pool) > 0 ? Number(bonusPoolsData.pool).toFixed(8) : 0}} TRX</h3>
         </div>
         <ul>
             <li>
@@ -15,15 +22,7 @@
                 <span>{{$t("message.BPSoon")}}</span>
             </li>
             <li>
-                <img src="../../../public/img/coin/TRX.png" />
-                <span>{{$t("message.BPSoon")}}</span>
-            </li>
-            <li>
                 <img src="../../../public/img/coin/AB.png" />
-                <span>{{$t("message.BPSoon")}}</span>
-            </li>
-            <li>
-                <img src="../../../public/img/coin/SAC.png" />
                 <span>{{$t("message.BPSoon")}}</span>
             </li>
         </ul>
@@ -128,17 +127,18 @@ export default {
             justify-content: space-around;
             padding: 10px;
             border-radius:4px;
-            &.eth {
-                margin-top: 20px;
-                background:#E95678;
-            }
+            background:#E95678;
+            margin-top: 10px;
             .coin-logo {
                 text-align: center;
                 img {
-                    width: 40px;
-                    height: 40px;
+                    width: 62px;
+                    height: 62px;
                     display: block;
                     margin: 0 auto 10px;
+                    background-color: #CD3A5A;
+                    border-radius: 50%;
+                    
                 }
                 span {
                     font-size: 16px;
@@ -163,7 +163,9 @@ export default {
                 padding: 20px 40px;
                 border-radius: 4px;
                 img {
-                    width: 40px;
+                    width: 62px;
+                    background-color: #C54537;
+                    border-radius: 50%;
                 }
                 span {
                     font-size: 18px;

@@ -942,7 +942,7 @@ export default {
         .mu-dialog-body {
             position: relative;
             background-color: #52476F;
-            color: #fff;
+            color: #CCBCF8;
             .close-btn {
                 position: absolute;
                 top: 20px;
@@ -1040,6 +1040,7 @@ export default {
                     border-radius:4px;
                     padding: 0 10px;
                     color: #fff;
+                    outline: none;
                 }
                 .input-flex {
                     flex: 1;
@@ -1085,7 +1086,7 @@ export default {
                 text-align: center;
                 margin-top: 10px;
                 a {
-                    color: #5480D9;
+                    color: #CCBCF8;
                 }
             }
             .primary-btn {

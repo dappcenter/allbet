@@ -45,9 +45,9 @@
 							<span>{{coinType}}</span>
 						</div>
 						<div class="hotkeys">
-							<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2))">0.05</span>
-							<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2))">1/2</span>
-							<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2))">2X</span>
+							<span @click="onHotkeys('min')">MIN</span>
+							<span @click="onHotkeys(0.5)">1/2</span>
+							<span @click="onHotkeys(2)">2X</span>
 							<span @click="onHotkeys('max')">MAX</span>
 						</div>
 					</div>
@@ -55,8 +55,8 @@
 				<div class="award">
 					<p>{{$t('message.GamePlayOutWin')}}</p>
 					<div>
-						<img src="../../../public/img/coin/ETH01.png" alt="" v-show="coinType == 'ETH'">
-						<img src="../../../public/img/coin/TRX01.png" alt="" v-show="coinType == 'TRX'">
+						<img src="../../../public/img/coin/ETH.png" alt="" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/TRX.png" alt="" v-show="coinType == 'TRX'">
 						<span>{{bonus}}</span>
 						<i>{{coinType}}</i>
 					</div>
@@ -87,33 +87,33 @@
 					<div class="bar" ref="bar" @click="onHandleClick" @touchstart="onHandleTouchS"></div>
 					<div class="handle" @mousedown.prevent="onHandleMouseD" @touchstart.prevent="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
 				</div>
-
 			</div>
 			<div class="ctn-btm">
 				<!-- 自动下注 -->
 				<div class="auto-bet">
-					<p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p>
+					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
+					<p class="nominscreen"></p>
 					<div class="mid">
 						<label>{{$t('message.GameAutoBet')}}</label>
 						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 					</div>
-					<a href="javascript:;" class="nominscreen" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
+					<a href="javascript:;" class="nominscreen rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen">
-						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
 					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 					<span class="fl minscreen">
-						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<span class="fr"><img src="../../../public/img/ab_icon03.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
+					<span class="fr"><img src="../../../public/img/coin/AB.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
 			<!-- 挖矿数量 -->
@@ -219,11 +219,23 @@ export default {
 			}, 50)
 		},
         onHotkeys(amount) {
-            if(amount === 'max') {
-                this.amount = this.rule.maxInvest
-            }else {
-                this.amount = amount
-            }
+			switch(amount) {
+				case 'max': 
+					this.amount = this.rule.maxInvest
+					break;
+				case 'min':
+					this.amount = this.rule.minInvest
+					break;
+				case 0.5:
+					this.amount = this.amount*0.5 < this.rule.minInvest ? this.rule.minInvest : this.amount*0.5
+					break;
+				case 2:
+					this.amount = this.amount*2 > this.rule.maxInvest ? this.rule.maxInvest : this.amount*2
+					break;
+				default:
+					this.amount = amount
+					break;
+			}
         },
         onAdd() {
             this.amount = (Number(this.amount) + 0.01).toFixed(2)
@@ -403,7 +415,7 @@ export default {
 			})
 			.on("error", function(error) {
 				that.alert({
-					type: "error",
+					type: "info",
 					msg: that.$t("message.GameBetErr")
 				})
 			});
@@ -428,7 +440,7 @@ export default {
 				that.getBetResult(orderId)
 			}).catch(err => {
 				that.alert({
-					type: "error",
+					type: "info",
 					msg: that.$t("message.GameBetErr")
 				})
 			})
@@ -454,7 +466,6 @@ export default {
 								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
-									console.log(res)
 									this.openWinPopup({
 										ab: res.result.abNum,
 										rewards: res.result.rewards,
@@ -665,7 +676,7 @@ export default {
 							position: absolute;
 							width: 100%;
 							height: 100%;
-							background:rgba(0,177,100,.9);
+							background:#54506D;
 							font-size: 16px;
 							line-height: 32px;
 						}
@@ -730,14 +741,15 @@ export default {
 						.input-wrap {
 							display: flex;
 							align-items: center;
-							background-color: #030014;
+							background-color: #37344D;
 							height: 40px;
 							border-radius:4px;
+							margin-right: 4px;
 							label {
 								width: 40px;
 								height: 40px;
 								&.eth {
-									background: url(../../../public/img/eth_icon.png) no-repeat center;
+									background: url(../../../public/img/coin/ETH.png) no-repeat center;
 									background-size: 60%;
 								}
 								&.trx {
@@ -747,7 +759,7 @@ export default {
 							}
 							input {
 								width: 180px;
-								background-color: #030014;
+								background-color: #37344D;
 								border: none;
 								color: #fff;
 								text-align: center;
@@ -768,6 +780,14 @@ export default {
 								border-right: 1px solid #030014;
 								font-size: 14px;
 								width: 44px;
+								height: 40px;
+								line-height: 40px;
+								cursor: pointer;
+								border-radius: 4px;
+								&:hover {
+									background-color: #37344D;
+									color: #fff;
+								}
 								&:last-child {
 									border: none;
 								}
@@ -790,7 +810,7 @@ export default {
 							font-size: 22px;
 						}
 						img {
-							height: 18px;
+							height: 20px;
 						}
 						i {
 							font-style: normal;
@@ -850,6 +870,7 @@ export default {
 					color: #D3CDFF;
 					.mid {
 						display: flex;
+						flex: 1;
 						justify-content: center;
 						.switch {
 							position: relative;
@@ -906,11 +927,15 @@ export default {
 						}
 					}
 					p {
+						width: 200px;
+						text-align: left;
 						a {
 							color: #FFC425;
 						}
 					}
-					a {
+					.rule {
+						width: 200px;
+						text-align: right;
 						color: #D3CDFF;
 					}
 				}
@@ -920,7 +945,7 @@ export default {
 					align-items: center;
 					margin-top: 30px;
 					button {
-						width: 360px;
+						width: 300px;
 						height: 52px;
 						background-color: #FFC425;
 						color:#1A0D59;
@@ -936,9 +961,11 @@ export default {
 						font-size: 16px;
 						text-align: left;
 						img {
-							width: 24px;
-							vertical-align: top;
+							width: 30px;
+							vertical-align: middle;
 							margin-right: 10px;
+							background-color: #54506D;
+							border-radius: 50%;
 						}
 						i {
 							color: #FFC425;
@@ -1016,7 +1043,7 @@ export default {
 			}
 			.slider {
 				position: relative;
-				background-color: rgba(254,14,78,1);
+				background-color: rgba(230,53,80,1);
 				height: 14px;
 				box-shadow: inset 0 1px 0 #2a365a;
 				border-radius: 7px;
@@ -1055,7 +1082,7 @@ export default {
 					}
 				}
 				.bar {
-					background-color: rgba(19,246,147,1);
+					background-color: rgba(110,238,161,1);
 					height: 14px;
 					width: 50%;
 					top: 0;
@@ -1063,7 +1090,7 @@ export default {
 					border-top-left-radius: 7px;
 					border-bottom-left-radius: 7px;
 					margin-right: 10px;
-					box-shadow: 0 0 7px #29f294;
+					box-shadow: 0 0 7px rgba(179, 255, 222, 1);
 				}
 			}
 		}
@@ -1075,7 +1102,8 @@ export default {
 			}
 			.mu-dialog-body {
 				position: relative;
-				background: #52476F;
+				background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+        		background-size: 40%;
 				.close-btn {
 					position: absolute;
 					right: 20px;
@@ -1094,6 +1122,12 @@ export default {
 					font-size: 16px;
 					text-align: center;
 					color: #CCBCF8;
+					word-break: break-all;
+					height: 300px;
+					overflow-y: scroll;
+					a {
+						color: #CCBCF8;
+					}
 				}
 				.other {
 					color: #C8C8C8;
