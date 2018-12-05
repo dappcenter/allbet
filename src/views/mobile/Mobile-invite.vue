@@ -2,7 +2,6 @@
 	<div class="mobile-invite-page">
     <HeaderBar title="邀请好友"></HeaderBar>
     <div class="main">
-      <div class="top"></div>
       <div class="white-div">
         <div class="" v-show="inviteCode">
 	        <div class="invite-detail">
@@ -35,7 +34,6 @@
 	        </div>
 					<div class="buttom">
 						<h5 class="title">{{$t('message.InvitationRules')}}</h5>
-						<h5>{{$t('message.InvitationRules1')}}</h5>
 						<h5>{{$t('message.InvitationRules2')}}</h5>
 					</div>
         </div>
@@ -46,7 +44,6 @@
 						</p>
 						<div class="buttom">
 							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
-							<h5>{{$t('message.InvitationRules1')}}</h5>
 							<h5>{{$t('message.InvitationRules2')}}</h5>
 						</div>
 				</div>
@@ -161,16 +158,12 @@ import {mapMutations, mapState} from "vuex"
     .main {
       margin: auto;
 			text-align: center;
-			.top {
-				height: 2rem;
-				background: url(../../../public/img/top_bg01.png) no-repeat center;
-				background-size: 100%;
-			}
+			background-color: #22202C;
       h3 {
         font-size:20px;
         font-family:PingFang-SC-Bold;
         font-weight:bold;
-        color:rgba(255,255,255,1);
+        color:#D3CDFF;
         line-height:35px;
       }
       .white-div {
@@ -180,13 +173,13 @@ import {mapMutations, mapState} from "vuex"
           display: flex;
           align-items: center;
           justify-content: center;
-					background-color: #131422;
+					background-color: #49425C;
 					padding: .3rem 0;
 					margin-top: .4rem;
           div {
             width: 50%;
             .title {
-              color: #C4E5FF;
+              color: #D3CDFF;
               font-size:16px;
 							font-weight: normal;
             }
@@ -197,7 +190,7 @@ import {mapMutations, mapState} from "vuex"
             }
           }
 					div:first-child {
-						border-right: 1px solid #393A50;
+						border-right: 1px solid #2F2840;
 					}
         }
         .qrcode {
@@ -216,13 +209,13 @@ import {mapMutations, mapState} from "vuex"
 						}
 						p {
 							font-size:14px;
-							color: #7A7B91;
+							color: #D3CDFF;
 							text-align: left;
 							margin-bottom: 10px;
 						}
 						.copy-div1 {
 							height: 48px;
-							background-color: #131422;
+							background-color: #49425C;
 							border-radius: 4px;
 							display: flex;
 							align-items: center;
@@ -244,20 +237,20 @@ import {mapMutations, mapState} from "vuex"
 								&.copy {
 									width: 1rem;
 									font-size: .24rem;
-									color: #3E9CF5;
+									color: #D3CDFF;
 									padding: 4px 7px;
 									margin-left: 12px;
 									cursor: pointer;
-									border-left: 1px solid #393A50;
+									border-left: 1px solid #2F2840;
 								}
 							}
-						
+
 						}
 						.copy-div2 {
 							height: 48px;
 						}
 						span {
-							color: #5480D9;
+							color: #D3CDFF;
 							font-size: 18px;
 							text-align: left;
 							font-weight:bold;
@@ -268,13 +261,13 @@ import {mapMutations, mapState} from "vuex"
 					margin-top: .4rem;
 					h5 {
 						font-size: .24rem;
-						color: #FFFFFF;
+						color: #fff;
 						text-align: left;
 						margin-bottom: 10px;
 						font-weight: 400;
 					}
 					.title {
-						color: #7A7B91;
+						color: #D3CDFF;
 						margin-bottom: 20px;
 					}
 				}
@@ -282,7 +275,7 @@ import {mapMutations, mapState} from "vuex"
 			.no-bind {
 				padding: 1.5rem 0 0 0;
 				p {
-					color: #fff;
+					color: #D3CDFF;
 					font-size:.24rem;
 					margin-bottom: 150px;
 				}

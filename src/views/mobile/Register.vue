@@ -1,13 +1,13 @@
 <template>
     <div class="register-page" :style="{minHeight: $window.innerHeight + 'px'}">
-        <div class="top">
+      <MBheaderBar title="注册"></MBheaderBar>
+        <!-- <div class="top">
             <a href="javascript:;" class="backarrow" @click="$goBack"></a>
-            <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">
             <div class="tab">
                 <a href="javascript:;" class="phone" @click="registerType = 'phone';getImgCode('REGISTER')" :class="{'active': registerType == 'phone'}">{{$t('message.PopPhoneRegister')}}</a>
                 <a href="javascript:;" @click="registerType = 'email';getImgCode('REGISTER')" :class="{'active': registerType == 'email'}">{{$t('message.PopEmailRegister')}}</a>
             </div>
-        </div>
+        </div> -->
         <div class="bottom">
             <!-- 手机号 -->
             <div class="input-wrap" v-if="registerType == 'phone'">
@@ -64,13 +64,16 @@
             </div>
             <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
             <p>
-                <router-link to="login" replace>{{$t("message.gotoLogin")}}</router-link>
+              <a v-if="registerType == 'phone'" @click="registerType = 'email';getImgCode('REGISTER')">{{$t('message.PopEmailRegister')}}</a>
+              <a v-else @click="registerType = 'phone';getImgCode('REGISTER')">{{$t('message.PopPhoneRegister')}}</a>
+              <a @click="login"><span>{{$t("message.hasAccount")}}</span>{{$t("message.hasToLogin")}}</a>
             </p>
         </div>
     </div>
 </template>
 
 <script>
+// import HeaderBar from "@/components/common/mobile/mb_header_bar"
 import {mapMutations, mapState} from "vuex"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
 import Md5 from "../../assets/js/md5.js"
@@ -97,6 +100,9 @@ export default {
             currentAddr: ""
         }
     },
+    // components: {
+	  //   HeaderBar,
+    // },
     created() {
         if(sessionStorage.getItem('inviteCode') && sessionStorage.getItem('inviteCode').trim() != "") {
             if(this.$route.query.inviteCode && this.$route.query.inviteCode != sessionStorage.getItem('inviteCode')) {
@@ -255,6 +261,9 @@ export default {
             }
             return true
         },
+        login() {
+          this.$router.replace('login')
+        },
         ...mapMutations({
             alert: "alert",
             setUserInfo: "SET_USERINFO",
@@ -274,7 +283,7 @@ export default {
                     if(val.coinAddress == this.storeWeb3.coinbase) {
                         v = val
                     }
-                    
+
                 })
                 if(!b) {
                     if(v) {
@@ -285,7 +294,7 @@ export default {
                         this.setCurrentAddr(newVal[0])
                     }
                 }
-                
+
             }
         },
         currentAddr(newVal) {
@@ -321,7 +330,7 @@ export default {
 
 <style lang="less">
 .register-page {
-    background-color: #191A2A;
+    background-color: #22202C;
     .top {
         position: relative;
         background: url(../../../public/img/bg04.png) no-repeat center;
@@ -372,16 +381,15 @@ export default {
                         transform: translateX(-50%);
                         border: .14rem solid transparent;
                         border-bottom-color: #191A2A;
-                    }   
+                    }
                 }
             }
         }
     }
     .bottom {
-        background-color: #191A2A;
         overflow: hidden;
         padding: 0 .4rem;
-        
+
         .input-wrap {
             display: flex;
             align-items: center;
@@ -390,7 +398,7 @@ export default {
             overflow: hidden;
             label {
                 width: 1.4rem;
-                color: #7A7B91;
+                color: #D3CDFF;
                 font-size: .3rem;
                 margin-right: .1rem;
             }
@@ -398,11 +406,12 @@ export default {
                 flex: 1;
                 width: 60%;
                 height:40px;
-                background:#131422;
-                border:1px solid #393A50;
+                background:#030014;
                 border-radius:4px;
                 padding: 0 10px;
                 color: #fff;
+                outline: none;
+                border: none;
             }
             .input-flex {
                 flex: 1;
@@ -425,13 +434,12 @@ export default {
                     margin-left: 10px;
                 }
                 &.prefix {
-                    background:#131422;
-                    border:1px solid #393A50;
+                    background:#030014;
                     border-radius:4px;
                     .mu-menu {
                         line-height: 40px;
                         padding: 0 10px;
-                        border-right: 1px solid #393A50;
+                        border-right: 1px solid #D3DAFC;
                         font-weight: 700;
                     }
                     input {
@@ -448,11 +456,11 @@ export default {
             width: 100%;
             border: none;
             font-size: .3rem;
-            color: #fff;
+            color: #282440;
             text-align: center;
             border-radius: .06rem;
             margin-top: .6rem;
-            background:linear-gradient(90deg,rgba(69,182,245,1),rgba(45,92,245,1));
+            background:#54506D;
             &.disabled {
                 background-color: #393A50;
             }
@@ -460,15 +468,22 @@ export default {
         p {
             padding: .3rem 0;
             text-align: center;
+            position: relative;
             a {
                 font-size: .24rem;
-                color: #6A89C4;
+                color: #FFC425;
+                position: absolute;
+                right: 0;
+                display: flex;
+                span {
+                  color: #969696;
+                }
+            }
+            a:first-child {
+              left: 0;
             }
         }
-        
+
     }
 }
 </style>
-
-
-

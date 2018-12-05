@@ -36,7 +36,7 @@
           <i class="close-btn" @click="isShowWin = false"></i>
         </div>
       </div>
-      
+
 		</transition>
 
     <!-- HD钱包网络弹框提示 -->
@@ -187,7 +187,7 @@ li {
 }
 html {
   min-height: 100%;
-  background-color: #191A2A;
+  background-color: #22202C;
 }
 body {
   min-height: 100%;
@@ -361,7 +361,7 @@ body {
         }
       }
   }
-  
+
   .newwork-box {
     position: fixed;
     left: calc(50% - 250px);
