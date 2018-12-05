@@ -1164,10 +1164,42 @@ export default {
                 margin-left: 0;
             }
             // 语言按钮
-            .lang {
-                margin: 5px 10px 0 10px;
-                img {
-                    width: 24px;
+            .language-select {
+                position: relative;
+                cursor: pointer;
+                height: 60px;
+                margin-left: 16px;
+                .lang {
+                    display: inline-block;
+                    img {
+                        display: block;
+                        width: 36px;
+                        margin: 18px 0 0 14px;
+                    }
+                }
+                .pull {
+                    position: absolute;
+                    top: 60px;
+                    left: 0;
+                    display: none;
+                    background-color: #42385E;
+                    a {
+                        display: block;
+                        margin: 0;
+                        padding: 10px 14px;
+                        &:hover {
+                            background-color: #52476F;
+                        }
+                        img {
+                            display: block;
+                            width: 43px;
+                        }
+                    }
+                }
+                &:hover {
+                    .pull {
+                        display: block;
+                    }
                 }
             }
         }
