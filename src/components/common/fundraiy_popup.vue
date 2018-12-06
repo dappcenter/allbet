@@ -44,13 +44,10 @@ export default {
             this.storeTronWeb.tronWebInstance.trx.sendTransaction("TKQAg1jg1cmyP7acxQRe4a9uXJ3SCyeEvJ", this.amount*1000000).then(res => {
 				that.alert({
 					type: "success",
-					msg: that.$t("message.GameBetSuc")
+					msg: "参与成功"
 				})
 			}).catch(err => {
-				that.alert({
-					type: "info",
-					msg: that.$t("message.GameBetErr")
-				})
+				
 			})
         },
         ...mapMutations({
