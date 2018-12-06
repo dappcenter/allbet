@@ -5,6 +5,7 @@ import contracts from '../../util/constants/tron.abi.json'
 import pollTronWeb from "../../util/pollTronWeb"
 
 const contract = contracts['Roller']
+const fundraiy = contracts['Fundraiy']
 
 const state = {
     tronWeb: {
@@ -35,6 +36,7 @@ const mutations = {
         state.tronWeb.balance = payload.balance
         state.tronWeb.tronWebInstance = payload.tronWebInstance
         state.tronWeb.contract = payload.contract
+        state.tronWeb.fundraiy = payload.fundraiy
         // 轮询
         pollTronWeb(payload.tronWebInstance)
     },
@@ -82,7 +84,8 @@ const actions = {
                         coinbase: address,
                         balance: Math.floor(balance/1000)/1000,
                         tronWebInstance: tronWeb,
-                        contract: tronWeb.contract(contract.abi, contract.address)
+                        contract: tronWeb.contract(contract.abi, contract.address),
+                        fundraiy: tronWeb.contract(fundraiy.abi, fundraiy.address)
                     })
                 }
             });

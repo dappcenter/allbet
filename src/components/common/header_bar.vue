@@ -24,13 +24,13 @@
                 </div> -->
                 <div class="contact nominscreen">
                     <a href="javascript:;">
-                        <img class="icon" src="../../../public/img/weixin_icon.png" alt="">
+                        <img class="icon" src="../../../public/img/weixin_icon02.png" alt="">
                         <div class="qrcode">
                             <img src="../../../public/img/weixin_qrcode.png" alt="">
                         </div>
                     </a>
                     <a href="https://t.me/allbetAB" target="_blank">
-                        <img class="icon" src="../../../public/img/Telegram.png" alt="">
+                        <img class="icon" src="../../../public/img/Telegram02.png" alt="">
                     </a>
                 </div>
                 <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
@@ -47,8 +47,8 @@
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
 
                 <div class="language-select">
-                    <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
-                    <a href="javascript:;" class="lang" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
+                    <a href="javascript:;" class="lang" :class="{'active':locale == 'zh-CN'}" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
+                    <a href="javascript:;" class="lang" :class="{'active':locale == 'en-US'}" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
                     <!-- <div class="pull">
                         <a href="javascript:;" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
                         <a href="javascript:;" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
@@ -901,8 +901,8 @@ export default {
             transition: all 2s;
             position: relative;
             z-index: 1;
-            border:2px solid rgba(211,205,255,1);
-            border-radius:4px;
+            border:1.5px solid rgba(211,205,255,1);
+            border-radius: 15px;
             img {
                 height: 15px;
                 vertical-align: sub;
@@ -922,10 +922,30 @@ export default {
             margin-left: 16px;
             .lang {
                 display: inline-block;
+                position: relative;
                 img {
                     display: block;
-                    width: 43px;
-                    margin: 14px 0 0 14px;
+                    width: 26px;
+                    margin: 17px 0 0 14px;
+                }
+                &.active {
+                    &:after {
+                        display: none;
+                    }
+                }
+                &:hover {
+                    &:after {
+                        display: none;
+                    }
+                }
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    background-color: rgba(0, 0, 0, .4);
                 }
             }
             .pull {
@@ -1173,7 +1193,7 @@ export default {
                     display: inline-block;
                     img {
                         display: block;
-                        width: 36px;
+                        width: 26px;
                         margin: 18px 0 0 14px;
                     }
                 }

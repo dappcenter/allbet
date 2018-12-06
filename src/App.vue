@@ -498,15 +498,48 @@ body {
     }
     .win-box {
       position: fixed;
-      left: calc(50% - 110px);
-      top: calc(50% - 110px);
-      width: 220px;
-      height: 220px;
-      background: url(../public/img/win.png) no-repeat center;
-      background-size: 100%;
-      text-align: center;
-      padding: 60px 0 0 0;
-      z-index: 9999999999;
+      left: calc(50% - 4rem);
+      top: calc(50% - 4rem);
+      width: 8rem;
+      height: 8rem;
+      .centent {
+        padding: 2.4rem 0 0;
+        img {
+          height: .4rem;
+          width: auto;
+
+        }
+        h3 {
+          &.rewards {
+            margin-top: 0;
+            font-size: .5rem;
+          }  
+          &.cointype {
+            font-size: .3rem;
+          }
+        }
+        p {
+          margin: .1rem 0 0;
+          font-size: .2rem;
+          &:after {
+            width: .4rem;
+            margin-left: .2rem;
+          }
+          &:before {
+            width: .4rem;
+            margin-right: .2rem;
+          }
+        }
+        button {
+          margin: .1rem 0 0;
+          width: 2rem;
+          height: .5rem;
+          font-size: .2rem;
+        }
+        .close-btn {
+          width: .5rem;
+        }
+      }
       h3 {
         font-size: 20px;
       }

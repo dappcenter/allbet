@@ -92,8 +92,10 @@
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-if="userInfo.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="isShowFundraiy = true">正在募资</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
+					
 					<span class="fl minscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
@@ -108,7 +110,7 @@
 				<div class="content">
 					<h4>{{$t('message.GameBetToGet')}} {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
 					<p>{{$t('message.GameHigGet')}} {{1/rule.winDig}} x AB </p>
-					<span>{{$t('message.GameDigProportion')}} WIN：1 : {{1/rule.winDig}}   LOSE：1 : {{1/rule.failDig}}</span>
+					<span>{{$t('message.GameDigProportion')}}　 WIN 1 : {{1/rule.winDig}} 　  LOSE 1 : {{1/rule.failDig}}</span>
 				</div>
 				<i class="help" @click="isShowABpopup = true"></i>
 			</div>
@@ -129,6 +131,9 @@
 
 		<!-- Ab弹框 -->
 		<AbPopup v-model="isShowABpopup"></AbPopup>
+
+		<!-- 募资弹框 -->
+		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
 	</section>
 </template>
 
@@ -138,6 +143,7 @@ import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
+import FundraiyPopup from "@/components/common/fundraiy_popup"
 
 export default {
 	props: {
@@ -167,6 +173,7 @@ export default {
 			openWeixinQR: false,
 			autoBet: false,
 			isShowABpopup: false,
+			isShowFundraiy: false
         }
 	},
 	created() {
@@ -193,6 +200,13 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
+
+
+		setTimeout(() => {
+			if(this.userInfo.token && this.coinType == 'TRX') {
+				this.isShowFundraiy = true
+			}
+		}, 2000)
     },
     methods: {
 		//幸运数跳动
@@ -308,6 +322,11 @@ export default {
 		},
 		//下注
 		betDo() {
+			if(this.coinType == "TRX") {
+				this.isShowFundraiy = true
+				return
+			}
+
 			let that = this
 			if(this.timer) {
 				this.alert({
@@ -563,7 +582,8 @@ export default {
 	},
 	components: {
 		DigitalRoll,
-		AbPopup
+		AbPopup,
+		FundraiyPopup
 	},
 	destroyed() {
 		clearInterval(this.timer)
@@ -643,7 +663,7 @@ export default {
 				&.online {
 					&:hover {
 						background-color: #FFC425;
-						i {
+						img {
 							background-color: #B88C16;
 						}
 						span {
@@ -667,7 +687,7 @@ export default {
 				}
 				&.active {
 					background-color: #FFC425;
-					i {
+					img {
 						background-color: #B88C16;
 					}
 					span {
@@ -835,7 +855,6 @@ export default {
 			}
 			.ctn-btm {
 				margin-top: 20px;
-				padding: 0 10px;
 				h4 {
 					color: #C0CBFF;
 					text-align: left;
@@ -1017,7 +1036,6 @@ export default {
 			}
 		}
 		.slider-wrap {
-			padding: 0 10px;
 			margin-top: 30px;
 			.scale {
 				display: flex;

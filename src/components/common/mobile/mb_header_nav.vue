@@ -1,7 +1,7 @@
 <template>
     <div class="mb-header-nav">
         <ul>
-            <router-link to="dice" tag="li">Dice</router-link>
+            <router-link to="dice" tag="li">DICE</router-link>
             <!-- <router-link to="index" tag="li">{{$t("message.atDeal")}}</router-link> -->
             <router-link to="ab" tag="li">{{$t("message.abBancor")}}</router-link>
             <router-link to="bonus-pool" tag="li">{{$t("message.bonusPool")}}</router-link>

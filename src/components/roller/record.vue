@@ -2,8 +2,8 @@
 	<section class="module-roller-record">
 		<div class="nav">
 			<a href="javascript:;" class="tl" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
-			<a href="javascript:;" class="" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
-			<a href="javascript:;" class="" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
+			<a href="javascript:;" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
 			<a href="javascript:;" class="tr" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
@@ -12,7 +12,7 @@
 			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn || 0}}</i>{{coinType}}</span>
 			<span class="fr nominscreen">{{$t("message.GameTips1")}}</span>
 		</div>
-		<div class="table-record">
+		<div class="table-record nominscreen">
 			<div class="t-head">
 				<span>{{$t("message.GamePlay")}}</span>
 				<span class="tl">{{$t("message.GameTime")}}</span>
@@ -30,25 +30,55 @@
 					<li class="tl">
 						<span>{{$fmtDate(item.createTime, "time")}}</span>
 					</li>
-					<li class="nominscreen">
+					<li>
 						<span>{{item.coinAmount}}</span>
 					</li>
-					<li class="nominscreen">
+					<li>
 						<span>{{item.guess}}</span>
 					</li>
-					<li class="nominscreen">
+					<li>
 						<span>{{item.luckyNum}}</span>
 					</li>
 					<li class="golden tr">
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
 					</li>
-					<li class="nominscreen">
+					<li>
 						<span>{{item.abNum}}</span>
 					</li>
 				</ul>
 			</div>
 		</div>
-		
+		<!-- 移动端 -->
+		<div class="table-record minscreen">
+			<div class="t-head">
+				<span v-if="boardType != 'ME'">{{$t("message.GamePlay")}}</span>
+				<span v-else>{{$t("message.GameTime")}}</span>
+				<span>{{$t("message.GameForecast")}}</span>
+				<span>{{$t("message.GameLucky")}}</span>
+				<span class="tr">{{$t("message.GameReward")}}</span>
+			</div>
+			<div class="t-body">
+				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+					<li class="user" 
+						:class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN'}"
+						v-if="boardType != 'ME'">
+						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
+					</li>
+					<li v-else>
+						<span>{{$fmtDate(item.createTime, "time")}}</span>
+					</li>
+					<li>
+						<span>{{item.guess}}</span>
+					</li>
+					<li>
+						<span>{{item.luckyNum}}</span>
+					</li>
+					<li class="golden tr">
+						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</section>
 </template>
 

@@ -240,14 +240,15 @@ const actions = {
                 console.log(res)
                 if(res.code == 200) {
                     console.log("user登录签名")
-                    web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-                        console.log(signature)
-                        if(err) {
-                            console.log("签名失败")
-                        }else {
-                            coinLogin(signature, address, res.result)
-                        }
-                    });
+                    // web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
+                    //     console.log(signature)
+                    //     if(err) {
+                    //         console.log("签名失败")
+                    //     }else {
+                    //         coinLogin(signature, address, res.result)
+                    //     }
+                    // });
+                    coinLogin("123456", address, res.result)
                 }
             })
         }
