@@ -92,8 +92,8 @@
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
-					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="isShowFundraiy = true">正在募资</button>
+					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<!-- <button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="isShowFundraiy = true">正在募资</button> -->
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 					
 					<span class="fl minscreen">
@@ -202,11 +202,9 @@ export default {
 		})
 
 
-		setTimeout(() => {
-			if(this.userInfo.token && this.coinType == 'TRX') {
-				this.isShowFundraiy = true
-			}
-		}, 2000)
+		if(this.coinType == 'TRX') {
+			this.isShowFundraiy = true
+		}
     },
     methods: {
 		//幸运数跳动
@@ -322,11 +320,6 @@ export default {
 		},
 		//下注
 		betDo() {
-			if(this.coinType == "TRX") {
-				this.isShowFundraiy = true
-				return
-			}
-
 			let that = this
 			if(this.timer) {
 				this.alert({
@@ -356,7 +349,7 @@ export default {
 				})
 				return
 			}
-			
+			console.log("后台dice",new Date().getTime())
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
@@ -429,6 +422,7 @@ export default {
 		 * TRX下注
 		 */
 		placeBetTRX(rollUnder, orderId, amount) {
+			console.log("placeBetTRX",new Date().getTime())
 			let that = this
 			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
 			const callValue = this.tronWeb.tronWebInstance.toSun(amount);
@@ -437,6 +431,7 @@ export default {
 				callValue:callValue,
 				shouldPollResponse:false
 			}).then(res => {
+				console.log("确认支付",new Date().getTime())
 				that.alert({
 					type: "success",
 					msg: that.$t("message.GameBetSuc")
@@ -468,6 +463,7 @@ export default {
 							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
+								console.log("DONE",new Date().getTime())
 								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
@@ -957,6 +953,9 @@ export default {
 						font-size: 20px;
 						outline: none;
 						cursor: pointer;
+						&:hover {
+							background-color: #ffba00;
+						}
 					}
 					span {
 						flex: 1;
@@ -1104,6 +1103,7 @@ export default {
 			.mu-dialog-body {
 				position: relative;
 				background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+				// background: #52476F;
         		background-size: 40%;
 				.close-btn {
 					position: absolute;
@@ -1133,11 +1133,11 @@ export default {
 						}
 					&::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
 							border-radius: 10px;
-							background: #8D86C1;
+							background: transparent;
 						}
 					&::-webkit-scrollbar-track {/*滚动条里面轨道*/
 							border-radius: 10px;
-							background: #322A46;
+							background: transparent;
 						}
 					a {
 						color: #CCBCF8;

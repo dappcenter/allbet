@@ -69,12 +69,10 @@ const actions = {
                     return tries++;
                 }
                 clearInterval(timer)
-                console.log("Promise tronWeb.defaultAddress", window.tronWeb.defaultAddress)
                 reselve(window.tronWeb)
             }, 100);
         }).then(tronWeb => {
             getTronWeb.setTronWeb(tronWeb)
-            console.log("TRX对象defaultAddress", tronWeb.defaultAddress)
             let address = tronWeb.defaultAddress.base58
             tronWeb.trx.getBalance((err, balance) => {
                 if(err) {
@@ -95,7 +93,6 @@ const actions = {
                 // 有登录态
                 let haveHD = false
                 rootState.user.userInfo.accounts.forEach((val, idx) => {
-                    console.log(val)
                     if(val.userAddress == address) {
                         // 登录态中包含插件地址
                         haveHD = true

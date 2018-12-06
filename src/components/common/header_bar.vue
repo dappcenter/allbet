@@ -9,8 +9,9 @@
                 <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
-                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
+                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
+                <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span>{{$t("message.presell")}}</span></a>
             </menu>
             <div class="statusbar">
                 <!-- <div class="address-select" v-if="addressList.length > 1">
@@ -36,8 +37,8 @@
                 <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
-                    <i></i>
-                    <div class="router-list">
+                    <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
+                    <div class="router-list" v-if="storeCurrentAddr.platform == 'DISPATCHER'">
                         <router-link to="my-assets">{{$t("message.property")}}</router-link>
                         <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
                         <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>
@@ -230,7 +231,7 @@
         <!-- AB代币 -->
         <AbPopup v-model="displayStatus.abBancor"></AbPopup>
 
-        <!-- <RegisterPop :registerAccount="displayStatus.registerAccount"></RegisterPop> -->
+        <FundraiyPopup v-model="displayStatus.fundraiyPopup"></FundraiyPopup>
     </div>
 </template>
 
@@ -248,6 +249,7 @@ import MBheaderNav from "@/components/common/mobile/mb_header_nav"
 import AbPopup from "@/components/common/ab_popup"
 import BPPopup from "@/components/common/bonusPools_popup"
 import LoginSelectPopup from "@/components/account/login_select_popup"
+import FundraiyPopup from "@/components/common/fundraiy_popup"
 export default {
     props: {
         type: {
@@ -273,6 +275,7 @@ export default {
                 emailRegisterAccount: false,  //邮箱注册账号
                 bonusPools: false,   //分红池
                 abBancor: false, //AB代币
+                fundraiyPopup: false
             },
             loginForm: {
                 "account": "",
@@ -673,7 +676,7 @@ export default {
             if(this.locale == "en-US") {
                 window.open("pdf/whitebook_en.pdf")
                 try {
-                    window.app.openURLOnSystermBrowser(window.location.origin + "pdf/whitebook_en.pdf")
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook_en.pdf")
                 } catch (error) {
                 }
             }else {
@@ -730,7 +733,8 @@ export default {
         MBheaderNav,
         AbPopup,
         BPPopup,
-        LoginSelectPopup
+        LoginSelectPopup,
+        FundraiyPopup
     },
     destroyed() {
         //销毁事件
@@ -789,6 +793,9 @@ export default {
             &.router-link-active {
                 color: #D3CDFF;
                 border-bottom: 2px solid #D3CDFF;
+            }
+            &:hover {
+                color: #D3CDFF;
             }
         }
     }

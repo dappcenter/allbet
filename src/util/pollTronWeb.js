@@ -12,6 +12,9 @@ const pollTronWeb = function(tronWeb) {
             return
         }
         tronWeb.trx.getBalance((err, balance) => {
+            if(store.state.tronHandler.tronWeb.balance !== Math.floor(balance/1000)/1000) {
+                console.log("balance变化", new Date().getTime())
+            }
             if(err) {
                 console.log(err)
             }else if(address){
@@ -26,24 +29,24 @@ const pollTronWeb = function(tronWeb) {
         }
 
         
-        if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
+        if(store.state.user.userInfo.accounts && store.state.user.userInfo.accounts.length > 0) {
             // 有登录态
             let haveHD = false
-            rootState.user.userInfo.accounts.forEach((val, idx) => {
+            store.state.user.userInfo.accounts.forEach((val, idx) => {
                 console.log(val)
                 if(val.userAddress == address) {
                     // 登录态中包含插件地址
                     haveHD = true
                 }
             })
-            if(rootState.user.currentAddr.platform != "DISPATCHER" && !haveHD) {
+            if(store.state.user.currentAddr.platform != "DISPATCHER" && !haveHD) {
                 // 当前选中的HD钱包地址跟插件不一致
                 coinLogin(address)
             }
         }else {
             // 没有登录态
             //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-            if(rootState.user.coinType == "TRX") {
+            if(store.state.user.coinType == "TRX") {
                 coinLogin(address)
             }
         }

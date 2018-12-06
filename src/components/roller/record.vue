@@ -210,6 +210,9 @@ export default {
 			margin: 0 60px;
 			text-align: center;
 			font-weight: 700;
+			&:hover {
+				color: #fff;
+			}
 			&.active {
 				color: #fff;
 				border-bottom: 2px solid #fff;
@@ -242,8 +245,8 @@ export default {
 			margin-left: 40px;
 		}
 		i {
-			color: #FFC425;
-			text-shadow: 0px 0px 6px #FFC425 !important;
+			color: #FFFC00;
+			text-shadow: 0px 0px 6px #FFFC00 !important;
 			font-style: normal;
 		}
 	}
@@ -294,11 +297,11 @@ export default {
 					background-color:rgba(19,246,147,.3);
 					border-top: 1px solid rgba(19,246,147,1);
 					&.rich {
-						background: rgba(19,246,147,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
-						background-size: 53px 53px;
+						background: rgba(19,246,147,.3) url(../../../public/img/HIGH.svg) no-repeat left top;
+						background-size: 50px 50px;
 					}
 					&.lucky {
-						background: rgba(19,246,147,.3) url(../../../public/img/lucky_ch.png) no-repeat left top;
+						background: rgba(19,246,147,.3) url(../../../public/img/RARE.svg) no-repeat left top;
 						background-size: 53px 53px;
 					}
 				}
@@ -306,7 +309,7 @@ export default {
 					background-color:rgba(254,14,78,.3);
 					border-top: 1px solid rgba(254,14,78,1);
 					&.rich {
-						background: rgba(254,14,78,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+						background: rgba(254,14,78,.3) url(../../../public/img/HIGH.svg) no-repeat left top;
 						background-size: 53px 53px;
 					}
 				}
@@ -332,8 +335,7 @@ export default {
 						text-shadow: 0px 0px 6px #99FF7E !important;
 					}
 					&.golden {
-						color: #FFDB5B;
-						// text-shadow: 0px 0px 6px #FFFC00;
+						color: #FFFC00;
 					}
 					span {
 						display: block;
@@ -408,17 +410,17 @@ export default {
 					}
 					&.win {
 						&.rich {
-							background: rgba(19,246,147,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+							background: rgba(19,246,147,.3) url(../../../public/img/HIGH.svg) no-repeat left top;
 							background-size: .53rem .53rem;
 						}
 						&.lucky {
-							background: rgba(19,246,147,.3) url(../../../public/img/lucky_ch.png) no-repeat left top;
+							background: rgba(19,246,147,.3) url(../../../public/img/RARE.svg) no-repeat left top;
 							background-size: .53rem .53rem;
 						}
 					}
 					&.lose {
 						&.rich {
-							background: rgba(254,14,78,.3) url(../../../public/img/rich_ch.png) no-repeat left top;
+							background: rgba(254,14,78,.3) url(../../../public/img/HIGH.svg) no-repeat left top;
 							background-size: .53rem .53rem;
 						}
 					}

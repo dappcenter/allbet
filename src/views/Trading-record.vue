@@ -40,7 +40,7 @@
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
 				<div>{{$t('message.tradeType')}}</div>
-				<div class="vol nominscreen">{{$t('message.homeVolume')}}</div>
+				<div class="vol">{{$t('message.homeVolume')}}</div>
 				<div class="nominscreen">{{$t('message.homeState')}}</div>
 				<div class="">{{$t('message.homeOperation')}}</div>
 			</li>
@@ -50,7 +50,7 @@
 					<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
 					<div class="nominscreen">{{item.coinType}}</div>
 					<div>{{filterState(item)}}</div>
-					<div class="vol nominscreen">{{item.amount}}</div>
+					<div class="vol">{{item.amount}}</div>
 					<div class="nominscreen">{{$t("message.tradeDone")}}</div>
 					<div class="operation btn" v-if="['RECHARGE', 'WITHDRAW'].indexOf(item.realOperation) > -1 && item.platform =='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
 					<div class="operation" v-else>- -</div>
@@ -68,7 +68,7 @@
 			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
-			    <mu-pagination :total="total" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
+			    <mu-pagination :total="total" :page-count="4" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
 
@@ -279,7 +279,7 @@ export default {
 							}
 							select {
 								width: 120px;
-								background-color: #030014;
+								background-color: #322A46;
 								border: none;
 								border-radius: 4px;
 								outline: none;
@@ -427,8 +427,6 @@ export default {
 								}
 								select {
 									width: 120px;
-									background-color: #030014;
-							    border: none;
 									border-radius: 4px;
 									outline: none;
 									color: white;

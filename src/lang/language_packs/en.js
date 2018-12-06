@@ -13,6 +13,7 @@ export default {
         bonusPool: "DIVIDENDS",
         invitation: "REFERRAL",
         course: "INFO",
+        presell: "PRESELL",
         login: "Login",
         address: "Address",
         accountLogin: "Account Login",
