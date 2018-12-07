@@ -149,6 +149,7 @@ export default {
                 .progress-bar {
                     position: absolute;
                     height: 100%;
+                    min-width: 15px;
                     border-radius: 8px;
                     background-color: #FFC425;
                     &:after {

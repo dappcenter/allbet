@@ -13,11 +13,6 @@ export default new Router({
             redirect: "/dice"
         },
         {
-            path: "/index",
-            name: "index",
-            component: () => import("./views/Home.vue")
-        },
-        {
             path: "/dice",
             name: "dice",
             component: () => import("./views/Roller.vue")

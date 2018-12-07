@@ -24,7 +24,7 @@
 			</div>
 			<div class="t-body">
 				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
-					<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN'}">
+					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
 					<li class="tl">
@@ -59,9 +59,7 @@
 			</div>
 			<div class="t-body">
 				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
-					<li class="user" 
-						:class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN'}"
-						v-if="boardType != 'ME'">
+					<li class="user" v-if="boardType != 'ME'">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
 					<li v-else>
@@ -332,7 +330,6 @@ export default {
 					}
 					&.green {
 						color: #99FF7E !important;
-						text-shadow: 0px 0px 6px #99FF7E !important;
 					}
 					&.golden {
 						color: #FFFC00;

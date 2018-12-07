@@ -242,7 +242,7 @@ export default {
 
         PopLoginSelectTitle: "Please log in Chrome Wallet",
         PopLoginSelectETH: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />Please switch wallet to mainnet node, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
-        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br /> <br />Please switch wallet to mainnet node, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://dwz.cn/FyluFVay' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />Please switch wallet to mainnet node, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
         PopLoginText1: "Quick experience,",
 
         PopHttpTimeout: "please refresh page",

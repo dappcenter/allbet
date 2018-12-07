@@ -10,7 +10,7 @@
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
-                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
+                <!-- <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link> -->
                 <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span>{{$t("message.presell")}}</span></a>
             </menu>
             <div class="statusbar">

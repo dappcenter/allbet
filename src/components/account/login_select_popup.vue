@@ -64,20 +64,22 @@ export default {
             word-break: break-all;
             a {
                 color: #E3DFFF;
+                text-decoration: underline;
             }
         }
         button {
             display: block;
-            background-color: #D3CDFF;
             border: none;
             outline: none;
             font-size: 16px;
-            color: #1A0D59;
+            color: #FEFEFE;
             width: 120px;
             height: 42px;
-            border-radius: 2px;
+            border-radius: 21px;
             margin: 0 auto;
             cursor: pointer;
+            background:linear-gradient(90deg,rgba(175,163,255,1),rgba(199,144,255,1));
+            box-shadow:0px 1px 3px 0px rgba(126,79,181,0.75);
         }
         .other {
             font-size: 12px;

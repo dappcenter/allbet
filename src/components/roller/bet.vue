@@ -112,7 +112,8 @@
 					<p>{{$t('message.GameHigGet')}} {{1/rule.winDig}} x AB </p>
 					<span>{{$t('message.GameDigProportion')}}　 WIN 1 : {{1/rule.winDig}} 　  LOSE 1 : {{1/rule.failDig}}</span>
 				</div>
-				<i class="help" @click="isShowABpopup = true"></i>
+				<i class="help nominscreen" @click="isShowABpopup = true"></i>
+				<i class="help minscreen" @click="$router.push('ab')"></i>
 			</div>
 		</div>
 		<!-- 游戏规则 -->
