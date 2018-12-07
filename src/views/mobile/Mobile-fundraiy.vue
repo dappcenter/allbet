@@ -2,7 +2,7 @@
   <div class="mobilefundraiy-page" :style="{minHeight: $window.innerHeight + 'px'}">
       <HeaderBar></HeaderBar>
       <div class="main">
-        <img class="logo" src="../../../public/img/LOGO.png" alt="">
+        <img class="logo" src="../../../public/img/LOGO-all.png" alt="">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
         <div class="addr-wrap">
@@ -13,7 +13,7 @@
         <div class="progress-wrap">
             <div class="progress-bg">
                 <div class="progress-bar" :style="{'width': pageData.achieve/pageData.goal*100 + '%'}">
-                    <span>{{pageData.achieve}} TRX</span>
+                    <span>{{pageData.achieve}}</span>
                 </div>
             </div>
             <div class="flex-wrap">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="input-wrap">
-            <input type="text" v-model="amount" :placeholder="$t('message.preTrxNum')" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+            <input type="text" v-model="amount" :placeholder="$t('message.preTrxNum')" oninput="value=value.replace(/[^0-9]/g,'')" onkeyup="value=value.replace(/[^0-9]/g,'')" onpaste="value=value.replace(/[^0-9]/g,'')" oncontextmenu="value=value.replace(/[^0-9]/g,'')">
             <button @click="send">{{$t('message.preTrxBet')}}</button>
         </div>
         <p class="content">{{$t('message.preSale')}}<br />* {{$t('message.preLess')}}<br />* {{$t('message.preRefuse')}}<br />* {{$t('message.preJoin')}}</p>
@@ -128,31 +128,34 @@ export default {
 
 <style lang="less">
 .mobilefundraiy-page {
-  background: #52476F url(../../../public/img/fundraiy_bg.png) no-repeat bottom right;
-  background-size: 100% 100%;
+  background: #52476F url(../../../public/img/coin/fundraiy_bg.png) no-repeat bottom right;
+  background-size: cover;
     .main {
         font-size: 0.20rem;
+        padding-bottom: 1.2rem;
         .logo {
             display: block;
-            height: 0.33rem;
+            height: 0.44rem;
             margin: 0 auto;
             margin-top: 0.6rem;
         }
         h4 {
             color: #E1DDFE;
             font-weight: 400;
-            font-size: 0.24rem !important;
+            font-size: 0.28rem !important;
+            padding: 0.4rem;
+            text-align: left;
             margin: 0.4rem auto 0 auto;
-            text-align: center;
         }
         .addr-wrap {
             background:rgba(72,61,101,.6);
-            width: 80%;
+            width: 6.7rem;
             margin: 0.6rem auto 1rem auto;
             line-height: 0.38rem;
             user-select: text;
             text-align: center;
             padding: 0.43rem 0;
+                font-size: 0.24rem;
         }
         .progress-wrap {
             margin: 0.8rem 0 0.4rem;
@@ -172,30 +175,30 @@ export default {
                     &:after {
                         content: "";
                         position: absolute;
-                        right: 2px;
-                        top: 2px;
-                        width: 0.12rem;
-                        height: 0.12rem;
+                        right: 0.02rem;
+                        top: 0.02rem;
+                        width: 0.14rem;
+                        height: 0.14rem;
                         background-color: #C79A20;
                         border-radius: 50%;
                     }
                     span {
                         position: absolute;
-                        bottom: 0.26rem;
-                        left: calc(100% - 8px);
+                        bottom: 0.35rem;
+                        left: calc(100% - 0.08rem);
                         transform: translateX(-50%);
                         background-color: #FFC425;
-                        padding: 0.15rem;
+                        padding: 0.02rem;
                         color: #3F355A;
                         white-space: nowrap;
                         border-radius: 2px;
-                        min-width: 1rem;
                         text-align: right;
+                        font-size: 0.16rem;
                         &:after {
                             content: "";
                             position: absolute;
-                            bottom: -0.08rem;
-                            left: calc(50% - 4px);
+                            bottom: -0.16rem;
+                            left: calc(50% - 0.04rem);
                             border: 4px solid transparent;
                             border-top-color: #FFC425;
                         }
@@ -206,10 +209,11 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 width: 6.7rem;
-    margin: auto;
+                margin: auto;
+
                 span {
                     color: #9A93D0;
-                    font-size: 0.14rem;
+                    font-size: 0.2rem;
                 }
             }
         }
@@ -218,18 +222,24 @@ export default {
             background-color: #483D65;
             border-radius: 4px;
             overflow: hidden;
+            width: 6.7rem;
+            margin: auto;
             margin-top: 0.2rem;
+            font-size: 0.24rem;
+            // height: 0.40rem;
             input {
                 flex: 1;
-                height: 0.48rem;
+                height: 0.7rem;
+                line-height: 0.7rem;
                 background-color: #483D65;
                 border: none;
                 outline: none;
                 padding: 0 0.2rem;
                 color: #fff;
+                width: 5.4rem;
             }
             button {
-                width: 1.2rem;
+                width: 1.6rem;
                 background-color: #ffba00;
                 color: #3F355A;
                 font-weight: 700;
@@ -247,8 +257,10 @@ export default {
         }
         .content {
             text-align: left;
-            font-size: 0.12rem;
-            margin: 0.2rem 0 0 0;
+            font-size: 0.24rem;
+            margin: 0.8rem auto 0.4rem auto;
+            width: 6.7rem;
+
         }
         .service {
             position: absolute;
@@ -256,7 +268,7 @@ export default {
             bottom: 0;
             width: 100%;
             display: flex;
-            height: 0.06rem;
+            height: 1rem;
             align-items: center;
             justify-content: space-around;
             background:rgba(46,36,74,.4);
@@ -264,13 +276,13 @@ export default {
                 position: relative;
                 .icon {
                     display: inline-block;
-                    width: 0.32rem;
+                    width: 0.48rem;
                     vertical-align: middle;
-                    margin-right: 0.1rem;
+                    margin-right: 0.18rem;
                 }
                 span {
                     color: #928BC1;
-                    font-size: 0.24rem;
+                    font-size: 0.36rem;
                     vertical-align: middle;
                 }
                 &:hover {
