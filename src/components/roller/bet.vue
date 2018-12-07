@@ -201,7 +201,6 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-
 		if(this.coinType == 'TRX' && this.$IsPC()) {
 			this.isShowFundraiy = true
 		} else if (this.coinType == 'TRX' && !this.$IsPC() && sessionStorage.getItem('IsFirstEnter') != 'YES') {
