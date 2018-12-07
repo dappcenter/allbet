@@ -295,6 +295,7 @@ export default {
         GameBetToGet: "下注立刻获得",
         GameDigProportion: "挖矿比例",
         GameHigGet: "现在投注最高可获得投注货币",
+        GamePresell: "预售中",
         // 分红池
         BPbonusPools: "分红池",
         BPtip: "当前分红池由 Allbet 游戏所得收益构成，数据每小时刷新一次。",

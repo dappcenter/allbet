@@ -295,6 +295,7 @@ export default {
         GameBetToGet: "Bet To Get",
         GameDigProportion: "Mining efficiency",
         GameHigGet: "Bet now for FREE tokens",
+        GamePresell: "Presell",
         // 分红池
         BPbonusPools: "Bonus Pools",
         BPtip: "The current bonus pool is made up of the proceeds from Allbet games, with the data refreshed every hour.",
