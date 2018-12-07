@@ -121,6 +121,10 @@ const actions = {
             }).then(res => {
                 if(res.code == 200) {
                     commit(types.SET_USERINFO, res.result)
+                    commit("alert", {
+                        type: "info",
+                        msg: "Welcome back"
+                    })
                 }
             }).catch(err => {
     

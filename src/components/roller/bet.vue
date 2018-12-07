@@ -1142,6 +1142,7 @@ export default {
 						}
 					a {
 						color: #CCBCF8;
+						text-decoration: underline;
 					}
 				}
 				.other {

@@ -18,14 +18,12 @@ const state = {
                 text: "取消",
                 type: "",
                 cb: function() {
-                    console.log(111)
                 }
             },
             {
                 text: "确定",
                 type: "high",
                 cb: function() {
-                    console.log(222)
                 }
             }
         ]
