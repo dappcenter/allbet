@@ -59,7 +59,7 @@ const mutations = {
         state.alertOption.open = true
         state.alertOption.timer = setTimeout(() => {
             state.alertOption.open = false;
-        }, state.alertOption.timeout);
+        }, data.timeout || state.alertOption.timeout);
     },
     closeAlert(state) {
         state.alertOption.open = false

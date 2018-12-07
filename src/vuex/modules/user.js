@@ -240,14 +240,6 @@ const actions = {
                 console.log(res)
                 if(res.code == 200) {
                     console.log("user登录签名")
-                    // web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-                    //     console.log(signature)
-                    //     if(err) {
-                    //         console.log("签名失败")
-                    //     }else {
-                    //         coinLogin(signature, address, res.result)
-                    //     }
-                    // });
                     coinLogin("123456", address, res.result)
                 }
             })
@@ -265,25 +257,6 @@ const actions = {
                     commit(types.SET_USERINFO, res.result)
                     // 未绑定平台账号
                     if(res.result.assets.length <= 1) {
-                        if(rootState.user.currentAddr.coinAddress == newCoinbase) {
-
-                            // 当前选中地址为此登录地址（提示绑定）
-                            commit(types.OPEN_CONFIRM, {
-                                content: "绑定账号，赢取邀请奖励分ETH",
-                                btn: [
-                                    {
-                                        text: "关闭"
-                                    },
-                                    {
-                                        type: "high",
-                                        text: "去绑定",
-                                        cb: () => {
-                                            router.push('account-security')
-                                        }
-                                    }
-                                ]
-                            })
-                        }
                         commit(types.UPDATE_WEB3_AT, {
                             at: res.result.assets[0].at,
                             bet: res.result.assets[0].bet,

@@ -108,7 +108,7 @@ export default {
         assetsCoinAddress: "提币地址",
         assetsCopy: "复制",
         assetsTips: "温馨提示：请勿向上述地址充值任何非 ETH 资产，否则资产将不可找回。",
-        assetsTipsAT: "温馨提示：请勿向上述地址充值任何非 AT 资产，否则资产将不可找回。",
+        assetsTipsAT: "温馨提示：请勿向上述地址充值任何非 TRX 资产，否则资产将不可找回。",
         assetsHandlingFee: "手续费",
         assetsArrivalAmount: "到账金额",
         assetsTips2: "温馨提示：请确保提币地址无误，否则资产将不可找回。",
@@ -348,7 +348,7 @@ export default {
         preTrxBet: '投入TRX',
         preSale: '预售方案：',
         preLess:'单次参与预售，不小于 1000 TRX',
-        preRefuse: '不接受交易所地址，否则您将收不到A',
+        preRefuse: '不接受交易所地址，否则您将收不到AB',
         preJoin: '参与50,000门槛预售的额外补偿5%AB，如有疑问请加入社群。',
 
 

@@ -55,21 +55,6 @@ const coinLogin = function(signature, address, nonce) {
             store.commit(types.SET_USERINFO, res.result)
             // 未绑定平台账号
             if(res.result.assets.length <= 1) {
-                store.commit(types.OPEN_CONFIRM, {
-                    content: language[store.state.locale].message.PopBindDesc2,
-                    btn: [
-                        {
-                            text: language[store.state.locale].message.PopClose
-                        },
-                        {
-                            type: "high",
-                            text: language[store.state.locale].message.accountToBound,
-                            cb: () => {
-                                router.push('account-security')
-                            }
-                        }
-                    ]
-                })
                 store.commit(types.UPDATE_WEB3_AT, {
                     at: res.result.assets[0].at,
                     bet: res.result.assets[0].bet,

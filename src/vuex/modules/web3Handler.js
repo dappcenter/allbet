@@ -125,44 +125,10 @@ const actions = {
                 }).then(res => {
                     if(res.code == 200) {
                         commit(types.SET_USERINFO, res.result)
-                        if(res.result.assets.length <= 1) {
-                            // 未绑定平台账号
-                            commit(types.OPEN_CONFIRM, {
-                                content: language[rootState.locale].message.PopBindDesc2,
-                                btn: [
-                                    {
-                                        text: language[rootState.locale].message.PopClose,
-                                    },
-                                    {
-                                        type: "high",
-                                        text: language[rootState.locale].message.accountToBound,
-                                        cb: () => {
-                                            router.push('account-security?bind=1')
-                                        }
-                                    }
-                                ]
-                            })
-                            commit(types.UPDATE_WEB3_AT, {
-                                at: res.result.assets[0].at,
-                                bet: res.result.assets[0].bet,
-                                userName: res.result.assets[0].userName,
-                                token: res.result.assets[0].token,
-                                inviteCode: res.result.assets[0].inviteCode || ""
-                            })
-                        }else {
-                            // 已绑定平台账号
-                            res.result.assets.forEach(val => {
-                                if(val.coinAddress == result.coinbase) {
-                                    commit(types.UPDATE_WEB3_AT, {
-                                        at: val.at,
-                                        bet: val.bet,
-                                        userName: res.result.assets[0].userName,
-                                        token: val.token,
-                                        inviteCode: res.result.assets[0].inviteCode
-                                    })
-                                }
-                            })
-                        }
+                        commit("alert", {
+                            type: "info",
+                            msg: "Welcome back."
+                        })
                     }
                 }).catch(err => {
         

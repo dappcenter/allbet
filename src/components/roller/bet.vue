@@ -322,13 +322,6 @@ export default {
 		//下注
 		betDo() {
 			let that = this
-			// if(this.timer) {
-			// 	this.alert({
-			// 		type: "info",
-			// 		msg: this.$t("message.GameWait")
-			// 	})
-			// 	return
-			// }
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
 					type: "info",
@@ -366,6 +359,11 @@ export default {
 						this.luckyRun()
 						that.getBetResult(res.result.recdId)
 					}else {   //合约账号
+						this.alert({
+							type: "info",
+							msg: "Please Wait For Wallet to ConfirmTransfer...",
+							timeout: 9999999
+						})
 						switch(res.result.coinType) {
 							case "ETH":
 								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
@@ -377,14 +375,16 @@ export default {
 						//注册方法与原生交互
 						window.hd.betFailed = function(payload) {
 							that.alert({
-								type: "error",
-								msg: that.$t("message.GameBetErr")
+								type: "info",
+								msg: "User rejected the signature request.",
+								timeout: 3000
 							})
 						}
 						window.hd.betSuccess = function(payload) {
 							that.alert({
-								type: "success",
-								msg: that.$t("message.GameBetSuc")
+								type: "info",
+								msg: "Successful bet 等待结果",
+								timeout: 9999999
 							})
 							that.luckyRun()
 							that.getBetResult(res.result.recdId)
@@ -406,8 +406,9 @@ export default {
 				gas: 1000000
 			}).on("receipt", function(receipt) {
 				that.alert({
-					type: "success",
-					msg: that.$t("message.GameBetSuc")
+					type: "info",
+					msg: "Successful bet 等待结果",
+					timeout: 9999999
 				})
 				that.luckyRun()
 				that.getBetResult(recdId)
@@ -415,7 +416,8 @@ export default {
 			.on("error", function(error) {
 				that.alert({
 					type: "info",
-					msg: that.$t("message.GameBetErr")
+					msg: "User rejected the signature request.",
+					timeout: 3000
 				})
 			});
 		},
@@ -432,17 +434,18 @@ export default {
 				callValue:callValue,
 				shouldPollResponse:false
 			}).then(res => {
-				console.log("确认支付",new Date().getTime())
 				that.alert({
-					type: "success",
-					msg: that.$t("message.GameBetSuc")
+					type: "info",
+					msg: "Successful bet 等待结果",
+					timeout: 9999999
 				})
 				that.luckyRun()
 				that.getBetResult(orderId)
 			}).catch(err => {
 				that.alert({
 					type: "info",
-					msg: that.$t("message.GameBetErr")
+					msg: "User rejected the signature request.",
+					timeout: 3000
 				})
 			})
 		},
@@ -464,7 +467,7 @@ export default {
 							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
-								console.log("DONE",new Date().getTime())
+								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
@@ -1181,7 +1184,6 @@ export default {
 					display: inline-block;
 					width: 1.2rem;
 					height: .48rem;
-					background-color: #2A3C7E;
 					border-radius: .06rem;
 					text-align: center;
 					overflow: hidden;

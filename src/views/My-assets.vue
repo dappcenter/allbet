@@ -66,10 +66,9 @@
 
 
 				<!-- ---- AT ---- -->
-				<li>
+				<!-- <li>
 					<div>AT</div>
 					<div>{{currentAddr.at}}</div>
-					<!-- 平台账号开放充提 -->
 					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
 						<span @click="showCharge = showCharge == 'chargeAT' ? '' : 'chargeAT'">{{$t('message.assetsRechargeCurrency')}}</span>
 						<span @click="showCharge = showCharge == 'mentionAT' ? '' : 'mentionAT'">{{$t('message.assetsExtractCoins')}}</span>
@@ -98,7 +97,6 @@
 						<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
 						AT
 					</div>
-					<!-- 手续费 -->
 					<div class="poundage" v-if="feeData">
 						<div class="">
 							<p>{{$t('message.assetsHandlingFee')}}</p>
@@ -118,7 +116,7 @@
 					<p class="attention">
 						<span class="warnings">{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
-				</div>
+				</div> -->
 				<li><div>AB</div><div>{{currentAddr.bet}}</div><div style="color:#FFDB5B;">--</div></li>
 
 				<!-- ---- TRX ---- -->
@@ -218,7 +216,7 @@ import {mapMutations, mapState} from "vuex"
 		// 检测地址切换
 		currentAddr() {
 			document.getElementById("qrcode1").innerHTML = ''
-			document.getElementById("qrcode2").innerHTML = ''
+			// document.getElementById("qrcode2").innerHTML = ''
 			if(document.getElementById("qrcode3")) {
 				document.getElementById("qrcode3").innerHTML = ''
 			}
@@ -233,7 +231,7 @@ import {mapMutations, mapState} from "vuex"
 	},
 	mounted () {
 		this.copyBtn = new Clipboard(this.$refs.copy)
-		this.copyBtn2 = new Clipboard(this.$refs.copy2)
+		// this.copyBtn2 = new Clipboard(this.$refs.copy2)
 		this.copyBtn3 = new Clipboard(this.$refs.copy3)
 		if(this.currentAddr.coinAddress) {
 			this.makeQrCode()
@@ -243,11 +241,11 @@ import {mapMutations, mapState} from "vuex"
 	},
 	methods: {
 		makeQrCode () {
-			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-				width: 100,
-				height: 100,
-			});
-			qrcode2.makeCode(this.currentAddr.coinAddress);
+			// var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+			// 	width: 100,
+			// 	height: 100,
+			// });
+			// qrcode2.makeCode(this.currentAddr.coinAddress);
 			var qrcode = new QRCode(document.getElementById("qrcode1"), {
 				width: 100,
 				height: 100,

@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="input-wrap">
-            <input type="text" v-model="amount" :placeholder="$t('message.preTrxNum')" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+            <input type="text" v-model="amount" :placeholder="$t('message.preTrxNum')" oninput="value=value.replace(/[^0-9]/g,'')" onkeyup="value=value.replace(/[^0-9]/g,'')" onpaste="value=value.replace(/[^0-9]/g,'')" oncontextmenu="value=value.replace(/[^0-9]/g,'')">
             <button @click="send">{{$t('message.preTrxBet')}}</button>
         </div>
         <p class="content">{{$t('message.preSale')}}<br />* {{$t('message.preLess')}}<br />* {{$t('message.preRefuse')}}<br />* {{$t('message.preJoin')}}</p>
@@ -75,6 +75,13 @@ export default {
                 })
                 return
             }
+            if(this.amount > this.storeTronWeb.balance) {
+                this.alert({
+					type: "success",
+					msg: this.$t('message.assetsNotEnough')
+                })
+                return
+            }
             this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
 				that.alert({
 					type: "success",
@@ -124,15 +131,15 @@ export default {
 .fundraiy-popup {
     z-index: 20181248 !important;
     .mu-dialog {
-        width: 600px;
+        width: 540px;
         border-radius: 6px;
         overflow: hidden;
     }
     .mu-dialog-body {
         position: relative;
         color: #CCBCF8;
-        background: #52476F url(../../../public/img/fundraiy_bg.png) no-repeat bottom right;
-        background-size: 100%;
+        background: #52476F url(../../../public/img/fundraiy_bg.png) no-repeat center;
+        background-size: 100% 100%;
         font-size: 14px;
         padding-bottom: 70px;
         .logo {
@@ -150,12 +157,13 @@ export default {
             background:rgba(72,61,101,.6);
             width: 80%;
             margin: 20px auto;
-            line-height: 38px;
+            line-height: 25px;
             user-select: text;
             text-align: center;
+            padding: 10px 0;
         }
         .progress-wrap {
-            margin: 80px 0 40px;
+            margin: 80px 0 30px;
             .progress-bg {
                 position: relative;
                 height: 16px;
@@ -183,12 +191,10 @@ export default {
                         left: calc(100% - 8px);
                         transform: translateX(-50%);
                         background-color: #FFC425;
-                        padding: 5px;
+                        padding: 0px 5px;
                         color: #3F355A;
                         white-space: nowrap;
                         border-radius: 2px;
-                        min-width: 100px;
-                        text-align: right;
                         &:after {
                             content: "";
                             position: absolute;
@@ -217,7 +223,7 @@ export default {
             margin-top: 20px;
             input {
                 flex: 1;
-                height: 48px;
+                height: 40px;
                 background-color: #483D65;
                 border: none;
                 outline: none;
@@ -244,7 +250,7 @@ export default {
         .content {
             text-align: left;
             font-size: 12px;
-            margin: 20px 0 0 0;
+            margin: 36px 0 24px 0;
         }
         .service {
             position: absolute;

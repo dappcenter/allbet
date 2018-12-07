@@ -29,7 +29,7 @@
 						<select class="" name="" @change="selectChange" v-model="coinType">
 							<option value="ALL">{{$t('message.tradeAll')}}</option>
 							<option value="ETH">ETH</option>
-							<option value="AT">AT</option>
+							<!-- <option value="AT">AT</option> -->
 							<option value="AB">AB</option>
 							<option value="TRX">TRX</option>
 						</select>
@@ -68,7 +68,7 @@
 			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
-			    <mu-pagination :total="total" :page-count="4" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
+			    <mu-pagination :total="total" :pageCount="4" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
 

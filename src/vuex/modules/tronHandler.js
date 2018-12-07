@@ -123,7 +123,7 @@ const actions = {
                     commit(types.SET_USERINFO, res.result)
                     commit("alert", {
                         type: "info",
-                        msg: "Welcome back"
+                        msg: "Welcome back."
                     })
                 }
             }).catch(err => {

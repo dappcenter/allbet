@@ -5,7 +5,6 @@
 			<mu-icon left :value="alertOption.icon"></mu-icon>
 				{{alertOption.msg}}
       <i class="close" slot="action" @click="$store.commit('closeAlert')"></i>
-			<!-- <mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">{{$t("message.PopClose")}}</mu-button> -->
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
