@@ -56,7 +56,7 @@
                     </div> -->
                 </div>
                 <!-- mobile登录按钮 -->
-                <a href="javascript:;" class="login minscreen" @click="$router.push('my')"></a>
+                <a href="javascript:;" v-if="storeCurrentAddr.platform == 'DISPATCHER'" class="login minscreen" @click="$router.push('my')"></a>
             </div>
         </div>
 
@@ -927,6 +927,7 @@ export default {
             cursor: pointer;
             height: 60px;
             margin-left: 16px;
+            margin-right: .2rem;
             .lang {
                 display: inline-block;
                 position: relative;
@@ -986,7 +987,7 @@ export default {
                 background-size: 100%;
                 width: 30px;
                 height: 30px;
-                margin: 2px .2rem 0 .2rem;
+                margin: 2px .2rem 0 0;
             }
         }
     }

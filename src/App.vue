@@ -42,10 +42,12 @@
     <!-- HD钱包网络弹框提示 -->
     <div class="newwork-box" v-show="noMainNetwork">
         <div>
-            <img src="../public/img/MetaMask.png" alt="">
+            <img src="../public/img/MetaMask.png" alt="" v-show="coinType == 'ETH'">
+            <img src="../public/img/TRX_plugin.png" alt="" v-show="coinType == 'TRX'">
             <span>{{$t('message.AppMainNet')}}</span>
         </div>
-        <p>{{$t('message.AppMeta')}}</p>
+        <p v-show="coinType == 'ETH'">{{$t('message.AppMeta')}}</p>
+        <p v-show="coinType == 'TRX'">{{$t('message.AppTron')}}</p>
     </div>
 
     <!-- 密码验证弹框 -->
@@ -207,7 +209,7 @@ body {
       overflow: hidden;
     }
     .mu-dialog-body {
-      background: rgba(33, 71, 151, 1);
+      background: #52476F;
 
       h4 {
         font-size: 20px;
@@ -234,17 +236,8 @@ body {
         text-align: center;
         border-radius: 6px;
         border: none;
-        background-color: #458ad8;
-        color: #fff;
-        &.high {
-          background: linear-gradient(
-            90deg,
-            rgba(100, 180, 239, 1),
-            rgba(57, 94, 236, 1)
-          );
-          color: #fff;
-          border: none;
-        }
+        background-color: #FFC425;
+        color: #1A0D59;
       }
     }
   }
@@ -369,9 +362,9 @@ body {
     top: calc(50% - 200px);
     background-size: 100%;
     text-align: center;
-    background-color: #CCD3FF;
+    background-color: #716AA1;
     z-index: 9999999999;
-    color: #000;
+    color: #D7D1FF;
     padding: 30px;
     border-radius: 6px;
     div {
@@ -379,7 +372,8 @@ body {
       align-items: center;
       justify-content: center;
       img {
-        width: 100px;
+        width: 80px;
+        margin-right: 10px;
       }
       span {
         font-size: 36px;

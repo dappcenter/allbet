@@ -12,8 +12,10 @@ const pollTronWeb = function(tronWeb) {
             return
         }
         tronWeb.trx.getBalance((err, balance) => {
-            if(store.state.tronHandler.tronWeb.balance !== Math.floor(balance/1000)/1000) {
-                console.log("balance变化", new Date().getTime())
+            if(tronWeb.eventServer.host.indexOf('api.trongrid.io') < 0 && window.NETWORK == 1) {
+                store.state.dialogs.noMainNetwork = true
+            }else {
+                store.state.dialogs.noMainNetwork = false
             }
             if(err) {
                 console.log(err)

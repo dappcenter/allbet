@@ -82,8 +82,8 @@ const actions = {
                         coinbase: address,
                         balance: Math.floor(balance/1000)/1000,
                         tronWebInstance: tronWeb,
-                        contract: tronWeb.contract(contract.abi, contract.address),
-                        fundraiy: tronWeb.contract(fundraiy.abi, fundraiy.address)
+                        contract: tronWeb.contract(contract.abi, window.TRONROLLARADDRESS),
+                        fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS)
                     })
                 }
             });

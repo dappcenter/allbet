@@ -92,8 +92,8 @@
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
-					<!-- <button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="isShowFundraiy = true">正在募资</button> -->
+					<button v-if="userInfo.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">正在募资</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 
 					<span class="fl minscreen">
@@ -201,7 +201,7 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-		debugger
+
 		if(this.coinType == 'TRX' && this.$IsPC()) {
 			this.isShowFundraiy = true
 		} else if (this.coinType == 'TRX' && !this.$IsPC() && sessionStorage.getItem('IsFirstEnter') != 'YES') {
@@ -334,14 +334,14 @@ export default {
 			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
-					msg: this.$t("message.GameAmountTooLow") + this.rule.minInvest + "ETH"
+					msg: this.$t("message.GameAmountTooLow") + this.rule.minInvest + this.coinType
 				})
 				return
 			}
 			if(this.amount*1 > this.rule.maxInvest*1) {
 				this.alert({
 					type: "info",
-					msg: this.$t("message.GameAmountTooLarge") + this.rule.maxInvest + "ETH"
+					msg: this.$t("message.GameAmountTooLarge") + this.rule.maxInvest + this.coinType
 				})
 				return
 			}
@@ -385,7 +385,7 @@ export default {
 						window.hd.betSuccess = function(payload) {
 							that.alert({
 								type: "info",
-								msg: "Successful bet 等待结果",
+								msg: "Successful bet.",
 								timeout: 9999999
 							})
 							that.luckyRun()
@@ -405,11 +405,20 @@ export default {
 			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amount,
-				gas: 1000000
+				gas: 210000,
+				gasPrice: 10000000000
+			},(err, res) => {
+				if(!err) {
+					that.alert({
+						type: "info",
+						msg: "Bet submitted! Waiting for Ethereum...",
+						timeout: 9999999
+					})
+				}
 			}).on("receipt", function(receipt) {
 				that.alert({
 					type: "info",
-					msg: "Successful bet 等待结果",
+					msg: "Successful bet.",
 					timeout: 9999999
 				})
 				that.luckyRun()
@@ -438,7 +447,7 @@ export default {
 			}).then(res => {
 				that.alert({
 					type: "info",
-					msg: "Successful bet 等待结果",
+					msg: "Successful bet.",
 					timeout: 9999999
 				})
 				that.luckyRun()
@@ -541,6 +550,15 @@ export default {
 				]
 			})
 		},
+		// 打开预售
+		openFundraiy() {
+			if(this.coinType == 'TRX' && this.$IsPC()) {
+				this.isShowFundraiy = true
+			} else if (this.coinType == 'TRX' && !this.$IsPC()) {
+				this.$router.push('mobile-fundraiy')
+				sessionStorage.setItem('IsFirstEnter', 'YES')
+			}
+		}
     },
     watch: {
         diceList: {

@@ -239,7 +239,6 @@ const actions = {
             }).then(res => {
                 console.log(res)
                 if(res.code == 200) {
-                    console.log("user登录签名")
                     coinLogin("123456", address, res.result)
                 }
             })

@@ -4,8 +4,8 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.BANCORADDRESS = "0x36fc06fef49e2d92fe9460685d56a5998d9ba187"
     window.ROLLERADDRESS = "0x5544b7603c39e7f471a08e761ff0c7362878c70b"
 
-    window.TRONROLLARADDRESS = "TDJrZY2wVXVL3kYycVN5jf5DaL8UUbnJL6"
-    window.TRONFUNDRAIYADDRESS = "TDJrZY2wVXVL3kYycVN5jf5DaL8UUbnJL6"
+    window.TRONROLLARADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"
+    window.TRONFUNDRAIYADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"
 
     window.NETWORK = 1
 }else if(window.location.href.indexOf('47.91.247.93') >= 0){
