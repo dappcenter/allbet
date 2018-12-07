@@ -340,7 +340,18 @@ export default {
         abEthpool: 'AT币的ETH资金池',
         abPool: 'AB分红池',
 
-        //
+        //预售
+        preTarget: '一个致力于打造最全游戏品类，最棒游戏体验的DAPP游戏平台。',
+        preTotalAb: 'AB Token本次预售仅限 40,000,000 TRX',
+        preAddress: '合约地址：',
+        preTrxNum: '输入TRX数量',
+        preTrxBet: '投入TRX',
+        preSale: '预售方案：',
+        preLess:'单次参与预售，不小于 1000 TRX',
+        preRefuse: '不接受交易所地址，否则您将收不到A',
+        preJoin: '参与50,000门槛预售的额外补偿5%AB，如有疑问请加入社群。',
+
+
 
     }
 }

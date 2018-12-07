@@ -9,6 +9,7 @@
             <!-- <li @click="switchBonusPools">{{$t("message.bonusPool")}}</li> -->
             <!-- <router-link to="mobile-invite" tag="li" v-show="addressList.length > 0">{{$t("message.invitation")}}</router-link> -->
             <li @click="openWhiteBook">{{$t("message.course")}}</li>
+            <router-link to="mobile-fundraiy" tag="li">{{$t("message.presell")}}</router-link>
         </ul>
     </div>
 </template>
