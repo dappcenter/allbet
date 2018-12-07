@@ -95,7 +95,7 @@
 					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<!-- <button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="isShowFundraiy = true">正在募资</button> -->
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
-					
+
 					<span class="fl minscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
@@ -201,10 +201,12 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-
-
-		if(this.coinType == 'TRX') {
+		debugger
+		if(this.coinType == 'TRX' && this.$IsPC()) {
 			this.isShowFundraiy = true
+		} else if (this.coinType == 'TRX' && !this.$IsPC() && sessionStorage.getItem('IsFirstEnter') != 'YES') {
+			this.$router.push('mobile-fundraiy')
+			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
     },
     methods: {
@@ -219,7 +221,7 @@ export default {
 		},
         onHotkeys(amount) {
 			switch(amount) {
-				case 'max': 
+				case 'max':
 					this.amount = this.rule.maxInvest
 					break;
 				case 'min':

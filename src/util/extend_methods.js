@@ -102,16 +102,30 @@ const getLanguage = () => {
 	}
 	if (language.indexOf('en') > -1){
 		lang = "en-US"
-	} 
+	}
 	else if (language.indexOf('zh') > -1){
 		lang = "zh-CN"
-	} 
+	}
 	else{
 		lang = "en-US"
 	}
 	return lang
 }
 
+const IsPC = () => {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+}
 
 const extendMethods = {
 	fmtNumber,
@@ -119,7 +133,8 @@ const extendMethods = {
 	fmtAccount,
 	setHeight,
 	downLoadApp,
-	getLanguage
+	getLanguage,
+	IsPC
 }
 
 export default {
@@ -138,5 +153,6 @@ export {
 	fmtAccount,
 	setHeight,
 	downLoadApp,
-	getLanguage
+	getLanguage,
+	IsPC
 }
