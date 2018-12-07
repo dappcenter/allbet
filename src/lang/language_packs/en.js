@@ -242,7 +242,7 @@ export default {
 
         PopLoginSelectTitle: "Please log in Chrome Wallet",
         PopLoginSelectETH: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> MetaMask: <a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
-        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://dwz.cn/FyluFVay' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
         PopLoginText1: "Quick experience,",
 
         PopHttpTimeout: "please refresh page",
@@ -351,7 +351,8 @@ export default {
         preSale: 'Presale Scheme',
         preLess:'The purchase cannot be less than 1000 TRX each time.',
         preRefuse: 'An exchange address is not accepted, otherwise you will not receive AB.',
-        preJoin: 'You will get extra compensation of 5% AB if taking part in the presale of 50,000 threshold. If you have any questions, please join our community.',
+        preJoin: 'You will get extra reward of 5% AB if taking part in the presale of 50,000 threshold. ',
+        preHelp: 'If you have any questions, please join our community.',
         preCanYu: "success",
         preTooLow: "A single participation cannot be less than ",
         preTips1: "Please log in TronLink or TronPay to operate"

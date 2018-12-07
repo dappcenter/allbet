@@ -11,7 +11,7 @@
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
                 <!-- <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link> -->
-                <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span>{{$t("message.presell")}}</span></a>
+                <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
             </menu>
             <div class="statusbar">
                 <!-- <div class="address-select" v-if="addressList.length > 1">
@@ -789,6 +789,10 @@ export default {
             span {
                 position: relative;
                 z-index: 2;
+                &.flicker {
+                    -webkit-animation: change 1s ease-in infinite;
+                    animation: change 1s ease-in infinite;
+                }
             }
             &.router-link-active {
                 color: #D3CDFF;
@@ -797,6 +801,7 @@ export default {
             &:hover {
                 color: #D3CDFF;
             }
+            
         }
     }
     .statusbar {
@@ -1375,4 +1380,19 @@ export default {
         }
     }
 }
+@keyframes change {
+    0% {
+        color: #fff;
+        text-shadow: 0 0 4px #2caa2c;
+    }
+    50% {
+        color: #ffe60b;
+        text-shadow: 0 0 0.2em #2caa2c, 0 0 0.2em #2caa2c;
+    }
+    100% {
+        color: #fff;
+        text-shadow: 0 0 4px #2caa2c;
+    }
+}
+
 </style>

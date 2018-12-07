@@ -32,7 +32,7 @@
           </div>
           <div class="tip3">
               <p v-if="storeCurrentAddr.bet">{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
-              <p>{{$t('message.BPTotal')}}100000000 AB</p>
+              <!-- <p>{{$t('message.BPTotal')}}100000000 AB</p> -->
           </div>
         </div>
       </div>

@@ -242,7 +242,7 @@ export default {
 
         PopLoginSelectTitle: "请登录 Chrome 插件钱包",
         PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://dwz.cn/FyluFVay' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
         PopLoginText1: "快速体验游戏，",
 
         PopHttpTimeout: "请刷新页面",
@@ -351,7 +351,8 @@ export default {
         preSale: '预售方案：',
         preLess:'单次参与预售，不小于 1000 TRX',
         preRefuse: '不接受交易所地址，否则您将收不到AB',
-        preJoin: '参与50,000门槛预售的额外补偿5%AB，如有疑问请加入社群。',
+        preJoin: '参与5万门槛预售的额外赠送5%AB',
+        preHelp: '如有疑问请加入社群',
         preCanYu: "参与成功",
         preTooLow: "单次参与不能小于",
         preTips1: "请登录TronLink或TronPay进行操作"

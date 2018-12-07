@@ -4,7 +4,7 @@
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
         <div class="addr-wrap">
-            <p>100TRX=200AB</p>
+            <p>100 TRX = 200 AB</p>
             <p>{{$t('message.preTotalAb')}}</p>
             <p>{{$t('message.preAddress')}}{{$window.TRONFUNDRAIYADDRESS}}</p>
         </div>
@@ -23,7 +23,7 @@
             <input type="text" v-model="amount" :placeholder="$t('message.preTrxNum')" oninput="value=value.replace(/[^0-9]/g,'')" onkeyup="value=value.replace(/[^0-9]/g,'')" onpaste="value=value.replace(/[^0-9]/g,'')" oncontextmenu="value=value.replace(/[^0-9]/g,'')">
             <button @click="send">{{$t('message.preTrxBet')}}</button>
         </div>
-        <p class="content">{{$t('message.preSale')}}<br />* {{$t('message.preLess')}}<br />* {{$t('message.preRefuse')}}<br />* {{$t('message.preJoin')}}</p>
+        <p class="content">{{$t('message.preSale')}}<br />* {{$t('message.preLess')}}<br />* {{$t('message.preRefuse')}}<br />* {{$t('message.preJoin')}}<br />{{$t('message.preHelp')}}</p>
 
         <div class="service">
             <a href="https://t.me/allbetAB" target="_blank">
@@ -231,7 +231,7 @@ export default {
             margin-top: 20px;
             input {
                 flex: 1;
-                height: 40px;
+                height: 34px;
                 background-color: #483D65;
                 border: none;
                 outline: none;
@@ -239,7 +239,7 @@ export default {
                 color: #fff;
             }
             button {
-                width: 120px;
+                width: 104px;
                 background-color: #ffba00;
                 color: #3F355A;
                 font-weight: 700;

@@ -127,12 +127,13 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 10px;
+            padding: 10px 20px;
             border-radius:4px;
             background:#E95678;
             margin-top: 10px;
             .coin-logo {
                 text-align: center;
+                margin-left: 20px;
                 img {
                     width: 62px;
                     height: 62px;
@@ -147,6 +148,7 @@ export default {
                 }
             }
             h3 {
+                flex: 1;
                 text-align: right;
                 font-size: 32px;
             }

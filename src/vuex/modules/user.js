@@ -114,9 +114,7 @@ const mutations = {
      * @author shanks
      */
     [types.REMOVE_USERINFO](state, payload) {
-        console.log("清除用户信息")
         let b = false
-        console.log(payload)
         if(payload) {
             state.userInfo.accounts.forEach((val,idx) => {
                 if(val.platform == "DISPATCHER") {
@@ -149,7 +147,7 @@ const mutations = {
         state.currentAddr = payload
         state.lastCurAddrPf = payload.platform
         // HD钱包网络环境检测
-        if(state.currentAddr.platform == "IMPORT" && this.state.web3Handler.web3.networkId !== 1 && window.NETWORK == 1) {
+        if(state.currentAddr.platform == "IMPORT" && this.state.web3Handler.web3.networkId !== 1 && window.NETWORK == 1 && state.coinType == "ETH") {
             this.state.dialogs.noMainNetwork = true
         }else {
             this.state.dialogs.noMainNetwork = false
