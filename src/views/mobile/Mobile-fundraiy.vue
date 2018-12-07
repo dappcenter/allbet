@@ -128,34 +128,41 @@ export default {
 
 <style lang="less">
 .mobilefundraiy-page {
+  background: #52476F url(../../../public/img/fundraiy_bg.png) no-repeat bottom right;
+  background-size: 100% 100%;
     .main {
         font-size: 0.20rem;
         .logo {
             display: block;
             height: 0.33rem;
             margin: 0 auto;
+            margin-top: 0.6rem;
         }
         h4 {
             color: #E1DDFE;
             font-weight: 400;
-            font-size: 0.16rem !important;
-            margin-top: 0.1rem;
+            font-size: 0.24rem !important;
+            margin: 0.4rem auto 0 auto;
+            text-align: center;
         }
         .addr-wrap {
             background:rgba(72,61,101,.6);
             width: 80%;
-            margin: 0.2rem auto;
+            margin: 0.6rem auto 1rem auto;
             line-height: 0.38rem;
             user-select: text;
             text-align: center;
+            padding: 0.43rem 0;
         }
         .progress-wrap {
             margin: 0.8rem 0 0.4rem;
             .progress-bg {
                 position: relative;
-                height: 0.16rem;
+                height: 0.18rem;
                 background-color: #483D65;
                 border-radius: 8px;
+                width: 6.7rem;
+                margin: auto;
                 .progress-bar {
                     position: absolute;
                     height: 100%;
@@ -198,6 +205,8 @@ export default {
             .flex-wrap {
                 display: flex;
                 justify-content: space-between;
+                width: 6.7rem;
+    margin: auto;
                 span {
                     color: #9A93D0;
                     font-size: 0.14rem;
