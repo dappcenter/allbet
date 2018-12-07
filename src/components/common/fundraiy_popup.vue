@@ -43,6 +43,7 @@
 
 <script>
 import {mapMutations} from "vuex"
+
 export default {
     props: {
         isShowPopup: {
@@ -54,7 +55,7 @@ export default {
         return {
             isShow: false,
             amount: "",
-            pageData: {}
+            pageData: {},
         }
     },
     mounted() {
@@ -67,11 +68,18 @@ export default {
     },
     methods: {
         send() {
+            if(!this.storeTronWeb.coinbase) {
+                this.alert({
+                    type: "info",
+                    msg: this.$t("message.preTips1")
+                })
+                return;
+            }
             var that = this
             if(this.amount < 1000) {
                 this.alert({
                     type: "info",
-                    msg: "单次参与不能小于1000"
+                    msg: this.$t('message.preTooLow') + "1000"
                 })
                 return
             }
@@ -85,7 +93,7 @@ export default {
             this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
 				that.alert({
 					type: "success",
-					msg: "参与成功"
+					msg: that.$t('message.preCanYu')
 				})
 			}).catch(err => {
 

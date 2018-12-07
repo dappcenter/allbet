@@ -352,5 +352,8 @@ export default {
         preLess:'The purchase cannot be less than 1000 TRX each time.',
         preRefuse: 'An exchange address is not accepted, otherwise you will not receive AB.',
         preJoin: 'You will get extra compensation of 5% AB if taking part in the presale of 50,000 threshold. If you have any questions, please join our community.',
+        preCanYu: "success",
+        preTooLow: "A single participation cannot be less than ",
+        preTips1: "Please log in TronLink or TronPay to operate"
     }
 }

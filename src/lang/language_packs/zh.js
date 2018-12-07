@@ -352,6 +352,9 @@ export default {
         preLess:'单次参与预售，不小于 1000 TRX',
         preRefuse: '不接受交易所地址，否则您将收不到AB',
         preJoin: '参与50,000门槛预售的额外补偿5%AB，如有疑问请加入社群。',
+        preCanYu: "参与成功",
+        preTooLow: "单次参与不能小于",
+        preTips1: "请登录TronLink或TronPay进行操作"
 
 
 

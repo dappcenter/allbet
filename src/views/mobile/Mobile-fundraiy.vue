@@ -74,17 +74,24 @@ export default {
     methods: {
         send() {
             var that = this
+            if(!this.storeTronWeb.coinbase) {
+                this.alert({
+                    type: "info",
+                    msg: this.$t("message.preTips1")
+                })
+                return;
+            }
             if(this.amount < 1000) {
                 this.alert({
                     type: "info",
-                    msg: "单次参与不能小于1000"
+                    msg: this.$t('message.preTooLow') + "1000"
                 })
                 return
             }
             this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
 				that.alert({
 					type: "success",
-					msg: "参与成功"
+					msg: that.$t('message.preCanYu')
 				})
 			}).catch(err => {
 
