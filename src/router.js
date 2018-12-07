@@ -91,6 +91,11 @@ export default new Router({
             path: "/mobile-invite",
             name: "mobileinvite",
             component: () => import("./views/mobile/Mobile-invite.vue")
-        }
+        },
+        {
+            path: "/mobile-fundraiy",
+            name: "mobile-fundraiy",
+            component: () => import("./views/mobile/Mobile-fundraiy.vue")
+        },
     ]
 });

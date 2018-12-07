@@ -339,5 +339,16 @@ export default {
         abLast: 'The dividends will distribute as follow:',
         abEthpool: 'ETH Reserve Pool Of AT Token',
         abPool: 'Payout Of AB Token',
+
+        //预售
+        preTarget: 'A game platform aiming to create a DAPP with the most complete game categories and the best game experience.',
+        preTotalAb: 'The presale of AB Token is limited to 40,000,000 TRX.',
+        preAddress: 'Contract Address: ',
+        preTrxNum: 'Enter TRX amount',
+        preTrxBet: 'Bet',
+        preSale: 'Presale Scheme',
+        preLess:'The purchase cannot be less than 1000 TRX each time.',
+        preRefuse: 'An exchange address is not accepted, otherwise you will not receive AB.',
+        preJoin: 'You will get extra compensation of 5% AB if taking part in the presale of 50,000 threshold. If you have any questions, please join our community.',
     }
 }
