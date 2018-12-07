@@ -101,13 +101,19 @@ export default {
     methods: {
         //登录
         loginDo() {
-            // const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
-            // if(this.formData.loginType == "Phone") {
-            //     if(!this.verifyPhone()) return
-            // }else {
-            //     if(!this.verifyEmail()) return
-            // }
-            if(!this.verifyPhone() && !this.verifyEmail()) return
+            const reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+            if(reg.test(this.formData.phoneLogin.phone)) {
+                this.formData.loginType = "Email"
+                this.formData.emailLogin.email = this.formData.phoneLogin.phone
+            }else {
+                this.formData.loginType = "Phone"
+                this.formData.phoneLogin.phone = this.formData.phoneLogin.phone
+            }
+            if(this.formData.loginType == "Phone") {
+                if(!this.verifyPhone()) return
+            }else {
+                if(!this.verifyEmail()) return
+            }
             if(this.formData.password == "") {
                 this.alert({
                     type: "info",
@@ -147,7 +153,7 @@ export default {
         },
         //邮箱验证
         verifyEmail() {
-            if(this.formData.emailLogin.phone == "" || !/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.formData.emailLogin.phone)) {
+            if(this.formData.phoneLogin.phone == "" || !/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(this.formData.phoneLogin.phone)) {
                 this.alert({
                     type: "info",
                     msg: this.$t('message.PopEmailWrong')
