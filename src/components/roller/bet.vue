@@ -322,13 +322,13 @@ export default {
 		//下注
 		betDo() {
 			let that = this
-			if(this.timer) {
-				this.alert({
-					type: "info",
-					msg: this.$t("message.GameWait")
-				})
-				return
-			}
+			// if(this.timer) {
+			// 	this.alert({
+			// 		type: "info",
+			// 		msg: this.$t("message.GameWait")
+			// 	})
+			// 	return
+			// }
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
 					type: "info",

@@ -1,10 +1,11 @@
 <template>
 	<div id="app">
 		<router-view/>
-		<mu-snackbar position="top" :color="alertOption.color" :open.sync="alertOption.open">
+		<mu-snackbar position="top" class="alert" :color="alertOption.color" :open.sync="alertOption.open" :timeout="300000">
 			<mu-icon left :value="alertOption.icon"></mu-icon>
 				{{alertOption.msg}}
-			<mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">{{$t("message.PopClose")}}</mu-button>
+      <i class="close" slot="action" @click="$store.commit('closeAlert')"></i>
+			<!-- <mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">{{$t("message.PopClose")}}</mu-button> -->
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">

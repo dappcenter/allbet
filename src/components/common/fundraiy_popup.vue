@@ -1,5 +1,5 @@
 <template>
-    <mu-dialog :open.sync="isShow" :append-body="false" class="fundraiy-popup">
+    <mu-dialog :open.sync="isShow" :append-body="false" class="fundraiy-popup" :overlay-close="false">
         <img class="logo" src="../../../public/img/LOGO.png" alt="">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>一个致力于打造最全游戏品类，最棒游戏体验的 DAPP 游戏平台。</h4>
@@ -11,7 +11,7 @@
         <div class="progress-wrap">
             <div class="progress-bg">
                 <div class="progress-bar" :style="{'width': pageData.achieve/pageData.goal*100 + '%'}">
-                    <span>{{pageData.achieve}} TRX</span>
+                    <span>{{pageData.achieve}}</span>
                 </div>
             </div>
             <div class="flex-wrap">
@@ -24,6 +24,19 @@
             <button @click="send">投入TRX</button>
         </div>
         <p class="content">预售方案：<br />* 单次参与预售，不小于1000TRX<br />* 不接受交易所地址，否则您将接收不到AB<br />* 参与 50,000 门槛预售的额外补偿 5%AB ，如有疑问请加入社群。</p>
+        <div class="service">
+            <a href="https://t.me/allbetAB" target="_blank">
+                <img class="icon" src="../../../public/img/Telegram03.png" alt="">
+                <span>Telegram</span>
+            </a>
+            <a href="javascript:;">
+                <img class="icon" src="../../../public/img/weixin_icon03.png" alt="">
+                <span>WeChat</span>
+                <div class="qrcode">
+                    <img src="../../../public/img/weixin_qrcode.png" alt="">
+                </div>
+            </a>
+        </div>
     </mu-dialog>
 </template>
 
@@ -120,6 +133,7 @@ export default {
         background: #52476F url(../../../public/img/fundraiy_bg.png) no-repeat bottom right;
         background-size: 100%;
         font-size: 14px;
+        padding-bottom: 70px;
         .logo {
             display: block;
             height: 33px;
@@ -149,7 +163,7 @@ export default {
                 .progress-bar {
                     position: absolute;
                     height: 100%;
-                    min-width: 15px;
+                    min-width: 50px;
                     border-radius: 8px;
                     background-color: #FFC425;
                     &:after {
@@ -229,7 +243,45 @@ export default {
             font-size: 12px;
             margin: 20px 0 0 0;
         }
-
+        .service {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            height: 60px;
+            align-items: center;
+            justify-content: space-around;
+            background:rgba(46,36,74,.4);
+            a {
+                position: relative;
+                .icon {
+                    display: inline-block;
+                    width: 32px;
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+                span {
+                    color: #928BC1;
+                    font-size: 24px;
+                    vertical-align: middle;
+                }
+                &:hover {
+                    .qrcode {
+                        display: block;
+                    }
+                }
+                .qrcode {
+                    display: none;
+                    position: absolute;
+                    bottom: 40px;
+                    right: 0px;
+                    img {
+                        width: 200px;
+                    }
+                }
+            }
+        }
     }
 }
 </style>
