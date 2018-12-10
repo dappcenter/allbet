@@ -1,12 +1,15 @@
 <template>
     <div class="mb-header-nav">
         <ul>
-            <router-link to="dice" tag="li">Dice</router-link>
-            <router-link to="index" tag="li">{{$t("message.atDeal")}}</router-link>
+            <router-link to="dice" tag="li">DICE</router-link>
+            <!-- <router-link to="index" tag="li">{{$t("message.atDeal")}}</router-link> -->
             <router-link to="ab" tag="li">{{$t("message.abBancor")}}</router-link>
-            <li @click="switchBonusPools">{{$t("message.bonusPool")}}</li>
-            <router-link to="mobile-invite" tag="li" v-show="addressList.length > 0">{{$t("message.invitation")}}</router-link>
+            <router-link to="bonus-pool" tag="li">{{$t("message.bonusPool")}}</router-link>
+
+            <!-- <li @click="switchBonusPools">{{$t("message.bonusPool")}}</li> -->
+            <!-- <router-link to="mobile-invite" tag="li" v-show="addressList.length > 0">{{$t("message.invitation")}}</router-link> -->
             <li @click="openWhiteBook">{{$t("message.course")}}</li>
+            <router-link class="flicker" to="mobile-fundraiy" tag="li">{{$t("message.presell")}}</router-link>
         </ul>
     </div>
 </template>
@@ -36,23 +39,23 @@ export default {
     ul {
         white-space: nowrap;
         overflow-x: scroll;
-        /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
-        &::-webkit-scrollbar  
-        {  
+        /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+        &::-webkit-scrollbar
+        {
             width: 1px;  /*滚动条宽度*/
             height: 1px;  /*滚动条高度*/
-        } 
-        /*定义滚动条轨道 内阴影+圆角*/  
-        &::-webkit-scrollbar-track  
-        {  
-            -webkit-box-shadow: inset 0 0 6px #10101A;  
-            background-color: #10101A;/*滚动条的背景颜色*/  
-        }  
-        
-        /*定义滑块 内阴影+圆角*/  
-        &::-webkit-scrollbar-thumb  
-        {  
-            -webkit-box-shadow: inset 0 0 6px #10101A;  
+        }
+        /*定义滚动条轨道 内阴影+圆角*/
+        &::-webkit-scrollbar-track
+        {
+            -webkit-box-shadow: inset 0 0 6px #10101A;
+            background-color: #10101A;/*滚动条的背景颜色*/
+        }
+
+        /*定义滑块 内阴影+圆角*/
+        &::-webkit-scrollbar-thumb
+        {
+            -webkit-box-shadow: inset 0 0 6px #10101A;
             background-color: #10101A;  /*滚动条的背景颜色*/
         }
         li {
@@ -65,8 +68,11 @@ export default {
                 color: #fff;
                 font-weight: bold;
             }
+            &.flicker {
+                -webkit-animation: change 1s ease-in infinite;
+                animation: change 1s ease-in infinite;
+            }
         }
     }
 }
 </style>
-

@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
 		<router-view/>
-		<mu-snackbar position="top" :color="alertOption.color" :open.sync="alertOption.open">
+		<mu-snackbar position="top" class="alert" :color="alertOption.color" :open.sync="alertOption.open" :timeout="300000">
 			<mu-icon left :value="alertOption.icon"></mu-icon>
 				{{alertOption.msg}}
-			<mu-button flat slot="action" color="#fff" @click="$store.commit('closeAlert')">{{$t("message.PopClose")}}</mu-button>
+      <i class="close" slot="action" @click="$store.commit('closeAlert')"></i>
 		</mu-snackbar>
 
 		<mu-dialog width="400" :open.sync="isShowConfirm" :append-body="false" class="confirm">
@@ -24,21 +24,30 @@
 		<div class="shade" v-show="isShowWin || noMainNetwork"></div>
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
-			<div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
-				<h3>{{$t("message.GameWinBox1")}}</h3>
-				<h3>{{winPopupOption.rewards}}</h3>
-				<p>（{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB）</p>
-				<button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
-			</div>
+      <div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
+        <div class="lighting"></div>
+        <div class="centent">
+          <img src="../public/img/win_box/gxn.png" v-show="locale == 'zh-CN'" />
+          <img src="../public/img/win_box/Win.png" v-show="locale == 'en-US'" />
+          <h3 class="rewards">{{Math.floor(winPopupOption.rewards*10000)/10000}}</h3>
+          <h3 class="cointype">{{winPopupOption.coinType}}</h3>
+          <p>{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB</p>
+          <button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
+          <i class="close-btn" @click="isShowWin = false"></i>
+        </div>
+      </div>
+
 		</transition>
 
     <!-- HD钱包网络弹框提示 -->
     <div class="newwork-box" v-show="noMainNetwork">
         <div>
-            <img src="../public/img/MetaMask.png" alt="">
+            <img src="../public/img/MetaMask.png" alt="" v-show="coinType == 'ETH'">
+            <img src="../public/img/TRX_plugin.png" alt="" v-show="coinType == 'TRX'">
             <span>{{$t('message.AppMainNet')}}</span>
         </div>
-        <p>{{$t('message.AppMeta')}}</p>
+        <p v-show="coinType == 'ETH'">{{$t('message.AppMeta')}}</p>
+        <p v-show="coinType == 'TRX'">{{$t('message.AppTron')}}</p>
     </div>
 
     <!-- 密码验证弹框 -->
@@ -119,7 +128,8 @@ export default {
       popupStatus: state => state.dialogs.popupStatus,
       storeIsShowPsdVer: state => state.dialogs.isShowPsdVer,
       currentAddr: state => state.user.currentAddr,
-      coinType: state => state.user.coinType
+      coinType: state => state.user.coinType,
+      locale: state => state.locale
     })
   },
   methods: {
@@ -179,7 +189,7 @@ li {
 }
 html {
   min-height: 100%;
-  background-color: #191A2A;
+  background-color: #22202C;
 }
 body {
   min-height: 100%;
@@ -199,7 +209,7 @@ body {
       overflow: hidden;
     }
     .mu-dialog-body {
-      background: rgba(33, 71, 151, 1);
+      background: #52476F;
 
       h4 {
         font-size: 20px;
@@ -226,17 +236,8 @@ body {
         text-align: center;
         border-radius: 6px;
         border: none;
-        background-color: #458ad8;
-        color: #fff;
-        &.high {
-          background: linear-gradient(
-            90deg,
-            rgba(100, 180, 239, 1),
-            rgba(57, 94, 236, 1)
-          );
-          color: #fff;
-          border: none;
-        }
+        background-color: #FFC425;
+        color: #1A0D59;
       }
     }
   }
@@ -265,39 +266,95 @@ body {
     background-color: rgba(000, 000, 000, 0.5);
   }
   .win-box {
-    position: fixed;
-    left: calc(50% - 180px);
-    top: calc(50% - 180px);
-    width: 360px;
-    height: 360px;
-    background: url(../public/img/win.png) no-repeat center;
-    background-size: 100%;
-    text-align: center;
-    padding: 120px 0 0 0;
-    z-index: 9999999999;
-
-    h3 {
-      font-size: 30px;
-    }
-    button {
-      width: 180px;
-      height: 48px;
-      background: linear-gradient(
-        45deg,
-        rgba(241, 182, 40, 1),
-        rgba(251, 229, 110, 1)
-      );
-      box-shadow: 0px 0px 0px 1px rgba(237, 215, 84, 1);
-      border-radius: 6px;
-      border: none;
-      font-size: 20px;
-      color: #e34142;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 30px;
-      outline: none;
-    }
+      position: fixed;
+      left: calc(50% - 400px);
+      top: calc(50% - 400px);
+      width: 800px;
+      height: 800px;
+      z-index: 9999999999;
+      .lighting {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url(../public/img/win_box/lighting.png) no-repeat center;
+        background-size: 80%;
+        -webkit-animation: spin 12s linear 12s 5 alternate;
+        animation: spin 12s linear infinite;
+      }
+      .centent {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        background: url(../public/img/win_box/bg.png) no-repeat center;
+        background-size: 100%;
+        text-align: center;
+        padding: 240px 0 0 0;
+        img {
+          height: 44px;
+        }
+        h3 {
+          font-size: 35px;
+          color: #FFE825;
+          &.rewards {
+            font-size: 50px;
+            margin-top: 15px;
+          }
+          &.cointype {
+            font-size: 25px;
+          }
+        }
+        p {
+          position: relative;
+          font-size: 16px;
+          width: 400px;
+          margin: 15px auto 0;
+          &:after {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            height: 1px;
+            margin-left: 20px;
+            width: 60px;
+            background-color: #FFE825;
+          }
+          &:before {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+            height: 1px;
+            width: 60px;
+            background-color: #FFE825;
+          }
+        }
+        button {
+          width: 200px;
+          height: 40px;
+          background: url(../public/img/win_box/Button.png) no-repeat center;
+          background-size: 100% 100%;
+          border-radius: 6px;
+          border: none;
+          font-size: 20px;
+          color: #744C00;
+          font-weight: 700;
+          cursor: pointer;
+          margin-top: 25px;
+          outline: none;
+        }
+        .close-btn {
+          position: absolute;
+          top: 20%;
+          right: 20%;
+          width: 30px;
+          height: 30px;
+          background: url(../public/img/win_box/close.png) no-repeat center;
+          background-size: 100%;
+          cursor: pointer;
+        }
+      }
   }
+
   .newwork-box {
     position: fixed;
     left: calc(50% - 250px);
@@ -305,9 +362,9 @@ body {
     top: calc(50% - 200px);
     background-size: 100%;
     text-align: center;
-    background-color: #CCD3FF;
+    background-color: #716AA1;
     z-index: 9999999999;
-    color: #000;
+    color: #D7D1FF;
     padding: 30px;
     border-radius: 6px;
     div {
@@ -315,7 +372,8 @@ body {
       align-items: center;
       justify-content: center;
       img {
-        width: 100px;
+        width: 80px;
+        margin-right: 10px;
       }
       span {
         font-size: 36px;
@@ -389,7 +447,7 @@ body {
   animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-  animation: bounce-in 0.5s reverse;
+  // animation: bounce-in 0.5s reverse;
 }
 @keyframes bounce-in {
   0% {
@@ -401,6 +459,23 @@ body {
   100% {
     transform: scale(1);
   }
+}
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media screen and (max-width: 800px) {
@@ -417,15 +492,48 @@ body {
     }
     .win-box {
       position: fixed;
-      left: calc(50% - 110px);
-      top: calc(50% - 110px);
-      width: 220px;
-      height: 220px;
-      background: url(../public/img/win.png) no-repeat center;
-      background-size: 100%;
-      text-align: center;
-      padding: 60px 0 0 0;
-      z-index: 9999999999;
+      left: calc(50% - 4rem);
+      top: calc(50% - 4rem);
+      width: 8rem;
+      height: 8rem;
+      .centent {
+        padding: 2.4rem 0 0;
+        img {
+          height: .4rem;
+          width: auto;
+
+        }
+        h3 {
+          &.rewards {
+            margin-top: 0;
+            font-size: .5rem;
+          }  
+          &.cointype {
+            font-size: .3rem;
+          }
+        }
+        p {
+          margin: .1rem 0 0;
+          font-size: .2rem;
+          &:after {
+            width: .4rem;
+            margin-left: .2rem;
+          }
+          &:before {
+            width: .4rem;
+            margin-right: .2rem;
+          }
+        }
+        button {
+          margin: .1rem 0 0;
+          width: 2rem;
+          height: .5rem;
+          font-size: .2rem;
+        }
+        .close-btn {
+          width: .5rem;
+        }
+      }
       h3 {
         font-size: 20px;
       }
@@ -464,13 +572,14 @@ body {
           width: 50px;
         }
         span {
-          font-size: 20px;
+          font-size: .3rem;
           vertical-align: middle;
+          font-weight: 700;
         }
       }
       p {
-        margin-top: 20px;
-        font-size: 16px;
+        margin-top: .2rem;
+        font-size: .12rem;
       }
     }
   }

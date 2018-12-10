@@ -18,14 +18,12 @@ const state = {
                 text: "取消",
                 type: "",
                 cb: function() {
-                    console.log(111)
                 }
             },
             {
                 text: "确定",
                 type: "high",
                 cb: function() {
-                    console.log(222)
                 }
             }
         ]
@@ -61,7 +59,7 @@ const mutations = {
         state.alertOption.open = true
         state.alertOption.timer = setTimeout(() => {
             state.alertOption.open = false;
-        }, state.alertOption.timeout);
+        }, data.timeout || state.alertOption.timeout);
     },
     closeAlert(state) {
         state.alertOption.open = false
@@ -79,7 +77,7 @@ const mutations = {
      */
     [types.OPEN_LOGIN](state) {
         if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            router.push("loginselect")
+            router.push("login")
         }else {
             state.loginBox = !state.loginBox
         }

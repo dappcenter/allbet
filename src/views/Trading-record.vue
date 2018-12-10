@@ -29,31 +29,33 @@
 						<select class="" name="" @change="selectChange" v-model="coinType">
 							<option value="ALL">{{$t('message.tradeAll')}}</option>
 							<option value="ETH">ETH</option>
-							<option value="AT">AT</option>
+							<!-- <option value="AT">AT</option> -->
 							<option value="AB">AB</option>
 							<option value="TRX">TRX</option>
 						</select>
 					</div>
 				</div>
 			</div>
-			<li style="color: #A0ADFF;">
+			<li class="head-title">
 				<div>{{$t('message.tradeTime')}}</div>
 				<div class="nominscreen">{{$t('message.tradeCoinType')}}</div>
 				<div>{{$t('message.tradeType')}}</div>
 				<div class="vol">{{$t('message.homeVolume')}}</div>
 				<div class="nominscreen">{{$t('message.homeState')}}</div>
-				<div class="nominscreen">{{$t('message.homeOperation')}}</div>
+				<div class="">{{$t('message.homeOperation')}}</div>
 			</li>
-			<li v-for="item in list">
-				<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
-				<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
-				<div class="nominscreen">{{item.coinType}}</div>
-				<div>{{filterState(item)}}</div>
-				<div class="vol">{{item.amount}}</div>
-				<div class="nominscreen">{{$t("message.tradeDone")}}</div>
-				<div class="operation btn nominscreen" v-if="['ETH_RECHARGE', 'ETH_WITHDRAW', 'BANCOR_BUY_AT', 'AT_RECHARGE', 'BANCOR_SELL_AT'].indexOf(item.realOperation) > -1 && item.platform !='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
-				<div class="operation nominscreen" v-else>- -</div>
-			</li>
+			<div class="padding">
+				<li class="" v-for="item in list">
+					<span class="nominscreen">{{$fmtDate(item.createTime, "full")}}</span>
+					<span class="minscreen">{{$fmtDate(item.createTime, "month")}}</span>
+					<div class="nominscreen">{{item.coinType}}</div>
+					<div>{{filterState(item)}}</div>
+					<div class="vol">{{item.amount}}</div>
+					<div class="nominscreen">{{$t("message.tradeDone")}}</div>
+					<div class="operation btn" v-if="['RECHARGE', 'WITHDRAW'].indexOf(item.realOperation) > -1 && item.platform =='DISPATCHER'" @click="goDetail(item)">{{$t('message.tradeDetail')}}</div>
+					<div class="operation" v-else>- -</div>
+				</li>
+			</div>
 			<!-- <div class="charge">
 				<div class="desc address">
 					<p class="left">{{$t('message.assetsCoinAddress')}}：<span>0xFBb1b73C4f0BDa4f67dcA266ce6Ef42f520fBB98</span></p>
@@ -66,35 +68,39 @@
 			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
-			    <mu-pagination :total="total" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
+			    <mu-pagination :total="total" :pageCount="5" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
 
 			<mu-dialog :open.sync="tradingDetail" :append-body="false" class="register-accout">
-				<p>{{$t('message.tradeDetail')}}</p>
-				<li v-if="currentAddr.coinAddress">
-					<span>{{$t('message.tradeAddress')}}:</span>
-					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
+				<p v-if="itemDetail.realOperation == 'RECHARGE'">{{$t('message.tradeEthRecharge')}}</p>
+				<p v-else>{{$t('message.tradeEthWithdraw')}}</p>
+
+				<!-- 充币地址 -->
+				<li v-if="itemDetail.realOperation == 'RECHARGE'">
+					<span>{{$t('message.assetsRechargeAddress')}}:</span>
+					<div>{{detailData.coinAddress}}</div>
 				</li>
-				<li v-if="detailData.bancorPrice">
+				<!-- AT价格 -->
+				<!-- <li v-if="detailData.bancorPrice">
 					<span>{{$t('message.homeAtPrice')}}:</span>
 					<div>{{detailData.bancorPrice}}</div>
-				</li>
-				<!-- 提币地址 -->
-				<!-- <li>
-					<span>{{$t('message.assetsCoinAddress')}}:</span>
-					<div>{{currentAddr.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</div>
 				</li> -->
+				<!-- 提币地址 -->
+				<li v-if="itemDetail.realOperation == 'WITHDRAW'">
+					<span>{{$t('message.assetsCoinAddress')}}:</span>
+					<div>{{detailData.destAddress}}</div>
+				</li>
 				<!-- 区块链交易ID -->
 				<li v-if="detailData.txId">
 					<span>{{$t('message.tradeBlockchain')}}:</span>
 					<div>{{detailData.txId}}</div>
 				</li>
 				<!-- 手续费 -->
-				<!-- <li>
+				<li v-if="itemDetail.realOperation != 'RECHARGE'">
 					<span>{{$t('message.tradePlatform')}}:</span>
-					<div>0.005 ETH</div>
-				</li> -->
+					<div>{{detailData.fee}} {{detailData.transferCoinType}}</div>
+				</li>
 				<!-- 处理时间 -->
 				<li v-if="detailData.updateTime">
 					<span>{{$t('message.tradeProcessingTime')}}:</span>
@@ -126,6 +132,7 @@ export default {
 			dealingTime: "", //钱包处理时间
 			tradingDetail: false, // 交易详情
 			detailData: {},
+			itemDetail: {}, // 点击详情item的值
 		}
 	},
 	mounted() {
@@ -218,7 +225,8 @@ export default {
 		},
 		// 详情
 		goDetail (item) {
-			if (item.platform =='DISPATCHER') return
+			this.itemDetail = item
+			if (item.platform !='DISPATCHER') return
 			this.$http.get("/app/user/trade_records/" + item.id,{
 
 			}).then((res) => {
@@ -241,24 +249,24 @@ export default {
 	.trading-record {
 		margin: 0 auto;
 		.main {
-			background-color: #040810;
+			background-color: #22202C;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #193570;
+				background-color: #49425C;
 				margin: auto;
-				padding: 0 40px;
+				// padding: 0 40px;
 				.title {
 					display: flex;
 			    	justify-content: left;
-					padding: 15px 0;
+					padding: 15px 40px;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
-					color: #fff;
-					font-size: 18px;
+					color: #D3CDFF;
+					font-size: 16px;
 					nav{
 						flex: 1;
 						a {
-							color: #C8C8C8 !important;
+							color: #A29ADF !important;
 						}
 					}
 					.control {
@@ -271,8 +279,8 @@ export default {
 							}
 							select {
 								width: 120px;
-								background-color: #123789;
-								border: 1px solid rgba(47,89,183,1);
+								background-color: #322A46;
+								border: none;
 								border-radius: 4px;
 								outline: none;
 								color: white;
@@ -314,7 +322,7 @@ export default {
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					border-bottom: 1px solid #123990;
+					border-bottom: 1px solid #2F2840;
 					line-height: 3.5;
 					&>div {
 						width: 33.3%;
@@ -339,29 +347,50 @@ export default {
 					 	color: transparent;
 					 }
 				}
+				.padding {
+					 padding: 0 40px;
+				}
+				.head-title {
+					background-color: #3F3753;
+					font-size: 14px;
+					color: #9882D0;
+					padding: 0 40px;
+					line-height: 2.5;
+					border-bottom: 1px solid transparent;
+				}
+				.align-items-start {
+					    padding: 15px 0;
+				}
+				.mu-pagination-item.mu-button.is-current {
+					background-color: transparent;
+
+				}
+				.mu-pagination li {
+					border-bottom: 1px solid transparent !important;
+				}
 				.mu-dialog {
 					width: 42%;
 				}
 				.mu-dialog-body {
-					background-color: #214797;
-					color: #fff;
+					background-color: #52476F;
+					color: #CCBCF8;
 					p {
-						font-size:18px;
+						font-size:20px;
 						font-weight:bold;
 						text-align: center;
 						padding: 10px;
+						margin-bottom: 10px;
 					}
 					li {
 						font-size: 14px;
-						color: #fff;
 						display: flex;
 						justify-content: flex-start;
 						align-items: center;
 						border-bottom: none;
+						margin-top: 5px;
 						span {
-							color: #C8C8C8;
 							text-align: left;
-							width: 25%;
+							width: 38%;
 						}
 						div {
 							text-align: right;
@@ -379,10 +408,11 @@ export default {
 		.trading-record {
 			.main {
 				.content {
-					width: 100%;
+					width: 90%;
 					padding: 0 10px;
 					.title {
 						display: block;
+						padding: 15px 0px;
 						nav{
 							width: 100%;
 							margin-bottom: 10px;
@@ -393,19 +423,26 @@ export default {
 								margin-left: 0;
 								label {
 									display: block;
+									font-size: 12px;
 								}
 								select {
 									width: 120px;
-									background-color: #123789;
-									border: 1px solid rgba(47,89,183,1);
 									border-radius: 4px;
 									outline: none;
 									color: white;
-									font-size: 12px;
+									font-size: 10px;
 									height: 24px;
 								}
 							}
 						}
+					}
+					.head-title {
+						padding: 5px;
+						background-color: transparent;
+					}
+					.padding {
+						padding: 0 5px;
+						font-size: 12px;
 					}
 					li {
 						.vol {

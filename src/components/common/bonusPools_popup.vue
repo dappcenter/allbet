@@ -4,10 +4,17 @@
         <p class="tip1">{{$t('message.BPtip')}}</p>
         <div class="coin-wrap eth">
             <div class="coin-logo">
-                <img src="../../../public/img/eth_icon.png" />
+                <img src="../../../public/img/coin/ETH.png" />
                 <span>{{$t('message.BPcurrentAmount')}}</span>
             </div>
-            <h3>{{Number(bonusPoolsData.pool) > 0 ? Number(bonusPoolsData.pool).toFixed(8) : 0}} ETH</h3>
+            <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(8) : 0}} ETH</h3>
+        </div>
+        <div class="coin-wrap eth">
+            <div class="coin-logo">
+                <img src="../../../public/img/coin/TRX.png" />
+                <span>{{$t('message.BPcurrentAmount')}}</span>
+            </div>
+            <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(8) : 0}} TRX</h3>
         </div>
         <ul>
             <li>
@@ -15,15 +22,7 @@
                 <span>{{$t("message.BPSoon")}}</span>
             </li>
             <li>
-                <img src="../../../public/img/coin/TRX.png" />
-                <span>{{$t("message.BPSoon")}}</span>
-            </li>
-            <li>
                 <img src="../../../public/img/coin/AB.png" />
-                <span>{{$t("message.BPSoon")}}</span>
-            </li>
-            <li>
-                <img src="../../../public/img/coin/SAC.png" />
                 <span>{{$t("message.BPSoon")}}</span>
             </li>
         </ul>
@@ -32,6 +31,7 @@
             <p v-if="storeCurrentAddr.bet">{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
             <!-- <p>当前 AB 币流通量：100000000 AB</p> -->
         </div>
+        <i class="close-btn" @click="isShow = false"></i>
     </mu-dialog>
 </template>
 
@@ -100,6 +100,7 @@ export default {
     .mu-dialog-body {
         background: url(../../../public/img/bonus-pools.png) no-repeat center;
         background-size: 100% 100%;
+        color: #fff !important;
         h4 {
             color: #FFD558;
         }
@@ -126,25 +127,28 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-around;
-            padding: 10px;
+            padding: 10px 20px;
             border-radius:4px;
-            &.eth {
-                margin-top: 20px;
-                background:#E95678;
-            }
+            background:#E95678;
+            margin-top: 10px;
             .coin-logo {
                 text-align: center;
+                margin-left: 20px;
                 img {
-                    width: 40px;
-                    height: 40px;
+                    width: 62px;
+                    height: 62px;
                     display: block;
                     margin: 0 auto 10px;
+                    background-color: #CD3A5A;
+                    border-radius: 50%;
+                    
                 }
                 span {
                     font-size: 16px;
                 }
             }
             h3 {
+                flex: 1;
                 text-align: right;
                 font-size: 32px;
             }
@@ -163,13 +167,25 @@ export default {
                 padding: 20px 40px;
                 border-radius: 4px;
                 img {
-                    width: 40px;
+                    width: 62px;
+                    background-color: #C54537;
+                    border-radius: 50%;
                 }
                 span {
                     font-size: 18px;
                     color: #fff;
                 }
             }
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 28px;
+            height: 28px;
+            background: url(../../../public/img/close_icon02.png) no-repeat center !important;
+            background-size: 100% !important;
+            cursor: pointer;
         }
     }
 }

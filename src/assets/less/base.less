@@ -60,6 +60,33 @@
     }
 }
 
+// 提示框
+.alert {
+    display: flex;
+    &.mu-info-color {
+        background-color: #636073;
+    }
+    &.mu-success-color {
+        background-color: #636073;
+    }
+    .mu-snackbar-message {
+        flex: 1;
+    }
+    .mu-snackbar-action {
+        padding: 0 8px 0 8px;
+    }
+    .close {
+        width: 20px;
+        height: 20px;
+        background: url(../../../public/img/close_icon03.png) no-repeat center;
+        background-size: 60%;
+    }
+    &.mu-snackbar-top {
+        top: 60px;
+    }
+}
+
+
 @media screen and (max-width: 800px){
     .nominscreen {
         display: none !important;
@@ -70,4 +97,10 @@
     .container {
         width: 100%;
     }
+    .alert {
+        &.mu-snackbar-top {
+            top: 0;
+        }
+    }
 }
+

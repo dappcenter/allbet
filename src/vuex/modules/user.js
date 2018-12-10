@@ -114,7 +114,6 @@ const mutations = {
      * @author shanks
      */
     [types.REMOVE_USERINFO](state, payload) {
-        console.log("清除用户信息")
         let b = false
         if(payload) {
             state.userInfo.accounts.forEach((val,idx) => {
@@ -148,7 +147,7 @@ const mutations = {
         state.currentAddr = payload
         state.lastCurAddrPf = payload.platform
         // HD钱包网络环境检测
-        if(state.currentAddr.platform == "IMPORT" && this.state.web3Handler.web3.networkId !== 1 && window.NETWORK == 1) {
+        if(state.currentAddr.platform == "IMPORT" && this.state.web3Handler.web3.networkId !== 1 && window.NETWORK == 1 && state.coinType == "ETH") {
             this.state.dialogs.noMainNetwork = true
         }else {
             this.state.dialogs.noMainNetwork = false
@@ -177,7 +176,8 @@ const mutations = {
         let haveCoinType = false
         if(state.userInfo.accounts) {
             state.userInfo.accounts.forEach((val, idx) => {
-                if(val.mainCoin == payload) {
+                console.log()
+                if(val.mainCoin == payload || val.platform == 'DISPATCHER') {
                     haveCoinType = true
                 }
             })
@@ -237,15 +237,7 @@ const actions = {
             }).then(res => {
                 console.log(res)
                 if(res.code == 200) {
-                    console.log("user登录签名")
-                    web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-                        console.log(signature)
-                        if(err) {
-                            console.log("签名失败")
-                        }else {
-                            coinLogin(signature, address, res.result)
-                        }
-                    });
+                    coinLogin("123456", address, res.result)
                 }
             })
         }
@@ -262,25 +254,6 @@ const actions = {
                     commit(types.SET_USERINFO, res.result)
                     // 未绑定平台账号
                     if(res.result.assets.length <= 1) {
-                        if(rootState.user.currentAddr.coinAddress == newCoinbase) {
-
-                            // 当前选中地址为此登录地址（提示绑定）
-                            commit(types.OPEN_CONFIRM, {
-                                content: "绑定账号，赢取邀请奖励分ETH",
-                                btn: [
-                                    {
-                                        text: "关闭"
-                                    },
-                                    {
-                                        type: "high",
-                                        text: "去绑定",
-                                        cb: () => {
-                                            router.push('account-security')
-                                        }
-                                    }
-                                ]
-                            })
-                        }
                         commit(types.UPDATE_WEB3_AT, {
                             at: res.result.assets[0].at,
                             bet: res.result.assets[0].bet,

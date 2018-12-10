@@ -1,72 +1,72 @@
 <template>
     <div class="headerbar" :class="type">
-        <div class="container flex-wrap">
+        <div class="flex-wrap">
             <router-link tag="div" to="dice" class="logo">
-                <img class="nominscreen" src="../../../public/img/LOGO.png" alt="">
-                <img class="minscreen" src="../../../public/img/AllBet.png" alt="">
+                <img class="" src="../../../public/img/LOGO.png" alt="" style="display: block">
             </router-link>
             <menu class="nominscreen">
-                <router-link to="dice"><span>Dice</span></router-link>
-                <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link>
+                <router-link to="dice"><span>DICE</span></router-link>
+                <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
-                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
+                <!-- <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link> -->
+                <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
             </menu>
             <div class="statusbar">
-                <div class="address-select" v-if="addressList.length > 1">
+                <!-- <div class="address-select" v-if="addressList.length > 1">
                     <label class="nominscreen">{{$t("message.address")}}：</label>
-                    <mu-select 
-                        v-model="currentAddr" 
+                    <mu-select
+                        v-model="currentAddr"
                         :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}"
                         @change="currentAddrChange">
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
                     </mu-select>
+                </div> -->
+                <div class="contact nominscreen">
+                    <a href="javascript:;">
+                        <img class="icon" src="../../../public/img/weixin_icon02.png" alt="">
+                        <div class="qrcode">
+                            <img src="../../../public/img/weixin_qrcode.png" alt="">
+                        </div>
+                    </a>
+                    <a href="https://t.me/allbetAB" target="_blank">
+                        <img class="icon" src="../../../public/img/Telegram02.png" alt="">
+                    </a>
                 </div>
                 <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
-                    <img src="../../../public/img/user_icon.png" alt="">
+                    <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
-                    <i></i>
-                    <div class="router-list">
+                    <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
+                    <div class="router-list" v-if="storeCurrentAddr.platform == 'DISPATCHER'">
                         <router-link to="my-assets">{{$t("message.property")}}</router-link>
                         <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
                         <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>
                     </div>
                 </div>
-                <!-- mobile -->
                 <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
 
-                <a href="javascript:;" class="lang" @click="changeLanguage('zh-CN')" v-show="locale === 'en-US'"><img src="../../../public/img/china_icon.png" /></a>
-                <a href="javascript:;" class="lang" @click="changeLanguage('en-US')" v-show="locale === 'zh-CN'"><img src="../../../public/img/usa_icon.png" /></a>
-                <!-- <a href="javascript:;" :class="{'on' : !isShowFoldMunu}" class="fold-menu-off minscreen" @click="isShowFoldMunu = !isShowFoldMunu"></a> -->
+                <div class="language-select">
+                    <a href="javascript:;" class="lang" :class="{'active':locale == 'zh-CN'}" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
+                    <a href="javascript:;" class="lang" :class="{'active':locale == 'en-US'}" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
+                    <!-- <div class="pull">
+                        <a href="javascript:;" @click="changeLanguage('zh-CN')"><img src="../../../public/img/china_icon.png" /></a>
+                        <a href="javascript:;" @click="changeLanguage('en-US')"><img src="../../../public/img/usa_icon.png" /></a>
+                    </div> -->
+                </div>
                 <!-- mobile登录按钮 -->
-                <a href="javascript:;" class="login minscreen" @click="$router.push('my')"></a>
+                <a href="javascript:;" v-if="storeCurrentAddr.platform == 'DISPATCHER'" class="login minscreen" @click="$router.push('my')"></a>
             </div>
         </div>
+
         <MBheaderNav class="minscreen" :openWhiteBook="openWhiteBook" :switchBonusPools="switchBonusPools" :addressList="addressList"></MBheaderNav>
-        <div class="notice" v-if="notice">
-            <ScrollNotice :text="$t('message.notice1')"></ScrollNotice>
-        </div>
+
         <div class="header-shade" :style="{'opacity': shadeOpacity}"></div>
 
         <!-- 登录选择 -->
-        <mu-dialog :open.sync="displayStatus.loginSelect" :append-body="false" class="login-select">
-            <h4>{{$t("message.login")}}</h4>
-            <img src="../../../public/img/Logo02.png" alt="">
-            <button class="primary-btn nominscreen" @click="displayStatus.loginAccount = true;displayStatus.loginSelect = false">{{$t("message.accountLogin")}}</button>
-            <!-- mobile登录按钮 -->
-            <button class="primary-btn minscreen" @click="$router.push('login')">{{$t("message.accountLogin")}}</button>
+        <LoginSelectPopup v-model="displayStatus.loginSelect" :showLoginPopup="showLoginPopup"></LoginSelectPopup>
 
-            <button class="primary-btn hd nominscreen" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
-            <button class="primary-btn hd minscreen" @click="hdLogin('mobile')">{{$t("message.hdWalletLogin")}}</button>
-            <p>
-                {{$t("message.notRegister")}}
-                <a href="javascript:;" class="nominscreen" @click="displayStatus.registerAccount = true;displayStatus.loginSelect = false">{{$t("message.nowRegister")}}</a>
-                <!-- mobile注册 -->
-                <a href="javascript:;" class="minscreen" @click="$router.push('register')">{{$t("message.nowRegister")}}</a>
-            </p>
-        </mu-dialog>
         <!-- 账号登录 -->
         <mu-dialog :open.sync="displayStatus.loginAccount" :append-body="false" class="login-accout">
             <h4>{{$t("message.login")}}</h4>
@@ -77,6 +77,7 @@
                 <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
+            <i class="close-btn" @click="displayStatus.loginAccount = false"></i>
         </mu-dialog>
         <!-- 手机注册账号 -->
         <mu-dialog :open.sync="displayStatus.registerAccount" :append-body="false" class="register-accout">
@@ -123,6 +124,7 @@
             </div>
             <button class="primary-btn" @click="registerDo('phone')">{{$t('message.PopRegister')}}</button>
             <p><a href="javascript:;" @click="displayStatus.emailRegisterAccount = true; displayStatus.registerAccount = false">{{$t('message.PopEmailRegister')}}</a></p>
+            <i class="close-btn" @click="displayStatus.registerAccount = false"></i>
         </mu-dialog>
         <!-- 邮箱注册账号 -->
         <mu-dialog :open.sync="displayStatus.emailRegisterAccount" :append-body="false" class="register-accout">
@@ -160,6 +162,7 @@
             </div>
             <button class="primary-btn" @click="registerDo('email')">{{$t('message.PopRegister')}}</button>
             <p><a href="javascript:;" @click="displayStatus.registerAccount = true; displayStatus.emailRegisterAccount = false">{{$t('message.PopPhoneRegister')}}</a></p>
+            <i class="close-btn" @click="displayStatus.emailRegisterAccount = false"></i>
         </mu-dialog>
         <!-- 找回密码 -->
         <mu-dialog :open.sync="findPassword" :append-body="false" class="register-accout">
@@ -219,15 +222,16 @@
                 <a href="javascript:;" @click="switchFindPassword('EMAIL')" v-show="formData.resetType == 'PHONE'">{{$t('message.PopEmailFind')}}</a>
                 <a href="javascript:;" @click="switchFindPassword('PHONE')" v-show="formData.resetType == 'EMAIL'">{{$t('message.PopPhoneFind')}}</a>
             </p>
+            <i class="close-btn" @click="findPassword = false"></i>
         </mu-dialog>
 
         <!-- 分红池 -->
         <BPPopup v-model="displayStatus.bonusPools"></BPPopup>
-        
+
         <!-- AB代币 -->
         <AbPopup v-model="displayStatus.abBancor"></AbPopup>
 
-        <!-- <RegisterPop :registerAccount="displayStatus.registerAccount"></RegisterPop> -->
+        <FundraiyPopup v-model="displayStatus.fundraiyPopup"></FundraiyPopup>
     </div>
 </template>
 
@@ -244,6 +248,8 @@ import RegisterPop from "@/components/account/register"
 import MBheaderNav from "@/components/common/mobile/mb_header_nav"
 import AbPopup from "@/components/common/ab_popup"
 import BPPopup from "@/components/common/bonusPools_popup"
+import LoginSelectPopup from "@/components/account/login_select_popup"
+import FundraiyPopup from "@/components/common/fundraiy_popup"
 export default {
     props: {
         type: {
@@ -269,6 +275,7 @@ export default {
                 emailRegisterAccount: false,  //邮箱注册账号
                 bonusPools: false,   //分红池
                 abBancor: false, //AB代币
+                fundraiyPopup: false
             },
             loginForm: {
                 "account": "",
@@ -386,9 +393,6 @@ export default {
                 this.currentAddr = newVal.coinAddress
             }
         },
-        // locale() {
-        //     this.btnText = this.$t('message.PopGetCaptcha')
-        // }
     },
     methods: {
         // 切换地址
@@ -672,7 +676,7 @@ export default {
             if(this.locale == "en-US") {
                 window.open("pdf/whitebook_en.pdf")
                 try {
-                    window.app.openURLOnSystermBrowser(window.location.origin + "pdf/whitebook_en.pdf")
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook_en.pdf")
                 } catch (error) {
                 }
             }else {
@@ -694,6 +698,10 @@ export default {
         },
         switchBonusPools() {
             this.displayStatus.bonusPools = !this.displayStatus.bonusPools
+        },
+        showLoginPopup() {
+            this.displayStatus.loginAccount = true
+            this.displayStatus.loginSelect = false
         },
         ...mapMutations({
             changeLanguage: "CHANGE_LANGUAGE",
@@ -724,7 +732,9 @@ export default {
         RegisterPop,
         MBheaderNav,
         AbPopup,
-        BPPopup
+        BPPopup,
+        LoginSelectPopup,
+        FundraiyPopup
     },
     destroyed() {
         //销毁事件
@@ -738,6 +748,7 @@ export default {
     position: relative;
     width: 100%;
     z-index: 20181212;
+    padding: 0 120px;
     &.steep {
         position: fixed;
     }
@@ -747,7 +758,7 @@ export default {
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: #030713;
+        background-color: #030014;
         z-index: -1;
     }
     .flex-wrap {
@@ -773,30 +784,29 @@ export default {
             margin-left: 24px;
             font-size: 16px;
             color: #FEFEFE;
-            line-height: 60px;
+            line-height: 58px;
+            padding: 0 5px;
             span {
                 position: relative;
                 z-index: 2;
-            }
-            &.router-link-active {
-                color: #fff;
-                text-shadow: 0 0 20px #1371FF;
-                -webkit-text-stroke: 0.2px #1371FF;
-                &:after {
-                    content: "";
-                    position: absolute;
-                    left: -25%;
-                    top: 0;
-                    width: 150%;
-                    height: 60px;
-                    background: url(../../../public/img/btn_bg01.png) no-repeat center;
-                    background-size: 100%;
+                &.flicker {
+                    -webkit-animation: change 1s ease-in infinite;
+                    animation: change 1s ease-in infinite;
                 }
             }
+            &.router-link-active {
+                color: #D3CDFF;
+                border-bottom: 2px solid #D3CDFF;
+            }
+            &:hover {
+                color: #D3CDFF;
+            }
+
         }
     }
     .statusbar {
         display: flex;
+        align-items: center;
         font-size: 14px;
         .address-select {
             overflow: hidden;
@@ -808,6 +818,33 @@ export default {
                 height: 30px;
                 border-radius: 15px;
                 min-height: auto;
+            }
+        }
+        .contact {
+            height: 32px;
+            a {
+                position: relative;
+                display: inline-block;
+                margin-left: 10px;
+                .icon {
+                    width: 32px;
+                    height: 32px;
+                    display: block;
+                }
+                &:hover {
+                    .qrcode {
+                        display: block;
+                    }
+                }
+                .qrcode {
+                    position: absolute;
+                    left: -70px;
+                    top: 50px;
+                    display: none;
+                    img {
+                        width: 200px;
+                    }
+                }
             }
         }
         .user-center {
@@ -866,16 +903,18 @@ export default {
             }
         }
         .button {
-            width: 90px;
+            width: 64px;
             height: 30px;
-            border-radius: 15px;
-            line-height: 30px;
-            color: #fff;
+            line-height: 26px;
+            color: #D3CDFF;
             text-align: center;
+            font-weight: 700;
             margin-left: 20px;
             transition: all 2s;
             position: relative;
             z-index: 1;
+            border:1.5px solid rgba(211,205,255,1);
+            border-radius: 15px;
             img {
                 height: 15px;
                 vertical-align: sub;
@@ -886,59 +925,65 @@ export default {
                     opacity: 0;
                 }
             }
-            &:before {
-                position: absolute;
-                -ms-border-radius: 23px;
-                border-radius: 23px;
-                left: 0;
-                top: 0;
-                content: "";
-                width: 100%;
-                height: 100%;
-                z-index: -2;
-                opacity: 1;
-                transition: all .5s ease;
-                background-image: -webkit-linear-gradient(left,#46bdf4 0%,#2b56f5 100%);
-                background-image: linear-gradient(to right,#46bdf4 0%,#2b56f5 100%);
-            }
-            &:after {
-                position: absolute;
-                -ms-border-radius: 23px;
-                border-radius: 23px;
-                left: 2px;
-                top: 2px;
-                content: "";
-                width: calc(100% - 4px);
-                height: calc(100% - 4px);
-                z-index: -1;
-                opacity: 1;
-                background: #051276;
-                transition: all .5s ease;
-            }
-        }
-        .fold-menu-on {
-            width: 20px;
-            height: 20px;
-            background: url(../../../public/img/menu_icon.png) no-repeat center;
-            background-size: 100%;
-            margin: 6px 10px 0 20px;
-        }
-        .fold-menu-off {
-            width: 20px;
-            height: 20px;
-            background: url(../../../public/img/menu_icon_off.png) no-repeat center;
-            background-size: 90%;
-            margin: 6px 10px 0 20px;
-            &.on {
-                background: url(../../../public/img/menu_icon.png) no-repeat center;
-                background-size: 100%;
-            }
         }
         // 语言按钮
-        .lang {
-            margin-left: 20px;
-            img {
-                width: 30px;
+        .language-select {
+            position: relative;
+            cursor: pointer;
+            height: 60px;
+            margin-left: 16px;
+            margin-right: .2rem;
+            .lang {
+                display: inline-block;
+                position: relative;
+                img {
+                    display: block;
+                    width: 26px;
+                    margin: 17px 0 0 14px;
+                }
+                &.active {
+                    &:after {
+                        display: none;
+                    }
+                }
+                &:hover {
+                    &:after {
+                        display: none;
+                    }
+                }
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    background-color: rgba(0, 0, 0, .4);
+                }
+            }
+            .pull {
+                position: absolute;
+                top: 60px;
+                left: 0;
+                display: none;
+                background-color: #42385E;
+                a {
+                    display: block;
+                    margin: 0;
+                    padding: 10px 14px;
+                    &:hover {
+                        background-color: #52476F;
+                    }
+                    img {
+                        display: block;
+                        width: 43px;
+                    }
+                }
+            }
+            &:hover {
+                .pull {
+                    display: block;
+                }
             }
         }
         .login {
@@ -947,7 +992,7 @@ export default {
                 background-size: 100%;
                 width: 30px;
                 height: 30px;
-                margin: 2px .2rem 0 .2rem;
+                margin: 2px .2rem 0 0;
             }
         }
     }
@@ -964,14 +1009,21 @@ export default {
         background:rgba(73,111,255,.2);
     }
     .mu-dialog-wrapper {
-        // left: initial;
-        // bottom: initial;
-        // right: 40px;
-        // top: 40px;
         padding: 30px;
         .mu-dialog-body {
-            background-color: #214797;
-            color: #fff;
+            position: relative;
+            background-color: #52476F;
+            color: #CCBCF8;
+            .close-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 28px;
+                height: 28px;
+                background: url(../../../public/img/win_box/close.png) no-repeat center;
+                background-size: 100%;
+                cursor: pointer;
+            }
         }
         h4 {
             text-align: center;
@@ -983,12 +1035,14 @@ export default {
             overflow: hidden;
             .primary-btn {
                 display: block;
-                min-width: 240px;
+                width: 300px;
                 height: 40px;
                 margin: 20px auto 0;
-                color: #fff;
+                color: #1A0D59;
+                font-size: 16px;
+                font-weight: 700;
                 cursor: pointer;
-                background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+                background-color: #FFC425;
                 box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
                 border-radius:4px;
                 border: none;
@@ -997,44 +1051,29 @@ export default {
                 }
             }
         }
-
-        &.login-select {
-            .mu-dialog {
-                img {
-                    display: block;
-                    margin: 50px auto;
-                    height: 100px;
-                }
-
-                p {
-                    text-align: center;
+        &.login-accout {
+            .mu-dialog-body {
+                width: 420px;
+                button {
                     margin-top: 40px;
-                    a {
-                        color: #5480D9;
-                    }
-                }
-                .primary-btn {
-                    &.minscreen {
-                        display: none;
-                    }
+
                 }
             }
-        }
-        &.login-accout {
             h4 {
                 margin-bottom: 60px;
             }
             input {
                 display: block;
                 width: 100%;
-                background:#173167;
-                border:1px solid #173167;
+                background:#443A60;
                 color: #fff;
+                border: none;
                 border-radius:4px;
                 height: 40px;
                 margin-top: 20px;
                 text-align: center;
                 font-size: 14px;
+                outline: none;
             }
             .flex-wrap {
                 display: flex;
@@ -1042,15 +1081,13 @@ export default {
                 font-size: 14px;
                 margin-top: 40px;
                 p {
-                    color: #969696;
+                    color: #CCBCF8;
                     a {
-                        color: #5480D9;
+                        color: #FFC425;
                     }
                 }
             }
-            button {
-                margin-top: 40px;
-            }
+
         }
         &.register-accout {
             h4 {
@@ -1069,11 +1106,12 @@ export default {
                     flex: 1;
                     width: 60%;
                     height:40px;
-                    background:#173167;
-                    border:1px solid #173167;
+                    background:#443A60;
+                    border: none;
                     border-radius:4px;
                     padding: 0 10px;
                     color: #fff;
+                    outline: none;
                 }
                 .input-flex {
                     flex: 1;
@@ -1096,13 +1134,13 @@ export default {
                         margin-left: 10px;
                     }
                     &.prefix {
-                        background:#173167;
-                        border:1px solid #173167;
+                        background:#443A60;
+                        border:none;
                         border-radius:4px;
                         .mu-menu {
                             line-height: 40px;
                             padding: 0 10px;
-                            border-right: 1px solid #3057A8;
+                            border-right: 1px solid #625681;
                             font-weight: 700;
                         }
                         input {
@@ -1119,19 +1157,25 @@ export default {
                 text-align: center;
                 margin-top: 10px;
                 a {
-                    color: #5480D9;
+                    color: #CCBCF8;
                 }
             }
             .primary-btn {
                 margin: 40px auto 0;
+                background-color: #FFC425;
             }
         }
     }
 }
 @media screen and (max-width: 800px){
     .headerbar {
+        padding: 0;
         .logo {
             flex: 1;
+            img {
+                height: .5rem;
+                margin-left: .3rem;
+            }
         }
         .statusbar {
             .address-select {
@@ -1153,10 +1197,42 @@ export default {
                 margin-left: 0;
             }
             // 语言按钮
-            .lang {
-                margin: 5px 10px 0 10px;
-                img {
-                    width: 24px;
+            .language-select {
+                position: relative;
+                cursor: pointer;
+                height: 60px;
+                margin-left: 16px;
+                .lang {
+                    display: inline-block;
+                    img {
+                        display: block;
+                        width: 26px;
+                        margin: 18px 0 0 14px;
+                    }
+                }
+                .pull {
+                    position: absolute;
+                    top: 60px;
+                    left: 0;
+                    display: none;
+                    background-color: #42385E;
+                    a {
+                        display: block;
+                        margin: 0;
+                        padding: 10px 14px;
+                        &:hover {
+                            background-color: #52476F;
+                        }
+                        img {
+                            display: block;
+                            width: 43px;
+                        }
+                    }
+                }
+                &:hover {
+                    .pull {
+                        display: block;
+                    }
                 }
             }
         }
@@ -1304,4 +1380,19 @@ export default {
         }
     }
 }
+@keyframes change {
+    0% {
+        color: #fff;
+        text-shadow: 0 0 4px #2caa2c;
+    }
+    50% {
+        color: #ffe60b;
+        text-shadow: 0 0 0.2em #2caa2c, 0 0 0.2em #2caa2c;
+    }
+    100% {
+        color: #fff;
+        text-shadow: 0 0 4px #2caa2c;
+    }
+}
+
 </style>

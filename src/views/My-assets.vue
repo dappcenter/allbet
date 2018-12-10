@@ -1,11 +1,11 @@
 <template>
 	<div class="my-assets">
 	<HeaderBar></HeaderBar>
-	<div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
+	<div class="main" :style="{minHeight: $window.innerHeight - 355 + 'px'}">
 		<div class="content">
 			<p class="title"><span>{{$t('message.assetsOfMine')}}</span><span @click="$router.push('trading-record')">{{$t('message.assetsTransactionRecord')}}</span></p>
+			<li class="thead"><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 			<ul>
-				<li class="thead"><div>{{$t('message.assetsCurrency')}}</div><div>{{$t('message.assetsQuantity')}}</div><div>{{$t('message.homeOperation')}}</div></li>
 
 				<!-- ---- ETH ---- -->
 				<div v-show="currentAddr.mainCoin !== 'TRX'">
@@ -28,7 +28,7 @@
 								<div id="copy_text">{{currentAddr.coinAddress}}</div>
 								<span class="copy" ref="copy" data-clipboard-action="copy" data-clipboard-target="#copy_text" @click="copy(copyBtn)">{{$t('message.assetsCopy')}}</span>
 							</div>
-							<p>{{$t('message.assetsTips')}}</p>
+							<p class="warnings">{{$t('message.assetsTips')}}</p>
 						</div>
 					</div>
 					<div class="mention" v-show="showCharge == 'mentionETH' && currentAddr.platform == 'DISPATCHER'">
@@ -59,17 +59,16 @@
 							</div>
 						</div>
 						<p class="attention">
-							<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
+							<span class="warnings">{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('ETH')">{{$t('message.assetsExtractCoins')}}</span>
 						</p>
 					</div>
 				</div>
-				
+
 
 				<!-- ---- AT ---- -->
-				<li>
+				<!-- <li>
 					<div>AT</div>
 					<div>{{currentAddr.at}}</div>
-					<!-- 平台账号开放充提 -->
 					<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
 						<span @click="showCharge = showCharge == 'chargeAT' ? '' : 'chargeAT'">{{$t('message.assetsRechargeCurrency')}}</span>
 						<span @click="showCharge = showCharge == 'mentionAT' ? '' : 'mentionAT'">{{$t('message.assetsExtractCoins')}}</span>
@@ -85,7 +84,7 @@
 						<div class="address"><div id="copy_text2">{{currentAddr.coinAddress}}</div>
 							<span class="copy" ref="copy2" data-clipboard-action="copy" data-clipboard-target="#copy_text2" @click="copy(copyBtn2)">{{$t('message.assetsCopy')}}</span>
 						</div>
-						<p>{{$t('message.assetsTipsAT')}}</p>
+						<p class="warnings">{{$t('message.assetsTipsAT')}}</p>
 					</div>
 				</div>
 				<div class="mention" v-show="showCharge == 'mentionAT' && currentAddr.platform == 'DISPATCHER'">
@@ -98,7 +97,6 @@
 						<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
 						AT
 					</div>
-					<!-- 手续费 -->
 					<div class="poundage" v-if="feeData">
 						<div class="">
 							<p>{{$t('message.assetsHandlingFee')}}</p>
@@ -116,11 +114,11 @@
 						</div>
 					</div>
 					<p class="attention">
-						<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
+						<span class="warnings">{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
-				</div>
+				</div> -->
 				<li><div>AB</div><div>{{currentAddr.bet}}</div><div style="color:#FFDB5B;">--</div></li>
-				
+
 				<!-- ---- TRX ---- -->
 				<div v-show="currentAddr.platform == 'DISPATCHER' || currentAddr.mainCoin == 'TRX'">
 					<li>
@@ -142,7 +140,7 @@
 							<div class="address"><div id="copy_text3" v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.coinAddress}}</div>
 								<span class="copy" ref="copy3" data-clipboard-action="copy" data-clipboard-target="#copy_text3" @click="copy(copyBtn3)">{{$t('message.assetsCopy')}}</span>
 							</div>
-							<p>{{$t('message.assetsTipsAT')}}</p>
+							<p class="warnings">{{$t('message.assetsTipsAT')}}</p>
 						</div>
 					</div>
 					<div class="mention" v-show="showCharge == 'mentionTRX' && currentAddr.platform == 'DISPATCHER'">
@@ -150,7 +148,10 @@
 						<div class="input-div">
 							<input type="text" v-model="formData.destAddress">
 						</div>
-						<p class="available"><span>{{$t('message.assetsQuantity')}}:</span><span>{{$t('message.homeAvailable')}}{{currentAddr.at}} AT</span></p>
+						<p class="available">
+							<span>{{$t('message.assetsQuantity')}}:</span>
+							<span v-if="currentAddr.assets.TRX">{{$t('message.homeAvailable')}}{{currentAddr.assets.TRX.amount}} TRX</span>
+						</p>
 						<div class="input-div">
 							<input type="text" v-model="formData.amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
 							TRX
@@ -173,11 +174,11 @@
 							</div>
 						</div>
 						<p class="attention">
-							<span>{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('TRX')">{{$t('message.assetsExtractCoins')}}</span>
+							<span class="warnings">{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('TRX')">{{$t('message.assetsExtractCoins')}}</span>
 						</p>
 					</div>
 				</div>
-				
+
 			</ul>
 		</div>
 	</div>
@@ -215,7 +216,7 @@ import {mapMutations, mapState} from "vuex"
 		// 检测地址切换
 		currentAddr() {
 			document.getElementById("qrcode1").innerHTML = ''
-			document.getElementById("qrcode2").innerHTML = ''
+			// document.getElementById("qrcode2").innerHTML = ''
 			if(document.getElementById("qrcode3")) {
 				document.getElementById("qrcode3").innerHTML = ''
 			}
@@ -230,7 +231,7 @@ import {mapMutations, mapState} from "vuex"
 	},
 	mounted () {
 		this.copyBtn = new Clipboard(this.$refs.copy)
-		this.copyBtn2 = new Clipboard(this.$refs.copy2)
+		// this.copyBtn2 = new Clipboard(this.$refs.copy2)
 		this.copyBtn3 = new Clipboard(this.$refs.copy3)
 		if(this.currentAddr.coinAddress) {
 			this.makeQrCode()
@@ -240,19 +241,19 @@ import {mapMutations, mapState} from "vuex"
 	},
 	methods: {
 		makeQrCode () {
-			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-				width: 130,
-				height: 130,
-			});
-			qrcode2.makeCode(this.currentAddr.coinAddress);
+			// var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+			// 	width: 100,
+			// 	height: 100,
+			// });
+			// qrcode2.makeCode(this.currentAddr.coinAddress);
 			var qrcode = new QRCode(document.getElementById("qrcode1"), {
-				width: 130,
-				height: 130,
+				width: 100,
+				height: 100,
 			});
 			qrcode.makeCode(this.currentAddr.coinAddress);
 			var qrcode3 = new QRCode(this.$refs.qrcode3, {
-				width: 130,
-				height: 130,
+				width: 100,
+				height: 100,
 			});
 			if(this.currentAddr.assets.TRX) {
 				qrcode3.makeCode(this.currentAddr.assets.TRX.coinAddress);
@@ -347,39 +348,40 @@ import {mapMutations, mapState} from "vuex"
 	.my-assets {
 		margin: 0 auto;
 		.main {
-			background-color: #040810;
+			background-color: #22202C;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #193570;
+				background-color: #49425C;
 				margin: auto;
+				padding-bottom: 60px;
 				.title {
 					position: relative;
 					padding: 15px 40px;
 					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
 					color: #fff;
-					font-size: 18px;
+					font-size: 16px;
 					overflow: hidden;
+					color: #D3CDFF;
 					span:last-child {
 						float: right;
 						color: #FFDB5B;
-						font-size: 16px;
+						font-size: 14px;
 						cursor: pointer;
 					}
 				}
 				ul {
-					background-color: #172F61;
 					padding: 0 40px;
 				}
 				.charge {
 					display: flex;
 					align-items: flex-end;
 					justify-content: flex-start;
-					background-color: #132a59;
+					background-color: #3F3753;
 					padding: 27px 0 27px 40px;
 					font-size: 14px;
-					color: #4A69B1;
-					border: 1px solid #1C3B7C;
+					color: #D3CDFF;
+					border: 1px solid #2F2840;
 					img {
 						width:130px;
 						height:130px;
@@ -389,7 +391,7 @@ import {mapMutations, mapState} from "vuex"
 						border: 1px solid white;
 					}
 					.address {
-						font-size: 20px;
+						font-size: 16px;
 						color: #fff;
 						font-weight:bold;
 						margin: 13px 0;
@@ -406,22 +408,27 @@ import {mapMutations, mapState} from "vuex"
 							cursor: pointer;
 						}
 					}
+					.warnings {
+						font-size: 12px;
+					}
 				}
 				.mention {
 					padding: 0 20px 60px 20px;
-					background:#132A59;
-					border:1px solid #1c3b7c;
+					background:#3F3753;
+					border:1px solid #2F2840;
 					p {
 						font-size:14px;
 						font-family:PingFang-SC-Medium;
 						font-weight:500;
-						color:#4A69B1;
+						color:#D3CDFF;
 						margin: 29px 0 10px 0;
+					}
+					.warnings {
+						font-size: 12px;
 					}
 					.input-div {
 						height:48px;
-						background:#0F2551;
-						border:1px solid #1c3b7c;
+						background:#322A46;
 						border-radius:4px;
 						input {
 							background-color: transparent;
@@ -452,8 +459,7 @@ import {mapMutations, mapState} from "vuex"
 							width: 50%;
 							.input-div {
 								height:48px;
-								background: #0F2551;
-								border: 1px solid #1c3b7c;
+								background: #322A46;
 								border-radius:4px;
 								width: 100%;
 								input {
@@ -478,7 +484,7 @@ import {mapMutations, mapState} from "vuex"
 						.take-out {
 							width:265px;
 							height:48px;
-							background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
+							background:#FFC425;
 							border-radius:4px;
 							text-align: center;
 							line-height: 48px;
@@ -489,7 +495,7 @@ import {mapMutations, mapState} from "vuex"
 							position: absolute;
 							right: 0;
 							cursor: pointer;
-							color: #fff;
+							color: #1A0D59;
 						}
 					}
 				}
@@ -497,7 +503,7 @@ import {mapMutations, mapState} from "vuex"
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					border-bottom: 1px solid #1c3b7c;
+					border-bottom: 1px solid #2F2840;
 					line-height: 3.5;
 					div {
 						width: 33.3%;
@@ -521,7 +527,12 @@ import {mapMutations, mapState} from "vuex"
 						}
 					}
 					&.thead {
-						color: #A0ADFF;
+						color: #9882D0;
+						background-color: #3F3753;
+						    padding: 0 40px;
+								border-bottom: 1px solid transparent;
+								font-size: 14px;
+								line-height: 2.5;
 					}
 				}
 			}
@@ -532,12 +543,17 @@ import {mapMutations, mapState} from "vuex"
 		.my-assets {
 			.main {
 				.content {
-					width: 100%;
+					width: 90%;
+					// margin:
 					.title {
 						padding: 10px;
 					}
+					.thead {
+						padding: 0 10px !important;
+					}
 					ul {
 						padding: 0 10px;
+						font-size: normal;
 					}
 					.charge {
 						flex-direction: column;
@@ -550,7 +566,7 @@ import {mapMutations, mapState} from "vuex"
 								margin-top: 15px;
 							}
 							.address {
-								font-size: 16px;
+								font-size: 12px;
 								width: 100%;
 								div {
 									display: block;
@@ -564,9 +580,24 @@ import {mapMutations, mapState} from "vuex"
 					}
 					.mention {
 						padding: 0 10px 30px 10px;
+						p {
+							font-weight: normal;
+							margin: 18px 0 8px 0;
+						}
 						.input-div {
 							input {
 								width: 87%;
+							}
+						}
+						.poundage {
+							flex-direction: column;
+							div {
+								width: 100%;
+								.input-div {
+									input {
+										width: 87%;
+									}
+								}
 							}
 						}
 						.take-out {

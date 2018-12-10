@@ -66,66 +66,174 @@
             }
         ]
     },
-    "TRXMessages.sol:TRXMessages": {
-        "address": "41a4997124a328a4615eab437cede31da47a31b375",
+    "Roller": {
+        "address": "TXgZZ5ZCLd9kndjRiW61R86WMSFUH652Ha",
+        "abi": [{
+            "constant": false,
+            "inputs": [{"name": "_newOwner", "type": "address"}],
+            "name": "setOwner",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "cfo",
+            "outputs": [{"name": "", "type": "address"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "newCfo", "type": "address"}],
+            "name": "setCfo",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [],
+            "name": "kill",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "amout", "type": "uint256"}],
+            "name": "setMaxAmount",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "orderid", "type": "uint256"}, {"name": "blockHash", "type": "bytes32"}, {
+                "name": "random",
+                "type": "uint8"
+            }],
+            "name": "settleBetV1",
+            "outputs": [{"name": "", "type": "uint256"}, {"name": "", "type": "uint8"}, {
+                "name": "",
+                "type": "uint8"
+            }, {"name": "", "type": "uint40"}, {"name": "", "type": "address"}, {"name": "", "type": "uint8"}, {
+                "name": "",
+                "type": "uint8"
+            }, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [{"name": "orderid", "type": "uint256"}],
+            "name": "getBetInfo",
+            "outputs": [{"name": "", "type": "uint256"}, {"name": "", "type": "uint8"}, {
+                "name": "",
+                "type": "uint8"
+            }, {"name": "", "type": "uint40"}, {"name": "", "type": "address"}, {"name": "", "type": "uint8"}, {
+                "name": "",
+                "type": "uint8"
+            }, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "owner",
+            "outputs": [{"name": "", "type": "address"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "to", "type": "address"}, {"name": "withdrawAmount", "type": "uint256"}],
+            "name": "withdrawFunds",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "rollUnder", "type": "uint256"}, {"name": "modulo", "type": "uint256"}, {
+                "name": "orderid",
+                "type": "uint256"
+            }],
+            "name": "placeBetV1",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "MAX_AMOUNT",
+            "outputs": [{"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "lockedInBets",
+            "outputs": [{"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "orderid", "type": "uint256"}],
+            "name": "refundBet",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}, {
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "fallback"
+        }, {
+            "anonymous": false,
+            "inputs": [{"indexed": true, "name": "to", "type": "address"}, {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            }],
+            "name": "FailedPayment",
+            "type": "event"
+        }, {
+            "anonymous": false,
+            "inputs": [{"indexed": true, "name": "to", "type": "address"}, {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            }],
+            "name": "Payment",
+            "type": "event"
+        }, {
+            "anonymous": false,
+            "inputs": [{"indexed": false, "name": "placeBlockHash", "type": "bytes32"}, {
+                "indexed": false,
+                "name": "blockHash",
+                "type": "bytes32"
+            }],
+            "name": "CheckHash",
+            "type": "event"
+        }]
+    },
+    "Fundraiy": {
+        "address": "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64",
         "abi": [
             {
                 "constant": true,
-                "inputs": [
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "messages",
+                "inputs": [],
+                "name": "cfo",
                 "outputs": [
                     {
-                        "name": "creator",
+                        "name": "",
                         "type": "address"
-                    },
-                    {
-                        "name": "message",
-                        "type": "string"
-                    },
-                    {
-                        "name": "tips",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "tippers",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "time",
-                        "type": "uint256"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_feeToPost",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "updateFeeToPost",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "feeToPost",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "uint256"
                     }
                 ],
                 "payable": false,
@@ -135,7 +243,7 @@
             {
                 "constant": true,
                 "inputs": [],
-                "name": "minimumTip",
+                "name": "endTime",
                 "outputs": [
                     {
                         "name": "",
@@ -144,57 +252,6 @@
                 ],
                 "payable": false,
                 "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [],
-                "name": "withdraw",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "tipMessage",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_minimumTip",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "updateMinimumTip",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "message",
-                        "type": "string"
-                    }
-                ],
-                "name": "postMessage",
-                "outputs": [],
-                "payable": true,
-                "stateMutability": "payable",
                 "type": "function"
             },
             {
@@ -214,7 +271,147 @@
             {
                 "constant": true,
                 "inputs": [],
-                "name": "current",
+                "name": "projectName",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "goalMoney",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "token",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "name": "_projectName",
+                        "type": "string"
+                    },
+                    {
+                        "name": "_goalMoney",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "_token",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_owner",
+                        "type": "address"
+                    }
+                ],
+                "name": "setOwner",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_cfo",
+                        "type": "address"
+                    }
+                ],
+                "name": "setCfo",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getBalance",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_to",
+                        "type": "address"
+                    },
+                    {
+                        "name": "bonus",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "reward",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getRemainDays",
                 "outputs": [
                     {
                         "name": "",
@@ -229,93 +426,48 @@
                 "constant": false,
                 "inputs": [
                     {
-                        "name": "_owner",
+                        "name": "_to",
                         "type": "address"
-                    }
-                ],
-                "name": "changeOwner",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [
+                    },
                     {
-                        "name": "",
+                        "name": "_trxAmount",
                         "type": "uint256"
                     }
                 ],
-                "name": "topPosts",
+                "name": "withdrawTRX",
                 "outputs": [
                     {
                         "name": "",
-                        "type": "uint256"
+                        "type": "bool"
                     }
                 ],
                 "payable": false,
-                "stateMutability": "view",
+                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
-                "inputs": [],
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_to",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_abAmount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "withdrawAB",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
                 "payable": false,
                 "stateMutability": "nonpayable",
-                "type": "constructor"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "name": "id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "MessagePosted",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "name": "id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "MessageTipped",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "name": "id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "MessageAddedToTopPosts",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "name": "id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "MessageRemovedFromTopPosts",
-                "type": "event"
+                "type": "function"
             }
         ]
-    },
-    "Roller": {
-        "address": "TV1PngFpvtU7HzzcX4d9B1MwvuMb8vQi1f",
-        "abi":[{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"cfo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newCfo","type":"address"}],"name":"setCfo","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"orderid","type":"uint256"},{"name":"blockHash","type":"bytes32"},{"name":"random","type":"uint8"}],"name":"settleBetV1","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"orderid","type":"uint256"}],"name":"getBetInfo","outputs":[{"name":"","type":"uint256"},{"name":"","type":"uint8"},{"name":"","type":"uint8"},{"name":"","type":"uint40"},{"name":"","type":"address"},{"name":"","type":"uint8"},{"name":"","type":"uint8"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"withdrawAmount","type":"uint256"}],"name":"withdrawFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"rollUnder","type":"uint256"},{"name":"modulo","type":"uint256"},{"name":"orderid","type":"uint256"}],"name":"placeBetV1","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"lockedInBets","outputs":[{"name":"","type":"uint128"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"orderid","type":"uint256"}],"name":"refundBet","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"placeBlockHash","type":"bytes32"},{"indexed":false,"name":"blockHash","type":"bytes32"}],"name":"CheckHash","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"FailedPayment","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"Payment","type":"event"}]
     }
 }

@@ -13,11 +13,6 @@ export default new Router({
             redirect: "/dice"
         },
         {
-            path: "/index",
-            name: "index",
-            component: () => import("./views/Home.vue")
-        },
-        {
             path: "/dice",
             name: "dice",
             component: () => import("./views/Roller.vue")
@@ -88,9 +83,19 @@ export default new Router({
             component: () => import("./views/mobile/AB.vue")
         },
         {
+            path: "/bonus-pool",
+            name: "bonus-pool",
+            component: () => import("./views/mobile/BonusPool.vue")
+        },
+        {
             path: "/mobile-invite",
             name: "mobileinvite",
             component: () => import("./views/mobile/Mobile-invite.vue")
-        }
+        },
+        {
+            path: "/mobile-fundraiy",
+            name: "mobile-fundraiy",
+            component: () => import("./views/mobile/Mobile-fundraiy.vue")
+        },
     ]
 });

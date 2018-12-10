@@ -33,7 +33,7 @@ axios.interceptors.response.use(response => {
     if(response.data.code == -1) {
         store.commit('CHANGE_PSDVER', true)
     }
-    if(response.data.code != 200) {
+    if(response.data.code != 200 && response.data.code != -2) {
         store.commit('alert', {
             type: 'info',
             msg: response.data.msg

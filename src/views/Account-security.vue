@@ -7,13 +7,13 @@
 				<span>{{$t('message.accountSecurity')}}</span>
 			</p>
 			<div class="li-div">
-				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{pageData.username}}</div></li>
-				<li v-else-if="currentAddr.mainCoin !== 'TRX'"><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li>
+				<!-- <li v-if="pageData.haveTrustee"><div>{{$t('message.accountPlatform')}}：</div><div>{{pageData.userName}}</div></li>
+				<li v-else-if="currentAddr.mainCoin !== 'TRX'"><div>{{$t('message.accountPlatform')}}：</div><div class="operation">{{$t('message.accountNotBound')}}<span @click="displayStatus.phoneBind = true">{{$t('message.accountToBound')}}</span></div></li> -->
 				<!-- <li v-if="currentAddr.platform == 'DISPATCHER'"><div>{{$t('message.accountPlatformAddress')}}：</div><div class="dispatcher">{{currentAddr.coinAddress}}</div></li> -->
 				<li v-for="item in pageData.MetaMaskAddress">
 					<div v-if="item.platform == 'DISPATCHER'">{{$t('message.accountPlatformAddress')}}：</div>
 					<div v-else>{{$t('message.accountMetaMaskAddress')}}：</div>
-					<div :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}">{{item.userAddress}}</div>
+					<div>{{item.userAddress}}</div>
 				</li>
 				<li v-if="pageData.MetaMaskAddress.length == 0 && pageData.haveTrustee"><div>{{$t('message.accountMetaMaskAddress')}}：</div><div>{{$t('message.accountBindDesc')}}</div></li>
 				<li v-if="pageData.haveTrustee"><div>{{$t('message.accountLoginPassword')}}：</div><div class="operation">********<span @click="displayStatus.resetPassDialog = true">{{$t('message.accountChange')}}</span></div></li>
@@ -84,7 +84,7 @@
 	<!-- 账号不存在输入密码 -->
 	<mu-dialog :open.sync="displayStatus.confirmAccountNotExist" :append-body="false" class="bind-accout">
 		<h4>{{$t('message.PopBindAccount')}}</h4>
-		
+
 		<div class="input-wrap" style="width:338px;">
 			<label>{{$t('message.PopPassword')}}</label>
 			<input type="password" v-model="formData.loginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
@@ -104,21 +104,25 @@
 		<h4>{{$t('message.PopResetPass')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}:</label>
-			<input type="text" :value="currentAddr.userName" :placeholder="$t('message.PopGraphicEnter')" disabled>
+			<input type="text" :value="currentAddr.userName" :placeholder="$t('message.PopGraphicEnter')" disabled style="background:transparent;">
 		</div>
-		<div class="input-wrap">
+		<!-- <div class="input-wrap">
 			<label>{{$t('message.PopGraphic')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
 				<img :src="$window.SERVERPATH + '/open/pic_captcha?type=RESET_PWD&macCode=' + macCode" alt="" @click="getImgCode('RESET_PWD')" ref="imgcode">
 			</div>
-		</div>
-		<div class="input-wrap">
+		</div> -->
+		<!-- <div class="input-wrap">
 			<label>{{$t('message.PopCaptcha')}}</label>
 			<div class="input-flex">
 				<input type="text" v-model="formData.resetCaptcha" :placeholder="$t('message.PopInputCaptcha')">
 				<a href="javascript:;" @click="getSMScode('RESET_PASS')">{{formData.btnText}}</a>
 			</div>
+		</div> -->
+		<div class="input-wrap">
+			<label>{{$t('message.PopOldPassword')}}</label>
+			<input type="password" v-model="formData.oldLoginPwd" :placeholder="$t('message.PopPasswordPlaceholder')">
 		</div>
 		<div class="input-wrap">
 			<label>{{$t('message.PopNewPassword')}}</label>
@@ -129,6 +133,7 @@
 			<input type="password" v-model="formData.resetLoginPwd2" :placeholder="$t('message.PopPassword2Placeholder')">
 		</div>
 		<button class="primary-btn" @click="passResetDo">{{$t('message.PopConfirmChange')}}</button>
+		<i class="close-btn" @click="displayStatus.resetPassDialog = false"></i>
 	</mu-dialog>
 	<FooterBar ref="ft"></FooterBar>
 </div>
@@ -141,9 +146,9 @@ import FooterBar from "@/components/common/footer_bar"
 import AEFcountDownBtn from "@/components/common/countDownBtn"
 import Md5 from "../assets/js/md5.js"
 import {mapMutations, mapState} from "vuex"
- export default {
-	 data () {
-		 return {
+export default {
+	data () {
+		return {
 			displayStatus: {
 				phoneBind: false, //绑定手机号
 				emailBind: false,   //绑定邮箱
@@ -170,6 +175,7 @@ import {mapMutations, mapState} from "vuex"
 				"email2": "",
 
 				"resetCaptcha": "", // 重置登陆密码
+				"oldLoginPwd": "",
 				"resetLoginPwd": "",
 				"resetLoginPwd2": "",
 				"bindingType": "PHONE"
@@ -210,6 +216,7 @@ import {mapMutations, mapState} from "vuex"
 					picCode: "", //图形验证码
 					resetLoginPwd: "",
 					resetLoginPwd2: "",
+					oldLoginPwd: '',
 				})
 			},
 			deep: true
@@ -366,10 +373,10 @@ import {mapMutations, mapState} from "vuex"
 		},
 		// 确认重置密码
 		passResetDo () {
-			if(this.formData.resetCaptcha == "") {
+			if(this.formData.oldLoginPwd == "") {
 				this.alert({
 					type: "info",
-					msg: this.$t('message.PopCaptchaEmpty')
+					msg: this.$t('message.PopOldPassEmpty')
 				})
 				return
 			}
@@ -403,8 +410,8 @@ import {mapMutations, mapState} from "vuex"
 				return false
 			}
 			this.$http.post("/app/user/password/reset", {
-				'captcha': this.formData.resetCaptcha,
-				'pwd': Md5(this.formData.resetLoginPwd)
+				'oldPwd': Md5(this.formData.oldLoginPwd),
+				'newPwd': Md5(this.formData.resetLoginPwd)
 			}).then(res => {
 				if(res.code == 200) {
 					this.alert({
@@ -531,20 +538,19 @@ import {mapMutations, mapState} from "vuex"
 	.account-security {
 		margin: 0 auto;
 		.main {
-			background-color: #040810;;
+			background-color: #22202C;
 			padding: 40px 0;
 			.content {
 				width: 1200px;
-				background-color: #172F61;
+				background-color: #49425C;
 				margin: auto;
 				.title {
 					position: relative;
-					box-shadow:0px 0px 0px 0px rgba(0,10,86,1);
-					color: #fff;
+					color: #D3CDFF;
 					font-size: 16px;
           			font-weight: bold;
-					background-color: #193570;
-					padding: 16px 0 16px 40px;
+					padding: 14px 0 14px 40px;
+					border-bottom: 1px solid #2F2840;
 				}
 				.li-div {
 					padding: 0 40px;
@@ -552,11 +558,12 @@ import {mapMutations, mapState} from "vuex"
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						border-bottom: 1px solid #1C3B7C;
-						line-height: 3.5;
+						border-bottom: 1px solid #2F2840;
+						line-height: 3.7;
 	          			font-size: 16px;
 						div {
 	            			text-align: left;
+							font-size: 14px;
 						}
 						div:first-child {
 							width: 30%;
@@ -564,7 +571,7 @@ import {mapMutations, mapState} from "vuex"
 						div:last-child {
 	            			width: 70%;
 						}
-						 .operation {
+						.operation {
 						 	position: relative;
 							span {
 								margin-left: 10px;
@@ -573,7 +580,7 @@ import {mapMutations, mapState} from "vuex"
 								right: 0;
 								cursor: pointer;
 							}
-						 }
+						}
 					}
 				}
 			}
@@ -584,24 +591,32 @@ import {mapMutations, mapState} from "vuex"
 			top: 39%;
 			padding: 30px;
 			transform: translate(-50%,-50%);
-			h4 {
-				text-align: center;
-				color: #646464;
-				font-size: 20px;
-			}
 			.mu-dialog {
 				max-width: initial !important;
-				background-color: #214797;
+				background-color: #52476F;
+				.mu-dialog-body {
+					position: relative;
+					width: 380px;
+					.close-btn {
+						position: absolute;
+						right: 20px;
+						top: 20px;
+						width: 25px;
+						height: 25px;
+						background: url(../../public/img/close_icon01.png) no-repeat center;
+						background-size: 100%;
+						cursor: pointer;
+					}
+				}
 				.primary-btn {
 					display: block;
 					width: 240px;
 					height: 40px;
 					margin-top: 20px;
 					cursor: pointer;
-					background:linear-gradient(90deg,rgba(100,180,239,1),rgba(57,94,236,1));
-					box-shadow:0px 0px 0px 0px rgba(199,218,255,0.75);
+					background:#FFC425;
 					border-radius:4px;
-					color: #fff;
+					color: #1A0D59;
 					border: none;
 					&.hd {
 						background:linear-gradient(90deg,rgba(84,190,202,1),rgba(61,143,242,1));
@@ -611,7 +626,9 @@ import {mapMutations, mapState} from "vuex"
         &.bind-accout {
             h4 {
 				margin-bottom: 40px;
-				color: #fff;
+				color: #CCBCF8;
+				font-size: 24px;
+				text-align: center;
             }
             .input-wrap {
                 display: flex;
@@ -620,17 +637,18 @@ import {mapMutations, mapState} from "vuex"
                 margin-top: 20px;
                 label {
 					width: 80px;
-					color: #C8C8C8;
+					color: #CCBCF8;
                 }
                 input {
                     flex: 1;
 					width: 60%;
                     height:40px;
-					background:#173167;
-		            border:1px solid #173167;
+					background:#443A60;
 		            color: #fff;
                     border-radius:4px;
                     padding: 0 10px;
+					border: none;
+					outline: none;
                 }
                 .input-flex {
                     flex: 1;
@@ -652,15 +670,15 @@ import {mapMutations, mapState} from "vuex"
                         margin-left: 10px;
                     }
                     &.prefix {
-												background:#173167;
-												border:1px solid #173167;
+						background:#173167;
+						border:1px solid #173167;
                         border-radius:4px;
                         .mu-menu {
                             line-height: 40px;
                             padding: 0 10px;
                             border-right: 1px solid #3057A8;
                             font-weight: 700;
-														color: #fff;
+							color: #fff;
                         }
                         input {
                             border: none;
@@ -687,7 +705,7 @@ import {mapMutations, mapState} from "vuex"
 		.account-security {
 			.main {
 				.content {
-					width: auto;
+					width: 90%;
 					.title {
 						padding-left: 10px;
 					}
@@ -695,8 +713,8 @@ import {mapMutations, mapState} from "vuex"
 					padding: 0 10px;
 					li {
 						line-height: inherit;
-						font-size: 16px;
-						padding: 20px 0;
+						font-size: 12px;
+						padding: 15px 0;
 						div:first-child {
 							width: 40%;
 						}
@@ -722,7 +740,8 @@ import {mapMutations, mapState} from "vuex"
 		    top: 0;
 				transform: translate(0, 0);
 				.mu-dialog-body {
-					padding: 10px;
+					padding: 20px;
+					width: auto !important;
 				}
 			}
 		}

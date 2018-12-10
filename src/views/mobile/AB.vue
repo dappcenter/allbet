@@ -1,5 +1,5 @@
 <template>
-    <div class="ab-page">
+    <div class="ab-page" :style="{minHeight: $window.innerHeight + 'px'}">
         <HeaderBar></HeaderBar>
         <div class="main">
             <h4>{{$t('message.abTitle')}}</h4>
@@ -13,9 +13,9 @@
                 <td>{{$t('message.abTeam')}}</td>
                 <td>30%</td>
                 </tr>
-                <tr>
-                <td>{{$t('message.abGameDig')}}</td>
-                <td>70%</td>
+                <tr class="no-bt-bd">
+                    <td class="no-bt-bd">{{$t('message.abGameDig')}}</td>
+                    <td class="no-bt-bd">70%</td>
                 </tr>
             </table>
             <p class="tip1 tip2">{{$t('message.abFourYear')}}</p>
@@ -23,21 +23,7 @@
             <p class="tip1 tip2">{{$t('message.abGet')}}</p>
             <h4>{{$t('message.abShareTitle')}}</h4>
             <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
-            <p class="tip1 tip2 tip3">{{$t('message.abExmaple')}}</p>
-            <p class="tip1 tip2 tip3">{{$t('message.abFirst')}}</p>
-            <p class="tip1 tip2">{{$t('message.abLast')}}</p>
-            <table>
-                <tr>
-                <td>{{$t('message.abEthpool')}}</td>
-                <td>3000ETH</td>
-                </tr>
-                <tr>
-                <td>{{$t('message.abPool')}}</td>
-                <td>7000ETH</td>
-                </tr>
-            </table>
         </div>
-        
     </div>
 </template>
 
@@ -45,26 +31,40 @@
 import HeaderBar from "@/components/common/header_bar"
 export default {
     components: {
-        HeaderBar
+        HeaderBar,
     }
 }
 </script>
 
 <style lang="less">
 .ab-page {
+    background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+    background-size: 40%;
     .main {
         padding: .2rem;
+        color: #CCBCF8;
         h4 {
             text-align: center;
             font-size: .3rem;
+            margin: .4rem 0 .2rem;
         }
         table{
             border-collapse:collapse;
             width:100%;
+            background-color: #4D426A;
+            border-radius: .06rem;
+            margin: .2rem 0;
         }
 
-        table, td, th{
-            border:1px solid #577AC3;
+        td, th{
+            border-bottom:1px solid #3A2F57;
+            border-right: 1px solid #3A2F57;
+            &:nth-child(2n) {
+                border-right: none;
+            }
+            &.no-bt-bd {
+                border-bottom: none;
+            }
         }
         td {
             text-align:center;
@@ -92,5 +92,3 @@ export default {
     }
 }
 </style>
-
-

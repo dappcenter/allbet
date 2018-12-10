@@ -4,80 +4,63 @@
 		<!-- 币种选择 -->
 		<ul class="coin-select">
 			<li class="online" :class="{'active' : coinType == 'ETH'}" @click="changeCoinType('ETH')">
-				<i class="eth">
-					<img src="../../../public/img/coin/ETH01.png" alt="">
-				</i>
+				<img src="../../../public/img/coin/ETH.png" alt="">
 				<span>ETH</span>
 			</li>
-			<!-- <li :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
-				<i class="trx">
-					<img src="../../../public/img/coin/TRX01.png" alt="">
-				</i>
+			<li class="online" :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
+				<img src="../../../public/img/coin/TRX.png" alt="">
 				<span>TRX</span>
-			</li> -->
-			<li>
-				<i class="eos">
-					<img src="../../../public/img/coin/EOS01.png" alt="">
-				</i>
+			</li>
+			<li class="not-online" :data-text="$t('message.BPSoon')">
+				<img src="../../../public/img/coin/EOS.png" alt="">
 				<span>EOS</span>
 			</li>
 			<li class="not-online" :data-text="$t('message.BPSoon')">
-				<i class="ab">
-					<img src="../../../public/img/coin/AB01.png" alt="">
-				</i>
+				<img src="../../../public/img/coin/AB.png" alt="">
 				<span>AB</span>
 			</li>
-			<li class="not-online" :data-text="$t('message.BPSoon')">
-				<i class="sac">
-					<img src="../../../public/img/coin/SAC01.png" alt="">
-				</i>
-				<span>SAC</span>
-			</li>
 		</ul>
-		<!-- 联系方式 -->
-		<!-- <ul class="contact-select nominscreen">
-			<li class="active" @click="$window.open('https://t.me/allbetAB')">
-				<img src="../../../public/img/telegram-plane@2x.png" alt="">
-			</li>
-			<li @click="openWeixinQR = true">
-				<img src="../../../public/img/gongzhonghao@2x.png" alt="">
-			</li>
-		</ul> -->
 		<div class="game-content" ref="gameContent">
-			<div class="game-status nominscreen">
-				<div class="">
-					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
-					<!-- <span>{{$t("message.GameTotalNumber")}}{{diceStatistics.guessCount}}</span> -->
-					<!-- <span>{{$t("message.GameTotalIncome")}}{{diceStatistics.earned}} ETH</span> -->
-					<p></p>
-					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
-				</div>
-			</div>
 			<div class="ctn-top">
-				<div class="number-show">
-					<div>
-						<h3>{{odds}}</h3>
-						<span>{{$t("message.GameForecast")}}</span>
+				<div class="bet-input">
+					<p>{{$t('message.GameBetAmount')}}</p>
+					<div class="flex-wrap">
+						<div class="input-wrap">
+							<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
+							<input type="text" v-model="amount" @blur="inputAmountBlur" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')">
+							<span>{{coinType}}</span>
+						</div>
+						<div class="hotkeys">
+							<span @click="onHotkeys('min')">MIN</span>
+							<span @click="onHotkeys(0.5)">1/2</span>
+							<span @click="onHotkeys(2)">2X</span>
+							<span @click="onHotkeys('max')">MAX</span>
+						</div>
 					</div>
+				</div>
+				<div class="award">
+					<p>{{$t('message.GamePlayOutWin')}}</p>
 					<div>
-						<h3 :class="luckyColor">{{luckyNum}}</h3>
-						<span>{{$t("message.GameLucky")}}</span>
+						<img src="../../../public/img/coin/ETH.png" alt="" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/TRX.png" alt="" v-show="coinType == 'TRX'">
+						<span>{{bonus}}</span>
+						<i>{{coinType}}</i>
 					</div>
 				</div>
 			</div>
 			<!-- 赔率预览 -->
 			<ul class="ctn-mdl">
 				<li>
-					<label>{{$t("message.GameOdds")}}</label>
-					<span>{{Math.floor(peilv*1000) / 1000}}x</span>
+					<label>{{$t('message.GameRUTW')}}</label>
+					<span>{{odds}} <img src="../../../public/img/arrow_bottom.png" /></span>
 				</li>
-				<li class="">
-					<label>{{$t("message.GameIncome")}}</label>
-					<span>{{bonus}}</span>
+				<li>
+					<label>{{$t("message.GameOdds")}}</label>
+					<span>{{Math.floor(peilv*1000) / 1000}} x</span>
 				</li>
 				<li>
 					<label>{{$t("message.GameProbability")}}</label>
-					<span>{{odds-1}}%</span>
+					<span>{{odds-1}} <i style="font-size:31px; font-style: normal;">%</i></span>
 				</li>
 			</ul>
 			<!-- 滑块 -->
@@ -90,67 +73,54 @@
 					<div class="bar" ref="bar" @click="onHandleClick" @touchstart="onHandleTouchS"></div>
 					<div class="handle" @mousedown.prevent="onHandleMouseD" @touchstart.prevent="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
 				</div>
-
 			</div>
 			<div class="ctn-btm">
-				<h4>{{$t("message.GameQiuz")}}<span class="fl">{{$t("message.Gameminimum")}} {{rule.minInvest}} {{coinType}}</span></h4>
-				<div class="flex-wrap">
-					<div class="input-wrap">
-						<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
-						<input type="text" v-model="amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
-						<div class="amount-handle">
-							<span class="add" @click="onAdd"></span>
-							<span class="minus" @click="onMinus"></span>
-						</div>
-					</div>
-					<div class="hotkeys">
-						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.2).toFixed(2)}}</span>
-						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.5).toFixed(2)}}</span>
-						<span @click="onHotkeys((rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2))">{{(rule.minInvest + (rule.maxInvest-rule.minInvest)*0.8).toFixed(2)}}</span>
-						<span @click="onHotkeys('max')">MAX</span>
-					</div>
-				</div>
 				<!-- 自动下注 -->
 				<div class="auto-bet">
+					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
+					<p class=""></p>
 					<div class="mid">
-						<label>自动投注:</label>
+						<label>{{$t('message.GameAutoBet')}}</label>
 						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 					</div>
-					<a href="javascript:;" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
+					<a href="javascript:;" class="rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen">
-						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-if="userInfo.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
+
 					<span class="fl minscreen">
-						<img src="../../../public/img/eth_icon.png" v-show="coinType == 'ETH'">
+						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<span class="fr"><img src="../../../public/img/ab_icon03.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
+					<span class="fr"><img src="../../../public/img/coin/AB.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
 			</div>
 			<!-- 挖矿数量 -->
-			<div class="dig-wrap nominscreen">
+			<div class="dig-wrap">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
-					<h4>下注立刻获得 {{1/rule.winDig*amount}} AB</h4>
-					<p>现在投注最高可获得投注货币 {{1/rule.winDig}} x AB </p>
-					<span>挖矿比例 Winer：1 : {{1/rule.winDig}}   Loser：1 : {{1/rule.failDig}}</span>
+					<h4>{{$t('message.GameBetToGet')}} {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
+					<p>{{$t('message.GameHigGet')}} {{1/rule.winDig}} x AB </p>
+					<span>{{$t('message.GameDigProportion')}}　 WIN 1 : {{1/rule.winDig}} 　  LOSE 1 : {{1/rule.failDig}}</span>
 				</div>
-				<i class="help" @click="isShowABpopup = true"></i>
+				<i class="help nominscreen" @click="isShowABpopup = true"></i>
+				<i class="help minscreen" @click="$router.push('ab')"></i>
 			</div>
 		</div>
 		<!-- 游戏规则 -->
-		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="confirm">
+		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="gamerule">
 			<a href="javascript:;" class="close-btn" @click="isShowHelp = false"></a>
 			<h4>{{$t("message.GameRule")}}</h4>
-			<p class="content-text" v-html="$t('message.GameHelp')"></p>
+			<div class="content-text" v-html="$t('message.GameHelp')"></div>
 			<div class="btn-wrap">
 				<button class="high" @click="isShowHelp = false">{{$t("message.GameKnow")}}</button>
 			</div>
@@ -162,6 +132,9 @@
 
 		<!-- Ab弹框 -->
 		<AbPopup v-model="isShowABpopup"></AbPopup>
+
+		<!-- 募资弹框 -->
+		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
 	</section>
 </template>
 
@@ -171,6 +144,7 @@ import {mapMutations, mapState} from "vuex"
 import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
+import FundraiyPopup from "@/components/common/fundraiy_popup"
 
 export default {
 	props: {
@@ -200,6 +174,7 @@ export default {
 			openWeixinQR: false,
 			autoBet: false,
 			isShowABpopup: false,
+			isShowFundraiy: false
         }
 	},
 	created() {
@@ -226,10 +201,22 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-
-		console.log(this.tronWeb)
+		if(this.coinType == 'TRX' && this.$IsPC()) {
+			this.isShowFundraiy = true
+		} else if (this.coinType == 'TRX' && !this.$IsPC() && sessionStorage.getItem('IsFirstEnter') != 'YES') {
+			this.$router.push('mobile-fundraiy')
+			sessionStorage.setItem('IsFirstEnter', 'YES')
+		}
     },
     methods: {
+		inputAmountBlur() {
+			if(this.amount < this.rule.minInvest) {
+				this.amount = this.rule.minInvest
+			}
+			if(this.amount > this.rule.maxInvest) {
+				this.amount = this.rule.maxInvest
+			}
+		},
 		//幸运数跳动
 		luckyRun() {
 			clearInterval(this.timer)
@@ -240,11 +227,23 @@ export default {
 			}, 50)
 		},
         onHotkeys(amount) {
-            if(amount === 'max') {
-                this.amount = this.rule.maxInvest
-            }else {
-                this.amount = amount
-            }
+			switch(amount) {
+				case 'max':
+					this.amount = this.rule.maxInvest
+					break;
+				case 'min':
+					this.amount = this.rule.minInvest
+					break;
+				case 0.5:
+					this.amount = this.amount*0.5 < this.rule.minInvest ? this.rule.minInvest : this.amount*0.5
+					break;
+				case 2:
+					this.amount = this.amount*2 > this.rule.maxInvest ? this.rule.maxInvest : this.amount*2
+					break;
+				default:
+					this.amount = amount
+					break;
+			}
         },
         onAdd() {
             this.amount = (Number(this.amount) + 0.01).toFixed(2)
@@ -267,10 +266,10 @@ export default {
 		onHandleClick(e) {
 			let moveWidth = e.offsetX
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-			const sliderWidth = this.$refs.slider.clientWidth - deductWidth
+			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
 			this.$refs.handle.style.left = moveWidth + "px"
-			this.$refs.bar.style.width = moveWidth + "px"
+			this.$refs.bar.style.width = moveWidth + 10 + "px"
 			this.odds = (moveWidth / (sliderWidth / this.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / this.maxNum)).toFixed()
 			this.setBetInfo({
 				odds: this.odds,
@@ -281,14 +280,14 @@ export default {
 			let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-            const sliderWidth = this.$refs.slider.clientWidth - deductWidth
+			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			const ofX = e.offsetX
 			let moveWidth = 0
             window.onmousemove = function(e) {
                 moveWidth = e.clientX - sliderOffsetL - ofX
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
-                that.$refs.bar.style.width = moveWidth + "px"
+                that.$refs.bar.style.width = moveWidth + 10 + "px"
                 that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
@@ -300,14 +299,14 @@ export default {
             let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-            const sliderWidth = this.$refs.slider.clientWidth - deductWidth
+            const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			const ofX = e.touches[0].clientX - this.$refs.handle.offsetLeft
 			let moveWidth = 0
 			window.ontouchmove  = function(e) {
                 moveWidth = e.touches[0].clientX - sliderOffsetL
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
                 that.$refs.handle.style.left = moveWidth + "px"
-				that.$refs.bar.style.width = moveWidth + "px"
+				that.$refs.bar.style.width = moveWidth + 10 + "px"
                 that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
                     odds: that.odds,
@@ -332,13 +331,6 @@ export default {
 		//下注
 		betDo() {
 			let that = this
-			if(this.timer) {
-				this.alert({
-					type: "info",
-					msg: this.$t("message.GameWait")
-				})
-				return
-			}
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
 					type: "info",
@@ -349,25 +341,23 @@ export default {
 			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
-					msg: this.$t("message.GameAmountTooLow") + this.rule.minInvest + "ETH"
+					msg: this.$t("message.GameAmountTooLow") + this.rule.minInvest + this.coinType
 				})
 				return
 			}
 			if(this.amount*1 > this.rule.maxInvest*1) {
 				this.alert({
 					type: "info",
-					msg: this.$t("message.GameAmountTooLarge") + this.rule.maxInvest + "ETH"
+					msg: this.$t("message.GameAmountTooLarge") + this.rule.maxInvest + this.coinType
 				})
 				return
 			}
-
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
 				"guessNum": this.odds
 			}).then(res => {
 				if(res.code == 200) {
-					console.log(res)
 					if(res.result.resultType == "DISPATCHER") {  //平台账号
 						this.alert({
 							type: "success",
@@ -376,6 +366,11 @@ export default {
 						this.luckyRun()
 						that.getBetResult(res.result.recdId)
 					}else {   //合约账号
+						this.alert({
+							type: "info",
+							msg: "Please Wait For Wallet to ConfirmTransfer...",
+							timeout: 9999999
+						})
 						switch(res.result.coinType) {
 							case "ETH":
 								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
@@ -387,14 +382,16 @@ export default {
 						//注册方法与原生交互
 						window.hd.betFailed = function(payload) {
 							that.alert({
-								type: "error",
-								msg: that.$t("message.GameBetErr")
+								type: "info",
+								msg: "User rejected the signature request.",
+								timeout: 3000
 							})
 						}
 						window.hd.betSuccess = function(payload) {
 							that.alert({
-								type: "success",
-								msg: that.$t("message.GameBetSuc")
+								type: "info",
+								msg: "Successful bet.",
+								timeout: 9999999
 							})
 							that.luckyRun()
 							that.getBetResult(res.result.recdId)
@@ -413,20 +410,31 @@ export default {
 			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amount,
-				gas: 1000000
+				gas: 210000,
+				gasPrice: 10000000000
+			},(err, res) => {
+				if(!err) {
+					that.alert({
+						type: "info",
+						msg: "Bet submitted! Waiting for Ethereum...",
+						timeout: 9999999
+					})
+				}
 			}).on("receipt", function(receipt) {
 				that.alert({
-					type: "success",
-					msg: that.$t("message.GameBetSuc")
+					type: "info",
+					msg: "Successful bet.",
+					timeout: 9999999
 				})
 				that.luckyRun()
 				that.getBetResult(recdId)
 			})
 			.on("error", function(error) {
-				// that.alert({
-				// 	type: "error",
-				// 	msg: that.$t("message.GameBetErr")
-				// })
+				that.alert({
+					type: "info",
+					msg: "User rejected the signature request.",
+					timeout: 3000
+				})
 			});
 		},
 		/**
@@ -441,17 +449,20 @@ export default {
 				callValue:callValue,
 				shouldPollResponse:false
 			}).then(res => {
+				console.log(res)
 				that.alert({
-					type: "success",
-					msg: that.$t("message.GameBetSuc")
+					type: "info",
+					msg: "Successful bet.",
+					timeout: 9999999
 				})
-				that.luckyRun()
 				that.getBetResult(orderId)
 			}).catch(err => {
-				// that.alert({
-				// 	type: "error",
-				// 	msg: that.$t("message.GameBetErr")
-				// })
+				console.log(err)
+				that.alert({
+					type: "info",
+					msg: "User rejected the signature request.",
+					timeout: 3000
+				})
 			})
 		},
 		//查询下注结果
@@ -472,13 +483,14 @@ export default {
 							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
+								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
-									console.log(res)
 									this.openWinPopup({
 										ab: res.result.abNum,
-										rewards: res.result.rewards + " " + res.result.coinType
+										rewards: res.result.rewards,
+										coinType: res.result.coinType
 									})
 								}else if(res.result.winFlag == "LOSE") {
 									this.noWin(res.result.abNum)
@@ -543,6 +555,15 @@ export default {
 				]
 			})
 		},
+		// 打开预售
+		openFundraiy() {
+			if(this.coinType == 'TRX' && this.$IsPC()) {
+				this.isShowFundraiy = true
+			} else if (this.coinType == 'TRX' && !this.$IsPC()) {
+				this.$router.push('mobile-fundraiy')
+				sessionStorage.setItem('IsFirstEnter', 'YES')
+			}
+		}
     },
     watch: {
         diceList: {
@@ -586,7 +607,8 @@ export default {
 	},
 	components: {
 		DigitalRoll,
-		AbPopup
+		AbPopup,
+		FundraiyPopup
 	},
 	destroyed() {
 		clearInterval(this.timer)
@@ -652,15 +674,12 @@ export default {
 				text-align: center;
 				overflow: hidden;
 				cursor: pointer;
-				i {
+				img {
 					width: 24px;
 					height: 24px;
 					border-radius: 50%;
 					background-color: #41375B;
-					img {
-						height: 15px;
-						margin: 5px auto 0;
-					}
+					vertical-align: middle;
 				}
 				span {
 					font-size: 16px;
@@ -669,7 +688,7 @@ export default {
 				&.online {
 					&:hover {
 						background-color: #FFC425;
-						i {
+						img {
 							background-color: #B88C16;
 						}
 						span {
@@ -685,16 +704,15 @@ export default {
 							position: absolute;
 							width: 100%;
 							height: 100%;
-							background:rgba(0,177,100,.9);
+							background:#54506D;
 							font-size: 16px;
-							font-weight: 700;
 							line-height: 32px;
 						}
 					}
 				}
 				&.active {
 					background-color: #FFC425;
-					i {
+					img {
 						background-color: #B88C16;
 					}
 					span {
@@ -735,45 +753,96 @@ export default {
 			border-radius:6px;
 			padding: 0 20px 20px;
 			.ctn-top {
-				background: url(../../../public/img/game_bg02.png) no-repeat center;
+				display: flex;
 				background-size: 100% 100%;
 				overflow: hidden;
-				border-radius:6px;
-				.number-show {
-					display: flex;
-					justify-content: space-between;
+				p {
+					text-align: left;
+					color: #676284;
+				}
+				.bet-input {
+					.flex-wrap {
+						display: flex;
+						background-color: #161220;
+						padding: 4px;
+						border-radius:4px;
+						.input-wrap {
+							display: flex;
+							align-items: center;
+							background-color: #37344D;
+							height: 40px;
+							border-radius:4px;
+							margin-right: 4px;
+							label {
+								width: 40px;
+								height: 40px;
+								&.eth {
+									background: url(../../../public/img/coin/ETH.png) no-repeat center;
+									background-size: 60%;
+								}
+								&.trx {
+									background: url(../../../public/img/coin/TRX.png) no-repeat center;
+									background-size: 60%;
+								}
+							}
+							input {
+								width: 180px;
+								background-color: #37344D;
+								border: none;
+								color: #fff;
+								text-align: center;
+								font-size: 22px;
+								outline: none;
+							}
+							span {
+								font-size: 14px;
+								color: #676284;
+								padding: 0 15px;
+							}
+						}
+						.hotkeys {
+							display: flex;
+							align-items: center;
+							color: #676284;
+							span {
+								border-right: 1px solid #030014;
+								font-size: 14px;
+								width: 44px;
+								height: 40px;
+								line-height: 40px;
+								cursor: pointer;
+								border-radius: 4px;
+								&:hover {
+									background-color: #37344D;
+									color: #fff;
+								}
+								&:last-child {
+									border: none;
+								}
+							}
+						}
+					}
+				}
+				.award {
+					flex: 1;
+					margin-left: 10px;
 					div {
-						flex: 1;
-						position: relative;
-						h3 {
-							font-size: 72px;
-							text-shadow: 0 0 10px #fff;
-							&.green {
-								color: #99FF7E;
-							}
-							&.red {
-								color: #c33;
-							}
-							&.golden {
-								color: #FFDB5B;
-							}
-						}
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						background-color: #161220;
+						height: 48px;
+						padding: 0 12px;
+						border-radius: 4px;
 						span {
-							font-size: 16px;
-							position: relative;
-							top: -17px;
+							font-size: 22px;
 						}
-						&:nth-child(1) {
-							&:after {
-								content: "";
-								position: absolute;
-								top: 20%;
-								right: 0;
-								height: 60%;
-								width: 1px;
-								background-color: #476FCA;
-								box-shadow: 0 0 5px #476FCA;
-							}
+						img {
+							height: 20px;
+						}
+						i {
+							font-style: normal;
+							color: #676284;
 						}
 					}
 				}
@@ -783,7 +852,7 @@ export default {
 				background-color: #161220;
 				margin: 10px 0 0 0;
 				border-radius:6px;
-				padding: 10px 0;
+				padding: 17px 0;
 				li {
 					flex: 1;
 					position: relative;
@@ -796,8 +865,12 @@ export default {
 						color: #676284;
 					}
 					span {
-						font-size: 16px;
+						font-size: 40px;
 						font-weight: 700;
+						img {
+							width: 18px;
+							height: 23px;
+						}
 					}
 					&.green {
 						color: #99FF7E !important;
@@ -807,7 +880,6 @@ export default {
 			}
 			.ctn-btm {
 				margin-top: 20px;
-				padding: 0 10px;
 				h4 {
 					color: #C0CBFF;
 					text-align: left;
@@ -816,84 +888,22 @@ export default {
 						float: right;
 					}
 				}
-				.flex-wrap {
-					display: flex;
-					.input-wrap {
-						display: flex;
-						background-color: #1D44B6;
-						height: 40px;
-						border-radius: 6px;
-						overflow: hidden;
-						margin: 0 0 0 3px;
-						label {
-							width: 40px;
-							&.eth {
-								background: url(../../../public/img/eth_icon.png) no-repeat center;
-								background-size: 60%;
-							}
-							&.trx {
-								background: url(../../../public/img/coin/TRX.png) no-repeat center;
-								background-size: 60%;
-							}
-						}
-						input {
-							width: 260px;
-							height: 100%;
-							background-color: #152E79;
-							border: none;
-							color: #FEFEFE;
-							text-align: center;
-							outline: none;
-						}
-						.amount-handle {
-							width: 40px;
-							span {
-								display: block;
-								height: 20px;
-								cursor: pointer;
-								&.add {
-									background: url(../../../public/img/arrow_up.png) no-repeat center 13px;
-									background-size: 20%;
-								}
-								&.minus {
-									background: url(../../../public/img/arrow_down.png) no-repeat center 5px;
-									background-size: 20%;
-								}
-							}
-						}
-					}
-					.hotkeys {
-						flex: 1;
-						display: flex;
-						align-items: center;
-						height: 40px;
-						margin-left: 20px;
-						span {
-							flex: 1;
-							background-color: #0F2A77;
-							color: #B6C3FF;
-							font-size: 16px;
-							line-height: 40px;
-							margin-left: 10px;
-							border-radius:6px;
-							cursor: pointer;
-						}
-					}
-				}
 				.auto-bet {
 					position: relative;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					margin: 23px 0 0;
+					color: #D3CDFF;
 					.mid {
 						display: flex;
+						flex: 1;
 						justify-content: center;
 						.switch {
 							position: relative;
 							width: 60px;
 							height: 24px;
-							background-color: #2A3C7E;
+							background-color: #161220;
 							border-radius: 12px;
 							margin: 0 10px;
 							cursor: pointer;
@@ -943,7 +953,16 @@ export default {
 							}
 						}
 					}
-					a {
+					p {
+						width: 200px;
+						text-align: left;
+						a {
+							color: #FFC425;
+						}
+					}
+					.rule {
+						width: 200px;
+						text-align: right;
 						color: #D3CDFF;
 					}
 				}
@@ -953,7 +972,7 @@ export default {
 					align-items: center;
 					margin-top: 30px;
 					button {
-						width: 360px;
+						width: 300px;
 						height: 52px;
 						background-color: #FFC425;
 						color:#1A0D59;
@@ -961,16 +980,22 @@ export default {
 						border-radius: 26px;
 						font-weight: 700;
 						font-size: 20px;
+						outline: none;
 						cursor: pointer;
+						&:hover {
+							background-color: #ffba00;
+						}
 					}
 					span {
 						flex: 1;
 						font-size: 16px;
 						text-align: left;
 						img {
-							width: 24px;
-							vertical-align: top;
+							width: 30px;
+							vertical-align: middle;
 							margin-right: 10px;
+							background-color: #54506D;
+							border-radius: 50%;
 						}
 						i {
 							color: #FFC425;
@@ -999,7 +1024,8 @@ export default {
 				.content {
 					flex: 1;
 					text-align: left;
-					margin: 0 40px;
+					margin: 0 20px;
+					text-align: center;
 					h4 {
 						font-size: 14px;
 					}
@@ -1038,7 +1064,6 @@ export default {
 			}
 		}
 		.slider-wrap {
-			padding: 0 10px;
 			margin-top: 30px;
 			.scale {
 				display: flex;
@@ -1047,24 +1072,24 @@ export default {
 			}
 			.slider {
 				position: relative;
-				background-color: #FE0E4E;
+				background-color: rgba(230,53,80,1);
 				height: 14px;
 				box-shadow: inset 0 1px 0 #2a365a;
 				border-radius: 7px;
 				margin: 5px 0px 0px;
 				.handle {
 					position: absolute;
-					height: 40px;
-					width: 16px;
-					background: #ced4e8;
-					border-radius: 8px;
-					top: -13px;
-					left: 49%;
+					height: 36px;
+					width: 36px;
+					background: rgba(255,255,255,.5);
+					border-radius: 50%;
+					top: -12px;
+					left: 48%;
 					cursor: pointer;
 					i {
 						position: absolute;
 						top: -31px;
-						left: -10px;
+						left: -1px;
 						color: #1F47A0;
 						font-size: 17px;
 						font-style: normal;
@@ -1073,9 +1098,20 @@ export default {
 						background: url(../../../public/img/qipao.png) no-repeat center;
 						background-size: 100%;
 					}
+					&:after {
+						position: absolute;
+						left: 4px;
+						top:4px;
+						content: "";
+						width: 28px;
+						height: 28px;
+						border-radius: 50%;
+						background-color: #fff;
+
+					}
 				}
 				.bar {
-					background-color: #13F693;
+					background-color: rgba(110,238,161,1);
 					height: 14px;
 					width: 50%;
 					top: 0;
@@ -1083,19 +1119,21 @@ export default {
 					border-top-left-radius: 7px;
 					border-bottom-left-radius: 7px;
 					margin-right: 10px;
-					box-shadow: 0 0 10px #fff;
+					box-shadow: 0 0 7px rgba(179, 255, 222, 1);
 				}
 			}
 		}
-		.confirm {
+		.gamerule {
 			text-align: center;
 			.mu-dialog {
-			border-radius: 4px;
-			overflow: hidden;
+				border-radius: 4px;
+				overflow: hidden;
 			}
 			.mu-dialog-body {
 				position: relative;
-				background: rgba(33, 71, 151, 1);
+				background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+				padding: 24px 24px 20px 35px;
+        		background-size: 40%;
 				.close-btn {
 					position: absolute;
 					right: 20px;
@@ -1105,43 +1143,55 @@ export default {
 					background: url(../../../public/img/close_icon01.png) no-repeat center;
 					background-size: 100%;
 				}
-			h4 {
-				font-size: 20px;
-				color: #fff;
-			}
-			.content-text {
-				margin: 40px 0;
-				font-size: 16px;
-				text-align: center;
-				color: #fff;
-			}
-			.other {
-				color: #C8C8C8;
-				font-size: 14px;
-				margin-bottom: 10px;
-			}
-			}
-			.btn-wrap {
-			display: flex;
-			justify-content: space-around;
-			button {
-				width: 40%;
-				height: 40px;
-				text-align: center;
-				border-radius: 6px;
-				border: none;
-				background-color: #458ad8;
-				color: #fff;
-				&.high {
-				background: linear-gradient(
-					90deg,
-					rgba(100, 180, 239, 1),
-					rgba(57, 94, 236, 1)
-				);
-				color: #fff;
-				border: none;
+				h4 {
+					font-size: 20px;
+					color: #fff;
+				}
+				.content-text {
+					margin: 40px 0;
+					font-size: 16px;
+					text-align: center;
+					color: #CCBCF8;
+					word-break: break-all;
+					height: 300px;
+					overflow-y: scroll;
+					padding-right: 10px;
+					&::-webkit-scrollbar {/*滚动条整体样式*/
+							width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+							height: 8px;
+						}
+					&::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+							border-radius: 10px;
+							background: transparent;
+						}
+					&::-webkit-scrollbar-track {/*滚动条里面轨道*/
+							border-radius: 10px;
+							background: transparent;
+						}
+					a {
+						color: #CCBCF8;
+						text-decoration: underline;
+					}
+				}
+				.other {
+					color: #C8C8C8;
+					font-size: 14px;
+					margin-bottom: 10px;
 				}
 			}
+			.btn-wrap {
+				display: flex;
+				justify-content: space-around;
+				button {
+					width: 40%;
+					height: 40px;
+					text-align: center;
+					border-radius: 4px;
+					border: none;
+					background-color: #FFC425;
+					color: #1A0D59;
+					font-weight: 700;
+				}
 			}
 		}
 	}
@@ -1150,47 +1200,101 @@ export default {
 			.coin-select {
 				position: relative;
 				top: 0;
-				padding: 0 20px;
+				padding: 0 .2rem;
 				white-space: nowrap;
 				overflow-x: scroll;
 				margin: .3rem 0 0 0;
+				width: auto;
 				li {
 					display: inline-block;
-					width: 1.8rem;
-					height: auto;
-					background-color: #2A3C7E;
+					width: 1.2rem;
+					height: .48rem;
 					border-radius: .06rem;
 					text-align: center;
 					overflow: hidden;
-					padding: .1rem 0;
 					margin: 0 .1rem 0 0;
-					i {
+					padding: 0;
+					img {
 						display: inline-block;
-						width: .5rem;
-						height: .5rem;
-						border-radius: 50%;
-						background-color: #1D2F71;
+						height: .38rem;
+						width: .38rem;
 						margin: 0;
-						vertical-align: middle;
-						img {
-							height: .4rem;
-							margin: .05rem 0 0;
-
-						}
 					}
 					span {
-						font-size: .16rem;
-						vertical-align: middle;
+						font-size: .2rem;
 						margin-left: .1rem;
+					}
+					&.not-online {
+						&:hover {
+							&:after {
+								left: 0;
+								top: 0;
+								font-size: .12rem;
+								line-height:.48rem;
+							}
+						}
 					}
 				}
 			}
 			.game-content {
 				width: auto;
 				margin: 0 auto;
-				padding: 0 20px 20px;
+				padding: 0 .2rem .2rem;
 				.slider-wrap {
 					margin: 40px 0;
+				}
+				.ctn-top {
+					display: initial;
+					.bet-input {
+						margin-top: .3rem;
+						.flex-wrap {
+							.input-wrap {
+								flex: 1;
+								height: .52rem;
+								input {
+									flex: 1;
+									font-size: .24rem;
+									width: 1.5rem;
+									height: .52rem;
+									line-height: .52rem;
+								}
+							}
+							.hotkeys {
+								span {
+									height: .52rem;
+									font-size: .24rem;
+									width: .7rem;
+									line-height: .52rem;
+								}
+							}
+						}
+					}
+					.award {
+						margin: .3rem 0 0 0;
+						div {
+							height: .6rem;
+							span {
+								font-size: .24rem;
+							}
+						}
+					}
+				}
+				.ctn-mdl {
+					li {
+						label {
+							font-size: .18rem;
+						}
+						span {
+							font-size: .42rem;
+							img {
+								height: .23rem;
+								width: .18rem;
+							}
+							i {
+								font-size: .32rem !important;
+							}
+						}
+					}
 				}
 				.ctn-btm {
 					h4 {
@@ -1223,15 +1327,71 @@ export default {
 						}
 					}
 					.bet-wrap {
-						flex-wrap: wrap;
-						margin-top: 20px;
+						display: block;
+						margin: .6rem 0;
+						overflow: hidden;
 						.enter {
-							width: 100%;
-							margin-bottom: 18px;
+							display: block;
+							width: 3rem;
+							height: .64rem;
+							margin: 0 auto .2rem;
 							outline: none;
+							font-size: .24rem;
+
 						}
 						span {
-							flex: initial;
+							font-size: .16rem;
+							&.fl {
+								width: 50%;
+								float: left;
+							}
+							&.fr {
+								width: 50%;
+								float: right;
+								text-align: right;
+							}
+							img {
+								width: .4rem;
+							}
+						}
+					}
+					.auto-bet {
+						font-size: .12rem;
+						.mid {
+							label {
+								line-height: 24px;
+							}
+						}
+						.rule {
+							width: 1rem;
+							font-size: .12rem;
+						}
+						p {
+							width: 1rem;
+						}
+					}
+				}
+				.slider-wrap {
+					margin: .5rem 0;
+				}
+				.dig-wrap {
+					width: 100%;
+					height: auto;
+					padding: .22rem .4rem;
+					img {
+						width: .64rem;
+						height: .64rem;
+					}
+					.content {
+						margin: 0;
+						h4 {
+							font-size: .18rem;
+						}
+						p {
+							font-size: .16rem;
+						}
+						span {
+							font-size: .14rem;
 						}
 					}
 				}
@@ -1263,6 +1423,21 @@ export default {
 				height: 50px;
 				margin-top: 20px;
 			}
+			.gamerule {
+				z-index: 20191212 !important;
+				.mu-dialog {
+					width: 90% !important;
+					max-width: 95%;
+					.mu-dialog-body {
+						.content-text {
+							margin: .4rem 0;
+							font-size: .24rem;
+						}
+					}
+				}
+				
+			}
+			
 		}
 	}
 </style>

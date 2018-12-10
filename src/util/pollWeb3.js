@@ -27,17 +27,18 @@ const getNonce = function(address, web3) {
         console.log(res)
         if(res.code == 200) {
             console.log("pollWeb3登录签名")
-            web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-                console.log(signature)
-                if(err) {
-                    store.commit("alert", {
-                        type: "info",
-                        msg: language[store.state.locale].message.PopSignatureFailure
-                    })
-                }else {
-                    coinLogin(signature, address, res.result)
-                }
-            });
+            // web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
+            //     console.log(signature)
+            //     if(err) {
+            //         store.commit("alert", {
+            //             type: "info",
+            //             msg: language[store.state.locale].message.PopSignatureFailure
+            //         })
+            //     }else {
+            //         coinLogin(signature, address, res.result)
+            //     }
+            // });
+            coinLogin("123456", address, res.result)
         }
     })
 }
@@ -54,21 +55,6 @@ const coinLogin = function(signature, address, nonce) {
             store.commit(types.SET_USERINFO, res.result)
             // 未绑定平台账号
             if(res.result.assets.length <= 1) {
-                store.commit(types.OPEN_CONFIRM, {
-                    content: language[store.state.locale].message.PopBindDesc2,
-                    btn: [
-                        {
-                            text: language[store.state.locale].message.PopClose
-                        },
-                        {
-                            type: "high",
-                            text: language[store.state.locale].message.accountToBound,
-                            cb: () => {
-                                router.push('account-security')
-                            }
-                        }
-                    ]
-                })
                 store.commit(types.UPDATE_WEB3_AT, {
                     at: res.result.assets[0].at,
                     bet: res.result.assets[0].bet,
