@@ -60,7 +60,7 @@
 						<div class="buy-button nominscreen" @click="openLogin">
 							{{$t('message.login')}}
 						</div>
-						<div class="buy-button minscreen" @click="$router.push('loginselect')">
+						<div class="buy-button minscreen" @click="$router.push('login')">
 							{{$t('message.login')}}
 						</div>
 					</div>
@@ -88,7 +88,7 @@
 						<div class="buy-button sell-button nominscreen" @click="openLogin">
 							{{$t('message.login')}}
 						</div>
-						<div class="buy-button sell-button minscreen" @click="$router.push('loginselect')">
+						<div class="buy-button sell-button minscreen" @click="$router.push('login')">
 							{{$t('message.login')}}
 						</div>
 					</div>

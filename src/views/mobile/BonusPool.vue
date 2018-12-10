@@ -30,8 +30,8 @@
           <div class="tip2">
             <p class="">{{$t("message.BPtip2")}}</p>
           </div>
-          <div class="tip3">
-              <p v-if="storeCurrentAddr.bet">{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
+          <div class="tip3" v-if="storeCurrentAddr.bet">
+              <p>{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
               <!-- <p>{{$t('message.BPTotal')}}100000000 AB</p> -->
           </div>
         </div>
@@ -128,7 +128,7 @@ export default {
               justify-content: space-around;
               padding: 0.1rem;
               border-radius:4px;
-              background:linear-gradient(left, #7A71BD, #925EC7);
+              background:rgba(233,86,120,.8);
               width: 6.7rem;
               height: 1.5rem;
               margin: auto;
@@ -141,7 +141,7 @@ export default {
                       height: 0.8rem;
                       display: block;
                       margin: 0 auto 0.1rem;
-                      background-color: #554d85;
+                      background-color: #CD3A5A;
                       border-radius: 50%;
 
                   }
@@ -165,14 +165,14 @@ export default {
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
-                  background-color: #49425C;
+                  background-color: #E97552;
                   width: 3.15rem;
                   margin-top: 0.1rem;
                   padding: 0.2rem 0.4rem;
                   border-radius: 4px;
                   img {
                       width: 0.6rem;
-                      background-color: #22202c;
+                      background-color: #C54537;
                       border-radius: 50%;
                   }
                   span {
