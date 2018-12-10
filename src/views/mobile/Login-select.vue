@@ -1,16 +1,10 @@
 <template>
-    <div class="loginselect-page">
-        <a class="cancel" href="javascript:;" @click="$goBack">{{$t("message.PopCancel")}}</a>
-        <img class="logo" src="../../../public/img/logo03.png" alt="">
-        <div class="btn-warp">
-            <button class="primary-btn" @click="$router.replace('login')">{{$t("message.accountLogin")}}</button>
-            <button class="primary-btn hd" @click="hdLogin">{{$t("message.hdWalletLogin")}}</button>
-            <p>
-                {{$t("message.notRegister")}}
-                <!-- mobile注册 -->
-                <a href="javascript:;" @click="$router.replace('register')">{{$t("message.nowRegister")}}</a>
-            </p>
-        </div>
+    <div class="loginselect-page" :style="{minHeight: $window.innerHeight + 'px'}">
+      <MBheaderBar title="登陆"></MBheaderBar>
+      <h3>{{$t('message.PopLoginSelectTitle')}}</h3>
+      <div class="content-text" v-html="$t('message.PopLoginSelect' + coinType)"></div>
+      <p class="other">{{$t('message.PopLoginText1')}}</p>
+      <button @click="showLoginPopup">{{$t('message.login')}} / {{$t('message.PopRegister')}}</button>
     </div>
 </template>
 
@@ -21,6 +15,9 @@ export default {
         return {}
     },
     methods: {
+      showLoginPopup () {
+        this.$router.push('login')
+      },
         //HD钱包登录
         hdLogin(type) {
             if(window.web3) {
@@ -76,7 +73,11 @@ export default {
     computed: {
         ...mapState({
             locale: state => state.locale,
-        })
+        }),
+
+            coinType() {
+                return this.$store.state.user.coinType
+            }
     }
 }
 </script>
@@ -84,45 +85,56 @@ export default {
 
 <style lang="less">
 .loginselect-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    .cancel {
-        position: absolute;
-        font-size: .28rem;
-        color: #C4E5FF;
-        padding: .3rem;
-    }
-    .logo {
-        display: block;
-        width: 3.7rem;
-        margin: 1.8rem auto 0;
-    }
-    .btn-warp {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        button {
-            display: block;
-            width: 90%;
-            height: .9rem;
-            background:linear-gradient(90deg,rgba(69,182,245,1),rgba(45,92,245,1));
-            border-radius: .06rem;
-            margin: .4rem auto 0;
-            color: #fff;
-            font-size: .32rem;
-            border: none;
-            &.hd {
-                background:linear-gradient(90deg,rgba(0,193,204,1),rgba(0,144,250,1));
+    border-radius:12px;
+        h3 {
+            text-align: center;
+            font-size: 24px;
+                margin-top: 1.3rem;
+        }
+        .content-text {
+            margin: 50px 0;
+            font-size: 14px;
+            color: #E3DFFF;
+            word-break: break-all;
+            padding: 0 0.4rem;
+            a {
+                color: #E3DFFF;
+                text-decoration: underline;
             }
         }
-        p {
-            text-align: center;
-            margin: .6rem 0;
+        button {
+            display: block;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #FEFEFE;
+            width: 120px;
+            height: 42px;
+            border-radius: 21px;
+            margin: 0 auto;
+            cursor: pointer;
+            background:linear-gradient(90deg,rgba(175,163,255,1),rgba(199,144,255,1));
+            box-shadow:0px 1px 3px 0px rgba(126,79,181,0.75);
         }
-    }
+        .other {
+            font-size: 12px;
+            color: #E3DFFF;
+            text-align: center;
+            margin-top: 20px;
+            a {
+                color: #D3CDFF;
+            }
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 28px;
+            height: 28px;
+            background: url(../../../public/img/win_box/close.png) no-repeat center;
+            background-size: 100%;
+            cursor: pointer;
+        }
+
 }
 </style>
