@@ -46,13 +46,14 @@ export default {
         h4 {
             text-align: center;
             font-size: .3rem;
-            margin-top: .8rem;
+            margin: .4rem 0 .2rem;
         }
         table{
             border-collapse:collapse;
             width:100%;
             background-color: #4D426A;
             border-radius: .06rem;
+            margin: .2rem 0;
         }
 
         td, th{

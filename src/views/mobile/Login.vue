@@ -13,7 +13,7 @@
             <!-- 手机号 -->
             <div class="input-wrap">
                 <!-- <label>{{$t('message.PopPhone')}}</label> -->
-                <input type="tel" v-model.trim="formData.phoneLogin.phone" :placeholder="$t('message.PopLoginPlaceholder')">
+                <input type="text" v-model.trim="formData.phoneLogin.phone" :placeholder="$t('message.PopLoginPlaceholder')">
             </div>
             <!-- 邮箱号 -->
             <!-- <div class="input-wrap" v-else>

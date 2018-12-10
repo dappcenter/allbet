@@ -314,7 +314,7 @@ export default {
         //APP.vue
         AppMainNet: "Switch to the main network",
         AppMeta: "Our games are only available on the main website, please switch via Metamask",
-        AppTron: "ur game is only available on the main network, please switch through the plug-in.",
+        AppTron: "Our game is only available on the main network, please switch through the plug-in.",
 
         //My.vue
         my: "My",
@@ -344,14 +344,16 @@ export default {
 
         //预售
         preTarget: 'A game platform aiming to create a DAPP with the most complete game categories and the best game experience.',
-        preTotalAb: 'The presale of AB Token is limited to 40,000,000 TRX.',
+        preTotalAb: 'The presale of AB Token is limited to 20,000,000 TRX.',
         preAddress: 'Contract Address: ',
         preTrxNum: 'Enter TRX amount',
         preTrxBet: 'Bet',
         preSale: 'Presale Scheme',
         preLess:'The purchase cannot be less than 1000 TRX each time.',
         preRefuse: 'An exchange address is not accepted, otherwise you will not receive AB.',
-        preJoin: 'You will get extra reward of 5% AB if taking part in the presale of 50,000 threshold. ',
+        preJoin: 'You will get extra reward of 5% AB if taking part in the presale of 50,000 threshold.，Your account upgrade to game mining 120% mining machine',
+        preJoin2: 'You will get extra reward of 10% AB if taking part in the presale of 100,000 threshold.，Your account upgrade to game mining 150% mining machine',
+        preJoin3: 'You will get extra reward of 15% AB if taking part in the presale of 150,000 threshold.，Your account upgrade to game mining 200% mining machine',
         preHelp: 'If you have any questions, please join our community.',
         preCanYu: "success",
         preTooLow: "A single participation cannot be less than ",

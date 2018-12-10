@@ -4,7 +4,7 @@
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
         <div class="addr-wrap">
-            <p>100 TRX = 200 AB</p>
+            <p>1 TRX = 50 AB</p>
             <p>{{$t('message.preTotalAb')}}</p>
             <p>{{$t('message.preAddress')}}{{$window.TRONFUNDRAIYADDRESS}}</p>
         </div>
@@ -23,7 +23,14 @@
             <input type="text" v-model="amount" :placeholder="$t('message.preTrxNum')" oninput="value=value.replace(/[^0-9]/g,'')" onkeyup="value=value.replace(/[^0-9]/g,'')" onpaste="value=value.replace(/[^0-9]/g,'')" oncontextmenu="value=value.replace(/[^0-9]/g,'')">
             <button @click="send">{{$t('message.preTrxBet')}}</button>
         </div>
-        <p class="content">{{$t('message.preSale')}}<br />* {{$t('message.preLess')}}<br />* {{$t('message.preRefuse')}}<br />* {{$t('message.preJoin')}}<br />{{$t('message.preHelp')}}</p>
+        <p class="content">
+            {{$t('message.preSale')}}<br />
+            * {{$t('message.preLess')}}<br />
+            * {{$t('message.preRefuse')}}<br />
+            * {{$t('message.preJoin')}}<br />
+            * {{$t('message.preJoin2')}}<br />
+            * {{$t('message.preJoin3')}}<br /><br />
+            {{$t('message.preHelp')}}</p>
 
         <div class="service">
             <a href="https://t.me/allbetAB" target="_blank">

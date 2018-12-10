@@ -27,7 +27,7 @@
 					<div class="flex-wrap">
 						<div class="input-wrap">
 							<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
-							<input type="text" v-model="amount" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')" oncontextmenu="value=value.replace(/[^0-9\.]/g,'')">
+							<input type="text" v-model="amount" @blur="inputAmountBlur" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')">
 							<span>{{coinType}}</span>
 						</div>
 						<div class="hotkeys">
@@ -209,6 +209,14 @@ export default {
 		}
     },
     methods: {
+		inputAmountBlur() {
+			if(this.amount < this.rule.minInvest) {
+				this.amount = this.rule.minInvest
+			}
+			if(this.amount > this.rule.maxInvest) {
+				this.amount = this.rule.maxInvest
+			}
+		},
 		//幸运数跳动
 		luckyRun() {
 			clearInterval(this.timer)
@@ -1126,7 +1134,7 @@ export default {
 			.mu-dialog-body {
 				position: relative;
 				background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
-				// background: #52476F;
+				padding: 24px 24px 20px 35px;
         		background-size: 40%;
 				.close-btn {
 					position: absolute;
@@ -1423,7 +1431,10 @@ export default {
 					width: 90% !important;
 					max-width: 95%;
 					.mu-dialog-body {
-
+						.content-text {
+							margin: .4rem 0;
+							font-size: .24rem;
+						}
 					}
 				}
 				

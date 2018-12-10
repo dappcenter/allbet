@@ -68,7 +68,7 @@
 			</div> -->
 			<mu-container>
 			  <mu-flex justify-content="center">
-			    <mu-pagination :total="total" :pageCount="4" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
+			    <mu-pagination :total="total" :pageCount="5" :page-size="20" :current.sync="current" @change="getTradeRecord"></mu-pagination>
 			  </mu-flex>
 			</mu-container>
 

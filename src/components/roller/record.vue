@@ -23,7 +23,7 @@
 				<span class="nominscreen">AB</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
 					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
@@ -43,7 +43,7 @@
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
 					</li>
 					<li>
-						<span>{{item.abNum}}</span>
+						<span>{{Math.floor(item.abNum)}}</span>
 					</li>
 				</ul>
 			</div>
@@ -58,7 +58,7 @@
 				<span class="tr">{{$t("message.GameReward")}}</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
 					<li class="user" v-if="boardType != 'ME'">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>

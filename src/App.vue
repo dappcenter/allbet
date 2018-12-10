@@ -572,13 +572,14 @@ body {
           width: 50px;
         }
         span {
-          font-size: 20px;
+          font-size: .3rem;
           vertical-align: middle;
+          font-weight: 700;
         }
       }
       p {
-        margin-top: 20px;
-        font-size: 16px;
+        margin-top: .2rem;
+        font-size: .12rem;
       }
     }
   }

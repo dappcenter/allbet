@@ -344,14 +344,16 @@ export default {
 
         //预售
         preTarget: '一个致力于打造最全游戏品类，最棒游戏体验的DAPP游戏平台。',
-        preTotalAb: 'AB Token本次预售仅限 40,000,000 TRX',
+        preTotalAb: 'AB Token本次预售仅限 20,000,000 TRX',
         preAddress: '合约地址：',
         preTrxNum: '输入TRX数量',
         preTrxBet: '投入TRX',
         preSale: '预售方案：',
         preLess:'单次参与预售，不小于 1000 TRX',
         preRefuse: '不接受交易所地址，否则您将收不到AB',
-        preJoin: '参与5万门槛预售的额外赠送5%AB',
+        preJoin: '单次参与预售超过5万TRX将额外赠送5%AB，账号升级为游戏挖矿120%矿机',
+        preJoin2: '单次参与预售超过10万TRX将额外赠送10%AB，账号升级为游戏挖矿150%矿机',
+        preJoin3: '单次参与预售超过15万TRX将额外赠送15%AB，账号升级为游戏挖矿200%矿机',
         preHelp: '如有疑问请加入社群',
         preCanYu: "参与成功",
         preTooLow: "单次参与不能小于",
