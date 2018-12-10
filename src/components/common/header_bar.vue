@@ -16,8 +16,8 @@
             <div class="statusbar">
                 <!-- <div class="address-select" v-if="addressList.length > 1">
                     <label class="nominscreen">{{$t("message.address")}}：</label>
-                    <mu-select 
-                        v-model="currentAddr" 
+                    <mu-select
+                        v-model="currentAddr"
                         :class="{'import': storeCurrentAddr.platform == 'IMPORT', 'dispatcher': storeCurrentAddr.platform == 'DISPATCHER'}"
                         @change="currentAddrChange">
                         <mu-option :class="{'import': item.platform == 'IMPORT', 'dispatcher': item.platform == 'DISPATCHER'}" v-for="item,index in addressList" :key="index" :label="item.coinAddress.replace(/(.{4}).*(.{6})/, '$1....$2')" :value="item.coinAddress" :append-body="false" :solo="true"></mu-option>
@@ -227,7 +227,7 @@
 
         <!-- 分红池 -->
         <BPPopup v-model="displayStatus.bonusPools"></BPPopup>
-        
+
         <!-- AB代币 -->
         <AbPopup v-model="displayStatus.abBancor"></AbPopup>
 
@@ -801,7 +801,7 @@ export default {
             &:hover {
                 color: #D3CDFF;
             }
-            
+
         }
     }
     .statusbar {
@@ -844,7 +844,7 @@ export default {
                     img {
                         width: 200px;
                     }
-                }   
+                }
             }
         }
         .user-center {
@@ -1056,7 +1056,7 @@ export default {
                 width: 420px;
                 button {
                     margin-top: 40px;
-                    
+
                 }
             }
             h4 {
@@ -1066,7 +1066,7 @@ export default {
                 display: block;
                 width: 100%;
                 background:#443A60;
-                color: #8378A3;
+                color: #fff;
                 border: none;
                 border-radius:4px;
                 height: 40px;
@@ -1087,7 +1087,7 @@ export default {
                     }
                 }
             }
-            
+
         }
         &.register-accout {
             h4 {

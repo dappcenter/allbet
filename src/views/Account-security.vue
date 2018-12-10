@@ -104,7 +104,7 @@
 		<h4>{{$t('message.PopResetPass')}}</h4>
 		<div class="input-wrap">
 			<label>{{$t('message.PopAccount')}}:</label>
-			<input type="text" :value="currentAddr.userName" :placeholder="$t('message.PopGraphicEnter')" disabled>
+			<input type="text" :value="currentAddr.userName" :placeholder="$t('message.PopGraphicEnter')" disabled style="background:transparent;">
 		</div>
 		<!-- <div class="input-wrap">
 			<label>{{$t('message.PopGraphic')}}</label>
