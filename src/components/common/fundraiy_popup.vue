@@ -4,7 +4,7 @@
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
         <div class="addr-wrap">
-            <p>1 TRX = 50 AB</p>
+            <p>1 TRX = 20 AB</p>
             <p>{{$t('message.preTotalAb')}}</p>
             <p>{{$t('message.preAddress')}}{{$window.TRONFUNDRAIYADDRESS}}</p>
         </div>

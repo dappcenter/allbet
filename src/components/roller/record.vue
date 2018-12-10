@@ -248,38 +248,12 @@ export default {
 			font-style: normal;
 		}
 	}
-	.t-head {
-		display: flex;
-		align-items: center;
-		color: #D2D2D2;
-		font-size: 18px;
-		height: 64px;
-		padding: 0 120px;
-		.disapper {
-			display: none;
-		}
-		span {
-			flex: 1;
-			text-align: center;
-			&:first-child {
-				flex: 1;
-				text-align: left;
-			}
-			&:last-child {
-				flex: 1;
-				text-align: right;
-			}
-			i {
-				display: block;
-				width: 25px;
-				height: 25px;
-				background: url("../../../public/img/flower.png") no-repeat center;
-				background-size: 80%;
-			}
-		}
-	}
-	.t-body {
-		.list-content {
+	.table-record {
+		max-width: 1100px;
+		margin: 0 auto;
+		font-family: sans-serif;
+		padding-bottom: 120px;
+		.t-head {
 			display: flex;
 			align-items: center;
 			color: #D2D2D2;
@@ -371,9 +345,6 @@ export default {
 						display: none;
 					}
 				}
-			}
-			.disapper {
-				display: none;
 			}
 		}
 	}

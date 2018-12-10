@@ -107,10 +107,10 @@
 			<!-- 挖矿数量 -->
 			<div class="dig-wrap">
 				<img src="../../../public/img/ab_icon03.png" alt="">
-				<div class="content">
-					<h4>{{$t('message.GameBetToGet')}} {{(1/rule.winDig*amount).toFixed(3)}} AB</h4>
-					<p>{{$t('message.GameHigGet')}} {{1/rule.winDig}} x AB </p>
-					<span>{{$t('message.GameDigProportion')}}　 WIN 1 : {{1/rule.winDig}} 　  LOSE 1 : {{1/rule.failDig}}</span>
+				<div class="content" v-if="rule.winDig">
+					<h4>{{$t('message.GameBetToGet')}} {{(rule.winDig.split(':')[1]*amount).toFixed(3)}} AB</h4>
+					<p>{{$t('message.GameHigGet')}} {{rule.winDig.split(':')[1]}} x AB </p>
+					<span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
 				</div>
 				<i class="help nominscreen" @click="isShowABpopup = true"></i>
 				<i class="help minscreen" @click="$router.push('ab')"></i>
