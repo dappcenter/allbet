@@ -12,47 +12,57 @@
 			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn || 0}}</i>{{coinType}}</span>
 			<span class="fr nominscreen">{{$t("message.GameTips1")}}</span>
 		</div>
-		<div class="table-record">
-			<div class="t-head">
-				<span>{{$t("message.GamePlay")}}</span>
-				<span class="tl">{{$t("message.GameTime")}}</span>
-				<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
-				<span class="nominscreen">{{$t("message.GameForecast")}}</span>
-				<span class="nominscreen">{{$t("message.GameLucky")}}</span>
-				<span class="nominscreen">{{$t("message.GameOdds")}}</span>
-				<span class="tr">{{$t("message.GameReward")}}</span>
-				<span class="nominscreen">AB</span>
-			</div>
-			<div class="t-body">
-				<ul class="list-content win" :class="{'lose': item.winFlag == 'LOSE'}" v-for="item in recordsList">
-					<li class="user" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN'}">
-						<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
-					</li>
-					<li class="tl">
-						<span>{{$fmtDate(item.createTime, "time")}}</span>
-						<!-- <span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span> -->
-					</li>
-					<li class="nominscreen">
-						<span>{{item.coinAmount}} {{coinType}}</span>
-					</li>
-					<li class="nominscreen">
-						<span>{{item.guess}}</span>
-					</li>
-					<li class="nominscreen">
-						<span>{{item.luckyNum}}</span>
-					</li>
-					<li class="nominscreen">
-						<span>{{item.odds}}</span>
-					</li>
-					<li class="golden tr">
-						<span v-if="item.rewards > 0">{{item.rewards}} {{coinType}}</span>
-						<span v-else>--</span>
-					</li>
-					<li class="nominscreen">
-						<span>{{item.abNum}} AB</span>
-					</li>
-				</ul>
-			</div>
+		<div class="t-head">
+			<span class="tl">{{$t("message.GameTime")}}</span>
+			<span :class="['minscreen',boardType == 'ME'?'disapper':'']">{{$t("message.GamePlay")}}</span>
+			<span class="nominscreen">{{$t("message.GamePlay")}}</span>
+			<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
+			<span :class="['minscreen',boardType == 'ME'?'':'disapper']">{{$t("message.GameForecast")}}</span>
+			<span class="nominscreen">{{$t("message.GameForecast")}}</span>
+			<span :class="['minscreen',boardType == 'ME'?'':'disapper']">{{$t("message.GameLucky")}}</span>
+			<span class="nominscreen">{{$t("message.GameLucky")}}</span>
+			<span class="nominscreen">{{$t("message.GameOdds")}}</span>
+			<span class="tr">{{$t("message.GameReward")}}</span>
+			<span class="nominscreen">AB</span>
+		</div>
+		<div class="t-body">
+			<ul class="list-content" v-for="item in recordsList">
+				<li class="tl">
+					<span class="nominscreen">{{$fmtDate(item.createTime, "month")}}</span>
+					<span class="minscreen">{{$fmtDate(item.createTime, "time")}}</span>
+				</li>
+				<li class="user nominscreen" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount}">
+					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
+				</li>
+				<li class="user minscreen" :class="{'green': item.odds >= rule.luckyManOdds && item.winFlag == 'WIN', 'golden': item.coinAmount >= rule.gangsterAmount,'disapper': boardType == 'ME'}">
+					<span>{{item.coinAddress.replace(/(.{4}).*(.{6})/, "$1....$2")}}</span>
+				</li>
+				<li class="nominscreen">
+					<span>{{item.coinAmount}} {{coinType}}</span>
+				</li>
+				<li class="nominscreen">
+					<span>{{item.guess}}</span>
+				</li>
+				<li :class="['minscreen',boardType == 'ME'?'':'disapper']">
+					<span>{{item.guess}}</span>
+				</li>
+				<li class="nominscreen">
+					<span>{{item.luckyNum}}</span>
+				</li>
+				<li :class="['minscreen',boardType == 'ME'?'':'disapper']">
+					<span>{{item.luckyNum}}</span>
+				</li>
+				<li class="nominscreen">
+					<span>{{item.odds}}</span>
+				</li>
+				<li class="golden tr">
+					<span v-if="item.rewards > 0">{{item.rewards}} {{coinType}}</span>
+					<span v-else>--</span>
+				</li>
+				<li class="nominscreen">
+					<span>{{item.abNum}} AB</span>
+				</li>
+			</ul>
 		</div>
 		
 	</section>
@@ -223,12 +233,47 @@ export default {
 			font-style: normal;
 		}
 	}
+<<<<<<< HEAD
 	.table-record {
 		max-width: 1100px;
 		margin: 0 auto;
 		font-family: sans-serif;
 		padding-bottom: 120px;
 		.t-head {
+=======
+	.t-head {
+		display: flex;
+		align-items: center;
+		color: #D2D2D2;
+		font-size: 18px;
+		height: 64px;
+		padding: 0 120px;
+		.disapper {
+			display: none;
+		}
+		span {
+			flex: 1;
+			text-align: center;
+			&:first-child {
+				flex: 1;
+				text-align: left;
+			}
+			&:last-child {
+				flex: 1;
+				text-align: right;
+			}
+			i {
+				display: block;
+				width: 25px;
+				height: 25px;
+				background: url("../../../public/img/flower.png") no-repeat center;
+				background-size: 80%;
+			}
+		}
+	}
+	.t-body {
+		.list-content {
+>>>>>>> 039b796513847f96cfd1c7e1699f5057453f82f7
 			display: flex;
 			align-items: center;
 			color: #D2D2D2;
@@ -322,6 +367,9 @@ export default {
 						display: none;
 					}
 				}
+			}
+			.disapper {
+				display: none;
 			}
 		}
 	}

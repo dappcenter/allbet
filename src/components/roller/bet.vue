@@ -9,13 +9,13 @@
 				</i>
 				<span>ETH</span>
 			</li>
-			<li class="online" :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
+			<!-- <li :class="{'active' : coinType == 'TRX'}" @click="changeCoinType('TRX')">
 				<i class="trx">
 					<img src="../../../public/img/coin/TRX01.png" alt="">
 				</i>
 				<span>TRX</span>
-			</li>
-			<li class="not-online" :data-text="$t('message.BPSoon')">
+			</li> -->
+			<li>
 				<i class="eos">
 					<img src="../../../public/img/coin/EOS01.png" alt="">
 				</i>
@@ -360,7 +360,7 @@ export default {
 				})
 				return
 			}
-			
+
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
@@ -423,10 +423,10 @@ export default {
 				that.getBetResult(recdId)
 			})
 			.on("error", function(error) {
-				that.alert({
-					type: "error",
-					msg: that.$t("message.GameBetErr")
-				})
+				// that.alert({
+				// 	type: "error",
+				// 	msg: that.$t("message.GameBetErr")
+				// })
 			});
 		},
 		/**
@@ -448,10 +448,10 @@ export default {
 				that.luckyRun()
 				that.getBetResult(orderId)
 			}).catch(err => {
-				that.alert({
-					type: "error",
-					msg: that.$t("message.GameBetErr")
-				})
+				// that.alert({
+				// 	type: "error",
+				// 	msg: that.$t("message.GameBetErr")
+				// })
 			})
 		},
 		//查询下注结果
