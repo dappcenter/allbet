@@ -16,7 +16,7 @@
             </div>
             <div class="flex-wrap">
                 <span>0 TRX</span>
-                <span>{{pageData.goal}} TRX</span>
+                <span>50,000,000 TRX</span>
             </div>
         </div>
         <div class="input-wrap">
@@ -149,10 +149,12 @@ export default {
 <style lang="less">
 .fundraiy-popup {
     z-index: 20181248 !important;
+    overflow-y: scroll;
     .mu-dialog {
         width: 540px;
         border-radius: 6px;
         overflow: hidden;
+        margin-top: 150px;
     }
     .mu-dialog-body {
         position: relative;

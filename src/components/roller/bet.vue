@@ -599,9 +599,17 @@ export default {
 		// 奖金
 		bonus() {
 			if((this.amount * this.peilv * 0.01) <= 0.0003) {
-				return Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000
+				if(Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000 < 0) {
+					return 0
+				}else {
+					return Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000
+				}
 			}else {
-				return Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000
+				if(Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000 < 0) {
+					return 0
+				}else {
+					return Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000
+				}
 			}
 		}
 	},
@@ -1250,21 +1258,21 @@ export default {
 						.flex-wrap {
 							.input-wrap {
 								flex: 1;
-								height: .52rem;
+								height: .7rem;
 								input {
 									flex: 1;
-									font-size: .24rem;
+									font-size: .3rem;
 									width: 1.5rem;
-									height: .52rem;
-									line-height: .52rem;
+									height: .7rem;
+									line-height: .7rem;
 								}
 							}
 							.hotkeys {
 								span {
-									height: .52rem;
+									height: .7rem;
 									font-size: .24rem;
 									width: .7rem;
-									line-height: .52rem;
+									line-height: .7rem;
 								}
 							}
 						}
@@ -1272,14 +1280,15 @@ export default {
 					.award {
 						margin: .3rem 0 0 0;
 						div {
-							height: .6rem;
+							height: .8rem;
 							span {
-								font-size: .24rem;
+								font-size: .3rem;
 							}
 						}
 					}
 				}
 				.ctn-mdl {
+					padding: .2rem 0;
 					li {
 						label {
 							font-size: .18rem;

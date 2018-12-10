@@ -18,7 +18,7 @@
             </div>
             <div class="flex-wrap">
                 <span>0 TRX</span>
-                <span>{{pageData.goal}} TRX</span>
+                <span>50,000,000 TRX</span>
             </div>
         </div>
         <div class="input-wrap">

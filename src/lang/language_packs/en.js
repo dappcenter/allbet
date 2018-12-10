@@ -9,7 +9,7 @@ export default {
         //header_bar
         home: "Home",
         atDeal: "Trade",
-        abBancor: "AB TOKEN",
+        abBancor: "AB",
         bonusPool: "DIVIDENDS",
         invitation: "REFERRAL",
         course: "INFO",
