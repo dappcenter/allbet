@@ -78,13 +78,13 @@
 				<!-- 自动下注 -->
 				<div class="auto-bet">
 					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
-					<p class="nominscreen"></p>
+					<p class=""></p>
 					<div class="mid">
 						<label>{{$t('message.GameAutoBet')}}</label>
 						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 					</div>
-					<a href="javascript:;" class="nominscreen rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
+					<a href="javascript:;" class="rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
 				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen">
@@ -258,7 +258,7 @@ export default {
 		onHandleClick(e) {
 			let moveWidth = e.offsetX
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-			const sliderWidth = this.$refs.slider.clientWidth - deductWidth
+			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
 			this.$refs.handle.style.left = moveWidth + "px"
 			this.$refs.bar.style.width = moveWidth + 10 + "px"
@@ -272,7 +272,7 @@ export default {
 			let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-            const sliderWidth = this.$refs.slider.clientWidth - deductWidth
+			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			const ofX = e.offsetX
 			let moveWidth = 0
             window.onmousemove = function(e) {
@@ -291,7 +291,7 @@ export default {
             let that = this
 			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-            const sliderWidth = this.$refs.slider.clientWidth - deductWidth
+            const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			const ofX = e.touches[0].clientX - this.$refs.handle.offsetLeft
 			let moveWidth = 0
 			window.ontouchmove  = function(e) {
@@ -435,7 +435,6 @@ export default {
 		 * TRX下注
 		 */
 		placeBetTRX(rollUnder, orderId, amount) {
-			console.log("placeBetTRX",new Date().getTime())
 			let that = this
 			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
 			const callValue = this.tronWeb.tronWebInstance.toSun(amount);
@@ -444,14 +443,15 @@ export default {
 				callValue:callValue,
 				shouldPollResponse:false
 			}).then(res => {
+				console.log(res)
 				that.alert({
 					type: "info",
 					msg: "Successful bet.",
 					timeout: 9999999
 				})
-				that.luckyRun()
 				that.getBetResult(orderId)
 			}).catch(err => {
+				console.log(err)
 				that.alert({
 					type: "info",
 					msg: "User rejected the signature request.",
@@ -1349,6 +1349,21 @@ export default {
 							}
 						}
 					}
+					.auto-bet {
+						font-size: .12rem;
+						.mid {
+							label {
+								line-height: 24px;
+							}
+						}
+						.rule {
+							width: 1rem;
+							font-size: .12rem;
+						}
+						p {
+							width: 1rem;
+						}
+					}
 				}
 				.slider-wrap {
 					margin: .5rem 0;
@@ -1402,6 +1417,18 @@ export default {
 				height: 50px;
 				margin-top: 20px;
 			}
+			.gamerule {
+				z-index: 20191212 !important;
+				.mu-dialog {
+					width: 90% !important;
+					max-width: 95%;
+					.mu-dialog-body {
+
+					}
+				}
+				
+			}
+			
 		}
 	}
 </style>

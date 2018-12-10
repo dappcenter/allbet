@@ -91,10 +91,14 @@ export default {
                 return
             }
             this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
-				that.alert({
-					type: "success",
-					msg: that.$t('message.preCanYu')
-				})
+                console.log(res)
+                if(res.code == 'SUCCESS') {
+                    that.alert({
+                        type: "success",
+                        msg: that.$t('message.preCanYu')
+                    })
+                }
+				
 			}).catch(err => {
 
 			})
