@@ -344,7 +344,7 @@ export default {
 
         //预售
         preTarget: '一个致力于打造最全游戏品类，最棒游戏体验的DAPP游戏平台。',
-        preTotalAb: 'AB Token本次预售仅限 20,000,000 TRX',
+        preTotalAb: 'AB Token本次预售仅限 50,000,000 TRX',
         preAddress: '合约地址：',
         preTrxNum: '输入TRX数量',
         preTrxBet: '投入TRX',
