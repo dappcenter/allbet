@@ -40,7 +40,7 @@
 				<div class="no-bind" v-show="!inviteCode">
 						<p>
 							{{$t('message.InviteBind')}}
-							<router-link class="bind-btn" :to="{ name: 'account-security'}">{{$t('message.accountToBound')}}</router-link>
+							<router-link class="bind-btn" :to="{ name: 'loginselect'}">{{$t('message.hasToLogin')}}</router-link>
 						</p>
 						<div class="buttom">
 							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
