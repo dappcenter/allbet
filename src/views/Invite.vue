@@ -47,10 +47,10 @@
 						<h5>{{$t('message.InvitationRules2')}}</h5>
 					</div>
         </div>
-				<div class="no-bind" v-show="!inviteCode">
+				<div class="no-bind">
 						<p>
 							{{$t('message.InviteBind')}}
-							<router-link class="bind-btn" :to="{ name: 'account-security'}">{{$t('message.accountToBound')}}</router-link>
+							<span class="bind-btn" @click="login">{{$t('message.hasToLogin')}}</span>
 						</p>
 						<div class="buttom">
 							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
@@ -164,6 +164,7 @@ import {mapMutations, mapState} from "vuex"
 			},
 			...mapMutations({
 				alert: "alert",
+				login: "OPEN_LOGIN",
 			})
 		}
  };
