@@ -116,10 +116,10 @@
 			</div>
 		</div>
 		<!-- 游戏规则 -->
-		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="gamerule">
+		<mu-dialog width="600" :open.sync="isShowHelp" :append-body="false" class="gamerule" :overlay-close="false">
 			<a href="javascript:;" class="close-btn" @click="isShowHelp = false"></a>
 			<h4>{{$t("message.GameRule")}}</h4>
-			<div class="content-text" v-html="$t('message.GameHelp')"></div>
+			<div class="content-text" v-html="$t('message.GameHelp')" ref="contentText"></div>
 			<div class="btn-wrap">
 				<button class="high" @click="isShowHelp = false">{{$t("message.GameKnow")}}</button>
 			</div>
@@ -144,6 +144,7 @@ import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
+import BScroll from 'better-scroll'
 
 export default {
 	props: {
@@ -173,7 +174,8 @@ export default {
 			openWeixinQR: false,
 			autoBet: false,
 			isShowABpopup: false,
-			isShowFundraiy: false
+			isShowFundraiy: false,
+			scroll: null
         }
 	},
 	created() {
@@ -206,6 +208,7 @@ export default {
 			this.$router.push('mobile-fundraiy')
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
+		
     },
     methods: {
 		inputAmountBlur() {
@@ -582,6 +585,13 @@ export default {
 		},
 		coinType() {
 			this.getRule()
+		},
+		isShowHelp() {
+			setTimeout(() => {
+				if(this.isShowHelp && this.$refs.contentText) {
+					this.scroll = new BScroll(this.$refs.contentText)
+				}
+			}, 500)
 		}
 	},
 	computed: {
@@ -1132,9 +1142,13 @@ export default {
 		}
 		.gamerule {
 			text-align: center;
+			// overflow-y: scroll;
+			// -webkit-overflow-scrolling: touch;
 			.mu-dialog {
 				border-radius: 4px;
 				overflow: hidden;
+				// position: absolute;
+				// top: 10%;
 			}
 			.mu-dialog-body {
 				position: relative;
@@ -1161,9 +1175,10 @@ export default {
 					color: #CCBCF8;
 					word-break: break-all;
 					height: 300px;
-					overflow-y: scroll;
-					-webkit-overflow-scrolling: touch;
-					padding-right: 10px;
+					overflow: hidden;
+					// overflow-y: scroll;
+					// -webkit-overflow-scrolling: touch;
+					// padding-right: 10px;
 					&::-webkit-scrollbar {/*滚动条整体样式*/
 							width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
 							height: 8px;
