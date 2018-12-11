@@ -20,7 +20,7 @@ const pollTronWeb = function(tronWeb) {
             if(err) {
                 console.log(err)
             }else if(address){
-                store.commit(types.UPDATE_TRON_ASSET, { 
+                store.commit(types.UPDATE_TRON_ASSET, {
                     coinbase: address,
                     balance: Math.floor(balance/1000)/1000,
                 })
@@ -30,7 +30,7 @@ const pollTronWeb = function(tronWeb) {
             return
         }
 
-        
+
         if(store.state.user.userInfo.accounts && store.state.user.userInfo.accounts.length > 0) {
             // 有登录态
             let haveHD = false
@@ -52,7 +52,7 @@ const pollTronWeb = function(tronWeb) {
                 coinLogin(address)
             }
         }
-        
+
     }, 1000)
 }
 
@@ -61,6 +61,7 @@ function coinLogin(address) {
     axios.post("/open/plugin_login", {
         "chainType": "TRX",
         "publicAddress": address,
+        "inviteCode": sessionStorage.getItem('inviteCode')
     }).then(res => {
         if(res.code == 200) {
             store.commit(types.SET_USERINFO, res.result)

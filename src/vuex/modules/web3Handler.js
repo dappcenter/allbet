@@ -87,7 +87,7 @@ const actions = {
                     // 当前选中的HD钱包地址跟插件不一致
                     getNonce(result.coinbase, result.web3)
                 }
-                
+
             }else {
                 // 没有登录态
                 //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
@@ -99,7 +99,7 @@ const actions = {
                 axios.get("/open/metamask", {
                     params: {
                         address: address,
-                        type: "web3Handler" 
+                        type: "web3Handler"
                     }
                 }).then(res => {
                     console.log(res)
@@ -115,13 +115,14 @@ const actions = {
                     }
                 })
             }
-            
+
             function coinLogin(signature, address, nonce) {
                 axios.post("/open/plugin_login", {
                     "chainType": "ETH",
                     "message": nonce,
                     "publicAddress": address,
-                    "signature": signature
+                    "signature": signature,
+                    "inviteCode": sessionStorage.getItem('inviteCode')
                 }).then(res => {
                     if(res.code == 200) {
                         commit(types.SET_USERINFO, res.result)
@@ -131,10 +132,10 @@ const actions = {
                         })
                     }
                 }).catch(err => {
-        
+
                 })
             }
-            
+
         }).catch(e => {
             console.log('error in action registerWeb3', e)
         })
