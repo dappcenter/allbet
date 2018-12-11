@@ -103,7 +103,7 @@ export default {
                 return
             }
             this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
-				console.log(res)
+				console.log("sendTransaction",res)
                 if(res.result === true) {
                     that.alert({
                         type: "success",
