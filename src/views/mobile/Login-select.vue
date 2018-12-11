@@ -86,11 +86,12 @@ export default {
 
 <style lang="less">
 .loginselect-page {
-    border-radius:12px;
+  background:linear-gradient(140deg,rgba(122,113,189,1),rgba(146,94,199,1));
         h3 {
             text-align: center;
             font-size: 24px;
                 margin-top: 1.3rem;
+                color: #FFFFFF;
         }
         .content-text {
             margin: 50px 0;
@@ -119,7 +120,7 @@ export default {
         }
         .other {
             font-size: 12px;
-            color: #E3DFFF;
+            color: #422462;
             text-align: center;
             margin-top: 20px;
             a {
