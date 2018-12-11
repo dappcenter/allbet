@@ -92,7 +92,7 @@
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-if="userInfo.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 

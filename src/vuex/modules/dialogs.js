@@ -76,7 +76,7 @@ const mutations = {
      * 打开login弹框
      */
     [types.OPEN_LOGIN](state) {
-        if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        if(/Android|webOS|iPhone|iPod|BlackBerry|android/i.test(navigator.userAgent)) {
             router.push("loginselect")
         }else {
             state.loginBox = !state.loginBox
