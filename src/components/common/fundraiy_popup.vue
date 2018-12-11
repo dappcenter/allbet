@@ -151,10 +151,11 @@ export default {
     z-index: 20181248 !important;
     overflow-y: scroll;
     .mu-dialog {
+        position: absolute;
+        top: 10%;
         width: 540px;
         border-radius: 6px;
         overflow: hidden;
-        margin-top: 150px;
     }
     .mu-dialog-body {
         position: relative;

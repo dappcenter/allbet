@@ -61,7 +61,10 @@ export default {
 <style lang="less">
 .ab-bancor {
     z-index: 20181248 !important;
+    overflow-y: scroll;
     .mu-dialog {
+        position: absolute;
+        top: 10%;
         width: 580px;
         border-radius: 6px;
         overflow: hidden;

@@ -31,9 +31,9 @@
 							<span>{{coinType}}</span>
 						</div>
 						<div class="hotkeys">
-							<span @click="onHotkeys('min')">MIN</span>
 							<span @click="onHotkeys(0.5)">1/2</span>
 							<span @click="onHotkeys(2)">2X</span>
+							<span @click="onHotkeys('min')">MIN</span>
 							<span @click="onHotkeys('max')">MAX</span>
 						</div>
 					</div>
@@ -108,8 +108,7 @@
 			<div class="dig-wrap">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content" v-if="rule.winDig">
-					<h4>{{$t('message.GameBetToGet')}} {{(rule.winDig.split(':')[1]*amount).toFixed(3)}} AB</h4>
-					<p>{{$t('message.GameHigGet')}} {{rule.winDig.split(':')[1]}} x AB </p>
+					<p>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</p>
 					<span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
 				</div>
 				<i class="help nominscreen" @click="isShowABpopup = true"></i>
@@ -1038,7 +1037,7 @@ export default {
 						font-size: 14px;
 					}
 					p {
-						font-size: 12px;
+						font-size: 16px;
 						color: #FFDE6F;
 					}
 					span {
@@ -1163,6 +1162,7 @@ export default {
 					word-break: break-all;
 					height: 300px;
 					overflow-y: scroll;
+					-webkit-overflow-scrolling: touch;
 					padding-right: 10px;
 					&::-webkit-scrollbar {/*滚动条整体样式*/
 							width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -1397,7 +1397,7 @@ export default {
 							font-size: .18rem;
 						}
 						p {
-							font-size: .16rem;
+							font-size: .2rem;
 						}
 						span {
 							font-size: .14rem;

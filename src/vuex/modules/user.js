@@ -32,7 +32,7 @@ const state = {
     currentAddr: {},
     hdUserInfo: {},
     lastCurAddrPf: "",
-    coinType: "ETH",   //当前启用的币种
+    coinType: "TRX",   //当前启用的币种
 }
 
 const getters = {
