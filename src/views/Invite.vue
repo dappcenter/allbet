@@ -86,6 +86,9 @@ import {mapMutations, mapState} from "vuex"
 			getCurrentAddr() {
 				return this.$store.state.user.currentAddr
 			},
+			getInviteCode() {
+					return this.$store.state.user.userInfo.inviteCode
+			}
 		},
 		watch: {
 			getCurrentAddr(newVal) {
@@ -117,7 +120,7 @@ import {mapMutations, mapState} from "vuex"
 						let result = res.result || {}
 						this.inviteBonus = result.inviteBonus || 0
 						this.inviteCount = result.inviteCount || 0
-						this.inviteCode = result.inviteCode
+						this.inviteCode =  this.getInviteCode
 						this.inviteUrl = location.origin + "/dice?inviteCode=" + this.inviteCode
 						this.platformBonus = result.platformBonus
 						document.getElementById("qrcode1").innerHTML = ''
