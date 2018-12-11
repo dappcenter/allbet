@@ -60,7 +60,7 @@ export default {
         li {
             display: inline-block;
             line-height: .72rem;
-            margin: 0 .4rem;
+            margin: 0 .3rem;
             color: #63647F;
             font-size: .3rem;
             &.router-link-active {
