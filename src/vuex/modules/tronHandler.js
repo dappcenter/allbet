@@ -78,7 +78,7 @@ const actions = {
                 if(err) {
                     console.log(err)
                 }else if(address){
-                    commit(types.REGISTER_TRON_INSTANCE, { 
+                    commit(types.REGISTER_TRON_INSTANCE, {
                         coinbase: address,
                         balance: Math.floor(balance/1000)/1000,
                         tronWebInstance: tronWeb,
@@ -87,7 +87,7 @@ const actions = {
                     })
                 }
             });
-            
+
 
             if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
                 // 有登录态
@@ -109,15 +109,16 @@ const actions = {
                     coinLogin(address)
                 }
             }
-            
+
         })
 
-        
+
         function coinLogin(address) {
             if(!address) return
             axios.post("/open/plugin_login", {
                 "chainType": "TRX",
                 "publicAddress": address,
+                "inviteCode": sessionStorage.getItem('inviteCode')
             }).then(res => {
                 if(res.code == 200) {
                     commit(types.SET_USERINFO, res.result)
@@ -127,10 +128,10 @@ const actions = {
                     })
                 }
             }).catch(err => {
-    
+
             })
         }
-        
+
     }
 }
 

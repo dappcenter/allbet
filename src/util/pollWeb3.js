@@ -21,7 +21,7 @@ const getNonce = function(address, web3) {
     axios.get("/open/metamask", {
         params: {
             address: address,
-            type: "pollWeb3" 
+            type: "pollWeb3"
         }
     }).then(res => {
         console.log(res)
@@ -48,7 +48,8 @@ const coinLogin = function(signature, address, nonce) {
         "chainType": "ETH",
         "message": nonce,
         "publicAddress": address,
-        "signature": signature
+        "signature": signature,
+        "inviteCode": sessionStorage.getItem('inviteCode')
     }).then(res => {
         if(res.code == 200) {
             // 存储新的登录态
@@ -65,7 +66,7 @@ const coinLogin = function(signature, address, nonce) {
             }else {
                 // 已绑定平台账号
                 res.result.assets.forEach(val => {
-                    if(val.coinAddress == newCoinbase) {  
+                    if(val.coinAddress == newCoinbase) {
                         store.commit(types.UPDATE_WEB3_AT, {
                             at: val.at,
                             bet: val.bet,
@@ -106,17 +107,17 @@ let pollWeb3 = function() {
                         web3.eth.getBalance(coinbase, (err, newBalance) => {
                             if(err) {
                                 console.log(err)
-                            }else { 
+                            }else {
                                 store.dispatch("updateWeb3", {
                                     coinbase: newCoinbase,
                                     balance: newBalance
                                 })
-                                if(store.state.user.currentAddr.platform != "DISPATCHER") { 
+                                if(store.state.user.currentAddr.platform != "DISPATCHER") {
                                     //当前选中地址为HD钱包地址（踢掉平台账户启用新的HD钱包地址）
                                     // store.commit(types.REMOVE_USERINFO)  //清除账户登录信息
                                     //获取新地址的登录态
                                     //外部地址登录 首次将注册到平台，再检测是否绑定，已绑定返回平台账号信息
-                                    
+
                                     getNonce(newCoinbase, web3)
                                 }
                             }

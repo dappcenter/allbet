@@ -247,7 +247,8 @@ const actions = {
                 "chainType": "ETH",
                 "message": nonce,
                 "publicAddress": address,
-                "signature": signature
+                "signature": signature,
+                "inviteCode": sessionStorage.getItem('inviteCode')
             }).then(res => {
                 if(res.code == 200) {
                     // 存储新的登录态

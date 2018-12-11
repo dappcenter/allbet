@@ -1,6 +1,6 @@
 <template>
 	<div class="mobile-invite-page">
-    <HeaderBar title="邀请好友"></HeaderBar>
+    <HeaderBar></HeaderBar>
     <div class="main">
       <div class="white-div">
         <div class="" v-show="inviteCode">
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import HeaderBar from "@/components/common/mobile/mb_header_bar"
+import HeaderBar from "@/components/common/header_bar"
 import QRCode from 'qrcodejs2'
 import Clipboard from 'clipboard';
 import {mapMutations, mapState} from "vuex"
@@ -106,12 +106,12 @@ import {mapMutations, mapState} from "vuex"
 						this.inviteCode = result.inviteCode
 						this.inviteUrl = location.origin + "/dice?inviteCode=" + this.inviteCode
 						this.platformBonus = result.platformBonus
-						document.getElementById("qrcode1").innerHTML = ''
-						var qrcode = new QRCode(document.getElementById("qrcode1"), {
-							width: 108,
-							height: 108,
-						});
-						qrcode.makeCode(this.inviteUrl);
+						// document.getElementById("qrcode1").innerHTML = ''
+						// var qrcode = new QRCode(document.getElementById("qrcode1"), {
+						// 	width: 108,
+						// 	height: 108,
+						// });
+						// qrcode.makeCode(this.inviteUrl);
 					}
 				})
 			},
