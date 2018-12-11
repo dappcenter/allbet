@@ -2,9 +2,10 @@
     <div class="loginselect-page" :style="{minHeight: $window.innerHeight + 'px'}">
       <MBheaderBar title="登陆"></MBheaderBar>
       <h3>{{$t('message.PopLoginSelectTitle')}}</h3>
-      <div class="content-text" v-html="$t('message.PopLoginSelect' + coinType)"></div>
-      <p class="other">{{$t('message.PopLoginText1')}}</p>
-      <button @click="showLoginPopup">{{$t('message.login')}} / {{$t('message.PopRegister')}}</button>
+      <div class="content-text" v-html="$t('message.PopLoginSelectMobile' + coinType)"></div>
+      <!-- <p class="other">{{$t('message.PopLoginText1')}}</p>
+      <button @click="showLoginPopup">{{$t('message.login')}} / {{$t('message.PopRegister')}}</button> -->
+      <p class="other">{{$t('message.PopLoginText1')}}<a href="javascript:;" @click="showLoginPopup"> {{$t('message.login')}} / {{$t('message.PopRegister')}}</a></p>
     </div>
 </template>
 
@@ -16,7 +17,7 @@ export default {
     },
     methods: {
       showLoginPopup () {
-        this.$router.push('login')
+        this.$router.replace('login')
       },
         //HD钱包登录
         hdLogin(type) {
@@ -96,7 +97,7 @@ export default {
             font-size: 14px;
             color: #E3DFFF;
             word-break: break-all;
-            padding: 0 0.4rem;
+            padding: 0 0.5rem;
             a {
                 color: #E3DFFF;
                 text-decoration: underline;
@@ -106,11 +107,11 @@ export default {
             display: block;
             border: none;
             outline: none;
-            font-size: 16px;
+            font-size: 0.16rem;
             color: #FEFEFE;
-            width: 120px;
-            height: 42px;
-            border-radius: 21px;
+            width: 1.8rem;
+            height: 0.42rem;
+            border-radius: 0.2rem;
             margin: 0 auto;
             cursor: pointer;
             background:linear-gradient(90deg,rgba(175,163,255,1),rgba(199,144,255,1));
@@ -122,7 +123,7 @@ export default {
             text-align: center;
             margin-top: 20px;
             a {
-                color: #D3CDFF;
+                color: #FFC425;
             }
         }
         .close-btn {
