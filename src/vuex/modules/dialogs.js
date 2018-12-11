@@ -77,11 +77,11 @@ const mutations = {
      */
     [types.OPEN_LOGIN](state) {
         if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            router.push("login")
+            router.push("loginselect")
         }else {
             state.loginBox = !state.loginBox
         }
-        
+
     },
     openWait(state) {
         state.loading = true
