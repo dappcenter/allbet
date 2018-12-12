@@ -41,7 +41,7 @@ export default {
     background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
     background-size: 40%;
     .main {
-        padding: .2rem;
+        padding: .4rem;
         color: #CCBCF8;
         h4 {
             text-align: center;

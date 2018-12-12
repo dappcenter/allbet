@@ -176,7 +176,6 @@ const mutations = {
         let haveCoinType = false
         if(state.userInfo.accounts) {
             state.userInfo.accounts.forEach((val, idx) => {
-                console.log()
                 if(val.mainCoin == payload || val.platform == 'DISPATCHER') {
                     haveCoinType = true
                 }

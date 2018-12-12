@@ -102,17 +102,22 @@ export default {
                 })
                 return
             }
-            this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
-				console.log("sendTransaction",res)
-                if(res.result === true) {
-                    that.alert({
-                        type: "success",
-                        msg: that.$t('message.preCanYu')
-                    })
-                }
-			}).catch(err => {
+            if(localStorage.getItem('APPFROM') === 'cobo') {
+                this.contractSend(this.amount)
+            }else {
+                this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
+                    console.log(res)
+                    if(res.result === true) {
+                        that.alert({
+                            type: "success",
+                            msg: that.$t('message.preCanYu')
+                        })
+                    }
+                    
+                }).catch(err => {
 
-			})
+                })
+            }
         },
         getPageData() {
             this.$http.get("open/crow_funding_meta", {
@@ -125,6 +130,25 @@ export default {
                     this.pageData = res.result
                 }
             })
+        },
+        // 合约转账
+        contractSend(amount) {
+            let that = this
+			const feeLimit  = this.storeTronWeb.tronWebInstance.toSun(10);
+			const callValue = this.storeTronWeb.tronWebInstance.toSun(amount);
+			this.storeTronWeb.fundraiy.raise().send({
+				feeLimit:feeLimit,
+				callValue:callValue,
+				shouldPollResponse:false
+			}).then(res => {
+				console.log(res)
+				that.alert({
+                    type: "success",
+                    msg: that.$t('message.preCanYu')
+                })
+			}).catch(err => {
+				console.log(err)
+			})
         },
         ...mapMutations({
             alert: "alert"
@@ -156,7 +180,7 @@ export default {
   background-size: cover;
     .main {
         font-size: 0.20rem;
-        padding-bottom: 1.2rem;
+        padding: 0 .4rem 1.2rem;
         .logo {
             display: block;
             height: 0.44rem;
@@ -173,13 +197,12 @@ export default {
         }
         .addr-wrap {
             background:rgba(72,61,101,.6);
-            width: 6.7rem;
             margin: 0.6rem auto 1rem auto;
             line-height: 0.38rem;
             user-select: text;
             text-align: center;
             padding: 0.43rem 0;
-                font-size: 0.24rem;
+            font-size: 0.24rem;
         }
         .progress-wrap {
             margin: 0.8rem 0 0.4rem;
@@ -188,12 +211,11 @@ export default {
                 height: 0.18rem;
                 background-color: #483D65;
                 border-radius: 8px;
-                width: 6.7rem;
                 margin: auto;
                 .progress-bar {
                     position: absolute;
                     height: 100%;
-                    min-width: 0.15rem;
+                    min-width: 10%;
                     border-radius: 8px;
                     background-color: #FFC425;
                     &:after {
@@ -232,9 +254,7 @@ export default {
             .flex-wrap {
                 display: flex;
                 justify-content: space-between;
-                width: 6.7rem;
                 margin: auto;
-
                 span {
                     color: #9A93D0;
                     font-size: 0.2rem;
@@ -246,7 +266,6 @@ export default {
             background-color: #483D65;
             border-radius: 4px;
             overflow: hidden;
-            width: 6.7rem;
             margin: auto;
             margin-top: 0.2rem;
             font-size: 0.24rem;

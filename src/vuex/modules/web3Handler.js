@@ -4,6 +4,7 @@ import pollWeb3 from "../../util/pollWeb3"
 import {axios} from "../../axios"
 import router from "../../router"
 import {DappABI} from "../../util/constants/dapp.abi"
+import {RollerABI} from '../../util/constants/roller.abi'
 import LangZh from "../../lang/language_packs/zh"
 import LangEn from "../../lang/language_packs/en"
 
@@ -23,6 +24,7 @@ const state = {
         balance: null,
         error: null,
         apiHandle: null,
+        diceApiHandle: null,
         at: 0,   //平台游戏币
         bet: 0,
         userName: "",  //平台账号名
@@ -46,6 +48,7 @@ const mutations = {
         web3Copy.isInjected = payload.injectedWeb3
         web3Copy.web3Instance = payload.web3
         web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS)
+        web3Copy.diceApiHandle = new payload.web3.eth.Contract(RollerABI, window.ROLLERADDRESS)
         state.web3 = web3Copy
         // 轮询
         pollWeb3()

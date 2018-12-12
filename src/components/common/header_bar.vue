@@ -9,7 +9,7 @@
                 <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
-                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
+                <!-- <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link> -->
                 <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
@@ -34,7 +34,7 @@
                         <img class="icon" src="../../../public/img/Telegram02.png" alt="">
                     </a>
                 </div>
-                <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
+                <div class="user-center" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
@@ -320,6 +320,35 @@ export default {
         }else {
             sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
             this.formData.inviteCode = this.$route.query.inviteCode || ""
+        }
+        // 邀请码inv
+        if(sessionStorage.getItem('inviteCode') && sessionStorage.getItem('inviteCode').trim() != "") {
+            if(this.$route.query.inv && this.$route.query.inv != sessionStorage.getItem('inviteCode')) {
+                sessionStorage.setItem('inviteCode', this.$route.query.inv || "")
+            }
+            this.formData.inviteCode = sessionStorage.getItem('inviteCode')
+        }else {
+            sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
+            this.formData.inviteCode = this.$route.query.inv || ""
+        }
+
+        // 渠道
+        if(this.$route.query.frm) {
+            localStorage.setItem("APPFROM", this.$route.query.frm)
+        }
+
+        // 币种
+        if(this.$route.query.co) {
+            switch(this.$route.query.co) {
+                case 'ETH':
+                    this.changeCoinType("ETH")
+                    break
+                case 'TRX':
+                    this.changeCoinType("ETH")
+                    break
+                default:
+                    break
+            }
         }
     },
     mounted() {
@@ -710,7 +739,8 @@ export default {
             setCurrentAddr: "SET_CURRENTADDR",
             removeUserInfo: "REMOVE_USERINFO",
             openConfirm: "OPEN_CONFIRM",
-            openLogin: "OPEN_LOGIN"
+            openLogin: "OPEN_LOGIN",
+            changeCoinType: "CHANGE_COINTYPE"
         })
     },
     computed: {
@@ -1201,7 +1231,7 @@ export default {
                 position: relative;
                 cursor: pointer;
                 height: 60px;
-                margin-left: 16px;
+                margin-left: .1rem;
                 .lang {
                     display: inline-block;
                     img {

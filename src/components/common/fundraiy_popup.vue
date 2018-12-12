@@ -97,18 +97,23 @@ export default {
                 })
                 return
             }
-            this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
-                console.log(res)
-                if(res.result === true) {
-                    that.alert({
-                        type: "success",
-                        msg: that.$t('message.preCanYu')
-                    })
-                }
-				
-			}).catch(err => {
+            if(localStorage.getItem('APPFROM') === 'cobo') {
+                this.contractSend(this.amount)
+            }else {
+                this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
+                    console.log(res)
+                    if(res.result === true) {
+                        that.alert({
+                            type: "success",
+                            msg: that.$t('message.preCanYu')
+                        })
+                    }
+                    
+                }).catch(err => {
 
-			})
+                })
+            }
+            
         },
         getPageData() {
             this.$http.get("open/crow_funding_meta", {
@@ -121,6 +126,25 @@ export default {
                     this.pageData = res.result
                 }
             })
+        },
+        // 合约转账
+        contractSend(amount) {
+            let that = this
+			const feeLimit  = this.storeTronWeb.tronWebInstance.toSun(10);
+			const callValue = this.storeTronWeb.tronWebInstance.toSun(amount);
+			this.storeTronWeb.fundraiy.raise().send({
+				feeLimit:feeLimit,
+				callValue:callValue,
+				shouldPollResponse:false
+			}).then(res => {
+				console.log(res)
+				that.alert({
+                    type: "success",
+                    msg: that.$t('message.preCanYu')
+                })
+			}).catch(err => {
+				console.log(err)
+			})
         },
         ...mapMutations({
             alert: "alert"
@@ -194,7 +218,7 @@ export default {
                 .progress-bar {
                     position: absolute;
                     height: 100%;
-                    min-width: 50px;
+                    min-width: 10%;
                     border-radius: 8px;
                     background-color: #FFC425;
                     &:after {

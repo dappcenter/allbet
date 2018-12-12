@@ -1,7 +1,7 @@
 <template>
     <div class="loginselect-page" :style="{minHeight: $window.innerHeight + 'px'}">
       <MBheaderBar title="登陆"></MBheaderBar>
-      <h3>{{$t('message.PopLoginSelectTitle')}}</h3>
+      <h3>{{$t('message.PopLoginSelectTitleMobile')}}</h3>
       <div class="content-text" v-html="$t('message.PopLoginSelectMobile' + coinType)"></div>
       <!-- <p class="other">{{$t('message.PopLoginText1')}}</p>
       <button @click="showLoginPopup">{{$t('message.login')}} / {{$t('message.PopRegister')}}</button> -->
@@ -22,15 +22,6 @@ export default {
         //HD钱包登录
         hdLogin(type) {
             if(window.web3) {
-                // this.openConfirm({
-                //     content: this.$t('message.PopHdLogin'),
-                //     btn: [
-                //         {
-                //             text: this.$t('message.PopClose')
-                //         }
-                //     ]
-                // })
-                // 注册web3
                 this.$store.dispatch("registerWeb3");
             }else {
                 this.openConfirm({

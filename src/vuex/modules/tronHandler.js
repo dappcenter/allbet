@@ -83,11 +83,17 @@ const actions = {
                         balance: Math.floor(balance/1000)/1000,
                         tronWebInstance: tronWeb,
                         contract: tronWeb.contract(contract.abi, window.TRONROLLARADDRESS),
-                        fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS)
+                        fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS2)
                     })
                 }
             });
 
+            tronWeb.trx.getAccount((err, bandwidth) => {
+                console.log("getAccountNet",bandwidth)
+            });
+            tronWeb.trx.getBandwidth((err, bandwidth) => {
+                console.log("getBandwidth",bandwidth)
+            });
 
             if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
                 // 有登录态

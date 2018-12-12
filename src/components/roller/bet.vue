@@ -31,8 +31,8 @@
 							<span>{{coinType}}</span>
 						</div>
 						<div class="hotkeys">
-							<span @click="onHotkeys(0.5)">1/2</span>
 							<span @click="onHotkeys(2)">2X</span>
+							<span @click="onHotkeys(0.5)">1/2</span>
 							<span @click="onHotkeys('min')">MIN</span>
 							<span @click="onHotkeys('max')">MAX</span>
 						</div>
@@ -105,9 +105,9 @@
 				</div>
 			</div>
 			<!-- 挖矿数量 -->
-			<div class="dig-wrap">
+			<div class="dig-wrap" v-if="rule.winDig">
 				<img src="../../../public/img/ab_icon03.png" alt="">
-				<div class="content" v-if="rule.winDig">
+				<div class="content">
 					<p>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</p>
 					<span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
 				</div>
@@ -164,7 +164,6 @@ export default {
             amount: 0.1,
 			odds: 50,
 			rule: {},
-			apiHandle: null,
 			luckyColor: "green",
 			luckyNum: "00",
 			timer: null,
@@ -181,12 +180,7 @@ export default {
 	created() {
 		let that = this
 		this.getRule()
-		setTimeout(() => {
-			if(!this.web3.web3Instance) return
-			this.apiHandle = new this.web3.web3Instance.eth.Contract(RollerABI, window.ROLLERADDRESS);
-		}, 2000)
 		window.hd = {}
-
 	},
     mounted() {
         this.setBetInfo({
@@ -270,7 +264,7 @@ export default {
 			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
 			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
 			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-			this.$refs.handle.style.left = moveWidth + "px"
+			this.$refs.handle.style.left = moveWidth - 9 + "px"
 			this.$refs.bar.style.width = moveWidth + 10 + "px"
 			this.odds = (moveWidth / (sliderWidth / this.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / this.maxNum)).toFixed()
 			this.setBetInfo({
@@ -288,7 +282,7 @@ export default {
             window.onmousemove = function(e) {
                 moveWidth = e.clientX - sliderOffsetL - ofX
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-                that.$refs.handle.style.left = moveWidth + "px"
+                that.$refs.handle.style.left = moveWidth - 9 + "px"
                 that.$refs.bar.style.width = moveWidth + 10 + "px"
                 that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
@@ -307,7 +301,7 @@ export default {
 			window.ontouchmove  = function(e) {
                 moveWidth = e.touches[0].clientX - sliderOffsetL
 				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-                that.$refs.handle.style.left = moveWidth + "px"
+                that.$refs.handle.style.left = moveWidth - 9 + "px"
 				that.$refs.bar.style.width = moveWidth + 10 + "px"
                 that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
                 that.setBetInfo({
@@ -409,7 +403,7 @@ export default {
 		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount, recdId) {
 			let that = this
 			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
-			this.apiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
+			this.web3.diceApiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amount,
 				gas: 210000,
@@ -451,7 +445,6 @@ export default {
 				callValue:callValue,
 				shouldPollResponse:false
 			}).then(res => {
-				console.log(res)
 				that.alert({
 					type: "info",
 					msg: "Successful bet.",
@@ -459,7 +452,6 @@ export default {
 				})
 				that.getBetResult(orderId)
 			}).catch(err => {
-				console.log(err)
 				that.alert({
 					type: "info",
 					msg: "User rejected the signature request.",
@@ -534,22 +526,6 @@ export default {
 					{
 						type: "high",
 						text: this.$t('message.GameWinBox3'),
-						cb: () => {
-							this.$router.push('roller')
-						}
-					}
-				]
-			})
-		},
-		//帮助弹框
-		helpPopup() {
-			this.openConfirm({
-				title: this.$t("message.GameRule"),
-				content: this.$t("message.GameHelp"),
-				btn: [
-					{
-						type: "high",
-						text: this.$t("message.GameKnow"),
 						cb: () => {
 							this.$router.push('roller')
 						}
@@ -1101,7 +1077,7 @@ export default {
 					background: rgba(255,255,255,.5);
 					border-radius: 50%;
 					top: -12px;
-					left: 48%;
+					left: calc(50% - 18px);
 					cursor: pointer;
 					i {
 						position: absolute;
@@ -1397,6 +1373,10 @@ export default {
 				}
 				.slider-wrap {
 					margin: .5rem 0;
+					.slider {
+						.handle {
+						}
+					}
 				}
 				.dig-wrap {
 					width: 100%;

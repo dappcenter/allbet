@@ -240,12 +240,13 @@ export default {
         PopBindDesc: "Use the account login to win the invitation bonus ETH, play the game and enjoy the income seconds.",
         PopBindDesc2: "Bind the account to win the invitation award points ETH",
 
-        PopLoginSelectTitle: "Please log in Chrome Wallet",
+        PopLoginSelectTitle: "Please login Chrome Wallet",
         PopLoginSelectETH: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> MetaMask: <a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
         PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
 
-        PopLoginSelectMobileETH: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /><br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
-        PopLoginSelectMobileTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginSelectTitleMobile: "Please login Wallet",
+        PopLoginSelectMobileETH: "<p>If you have not downloaded the wallet, please download:<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /><br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginSelectMobileTRX: "<p>If you have not downloaded the wallet, please download:<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
         PopLoginText1: "Quick experience,",
 
         PopHttpTimeout: "please refresh page",

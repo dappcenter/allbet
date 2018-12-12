@@ -64,7 +64,7 @@ import {mapMutations, mapState} from "vuex"
 		  return {
 				inviteBonus: '0',
 		    inviteCount: '0',
-		    inviteUrl: location.origin + "/dice?inviteCode=",
+		    inviteUrl: location.origin + "/dice?inv=",
 				inviteCode: "",
 		    platformBonus: '',
 		  }
@@ -107,7 +107,7 @@ import {mapMutations, mapState} from "vuex"
 						this.inviteBonus = result.inviteBonus || 0
 						this.inviteCount = result.inviteCount || 0
 						this.inviteCode =  this.getInviteCode
-						this.inviteUrl = location.origin + "/dice?inviteCode=" + this.inviteCode
+						this.inviteUrl = location.origin + "/dice?inv=" + this.inviteCode
 						this.platformBonus = result.platformBonus
 						// document.getElementById("qrcode1").innerHTML = ''
 						// var qrcode = new QRCode(document.getElementById("qrcode1"), {
