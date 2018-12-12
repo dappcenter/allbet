@@ -244,8 +244,8 @@ export default {
         PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
         PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://goo.gl/Yb4NRU' target='_blank'> https://goo.gl/Yb4NRU</a><br />Tron Pay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
 
-        PopLoginSelectMobileETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /><br />请注意钱包使用主网，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginSelectMobileTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectMobileETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> Math: <a href='http://www.mathwallet.org' target='_blank'> http://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /><br />请注意钱包使用主网，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectMobileTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> Math: <a href='http://www.mathwallet.org' target='_blank'> http://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
         PopLoginText1: "快速体验游戏，",
 
         PopHttpTimeout: "请刷新页面",
