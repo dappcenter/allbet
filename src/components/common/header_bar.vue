@@ -9,7 +9,7 @@
                 <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
-                <!-- <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link> -->
+                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
                 <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
             </menu>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="circle-progress nominscreen" v-if="storeTronWeb.usageBandwidth && coinType == 'TRX'">
                     <CircleBar :value="storeTronWeb.usageBandwidth/(storeTronWeb.usageBandwidth+storeTronWeb.surplusBandwidth)" text="BW"></CircleBar>
-                    <!-- <CircleBar :value="0.9" text="EN"></CircleBar> -->
+                    <CircleBar v-if="storeTronWeb.energyLimit" :value="storeTronWeb.energyLimit/storeTronWeb.totalEnergyLimit" text="EN"></CircleBar>
                 </div>
                 <div class="user-center" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
@@ -333,7 +333,7 @@ export default {
             }
             this.formData.inviteCode = sessionStorage.getItem('inviteCode')
         }else {
-            sessionStorage.setItem('inviteCode', this.$route.query.inviteCode || "")
+            sessionStorage.setItem('inviteCode', this.$route.query.inv || "")
             this.formData.inviteCode = this.$route.query.inv || ""
         }
 
@@ -360,10 +360,9 @@ export default {
         this.bindScrollEvent()
         if(this.currentAddr == "" && this.storeCurrentAddr) {
             this.currentAddr = this.storeCurrentAddr.coinAddress
-            if(this.storeCurrentAddr.token) {
-                this.$store.dispatch('updateProperty')
-            }
         }
+        //更新资产
+        this.$store.dispatch('updateProperty')
     },
     watch: {
         type() {
@@ -416,7 +415,6 @@ export default {
                     this.displayStatus.registerAccount = false  //手机注册账号
                     this.displayStatus.emailRegisterAccount = false  //邮箱注册账号
                     this.findPassword = false
-
                 }
                 this.isShowFoldMunu = false
             },
@@ -431,7 +429,6 @@ export default {
     methods: {
         // 切换地址
         currentAddrChange(addr) {
-            console.log("地址切换了",addr)
             this.addressList.forEach(value => {
                 if(value.coinAddress == addr) {
                     this.setCurrentAddr(value)

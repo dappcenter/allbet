@@ -20,24 +20,17 @@ const pollTronWeb = function(tronWeb) {
             if(err) {
                 console.log(err)
             }else if(address){
-                store.commit(types.UPDATE_TRON_ASSET, {
-                    coinbase: address,
-                    balance: Math.floor(balance/1000)/1000,
-                })
                 // 获取账号信息
-                tronWeb.trx.getAccount((err, account) => {
+                tronWeb.trx.getAccountResources().then(res => {
                     store.commit(types.UPDATE_TRON_ASSET, {
-                        usageBandwidth: account.free_net_usage
+                        usageBandwidth: res.freeNetUsed,
+                        surplusBandwidth: res.freeNetLimit - res.freeNetUsed,
+                        totalEnergyLimit: res.TotalEnergyLimit,
+                        energyLimit: res.EnergyLimit,
+                        coinbase: address,
+                        balance: Math.floor(balance/1000)/1000,
                     })
                 })
-                tronWeb.trx.getBandwidth((err, bandwidth) => {
-                    store.commit(types.UPDATE_TRON_ASSET, {
-                        surplusBandwidth: bandwidth
-                    })
-                })
-                // tronWeb.trx.getAccountResources("TPGpTQSuUYDmvfn2NKRL6jVxFduN3UBMmb").then(res => {
-                //     console.log("getAccountResources",res)
-                // })
             }
         })
         

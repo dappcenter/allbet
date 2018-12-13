@@ -16,6 +16,8 @@ const state = {
         balance: null,
         usageBandwidth: 0,
         surplusBandwidth: 0,
+        totalEnergyLimit: 0,
+        energyLimit: 0,
         error: null,
         apiHandle: null,
         at: 0,   //平台游戏币
