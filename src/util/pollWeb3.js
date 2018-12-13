@@ -26,18 +26,6 @@ const getNonce = function(address, web3) {
     }).then(res => {
         console.log(res)
         if(res.code == 200) {
-            console.log("pollWeb3登录签名")
-            // web3.eth.personal.sign(web3.utils.fromUtf8(res.result), address, (err,signature) => {
-            //     console.log(signature)
-            //     if(err) {
-            //         store.commit("alert", {
-            //             type: "info",
-            //             msg: language[store.state.locale].message.PopSignatureFailure
-            //         })
-            //     }else {
-            //         coinLogin(signature, address, res.result)
-            //     }
-            // });
             coinLogin("123456", address, res.result)
         }
     })
@@ -103,7 +91,6 @@ let pollWeb3 = function() {
                         // 地址发生变化
                         console.log("地址发生变化")
                         let newCoinbase = coinbase
-                        console.log(coinbase)
                         web3.eth.getBalance(coinbase, (err, newBalance) => {
                             if(err) {
                                 console.log(err)

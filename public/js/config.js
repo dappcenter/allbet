@@ -16,7 +16,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.ROLLERADDRESS = "0x861e9351996abc27b1f932f92e5cad82ac1cbdd2"
 
     window.TRONROLLARADDRESS = "TWPE3ayaaDNg7m4x7XcdCBU4SYByTPUAW6"
-    window.TRONFUNDRAIYADDRESS = "TKQAg1jg1cmyP7acxQRe4a9uXJ3SCyeEvJ"
+    window.TRONFUNDRAIYADDRESS = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
 
     window.NETWORK = 4
@@ -27,7 +27,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.ROLLERADDRESS = "0x861e9351996abc27b1f932f92e5cad82ac1cbdd2"
 
     window.TRONROLLARADDRESS = "TWPE3ayaaDNg7m4x7XcdCBU4SYByTPUAW6"
-    window.TRONFUNDRAIYADDRESS = "TKQAg1jg1cmyP7acxQRe4a9uXJ3SCyeEvJ"
+    window.TRONFUNDRAIYADDRESS = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
 
     window.NETWORK = 4

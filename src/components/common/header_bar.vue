@@ -34,6 +34,10 @@
                         <img class="icon" src="../../../public/img/Telegram02.png" alt="">
                     </a>
                 </div>
+                <div class="circle-progress nominscreen" v-if="storeTronWeb.usageBandwidth && coinType == 'TRX'">
+                    <CircleBar :value="storeTronWeb.usageBandwidth/(storeTronWeb.usageBandwidth+storeTronWeb.surplusBandwidth)" text="BW"></CircleBar>
+                    <!-- <CircleBar :value="0.9" text="EN"></CircleBar> -->
+                </div>
                 <div class="user-center" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
@@ -250,6 +254,7 @@ import AbPopup from "@/components/common/ab_popup"
 import BPPopup from "@/components/common/bonusPools_popup"
 import LoginSelectPopup from "@/components/account/login_select_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
+import CircleBar from "@/components/common/circlebar"
 export default {
     props: {
         type: {
@@ -558,10 +563,10 @@ export default {
                 "resetType": this.formData.resetType
             }
             if(this.formData.resetType == "PHONE") {
-                if(!this.verifyPhone()) return
+                if(!this.verifyPhone() || !this.verifyCaptcha()) return
                 obj.account = this.formData.phone
             }else {
-                if(!this.verifyEmail()) return
+                if(!this.verifyEmail() || !this.verifyCaptcha()) return
                 obj.account = this.formData.email
             }
             if(!this.verifyPassword()) return
@@ -661,45 +666,6 @@ export default {
             }
             return true
         },
-        //HD钱包登录
-        hdLogin(type) {
-            this.displayStatus.loginSelect = false
-            if(window.web3) {
-                // this.openConfirm({
-                //     content: this.$t('message.PopHdLogin'),
-                //     btn: [
-                //         {
-                //             text: this.$t('message.PopClose')
-                //         }
-                //     ]
-                // })
-                this.$store.dispatch("registerWeb3");
-            }else {
-                this.openConfirm({
-                    content: this.$t('message.PopTipsDesc'),
-                    btn: [
-                        {
-                            text: this.$t('message.PopInstallation'),
-                            cb: () => {
-                                this.openMetamask()
-                            }
-                        },
-                        {
-                            type: "high",
-                            text: this.$t('message.PopAccountLogin'),
-                            cb: () => {
-                                if(type == "mobile") {
-                                    this.$router.push('login')
-                                }else {
-                                    this.displayStatus.loginSelect = false
-                                    this.displayStatus.loginAccount = true
-                                }
-                            }
-                        }
-                    ]
-                })
-            }
-        },
         //打开白皮书
         openWhiteBook() {
             if(this.locale == "en-US") {
@@ -716,14 +682,6 @@ export default {
                 }
             }
 
-        },
-        //打开metamask教程
-        openMetamask() {
-            if(this.locale == "en-US") {
-                window.open("pdf/metamask_en.pdf")
-            }else {
-                window.open("pdf/metamask.pdf")
-            }
         },
         switchBonusPools() {
             this.displayStatus.bonusPools = !this.displayStatus.bonusPools
@@ -750,7 +708,9 @@ export default {
             isShowLoginBox: state => state.dialogs.loginBox,
             storeCurrentAddr: state => state.user.currentAddr,
             lastCurAddrPf: state => state.user.lastCurAddrPf,
-            storeWeb3: state => state.web3Handler.web3
+            storeWeb3: state => state.web3Handler.web3,
+            storeTronWeb: state => state.tronHandler.tronWeb,
+            coinType: state => state.user.coinType
         }),
         addressList() {
             return this.$store.getters.getUserAddress
@@ -764,7 +724,8 @@ export default {
         AbPopup,
         BPPopup,
         LoginSelectPopup,
-        FundraiyPopup
+        FundraiyPopup,
+        CircleBar
     },
     destroyed() {
         //销毁事件
@@ -851,14 +812,14 @@ export default {
             }
         }
         .contact {
-            height: 32px;
+            height: 38px;
             a {
                 position: relative;
                 display: inline-block;
                 margin-left: 10px;
                 .icon {
-                    width: 32px;
-                    height: 32px;
+                    width: 38px;
+                    height: 38px;
                     display: block;
                 }
                 &:hover {
@@ -877,9 +838,19 @@ export default {
                 }
             }
         }
+        .circle-progress {
+            margin-left: 20px;
+            height: 38px;
+            .circle-bar {
+                display: inline-block;
+                &:first-child {
+                    margin-right: 10px;
+                }
+            }
+        }
         .user-center {
             color: #fff;
-            margin-left: 30px;
+            margin-left: 20px;
             position: relative;
             cursor: pointer;
             z-index: 1212;

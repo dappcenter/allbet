@@ -330,14 +330,14 @@ export default {
 
         // AB代币
         abTitle: 'AB Token Distribution',
-        abLittleTitle: 'The total supply of CITY token is 10 billion. The supply is fixed and will never be increased.',
+        abLittleTitle: 'The total supply of AB token is 10 billion. The supply is fixed and will never be increased.',
         abOwner: 'AB Holder',
         abRate: 'Proportion',
         abTeam: 'Team of ALLBET',
         abGameDig: 'Game Mining(for game、Referral、Airdrop)',
-        abFourYear: "AB token lock warehouse for four years, monthly release in equal proportion.Of the remaining 70%, 10% (700 million pieces) will be released in the form of 'game mining'.",
+        abFourYear: "The developer team holds the AB token will lock warehouse for four years, monthly release in equal proportion.In the 70% AB token released by the game mining, the difficulty of mining will increase with the release of the AB token, and the mining rate will be gradually halved with the mining cycle.",
         abBancorDig: 'AB Token Mining',
-        abGet: 'Play our games can get the AB token. Meanwhile，the difficulty of mining the AB token will increase with the release of the ABtoken',
+        abGet: 'The total supply of AB token is 10 billion. They are issued on the TRON main network, the EOS main network, and the ETH main network, respectively, with a total of 3 billion, 4 billion, and 3 billion. Of these,7 billion AB token will be released in mining output.The potential and value of AB tokens is the core competitiveness of the platform. Therefore, the dividend plan is lock AB token during the initial operation of the platform, and then gradually opens the stake dividend.',
         abShareTitle: 'Profit Sharing',
         abShareDesc: 'The platform gains 100% dividends to the players who hold AB tokens.',
         abExmaple: 'For example:',

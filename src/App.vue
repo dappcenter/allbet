@@ -31,7 +31,7 @@
           <img src="../public/img/win_box/Win.png" v-show="locale == 'en-US'" />
           <h3 class="rewards">{{Math.floor(winPopupOption.rewards*10000)/10000}}</h3>
           <h3 class="cointype">{{winPopupOption.coinType}}</h3>
-          <p>{{$t("message.GameWinBox2")}}{{winPopupOption.ab}}AB</p>
+          <p>{{$t("message.GameWinBox2")}}{{Math.floor(winPopupOption.ab)}}AB</p>
           <button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
           <i class="close-btn" @click="isShowWin = false"></i>
         </div>

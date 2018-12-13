@@ -24,8 +24,23 @@ const pollTronWeb = function(tronWeb) {
                     coinbase: address,
                     balance: Math.floor(balance/1000)/1000,
                 })
+                // 获取账号信息
+                tronWeb.trx.getAccount((err, account) => {
+                    store.commit(types.UPDATE_TRON_ASSET, {
+                        usageBandwidth: account.free_net_usage
+                    })
+                })
+                tronWeb.trx.getBandwidth((err, bandwidth) => {
+                    store.commit(types.UPDATE_TRON_ASSET, {
+                        surplusBandwidth: bandwidth
+                    })
+                })
+                // tronWeb.trx.getAccountResources("TPGpTQSuUYDmvfn2NKRL6jVxFduN3UBMmb").then(res => {
+                //     console.log("getAccountResources",res)
+                // })
             }
         })
+        
         if(address && address === store.state.tronHandler.tronWeb.coinbase) {
             return
         }
@@ -35,13 +50,12 @@ const pollTronWeb = function(tronWeb) {
             // 有登录态
             let haveHD = false
             store.state.user.userInfo.accounts.forEach((val, idx) => {
-                console.log(val)
                 if(val.userAddress == address) {
                     // 登录态中包含插件地址
                     haveHD = true
                 }
             })
-            if(store.state.user.currentAddr.platform != "DISPATCHER" && !haveHD) {
+            if(!haveHD) {
                 // 当前选中的HD钱包地址跟插件不一致
                 coinLogin(address)
             }

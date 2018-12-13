@@ -1129,7 +1129,7 @@ export default {
 			.mu-dialog-body {
 				position: relative;
 				background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
-				padding: 24px 24px 20px 35px;
+				padding: 24px 24px 20px 24px;
         		background-size: 40%;
 				.close-btn {
 					position: absolute;

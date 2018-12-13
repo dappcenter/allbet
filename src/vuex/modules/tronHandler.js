@@ -14,6 +14,8 @@ const state = {
         networkId: null,
         coinbase: null,
         balance: null,
+        usageBandwidth: 0,
+        surplusBandwidth: 0,
         error: null,
         apiHandle: null,
         at: 0,   //平台游戏币
@@ -45,8 +47,9 @@ const mutations = {
      * @author shanks
      */
     [types.UPDATE_TRON_ASSET](state, payload) {
-        state.tronWeb.coinbase = payload.coinbase
-        state.tronWeb.balance = payload.balance
+        // state.tronWeb.coinbase = payload.coinbase
+        // state.tronWeb.balance = payload.balance
+        state.tronWeb = Object.assign(state.tronWeb, payload)
     },
 }
 
@@ -86,13 +89,6 @@ const actions = {
                         fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS2)
                     })
                 }
-            });
-
-            tronWeb.trx.getAccount((err, bandwidth) => {
-                console.log("getAccountNet",bandwidth)
-            });
-            tronWeb.trx.getBandwidth((err, bandwidth) => {
-                console.log("getBandwidth",bandwidth)
             });
 
             if(rootState.user.userInfo.accounts && rootState.user.userInfo.accounts.length > 0) {
