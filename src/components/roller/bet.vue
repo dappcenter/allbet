@@ -90,16 +90,16 @@
 					<span class="fl nominscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
-						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
+						<i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="userInfo.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-if="currentAddr.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 
 					<span class="fl minscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
-						<i v-if="userInfo.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
+						<i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
 					<span class="fr"><img src="../../../public/img/coin/AB.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
 				</div>
@@ -137,7 +137,6 @@ import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
-
 import GameHelpPopup from "@/components/common/gamehelp_popup"
 
 export default {
@@ -328,6 +327,13 @@ export default {
 				})
 				return
 			}
+			if(this.amount > this.currentAddr.assets[this.coinType].amount) {
+				this.alert({
+					type: "info",
+					msg: this.$t("message.assetsNotEnough")
+				})
+				return
+			}
 			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
@@ -397,6 +403,7 @@ export default {
 		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount, recdId) {
 			let that = this
 			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
+
 			this.web3.diceApiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amount,
@@ -410,22 +417,21 @@ export default {
 						timeout: 9999999
 					})
 				}
-			}).on("receipt", function(receipt) {
+			}).then(res => {
 				that.alert({
 					type: "info",
 					msg: "Successful bet.",
 					timeout: 9999999
 				})
-				that.luckyRun()
+				// that.luckyRun()
 				that.getBetResult(recdId)
-			})
-			.on("error", function(error) {
+			}).catch(err => {
 				that.alert({
 					type: "info",
 					msg: "User rejected the signature request.",
 					timeout: 3000
 				})
-			});
+			})
 		},
 		/**
 		 * TRX下注
@@ -441,14 +447,15 @@ export default {
 			}).then(res => {
 				that.alert({
 					type: "info",
-					msg: "Successful bet.",
+					msg: "Bet submitted! Waiting for Tron...",
 					timeout: 9999999
 				})
 				that.getBetResult(orderId)
 			}).catch(err => {
 				that.alert({
 					type: "info",
-					msg: "User rejected the signature request.",
+					// msg: "User rejected the signature request.",
+					msg: err,
 					timeout: 3000
 				})
 			})
@@ -464,7 +471,14 @@ export default {
 					data: {}
 				}).then(res => {
 					if(res.code == 200) {
-						if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
+						if(res.result.tradeStatus == "WAITING_SETTLE") {
+							// 下注扣款成功
+							this.alert({
+								type: "info",
+								msg: "Successful bet.",
+								timeout: 9999999
+							})
+						}else if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							clearInterval(this.timer)
 							this.timer = null
 							clearInterval(this.getBetResultTimer)
@@ -490,7 +504,11 @@ export default {
 										this.betDo()
 									}
 								}, 1000)
-
+							}else {
+								this.alert({
+									type: "info",
+									msg: "Frustrated bet."
+								})
 							}
 						}
 					}else {

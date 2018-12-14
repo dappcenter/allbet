@@ -203,6 +203,7 @@ const actions = {
      * @author shanks
      */
     updateProperty({commit, rootState}) {
+        if(!rootState.user.userInfo.accounts) return
         const coinAddress = rootState.user.userInfo.accounts[0].userAddress
         if(!coinAddress) return
         axios.get("/app/user/assets", {

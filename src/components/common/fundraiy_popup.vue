@@ -98,7 +98,7 @@ export default {
                 return
             }
             if(localStorage.getItem('APPFROM') === 'cobo') {
-                this.contractSend(this.amount)
+                // this.contractSend(this.amount)
             }else {
                 this.storeTronWeb.tronWebInstance.trx.sendTransaction(this.$window.TRONFUNDRAIYADDRESS, this.amount*1000000).then(res => {
                     console.log(res)
