@@ -2,8 +2,8 @@
     <div class="roker-page">
         <HeaderBar></HeaderBar>
         <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-            <Bet :diceStatistics="diceStatistics"></Bet>
-			<Record @setDiceStatistics="setDiceStatistics"></Record>
+            <Bet></Bet>
+			<Record></Record>
         </div>
         <FooterBar></FooterBar>
     </div>
@@ -11,8 +11,8 @@
 
 <script>
 import HeaderBar from "@/components/common/header_bar"
-import Bet from "@/components/roker/bet"
-import Record from "@/components/roker/record"
+import Bet from "@/components/poker/bet"
+import Record from "@/components/poker/record"
 import FooterBar from "@/components/common/footer_bar"
 export default {
     components: {

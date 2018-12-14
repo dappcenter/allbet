@@ -98,8 +98,8 @@ export default new Router({
             component: () => import("./views/mobile/Mobile-fundraiy.vue")
         },
         {
-            path: "/roker",
-            name: "roker",
+            path: "/poker",
+            name: "poker",
             component: () => import("./views/Roker.vue")
         },
     ]
