@@ -34,7 +34,9 @@
 	        </div>
 					<div class="buttom">
 						<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+						<h5>{{$t('message.InvitationRules1')}}</h5>
 						<h5>{{$t('message.InvitationRules2')}}</h5>
+						<h5>{{$t('message.InvitationRules3')}}</h5>
 					</div>
         </div>
 				<div class="no-bind" v-show="!inviteCode">
@@ -44,7 +46,9 @@
 						</p>
 						<div class="buttom">
 							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+							<h5>{{$t('message.InvitationRules1')}}</h5>
 							<h5>{{$t('message.InvitationRules2')}}</h5>
+							<h5>{{$t('message.InvitationRules3')}}</h5>
 						</div>
 				</div>
       </div>
