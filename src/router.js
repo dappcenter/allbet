@@ -97,5 +97,10 @@ export default new Router({
             name: "mobile-fundraiy",
             component: () => import("./views/mobile/Mobile-fundraiy.vue")
         },
+        {
+            path: "/roker",
+            name: "roker",
+            component: () => import("./views/Roker.vue")
+        },
     ]
 });

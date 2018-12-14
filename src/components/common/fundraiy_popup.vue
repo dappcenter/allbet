@@ -113,7 +113,6 @@ export default {
 
                 })
             }
-            
         },
         getPageData() {
             this.$http.get("open/crow_funding_meta", {
