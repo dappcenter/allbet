@@ -7,6 +7,10 @@
                         <span>数字</span>
                         <span>投注区</span>
                     </div>
+                    <div class="poker-box">
+                        <img src="../../../public/img/poker/poker_1.png" alt="">
+                        <img src="../../../public/img/poker/poker_1.png" alt="">
+                    </div>
                 </div>
                 <div class="kj-area">
                     <div class="odds">
@@ -100,7 +104,7 @@
                 </div>
                 <!-- 挖矿数量 -->
                 <div class="dig-wrap" v-if="rule.winDig">
-                    <img src="../../../public/img/ab_icon03.png" alt="">
+                    <img src="../../../public/img/poker/ab.png" alt="">
                     <div class="content">
                         <p>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</p>
                         <span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
@@ -629,6 +633,16 @@ export default {
                         white-space: nowrap;
                     }
                 }
+                .poker-box {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    
+                    img {
+                        width: 76px;
+                        display: block;
+                    }
+                }
             }
             .kj-area {
                 display: flex;
@@ -737,7 +751,7 @@ export default {
             .hs-area {
                 flex: 1;
                 border-left: 3px solid #0F4C34;
-                background: url(../../../public/img/poker/allbet.png) repeat top center;
+                background: url(../../../public/img/poker/allbet02.png) repeat top center;
                 background-size: 532px 260px;
                 ul {
                     display: flex;
@@ -833,7 +847,7 @@ export default {
 							align-items: center;
 							color: #CAFFE9;
 							span {
-								border-right: 1px solid #030014;
+                                position: relative;
 								font-size: 14px;
 								width: 44px;
 								height: 40px;
@@ -841,12 +855,24 @@ export default {
 								cursor: pointer;
                                 border-radius: 4px;
                                 text-align: center;
+                                &:after {
+                                    content: "";
+                                    position: absolute;
+                                    right: 0;
+                                    top: 10px;
+                                    height: 20px;
+                                    width: 1px;
+                                    background-color: #06301F;
+                                }
 								&:hover {
 									background-color: #1B6B4A;
 									color: #fff;
 								}
 								&:last-child {
-									border: none;
+                                    border: none;
+                                    &:after {
+                                        display: none;
+                                    }
 								}
 							}
 						}
@@ -1070,7 +1096,7 @@ export default {
 					position: relative;
 					width: 30px;
 					height: 30px;
-					background: url(../../../public/img/help_icon.png) no-repeat center;
+					background: url(../../../public/img/poker/help_icon.png) no-repeat center;
 					background-size: 70%;
 					cursor: pointer;
 				}
