@@ -21,6 +21,95 @@
             <p class="tip1 tip2">{{$t('message.abFourYear')}}</p>
             <h4>{{$t('message.abBancorDig')}}</h4>
             <p class="tip1 tip2">{{$t('message.abGet')}}</p>
+            <h6>{{$t('message.abReferRate')}}</h6>
+            <table class="referRate">
+                <tr>
+                <th></th>
+                <th>{{$t('message.abRate')}}</th>
+                <th>{{$t('message.abOwner')}}</th>
+                <th></th>
+                <th></th>
+                </tr>
+                <tr>
+                <th>挖矿阶段</th>
+                <th>TRX/AB</th>
+                <th>TRX/AB</th>
+                <th>AB总量</th>
+                <th>占总量</th>
+                </tr>
+                <tr>
+                <td>第一阶段</td>
+                <td>100:45</td>
+                <td>100:50</td>
+                <td>10亿</td>
+                <td>10%</td>
+                </tr>
+                <tr>
+                <td>第二阶段</td>
+                <td>100:40</td>
+                <td>100:45</td>
+                <td>7亿</td>
+                <td>7%</td>
+                </tr>
+                <tr>
+                <td>第三阶段</td>
+                <td>100:35</td>
+                <td>100:40</td>
+                <td>6亿</td>
+                <td>6%</td>
+                </tr>
+                <tr>
+                <td>第四阶段</td>
+                <td>100:30</td>
+                <td>100:35</td>
+                <td>5亿</td>
+                <td>5%</td>
+                </tr>
+                <tr>
+                <td>第五阶段</td>
+                <td>100:25</td>
+                <td>100:30</td>
+                <td>5亿</td>
+                <td>5%</td>
+                </tr>
+                <tr>
+                <td>第六阶段</td>
+                <td>100:20</td>
+                <td>100:35</td>
+                <td>4亿</td>
+                <td>4%</td>
+                </tr>
+                <tr>
+                <td>第七阶段</td>
+                <td>100:15</td>
+                <td>100:20</td>
+                <td>4亿</td>
+                <td>4%</td>
+                </tr>
+                <tr>
+                <td>第八阶段</td>
+                <td>100:10</td>
+                <td>100:15</td>
+                <td>3亿</td>
+                <td>3%</td>
+                </tr>
+                <tr>
+                <td>第九阶段</td>
+                <td>100:5</td>
+                <td>100:10</td>
+                <td>3亿</td>
+                <td>3%</td>
+                </tr>
+                <tr>
+                <td class="no-bt-bd">第十阶段</td>
+                <td class="no-bt-bd">100:0</td>
+                <td class="no-bt-bd">100:5</td>
+                <td class="no-bt-bd">3亿</td>
+                <td class="no-bt-bd">3%</td>
+                </tr>
+            </table>
+            <h4>{{$t('message.abDivid')}}</h4>
+            <p class="tip1 tip2">{{$t('message.abDividDesc')}}</p>
             <h4>{{$t('message.abShareTitle')}}</h4>
             <p class="tip1 tip2">{{$t('message.abShareDesc')}}</p>
         </div>
@@ -59,7 +148,7 @@ export default {
         td, th{
             border-bottom:1px solid #3A2F57;
             border-right: 1px solid #3A2F57;
-            &:nth-child(2n) {
+            &:last-child {
                 border-right: none;
             }
             &.no-bt-bd {
@@ -88,6 +177,21 @@ export default {
         }
         .tip3 {
             margin-bottom: 0;
+        }
+        h6 {
+          text-align: center;
+          margin: -0.1rem auto 0.08rem auto;
+        }
+        .referRate {
+              table-layout: fixed;
+              margin-bottom: 0.1rem;
+              td{
+              height:0.35rem;
+              font-weight: normal;
+              }
+              th {
+                  height:0.4rem;
+              }
         }
     }
 }

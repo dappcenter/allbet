@@ -43,6 +43,8 @@
 	        </div>
 					<div class="buttom">
 						<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+						<h5>{{$t('message.InviteDesc')}}</h5>
+						<h5 class="title" style="margin-top: 35px;">{{$t('message.InviteReward')}}</h5>
 						<h5>{{$t('message.InvitationRules1')}}</h5>
 						<h5>{{$t('message.InvitationRules2')}}</h5>
 						<h5>{{$t('message.InvitationRules3')}}</h5>
@@ -55,6 +57,8 @@
 						</p>
 						<div class="buttom">
 							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
+							<h5>{{$t('message.InviteDesc')}}</h5>
+							<h5 class="title" style="margin-top: 35px;">{{$t('message.InviteReward')}}</h5>
 							<h5>{{$t('message.InvitationRules1')}}</h5>
 							<h5>{{$t('message.InvitationRules2')}}</h5>
 							<h5>{{$t('message.InvitationRules3')}}</h5>

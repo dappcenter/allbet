@@ -171,6 +171,8 @@ export default {
         InvitePeople: "People",
         InviteBind: "Please login the account first, then invite friends to participate in the game.",
         InviteQrcode: "Exclusive invitation QR code",
+        InviteDesc: '将您的邀请链接发送给好友们，只要好友在这个网址下面完成过一次登录（Web端使用TronLikn、TronPay、MetaMask均可；客户端使用Math Wallet、Cobo Wallet均可），那么您将邀请成功。',
+        InviteReward: '您将享受以下两种邀请奖励：：',
         // 所有弹框页
         PopRegister: "Register",
         PopEmailFind: 'Mailbox retrieval',
@@ -339,7 +341,7 @@ export default {
         abGameDig: 'Game Mining(for game、Referral、Airdrop)',
         abFourYear: "AB Tokens held by the developer team will be locked for four years and will be released monthly in equal proportion.In the 70% AB token released by the game mining, the difficulty of mining will increase with the release of the AB token, and the mining rate will be gradually halved with the mining cycle.",
         abBancorDig: 'AB Token Mining',
-        abGet: 'The total supply of AB token is 10 billion. They are issued on the TRON main network, the EOS main network, and the ETH main network, respectively, with a total of 3 billion, 4 billion, and 3 billion. Of these,7 billion AB token will be released in mining output.The potential and value of AB tokens is the core competitiveness of the platform. Therefore, the dividend plan is to lock AB token released by mining during the initial operation of the platform, and then to gradually execute the pledge dividend.',
+        abGet: 'The total supply of AB token is 10 billion. They are issued on the TRON main network, the EOS main network, and the ETH main network, respectively, with a total of 3 billion, 4 billion, and 3 billion. Of these,5 billion AB token will be released in mining output.The potential and value of AB tokens is the core competitiveness of the platform. Therefore, the dividend plan is to lock AB token released by mining during the initial operation of the platform, and then to gradually execute the pledge dividend.',
         abShareTitle: 'Profit Sharing',
         abShareDesc: 'The platform gives 100% dividends to the players who hold AB tokens.',
         abExmaple: 'For example:',
@@ -347,6 +349,9 @@ export default {
         abLast: 'The dividends will distribute as follow:',
         abEthpool: 'ETH Reserve Pool Of AT Token',
         abPool: 'Payout Of AB Token',
+        abReferRate: 'ETH/EOS比例每周参考TRX汇率进行调整：',
+        abDivid: 'AB 代币分红',
+        abDividDesc: 'AB 代币的价值暂时无法计算，AB 代币作为 ALLBET 平台币，极有潜力及价值，因此分红设计方案为平台运行初期时挖矿释放的 AB 代币先暂时锁仓，用户若需要提取，您可以随时在分红页进行 AB 代币提取。接下来我们将上线质押分红功能，所以为了方便获得分红，您可先不进行提取。',
 
         //预售
         preTarget: 'A game platform aiming to create a DAPP with the most complete game categories and the best game experience.',
