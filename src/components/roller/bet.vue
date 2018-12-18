@@ -72,19 +72,19 @@
 				<div class="slider" ref="slider" @click.stop.self="onHandleClick" @touchstart.stop.self="onHandleTouchS">
 					<div class="bar" ref="bar" @click="onHandleClick" @touchstart="onHandleTouchS"></div>
 					<div class="handle" @mousedown.prevent="onHandleMouseD" @touchstart.prevent="onHandleTouchS" ref="handle"><i>{{odds}}</i></div>
+					<div class="luckynum" :class="{'exceed': odds < luckyNum}" ref="luckynum" v-show="isShowResult">88</div>
 				</div>
 			</div>
 			<div class="ctn-btm">
 				<!-- 自动下注 -->
 				<div class="auto-bet">
-					<!-- <p>{{$t("message.GameStatus1")}}<a href="javascript:;">88</a>{{$t("message.GameStatus2")}}</p> -->
-					<p class=""></p>
+					<p class="rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</p>
 					<div class="mid">
 						<label>{{$t('message.GameAutoBet')}}</label>
 						<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 						<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 					</div>
-					<a href="javascript:;" class="rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</a>
+					<a class="trumpet" href="javascript:;"><i :class="{'on': music}" @click="music = !music"></i></a>
 				</div>
 				<div class="bet-wrap">
 					<span class="fl nominscreen">
@@ -92,8 +92,9 @@
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}</span>
-					<button v-if="currentAddr.token && coinType == 'ETH'" class="enter" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
-					<button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button>
+					<button v-if="currentAddr.token && !timer" class="enter" :class="{'loading': betBtnLoading}" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
+					<button v-else-if="currentAddr.token && timer" class="enter">{{luckyNum}}</button>
+					<!-- <button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button> -->
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 
 					<span class="fl minscreen">
@@ -127,6 +128,19 @@
 
 		<!-- 募资弹框 -->
 		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
+		<!-- 骰子音乐 -->
+		<audio controls="controls" loop="true" hidden="true" ref="diceA" >
+			<source src="../../../public/music/a.wav">
+		</audio>
+		<audio controls="controls" hidden="true" ref="diceB" >
+			<source src="../../../public/music/b.wav" loop="false">
+		</audio>
+		
+		<div>
+			<audio controls="controls" hidden="true" autoplay v-for="item in audioList.list">
+				<source src="../../../public/music/Tick.mp3" loop="false">
+			</audio>
+		</div>
 	</section>
 </template>
 
@@ -167,7 +181,14 @@ export default {
 			autoBet: false,
 			isShowABpopup: false,
 			isShowFundraiy: false,
-			scroll: null
+			scroll: null,
+			betBtnLoading: false,
+			isShowResult: false,
+			audioList: {
+				timerID: null,
+				list: []
+			},
+			music: false
         }
 	},
 	created() {
@@ -195,7 +216,7 @@ export default {
 			this.$router.push('mobile-fundraiy')
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
-		
+
     },
     methods: {
 		inputAmountBlur() {
@@ -210,10 +231,14 @@ export default {
 		luckyRun() {
 			clearInterval(this.timer)
 			this.timer = null
+			if(this.music) {
+				this.$refs.diceA.play()
+			}
 			this.timer = setInterval(() => {
 				this.luckyNum = Math.floor(Math.random() * 89) + 10
 				this.luckyColor = ["green", "red", "golden"][Math.floor(Math.random() * 2)]
 			}, 50)
+			
 		},
         onHotkeys(amount) {
 			switch(amount) {
@@ -281,7 +306,8 @@ export default {
                 that.setBetInfo({
                     odds: that.odds,
                     amount: that.amount
-                })
+				})
+				
 			}
 		},
         onHandleTouchS(e) {
@@ -300,7 +326,7 @@ export default {
                 that.setBetInfo({
                     odds: that.odds,
                     amount: that.amount
-                })
+				})
             }
 		},
 		getRule() {
@@ -319,6 +345,8 @@ export default {
 		},
 		//下注
 		betDo() {
+			if(this.betBtnLoading) return
+			this.isShowResult = false  //隐藏结果显示
 			let that = this
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
@@ -348,6 +376,7 @@ export default {
 				})
 				return
 			}
+			this.betBtnLoading = true
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
@@ -360,7 +389,7 @@ export default {
 							msg: res.msg
 						})
 						this.luckyRun()
-						that.getBetResult(res.result.recdId)
+						that.getBetResult(res.result.recdId, this.amount)
 					}else {   //合约账号
 						this.alert({
 							type: "info",
@@ -390,10 +419,14 @@ export default {
 								timeout: 9999999
 							})
 							that.luckyRun()
-							that.getBetResult(res.result.recdId)
+							that.getBetResult(res.result.recdId, this.amount)
 						}
 					}
+				}else {
+					this.betBtnLoading = false
 				}
+			}).catch(err => {
+				this.betBtnLoading = false
 			})
 		},
 		/**
@@ -402,11 +435,11 @@ export default {
 		 */
 		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount, recdId) {
 			let that = this
-			amount = this.web3.web3Instance.utils.toWei(amount+"", "ether")
+			let amountWei = this.web3.web3Instance.utils.toWei(amount+"", "ether")
 
 			this.web3.diceApiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
-				value: amount,
+				value: amountWei,
 				gas: 210000,
 				gasPrice: 10000000000
 			},(err, res) => {
@@ -416,6 +449,8 @@ export default {
 						msg: "Bet submitted! Waiting for Ethereum...",
 						timeout: 9999999
 					})
+				}else {
+					this.betBtnLoading = false
 				}
 			}).then(res => {
 				that.alert({
@@ -423,14 +458,15 @@ export default {
 					msg: "Successful bet.",
 					timeout: 9999999
 				})
-				// that.luckyRun()
-				that.getBetResult(recdId)
+				that.luckyRun()
+				that.getBetResult(recdId,amount)
 			}).catch(err => {
 				that.alert({
 					type: "info",
 					msg: "User rejected the signature request.",
 					timeout: 3000
 				})
+				this.betBtnLoading = false
 			})
 		},
 		/**
@@ -450,8 +486,10 @@ export default {
 					msg: "Bet submitted! Waiting for Tron...",
 					timeout: 9999999
 				})
-				that.getBetResult(orderId)
+				
+				that.getBetResult(orderId,amount)
 			}).catch(err => {
+				that.betBtnLoading = false
 				that.alert({
 					type: "info",
 					// msg: "User rejected the signature request.",
@@ -461,7 +499,7 @@ export default {
 			})
 		},
 		//查询下注结果
-		getBetResult(recdId) {
+		getBetResult(recdId,amount) {
 			clearInterval(this.getBetResultTimer)
 			this.getBetResultTimer = null
 			this.getBetResultTimer = setInterval(() => {
@@ -471,31 +509,51 @@ export default {
 					data: {}
 				}).then(res => {
 					if(res.code == 200) {
-						if(res.result.tradeStatus == "WAITING_SETTLE") {
+						if(res.result.tradeStatus == "WAITING_SETTLE" && this.coinType == 'TRX') {
 							// 下注扣款成功
 							this.alert({
 								type: "info",
 								msg: "Successful bet.",
 								timeout: 9999999
 							})
+							if(!this.timer) {
+								this.luckyRun()
+							}
+							this.betBtnLoading = false
 						}else if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
+							this.betBtnLoading = false
 							clearInterval(this.timer)
 							this.timer = null
 							clearInterval(this.getBetResultTimer)
 							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
+								this.$refs.diceA.pause()
+								if(this.music) {
+									this.$refs.diceB.play()
+								}
 								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
+								this.showBetResult(res.result.luckyNum)
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
 									this.openWinPopup({
 										ab: res.result.abNum,
 										rewards: res.result.rewards,
-										coinType: res.result.coinType
+										coinType: res.result.coinType,
+										winFlag: "WIN",
+										amount: amount,
+										luckyNum: res.result.luckyNum
 									})
 								}else if(res.result.winFlag == "LOSE") {
-									this.noWin(res.result.abNum)
+									this.openWinPopup({
+										ab: res.result.abNum,
+										rewards: 0,
+										coinType: res.result.coinType,
+										winFlag: "LOSE",
+										amount: amount,
+										luckyNum: res.result.luckyNum
+									})
 								}
 								// 自动下注
 								setTimeout(() => {
@@ -512,14 +570,17 @@ export default {
 							}
 						}
 					}else {
+						this.betBtnLoading = false
 						clearInterval(this.timer)
 						this.timer = null
 						clearInterval(this.getBetResultTimer)
 						this.getBetResultTimer = null
 						this.luckyNum = "00"
 						this.luckyColor = "green"
+
 					}
 				}).catch(err => {
+					this.betBtnLoading = false
 					clearInterval(this.timer)
 					this.timer = null
 					clearInterval(this.getBetResultTimer)
@@ -553,6 +614,14 @@ export default {
 				this.$router.push('mobile-fundraiy')
 				sessionStorage.setItem('IsFirstEnter', 'YES')
 			}
+		},
+		// 显示下注结果
+		showBetResult(resNum) {
+			const sliderWidth = this.$refs.slider.clientWidth -20
+			const stepWidth = sliderWidth / 100
+			this.$refs.luckynum.style.left = stepWidth*resNum - 8 + "px"
+			this.$refs.luckynum.innerHTML = resNum
+			this.isShowResult = true
 		}
     },
     watch: {
@@ -574,6 +643,14 @@ export default {
 		coinType() {
 			this.getRule()
 		},
+		odds() {
+			if(!this.music) return
+			this.audioList.list.push(this.odds)
+			this.audioList.timerID && clearTimeout(this.audioList.timerID)
+			this.audioList.timerID = setTimeout(() => {
+				this.audioList.list = []
+			}, 400)
+		}
 	},
 	computed: {
 		...mapState({
@@ -892,7 +969,7 @@ export default {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					margin: 23px 0 0;
+					margin: 32px 0 0;
 					color: #D3CDFF;
 					.mid {
 						display: flex;
@@ -955,14 +1032,33 @@ export default {
 					p {
 						width: 200px;
 						text-align: left;
+						cursor: pointer;
 						a {
 							color: #FFC425;
 						}
 					}
 					.rule {
 						width: 200px;
-						text-align: right;
+						text-align: left;
 						color: #D3CDFF;
+					}
+					.trumpet {
+						display: inline-block;
+						width: 200px;
+						text-align: right;
+						cursor: auto;
+						i {
+							display: inline-block;
+							height: 18px;
+							width: 20px;
+							background: url(../../../public/img/trumpet_off.png) no-repeat left center;
+							background-size: auto 100%;
+							cursor: pointer;
+							&.on {
+								background: url(../../../public/img/trumpet_on.png) no-repeat left center;
+								background-size: auto 100%;
+							}
+						}
 					}
 				}
 				.bet-wrap {
@@ -983,6 +1079,18 @@ export default {
 						cursor: pointer;
 						&:hover {
 							background-color: #ffba00;
+						}
+						&.loading {
+							&:after {
+								content: "";
+								background: url(../../../public/gif/Spinner-1.gif) no-repeat center;
+								background-size: 100%;
+								display: inline-block;
+								width: 2em;
+								height: 2em;
+								vertical-align: middle;
+								margin-top: -1px;
+							}
 						}
 					}
 					span {
@@ -1119,6 +1227,22 @@ export default {
 					border-bottom-left-radius: 7px;
 					margin-right: 10px;
 					box-shadow: 0 0 7px rgba(179, 255, 222, 1);
+				}
+				.luckynum {
+					position: absolute;
+					z-index: -1;
+					width: 32px;
+					height: 32px;
+					background: url(../../../public/img/qipao02.png) no-repeat center;
+					background-size: 100% 100%;
+					color: #13F693;
+					line-height: 35px;
+					font-size: 18px;
+					&.exceed {
+						color: #FE0E4E;
+						background: url(../../../public/img/qipao03.png) no-repeat center;
+						background-size: 100% 100%;
+					}
 				}
 			}
 		}
@@ -1265,7 +1389,6 @@ export default {
 							margin: 0 auto .2rem;
 							outline: none;
 							font-size: .24rem;
-
 						}
 						span {
 							font-size: .16rem;
@@ -1293,6 +1416,9 @@ export default {
 						.rule {
 							width: 1rem;
 							font-size: .12rem;
+						}
+						.trumpet {
+							width: 1rem;
 						}
 						p {
 							width: 1rem;

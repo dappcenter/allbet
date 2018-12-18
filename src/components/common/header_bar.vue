@@ -7,11 +7,18 @@
             <menu class="nominscreen">
                 <router-link to="dice"><span>DICE</span></router-link>
                 <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
-                <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
+                <router-link to="poker"><span>POKER</span></router-link>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
-                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                 <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
-                <a href="javascript:;" @click="openWhiteBook"><span>{{$t("message.course")}}</span></a>
+                <a href="javascript:;" class="pull-menu">
+                    <span>{{$t("message.course")}}</span>
+                    <i></i>
+                    <div class="router-list">
+                        <a href="javascript:;" @click="openWhiteBook">{{$t("message.course")}}</a>
+                        <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
+                        <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
+                    </div>
+                </a>
             </menu>
             <div class="statusbar">
                 <div class="contact nominscreen">
@@ -29,7 +36,7 @@
                     <CircleBar :value="storeTronWeb.usageBandwidth/(storeTronWeb.usageBandwidth+storeTronWeb.surplusBandwidth)" text="BW"></CircleBar>
                     <CircleBar v-if="storeTronWeb.energyLimit" :value="storeTronWeb.energyLimit/storeTronWeb.totalEnergyLimit" text="EN"></CircleBar>
                 </div>
-                <div class="user-center" v-if="storeCurrentAddr.coinAddress">
+                <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
@@ -688,6 +695,44 @@ export default {
                 color: #D3CDFF;
             }
 
+        }
+        .pull-menu {
+            .router-list {
+                position: absolute;
+                background-color: #52476F;
+                width: 120px;
+                left: -20px;
+                display: none;
+                a {
+                    display: block;
+                    padding: 0;
+                    margin: 0;
+                    text-align: center;
+                    line-height: 40px;
+                    color: #D3CDFF;
+                    &:hover {
+                        background-color: #42385E;
+                        color: #fff;
+                    }
+                }
+            }
+            i {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background: url(../../../public/img/sanjiao.png) no-repeat center;
+                background-size: 80%;
+                vertical-align: middle;
+                transition: all .2s;
+            }
+            &:hover {
+                i {
+                    transform: rotate(180deg)
+                }
+                .router-list {
+                    display: block;
+                }
+            }
         }
     }
     .statusbar {

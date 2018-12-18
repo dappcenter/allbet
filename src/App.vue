@@ -25,15 +25,11 @@
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
       <div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
-        <div class="lighting"></div>
-        <div class="centent">
-          <img src="../public/img/win_box/gxn.png" v-show="locale == 'zh-CN'" />
-          <img src="../public/img/win_box/Win.png" v-show="locale == 'en-US'" />
-          <h3 class="rewards">{{Math.floor(winPopupOption.rewards*10000)/10000}}</h3>
-          <h3 class="cointype">{{winPopupOption.coinType}}</h3>
-          <p>{{$t("message.GameWinBox2")}}{{Math.floor(winPopupOption.ab)}}AB</p>
-          <button @click="isShowWin=false;$router.push('dice')">{{$t("message.GameWinBox3")}}</button>
-          <i class="close-btn" @click="isShowWin = false"></i>
+        <div class="centent" :class="{'win': winPopupOption.winFlag == 'WIN'}">
+          <h3 v-if="winPopupOption.winFlag == 'WIN'" class="">Congratulations, you bet  {{winPopupOption.amount}} {{winPopupOption.coinType}}</h3>
+          <h3 v-else class="">Unfortunately, you bet  {{winPopupOption.amount}} {{winPopupOption.coinType}}</h3>
+          <p v-if="winPopupOption.winFlag == 'WIN'">Roll result {{winPopupOption.luckyNum}}, win {{Math.floor(winPopupOption.rewards*10000)/10000}} {{winPopupOption.coinType}}</p>
+          <p v-else>Roll result {{winPopupOption.luckyNum}}, lost {{winPopupOption.amount}} {{winPopupOption.coinType}}</p>
         </div>
       </div>
 
@@ -267,35 +263,31 @@ body {
   }
   .win-box {
       position: fixed;
-      left: calc(50% - 400px);
-      top: calc(50% - 400px);
-      width: 800px;
-      height: 800px;
+      left: calc(50% - 200px);
+      top: 10%;
+      width: 400px;
       z-index: 9999999999;
-      .lighting {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: url(../public/img/win_box/lighting.png) no-repeat center;
-        background-size: 80%;
-        -webkit-animation: spin 12s linear 12s 5 alternate;
-        animation: spin 12s linear infinite;
-      }
       .centent {
         position: relative;
         z-index: 2;
         width: 100%;
         height: 100%;
-        background: url(../public/img/win_box/bg.png) no-repeat center;
-        background-size: 100%;
         text-align: center;
-        padding: 240px 0 0 0;
-        img {
-          height: 44px;
+        background-color: #555073;
+        border-radius: 12px;
+        overflow: hidden;
+        &.win {
+          h3 {
+            color: #13F693;
+          }
+          &:before {
+            background-color: #13F693;
+          }
         }
         h3 {
-          font-size: 35px;
-          color: #FFE825;
+          font-size: 16px;
+          color: #FE0E4E;
+          margin-top: 12px;
           &.rewards {
             font-size: 50px;
             margin-top: 15px;
@@ -306,51 +298,17 @@ body {
         }
         p {
           position: relative;
-          font-size: 16px;
-          width: 400px;
-          margin: 15px auto 0;
-          &:after {
-            content: "";
-            display: inline-block;
-            vertical-align: middle;
-            height: 1px;
-            margin-left: 20px;
-            width: 60px;
-            background-color: #FFE825;
-          }
-          &:before {
-            content: "";
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 20px;
-            height: 1px;
-            width: 60px;
-            background-color: #FFE825;
-          }
+          font-size: 14px;
+          margin: 5px 0 12px;
+          color: #fff;
+
         }
-        button {
-          width: 200px;
-          height: 40px;
-          background: url(../public/img/win_box/Button.png) no-repeat center;
-          background-size: 100% 100%;
-          border-radius: 6px;
-          border: none;
-          font-size: 20px;
-          color: #744C00;
-          font-weight: 700;
-          cursor: pointer;
-          margin-top: 25px;
-          outline: none;
-        }
-        .close-btn {
-          position: absolute;
-          top: 20%;
-          right: 20%;
-          width: 30px;
-          height: 30px;
-          background: url(../public/img/win_box/close.png) no-repeat center;
-          background-size: 100%;
-          cursor: pointer;
+        &:before {
+          content: "";
+          display: block;
+          height: 4px;
+          background-color: #FE0E4E;
+          width: 100%;
         }
       }
   }
@@ -491,60 +449,22 @@ body {
       }
     }
     .win-box {
-      position: fixed;
-      left: calc(50% - 4rem);
-      top: calc(50% - 4rem);
-      width: 8rem;
-      height: 8rem;
+      left: 5%;
+      width: 90%;
       .centent {
-        padding: 2.4rem 0 0;
-        img {
-          height: .4rem;
-          width: auto;
-
-        }
+        border-radius: 12px;
         h3 {
-          &.rewards {
-            margin-top: 0;
-            font-size: .5rem;
-          }  
-          &.cointype {
-            font-size: .3rem;
-          }
+          font-size: .3rem;
+          color: #FE0E4E;
+          margin-top: .12rem;
         }
         p {
-          margin: .1rem 0 0;
-          font-size: .2rem;
-          &:after {
-            width: .4rem;
-            margin-left: .2rem;
-          }
-          &:before {
-            width: .4rem;
-            margin-right: .2rem;
-          }
+          font-size: .12rem;
+          margin: 5px 0 12px;
         }
-        button {
-          margin: .1rem 0 0;
-          width: 2rem;
-          height: .5rem;
-          font-size: .2rem;
+        &:before {
+          height: .1rem;
         }
-        .close-btn {
-          width: .5rem;
-        }
-      }
-      h3 {
-        font-size: 20px;
-      }
-      button {
-        width: 80px;
-        height: 28px;
-        border-radius: 4px;
-        border: none;
-        font-size: 10px;
-        cursor: pointer;
-        margin-top: 15px;
       }
     }
     .loading-shade {

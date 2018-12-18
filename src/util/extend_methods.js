@@ -127,6 +127,31 @@ const IsPC = () => {
     return flag;
 }
 
+const getBrowser = () => {
+	var e = {
+		version: function() {
+			var e = navigator.userAgent;
+			return {
+				ios: !!e.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+				android: e.indexOf("Android") > -1 || e.indexOf("Adr") > -1,
+				mobilePhone: !!e.match(/AppleWebKit.*Mobile.*/),
+				trident: e.indexOf("Trident") > -1,
+				presto: e.indexOf("Presto") > -1,
+				webkit: e.indexOf("AppleWebKit") > -1,
+				gecko: e.indexOf("Gecko") > -1 && -1 == e.indexOf("KHTML"),
+				iphone: e.indexOf("iPhone") > -1,
+				iPad: e.indexOf("iPad") > -1,
+				webApp: e.indexOf("Safari"),
+				weixin: e.indexOf("MicroMessenger"),
+				QQ: " qq" == e.match(/\sQQ/i)
+			}
+		}(),
+		browserLanguage: (navigator.language || navigator.browserLanguage).toLowerCase()
+	};
+	e.version.ios || e.version.android || e.version.mobilePhone
+	return e
+}
+
 const extendMethods = {
 	fmtNumber,
 	fmtDate,
@@ -134,7 +159,8 @@ const extendMethods = {
 	setHeight,
 	downLoadApp,
 	getLanguage,
-	IsPC
+	IsPC,
+	getBrowser
 }
 
 export default {
@@ -154,5 +180,6 @@ export {
 	setHeight,
 	downLoadApp,
 	getLanguage,
-	IsPC
+	IsPC,
+	getBrowser
 }

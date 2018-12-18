@@ -30,7 +30,8 @@ const state = {
     },
     winPopupOption: {
         rewards: 0,
-        ab: 0
+        ab: 0,
+        winFlag: "LOSE"
     },
     loginBox: false,
     loading: false,
