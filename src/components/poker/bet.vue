@@ -8,8 +8,10 @@
                         <span>投注区</span>
                     </div>
                     <div class="poker-box">
-                        <img src="../../../public/img/poker/poker_1.png" alt="">
-                        <img src="../../../public/img/poker/poker_1.png" alt="">
+                      <li v-for="(item,index) in pokerSelectedList" :key="index" @click="homingPoker(item,index)">
+                          <img :src="'img/poker/poker_'+item+'.png'" alt="">
+                      </li>
+                        <!-- <img src="../../../public/img/poker/poker_1.png" alt=""> -->
                     </div>
                 </div>
                 <div class="kj-area">
@@ -24,24 +26,32 @@
                         <img src="../../../public/img/poker/kj_poker.png" alt="">
                     </div>
                 </div>
-                <div class="hs-area">
+                <div class="number-area hs-area">
                     <div class="watermark">
                         <span>花色</span>
                         <span>投注区</span>
+                    </div>
+                    <div class="poker-box">
+                      <li v-for="(item,index) in cardSelectedList" :key="index" @click="homingCard(item,index)">
+                          <img :src="'img/poker/card'+item+'.png'" alt="">
+                      </li>
                     </div>
                 </div>
             </div>
             <div class="view-btm">
                 <div class="poker-area">
                     <ul>
-                        <li v-for="(item,index) in 13" :key="index">
+                        <li v-for="(item,index) in pokerList" :key="index" @click="movePoker(item,index)">
                             <img :src="'img/poker/poker_'+item+'.png'" alt="">
                         </li>
                     </ul>
                 </div>
                 <div class="hs-area">
                     <ul>
-                        <li>
+                      <li v-for="(item,index) in cardList" :key="index" @click="moveCard(item,index)">
+                          <img :src="'img/poker/card'+item+'.png'" alt="">
+                      </li>
+                        <!-- <li>
                             <img src="../../../public/img/poker/fk.png" alt="">
                         </li>
                         <li>
@@ -52,7 +62,7 @@
                         </li>
                         <li>
                             <img src="../../../public/img/poker/mh.png" alt="">
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -154,13 +164,21 @@ export default {
 			autoBet: false,
 			isShowABpopup: false,
 			isShowFundraiy: false,
-			scroll: null
+			scroll: null,
+      pokerList: [],
+      pokerSelectedList: [],
+      cardList: [1,2,3,4],
+      cardSelectedList: [],
         }
 	},
 	created() {
 		let that = this
 		this.getRule()
 		window.hd = {}
+    for (var i = 1;i<=13;i++) {
+      this.pokerList.push(i)
+    }
+    console.log(this.pokerList);
 	},
     mounted() {
         this.setBetInfo({
@@ -182,9 +200,46 @@ export default {
 			this.$router.push('mobile-fundraiy')
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
-		
+
     },
     methods: {
+      // 点击牌移动
+      movePoker (item, index) {
+        if (item == '') return
+        if (this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
+          this.alert({
+  					type: "info",
+  					msg: '最后一张牌了，不能再选啦！'
+  				})
+          return
+        }
+        this.pokerList.splice(index,1,'')
+        this.pokerSelectedList.push(item)
+      },
+      // 点击牌归位
+      homingPoker (item, index) {
+        this.pokerSelectedList.splice(index,1)
+        this.pokerList.splice(item-1,1,item)
+      },
+      // 点击牌花色
+      moveCard (item, index) {
+        if (item == '') return
+        if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length >= 13 ) {
+          this.alert({
+  					type: "info",
+  					msg: '最后一个花色了，不能再选啦！'
+  				})
+          return
+        }
+        this.cardList.splice(index,1,'')
+        this.cardSelectedList.push(item)
+      },
+      // 点击牌花色
+      homingCard (item, index) {
+        this.cardSelectedList.splice(index,1)
+        this.cardList.splice(item-1,1,item)
+        console.log(this.cardList,this.cardSelectedList);
+      },
 		inputAmountBlur() {
 			if(this.amount < this.rule.minInvest) {
 				this.amount = this.rule.minInvest
@@ -620,6 +675,10 @@ export default {
             .number-area {
                 position: relative;
                 flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
                 .watermark {
                     position: absolute;
                     top: 48px;
@@ -637,7 +696,17 @@ export default {
                     position: relative;
                     display: flex;
                     align-items: center;
-                    
+                    flex-wrap: wrap;
+                    max-width: 100%;
+                    li {
+                      margin-left: -42px;
+                    }
+                    li:first-child {
+                      margin-left: 0;
+                    }
+                    li:nth-child(8){
+                      margin-left: 0;
+                    }
                     img {
                         width: 76px;
                         display: block;
@@ -649,14 +718,14 @@ export default {
                 align-items: center;
                 border-left: 1px dashed rgba(15,76,52,1);
                 border-right: 1px dashed rgba(15,76,52,1);
-                padding: 0 80px;
+                padding: 0 60px;
                 .odds {
                     text-align: center;
                     margin-right: 42px;
                     h3 {
                         font-size: 48px;
                         color: #0F4A33;
-                        
+
                     }
                     div {
                         color: #FFC425;
@@ -688,6 +757,18 @@ export default {
             .hs-area {
                 position: relative;
                 flex: 1;
+                display: flex;
+                align-items: center;
+                .poker-box {
+                  li {
+                    margin-left: -15px;
+                  }
+                  img {
+                      width: 84px;
+                      display: block;
+                      z-index: 100;
+                  }
+                }
                 .watermark {
                     position: absolute;
                     top: 48px;
@@ -707,7 +788,7 @@ export default {
             display: flex;
             border-top: 3px solid #0F4C34;
             border-bottom: 3px solid #0F4C34;
-            
+
             .poker-area {
                 width: 665px;
                 border-left: 1px dashed #0F4C34;
@@ -1105,4 +1186,3 @@ export default {
     }
 }
 </style>
-
