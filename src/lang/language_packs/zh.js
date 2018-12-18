@@ -156,7 +156,7 @@ export default {
         tradeAddress: "交易地址",
         //邀请好友页
         inviteFriend: "邀请好友",
-        inviteRule: "支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受 ETH 分红",
+        inviteRule: "支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受平台分红",
         inviteTotalBill: "平台已发放邀请奖励：",
         invitationSuccessed: "成功邀请：",
         invitationCode: "专属邀请码：",
@@ -363,12 +363,19 @@ export default {
         preHelp: '如有疑问请加入社群',
         preCanYu: "参与成功",
         preTooLow: "单次参与不能小于",
-        preTips1: "请登录TronLink或TronPay进行操作"
+        preTips1: "请登录TronLink或TronPay进行操作",
 
-
-
-
-
+        // Poker游戏
+        PokerKJQ: "开奖区",
+        PokerPL: "投注赔率",
+        PokerFigure: "数字",
+        PokerHS: "花色",
+        PokerBettingArea: "投注区",
+        PokerBet: "投注",
+        PokerSuits: "投注牌型",
+        PokerResults: "开奖结果",
+        PokerTips1: "最后一张牌了，不能再选啦！",
+        PokerTips2: "最后一个花色了，不能再选啦！"
 
     }
 }

@@ -5,7 +5,7 @@
       <div class="top nominscreen">
 				<div class="left-bg"></div>
 				<div class="right-bg"></div>
-				<h3><span>{{$t('message.inviteTotalBill')}}</span>{{platformBonus}} AB</h3>
+				<h3><span>{{$t('message.inviteTotalBill')}}</span>{{platformBonus.toFixed(2)}} AB</h3>
 				<p>{{$t('message.inviteRule')}}</p>
       </div>
       <div class="white-div">
@@ -81,7 +81,7 @@ import {mapMutations, mapState} from "vuex"
 		    inviteCount: '0',
 		    inviteUrl: location.origin + "/dice?inv=",
 				inviteCode: "",
-		    platformBonus: '',
+		    platformBonus: 0,
 		  }
 	  },
 		computed: {

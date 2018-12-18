@@ -21,7 +21,7 @@
 				<img src="../public/svg/loading.svg" alt="">
 			</div>
 		</div>
-		<div class="shade" v-show="isShowWin || noMainNetwork"></div>
+		<div class="shade" v-show="isShowWin || noMainNetwork" @touchstart="isShowWin = false"></div>
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
       <div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">

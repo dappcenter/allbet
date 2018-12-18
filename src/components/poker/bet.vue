@@ -1,35 +1,48 @@
 <template>
-    <div class="module-roker-bet">
+    <div class="module-poker-bet">
         <div class="content-wrap">
             <div class="view-top">
-                <div class="number-area">
+                <div class="number-area nominscreen">
                     <div class="watermark">
-                        <span>数字</span>
-                        <span>投注区</span>
+                        <span>{{$t('message.PokerFigure')}}</span>
+                        <span>{{$t("message.PokerBettingArea")}}</span>
                     </div>
                     <div class="poker-box">
                       <li v-for="(item,index) in pokerSelectedList" :key="index" @click="homingPoker(item,index)">
                           <img :src="'img/poker/poker_'+item+'.png'" alt="">
                       </li>
-                        <!-- <img src="../../../public/img/poker/poker_1.png" alt=""> -->
                     </div>
                 </div>
                 <div class="kj-area">
                     <div class="odds">
-                        <h3>开奖区</h3>
+                        <h3>{{$t('message.PokerKJQ')}}</h3>
                         <div>
-                            <label>投注赔率</label>
-                            <span>2.59x</span>
+                            <label>{{$t("message.PokerPL")}}</label>
+                            <span>{{peilv}}x</span>
                         </div>
                     </div>
                     <div class="poker">
                         <img src="../../../public/img/poker/kj_poker.png" alt="">
                     </div>
                 </div>
+				<!-- 移动端 -->
+				<div class="number-area minscreen">
+                    <div class="watermark">
+                        <span>{{$t('message.PokerFigure')}}</span>
+                        <span>{{$t("message.PokerBettingArea")}}</span>
+                    </div>
+                    <div class="poker-box">
+                      <li v-for="(item,index) in pokerSelectedList" :key="index" @click="homingPoker(item,index)">
+                          <img :src="'img/poker/poker_'+item+'.png'" alt="">
+                      </li>
+                    </div>
+                </div>
+
+
                 <div class="number-area hs-area">
                     <div class="watermark">
-                        <span>花色</span>
-                        <span>投注区</span>
+                        <span>{{$t("message.PokerHS")}}</span>
+                        <span>{{$t("message.PokerBettingArea")}}</span>
                     </div>
                     <div class="poker-box">
                       <li v-for="(item,index) in cardSelectedList" :key="index" @click="homingCard(item,index)">
@@ -42,7 +55,7 @@
                 <div class="poker-area">
                     <ul>
                         <li v-for="(item,index) in pokerList" :key="index" @click="movePoker(item,index)">
-                            <img :src="'img/poker/poker_'+item+'.png'" alt="">
+                            <img v-show="item !== ''" :src="'img/poker/poker_'+item+'.png'" alt="">
                         </li>
                     </ul>
                 </div>
@@ -51,18 +64,6 @@
                       <li v-for="(item,index) in cardList" :key="index" @click="moveCard(item,index)">
                           <img :src="'img/poker/card'+item+'.png'" alt="">
                       </li>
-                        <!-- <li>
-                            <img src="../../../public/img/poker/fk.png" alt="">
-                        </li>
-                        <li>
-                            <img src="../../../public/img/poker/ht.png" alt="">
-                        </li>
-                        <li>
-                            <img src="../../../public/img/poker/hongtao.png" alt="">
-                        </li>
-                        <li>
-                            <img src="../../../public/img/poker/mh.png" alt="">
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -74,7 +75,20 @@
                         <p>{{$t('message.GameBetAmount')}}</p>
                         <div class="flex-wrap">
                             <div class="input-wrap">
-                                <label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
+								<mu-menu cover placement="bottom-end" :open.sync="coinTypeSelectShow">
+									<mu-button icon>
+										<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
+										<!-- <i class=""></i> -->
+									</mu-button>
+									<mu-list slot="content">
+										<mu-list-item button @click="coinTypeSelectShow=false,changeCoinType('TRX')">
+											<mu-list-item-title>TRX</mu-list-item-title>
+										</mu-list-item>
+										<mu-list-item button @click="coinTypeSelectShow=false,changeCoinType('ETH')">
+											<mu-list-item-title>ETH</mu-list-item-title>
+										</mu-list-item>
+									</mu-list>
+								</mu-menu>
                                 <input type="text" v-model="amount" @blur="inputAmountBlur" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')">
                                 <span>{{coinType}}</span>
                             </div>
@@ -103,7 +117,7 @@
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
                             <i v-else>0</i> {{coinType}}</span>
-                        <button class="enter">投注</button>
+                        <button class="enter" @click="betDo">{{$t('message.PokerBet')}}</button>
                         <span class="fl minscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
@@ -165,24 +179,23 @@ export default {
 			isShowABpopup: false,
 			isShowFundraiy: false,
 			scroll: null,
-      pokerList: [],
-      pokerSelectedList: [],
-      cardList: [1,2,3,4],
-      cardSelectedList: [],
+			pokerList: [],
+			pokerSelectedList: [],
+			cardList: [1,2,3,4],
+			cardSelectedList: [],
+			coinTypeSelectShow: false
         }
 	},
 	created() {
 		let that = this
 		this.getRule()
 		window.hd = {}
-    for (var i = 1;i<=13;i++) {
-      this.pokerList.push(i)
-    }
-    console.log(this.pokerList);
+		for (var i = 1;i<=13;i++) {
+		this.pokerList.push(i)
+		}
 	},
     mounted() {
         this.setBetInfo({
-            diceList: this.diceList,
             amount: this.amount
         })
         window.onmouseup = function() {
@@ -203,43 +216,43 @@ export default {
 
     },
     methods: {
-      // 点击牌移动
-      movePoker (item, index) {
-        if (item == '') return
-        if (this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
-          this.alert({
-  					type: "info",
-  					msg: '最后一张牌了，不能再选啦！'
-  				})
-          return
-        }
-        this.pokerList.splice(index,1,'')
-        this.pokerSelectedList.push(item)
-      },
-      // 点击牌归位
-      homingPoker (item, index) {
-        this.pokerSelectedList.splice(index,1)
-        this.pokerList.splice(item-1,1,item)
-      },
-      // 点击牌花色
-      moveCard (item, index) {
-        if (item == '') return
-        if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length >= 13 ) {
-          this.alert({
-  					type: "info",
-  					msg: '最后一个花色了，不能再选啦！'
-  				})
-          return
-        }
-        this.cardList.splice(index,1,'')
-        this.cardSelectedList.push(item)
-      },
-      // 点击牌花色
-      homingCard (item, index) {
-        this.cardSelectedList.splice(index,1)
-        this.cardList.splice(item-1,1,item)
-        console.log(this.cardList,this.cardSelectedList);
-      },
+		// 点击牌移动
+		movePoker (item, index) {
+			if (item == '') return
+			if (this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
+				this.alert({
+					type: "info",
+					msg: this.$t('message.PokerTips1')
+				})
+				return
+			}
+			this.pokerList.splice(index,1,"")
+			this.pokerSelectedList.push(item)
+		},
+		// 点击牌归位
+		homingPoker (item, index) {
+			this.pokerSelectedList.splice(index,1)
+			this.pokerList.splice(item-1,1,item)
+		},
+		// 点击牌花色
+		moveCard (item, index) {
+			if (item == '') return
+			if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length >= 13 ) {
+				this.alert({
+					type: "info",
+					msg: this.$t('message.PokerTips2')
+				})
+				return
+			}
+			this.cardList.splice(index,1,'')
+			this.cardSelectedList.push(item)
+		},
+		// 点击牌花色
+		homingCard (item, index) {
+			this.cardSelectedList.splice(index,1)
+			this.cardList.splice(item-1,1,item)
+			console.log(this.cardList,this.cardSelectedList);
+		},
 		inputAmountBlur() {
 			if(this.amount < this.rule.minInvest) {
 				this.amount = this.rule.minInvest
@@ -276,15 +289,6 @@ export default {
 					break;
 			}
         },
-        onAdd() {
-            this.amount = (Number(this.amount) + 0.01).toFixed(2)
-        },
-        onMinus() {
-            this.amount = (Number(this.amount) - 0.01).toFixed(2)
-			if (this.amount < 0.01) {
-				this.amount = 0.01
-			}
-        },
         ...mapMutations({
 			setBetInfo: "SET_ROLLER_BET_INFO",
 			alert: "alert",
@@ -294,57 +298,6 @@ export default {
 			closePopup: "CLOSE_POPUP",
 			changeCoinType: "CHANGE_COINTYPE"
 		}),
-		onHandleClick(e) {
-			let moveWidth = e.offsetX
-			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
-			moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-			this.$refs.handle.style.left = moveWidth - 9 + "px"
-			this.$refs.bar.style.width = moveWidth + 10 + "px"
-			this.odds = (moveWidth / (sliderWidth / this.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / this.maxNum)).toFixed()
-			this.setBetInfo({
-				odds: this.odds,
-				amount: this.amount
-			})
-		},
-		onHandleMouseD(e) {
-			let that = this
-			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
-			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-			const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
-			const ofX = e.offsetX
-			let moveWidth = 0
-            window.onmousemove = function(e) {
-                moveWidth = e.clientX - sliderOffsetL - ofX
-				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-                that.$refs.handle.style.left = moveWidth - 9 + "px"
-                that.$refs.bar.style.width = moveWidth + 10 + "px"
-                that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
-                that.setBetInfo({
-                    odds: that.odds,
-                    amount: that.amount
-                })
-			}
-		},
-        onHandleTouchS(e) {
-            let that = this
-			const sliderOffsetL = this.$refs.slider.offsetLeft + this.$refs.gameContent.offsetLeft
-			const deductWidth = this.$refs.slider.clientWidth/100*(100-this.maxNum)
-            const sliderWidth = this.$refs.slider.clientWidth - deductWidth - 20
-			const ofX = e.touches[0].clientX - this.$refs.handle.offsetLeft
-			let moveWidth = 0
-			window.ontouchmove  = function(e) {
-                moveWidth = e.touches[0].clientX - sliderOffsetL
-				moveWidth = moveWidth <= 2 ? 2 : (moveWidth >= sliderWidth ? sliderWidth : moveWidth)
-                that.$refs.handle.style.left = moveWidth - 9 + "px"
-				that.$refs.bar.style.width = moveWidth + 10 + "px"
-                that.odds = (moveWidth / (sliderWidth / that.maxNum)).toFixed(2) < 2 ? 2 : (moveWidth / (sliderWidth / that.maxNum)).toFixed()
-                that.setBetInfo({
-                    odds: that.odds,
-                    amount: that.amount
-                })
-            }
-		},
 		getRule() {
 			this.$http.get('/app/dice/rule', {
 				params: {
@@ -352,6 +305,7 @@ export default {
 					coinType: this.coinType
 				}
 			}).then(res => {
+				console.log("getRule",res)
 				if(res.code == 200) {
 					this.rule = res.result
 					this.amount = res.result.minInvest
@@ -361,6 +315,11 @@ export default {
 		},
 		//下注
 		betDo() {
+			this.alert({
+				type: "info",
+				msg: this.$t("message.BPSoon")
+			})
+			return
 			let that = this
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
@@ -390,53 +349,7 @@ export default {
 				})
 				return
 			}
-			this.$http.post("/app/dice/dice", {
-				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
-				"coinAmount": this.amount,
-				"guessNum": this.odds
-			}).then(res => {
-				if(res.code == 200) {
-					if(res.result.resultType == "DISPATCHER") {  //平台账号
-						this.alert({
-							type: "success",
-							msg: res.msg
-						})
-						this.luckyRun()
-						that.getBetResult(res.result.recdId)
-					}else {   //合约账号
-						this.alert({
-							type: "info",
-							msg: "Please Wait For Wallet to ConfirmTransfer...",
-							timeout: 9999999
-						})
-						switch(res.result.coinType) {
-							case "ETH":
-								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
-								break;
-							case "TRX":
-								this.placeBetTRX(this.odds, res.result.recdId, this.amount)
-								break;
-						}
-						//注册方法与原生交互
-						window.hd.betFailed = function(payload) {
-							that.alert({
-								type: "info",
-								msg: "User rejected the signature request.",
-								timeout: 3000
-							})
-						}
-						window.hd.betSuccess = function(payload) {
-							that.alert({
-								type: "info",
-								msg: "Successful bet.",
-								timeout: 9999999
-							})
-							that.luckyRun()
-							that.getBetResult(res.result.recdId)
-						}
-					}
-				}
-			})
+			
 		},
 		/**
 		 * 调用合约下注
@@ -598,15 +511,6 @@ export default {
 		}
     },
     watch: {
-        diceList: {
-            handler: function(newVal, oldVal) {
-                this.setBetInfo({
-                    diceList: newVal,
-                    amount: this.amount
-                })
-            },
-            deep: true
-        },
         amount(newVal, oldVal) {
             this.setBetInfo({
                 odds: this.odds,
@@ -626,7 +530,10 @@ export default {
 			tronWeb: state => state.tronHandler.tronWeb
 		}),
 		peilv() {
-			return 98.5/((this.odds*1).toFixed() - 1)
+			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
+				return 0
+			}
+			return ((13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length))).toFixed(2)
 		},
 		// 奖金
 		bonus() {
@@ -662,7 +569,7 @@ export default {
 </script>
 
 <style lang="less">
-.module-roker-bet {
+.module-poker-bet {
     background: url(../../../public/img/poker/roker_bet_bg.png) repeat center;
     .content-wrap {
         max-width: 1200px;
@@ -697,7 +604,7 @@ export default {
                     display: flex;
                     align-items: center;
                     flex-wrap: wrap;
-                    max-width: 100%;
+					max-width: 100%;
                     li {
                       margin-left: -42px;
                     }
@@ -709,7 +616,8 @@ export default {
                     }
                     img {
                         width: 76px;
-                        display: block;
+						display: block;
+						cursor: pointer;
                     }
                 }
             }
@@ -782,7 +690,10 @@ export default {
                         white-space: nowrap;
                     }
                 }
-            }
+			}
+			.minscreen {
+				display: none;
+			}
         }
         .view-btm {
             display: flex;
@@ -896,16 +807,45 @@ export default {
 							height: 40px;
 							border-radius:4px;
 							margin-right: 4px;
-							label {
-								width: 40px;
-								height: 40px;
-								&.eth {
-									background: url(../../../public/img/coin/ETH.png) no-repeat center;
-									background-size: 60%;
-								}
-								&.trx {
-									background: url(../../../public/img/coin/TRX.png) no-repeat center;
-									background-size: 60%;
+							
+							.mu-menu {
+								height: 100%;
+								.mu-icon-button {
+									padding: 0;
+									border-radius: initial;
+									width: 100%;
+									height: 100%;
+									.mu-button-wrapper {
+										label {
+											width: 40px;
+											height: 40px;
+											&.eth {
+												background: url(../../../public/img/coin/ETH.png) no-repeat center;
+												background-size: 60%;
+											}
+											&.trx {
+												background: url(../../../public/img/coin/TRX.png) no-repeat center;
+												background-size: 60%;
+											}
+										}
+										i {
+											display: inline-block;
+											width: 20px;
+											height: 20px;
+											background: url(../../../public/img/sanjiao.png) no-repeat center;
+											background-size: 100% 100%;
+											margin-right: 5px;
+										}
+									}
+									&:after {
+										content: "";
+										position: absolute;
+										right: 0;
+										top: 15%;
+										height: 70%;
+										width: 1px;
+										background-color: #0F4C34;
+									}
 								}
 							}
 							input {
@@ -1184,5 +1124,266 @@ export default {
 			}
 		}
     }
+}
+@media screen and (max-width: 800px){
+	.module-poker-bet {
+		.content-wrap {
+			.view-top {
+				display: block;
+				height: auto;
+				overflow: hidden;
+				.kj-area {
+					padding: 0;
+					border: none;
+					width: 100%;
+					height: 3rem;
+					border-bottom: .04rem solid #0F4C34;
+					justify-content: center;
+					.odds {
+						h3 {
+							font-size: .48rem;
+						}
+						div {
+							height: 1.2rem;
+							width: 3rem;
+							label {
+								font-size: .14rem;
+								margin-top: .14rem;
+							}
+							span {
+								font-size: .4rem;
+								line-height: .6rem;
+							}
+
+
+						}
+					}
+					.poker {
+						img {
+							height: 1.98rem;
+						}
+					}
+				}
+				.number-area {
+					display: block;
+					float: left;
+					height: 3rem;
+					width: 50%;
+					border-right:1px dashed rgba(15,76,52,1);
+					.watermark {
+						top: 50%;
+						left: 50%;
+						right: initial;
+						transform: translate(-50%, -50%);
+						font-size: .5rem;
+					}
+					.poker-box {
+						padding: .1rem;
+						li {
+							margin-left: -0.6rem;
+							img {
+								width: 1rem;	
+							}
+						}
+					}
+					&.hs-area {
+						.poker-box {
+							justify-content: center;
+							margin-top: .8rem;
+						}
+					}
+				}
+			}
+			.view-btm {
+				display: block;
+				.poker-area {
+					width: 100%;
+					border-bottom: 1px solid #0F4C34;
+					border-left: 0;
+					background: url(../../../public/img/poker/allbet.png) no-repeat center;
+					background-size: 100% auto;
+					ul {
+						li {
+							height: 1.5rem;
+							padding: 0;
+							img {
+								width: .92rem;
+								height: 1.28rem;
+								margin-top: .11rem;
+								border-radius: .1rem;
+							}
+						}
+					}
+				}
+				.hs-area {
+					border-left: 0;
+					ul {
+						li {
+							width: 25%;
+							height: 1.8rem;
+							border-bottom: 0;
+							img {
+								width: 1.4rem;
+								margin: .2rem auto;
+							}
+						}
+					}
+				}
+			}
+		}
+		.bet-handler {
+			.game-content {
+				width: auto;
+				margin: 0 auto;
+				padding: 0 .2rem .2rem;
+				.ctn-top {
+					display: initial;
+					.bet-input {
+						margin-top: .3rem;
+						.flex-wrap {
+							.input-wrap {
+								flex: 1;
+								height: .7rem;
+								input {
+									flex: 1;
+									font-size: .3rem;
+									width: 1.5rem;
+									height: .7rem;
+									line-height: .7rem;
+								}
+							}
+							.hotkeys {
+								span {
+									height: .7rem;
+									font-size: .24rem;
+									width: .7rem;
+									line-height: .7rem;
+									&:after {
+										top: 15%;
+										height: 70%;
+									}
+									&:hover {
+										background-color: #1B6B4A;
+										color: #fff;
+									}
+									&:last-child {
+										border: none;
+										&:after {
+											display: none;
+										}
+									}
+								}
+							}
+						}
+					}
+					.award {
+						margin: .3rem 0 0 0;
+						div {
+							height: .8rem;
+							span {
+								font-size: .3rem;
+							}
+						}
+					}
+				}
+				.ctn-btm {
+					h4 {
+						width: auto;
+					}
+					.flex-wrap {
+						flex-wrap: wrap;
+						.input-wrap {
+							width: 100%;
+							margin: 0;
+							input {
+								flex: 1;
+								font-size: 17px;
+								width: 70%;
+							}
+						}
+						.hotkeys {
+							flex: initial;
+							margin-left: 0;
+							justify-content: space-between;
+							width: 100%;
+							margin-top: 10px;
+							span {
+								flex: initial;
+								width: 24%;
+								margin-left: 0;
+							}
+						}
+					}
+					.bet-wrap {
+						display: block;
+						margin: .6rem 0;
+						overflow: hidden;
+						.enter {
+							display: block;
+							width: 3rem;
+							height: .64rem;
+							margin: 0 auto .2rem;
+							outline: none;
+							font-size: .24rem;
+						}
+						span {
+							font-size: .16rem;
+							&.fl {
+								width: 50%;
+								float: left;
+							}
+							&.fr {
+								width: 50%;
+								float: right;
+								text-align: right;
+							}
+							img {
+								width: 20px;
+							}
+						}
+					}
+					.auto-bet {
+						font-size: .12rem;
+						.mid {
+							label {
+								line-height: 24px;
+							}
+						}
+						.rule {
+							width: 1rem;
+							font-size: .12rem;
+						}
+						.trumpet {
+							width: 1rem;
+						}
+						p {
+							width: 1rem;
+						}
+					}
+				}
+				.dig-wrap {
+					width: 100%;
+					height: auto;
+					padding: .22rem .4rem;
+					img {
+						width: .64rem;
+						height: .64rem;
+					}
+					.content {
+						margin: 0;
+						h4 {
+							font-size: .18rem;
+						}
+						p {
+							font-size: .2rem;
+						}
+						span {
+							font-size: .14rem;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 </style>

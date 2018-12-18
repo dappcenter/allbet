@@ -129,10 +129,10 @@
 		<!-- 募资弹框 -->
 		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
 		<!-- 骰子音乐 -->
-		<audio controls="controls" loop="true" hidden="true" ref="diceA" >
+		<audio loop="true" hidden="true" ref="diceA" >
 			<source src="../../../public/music/a.wav">
 		</audio>
-		<audio controls="controls" hidden="true" ref="diceB" >
+		<audio hidden="true" ref="diceB" >
 			<source src="../../../public/music/b.wav" loop="false">
 		</audio>
 		
@@ -188,13 +188,16 @@ export default {
 				timerID: null,
 				list: []
 			},
-			music: false
+			music: false,
+			isIOS: false
         }
 	},
 	created() {
 		let that = this
 		this.getRule()
 		window.hd = {}
+
+		this.isIOS = !(!this.$browser || !this.$browser.version.ios)
 	},
     mounted() {
         this.setBetInfo({
@@ -231,9 +234,7 @@ export default {
 		luckyRun() {
 			clearInterval(this.timer)
 			this.timer = null
-			if(this.music) {
-				this.$refs.diceA.play()
-			}
+			this.music && this.$refs.diceA.play()
 			this.timer = setInterval(() => {
 				this.luckyNum = Math.floor(Math.random() * 89) + 10
 				this.luckyColor = ["green", "red", "golden"][Math.floor(Math.random() * 2)]
@@ -443,6 +444,7 @@ export default {
 				gas: 210000,
 				gasPrice: 10000000000
 			},(err, res) => {
+				console.log("0000000000000", res)
 				if(!err) {
 					that.alert({
 						type: "info",
@@ -529,10 +531,8 @@ export default {
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
 								this.$refs.diceA.pause()
-								if(this.music) {
-									this.$refs.diceB.play()
-								}
-								this.$store.commit('closeAlert')
+								this.music && this.$refs.diceB.play()
+ 								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
 								this.showBetResult(res.result.luckyNum)
 								this.$store.dispatch('updateProperty')

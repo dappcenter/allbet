@@ -11,8 +11,10 @@ import "./assets/less/base.less"
 import someMethods from "./util/extend_methods"
 import MBheaderBar from "@/components/common/mobile/mb_header_bar"
 import {getBrowser} from "./util/extend_methods"
+import FastClick from "fastclick"
 
 
+FastClick.attach(document.body)
 
 Vue.use(someMethods)
 Vue.use(axios)

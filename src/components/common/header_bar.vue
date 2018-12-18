@@ -36,11 +36,11 @@
                     <CircleBar :value="storeTronWeb.usageBandwidth/(storeTronWeb.usageBandwidth+storeTronWeb.surplusBandwidth)" text="BW"></CircleBar>
                     <CircleBar v-if="storeTronWeb.energyLimit" :value="storeTronWeb.energyLimit/storeTronWeb.totalEnergyLimit" text="EN"></CircleBar>
                 </div>
-                <div class="user-center nominscreen" v-if="storeCurrentAddr.coinAddress">
+                <div class="user-center" v-if="storeCurrentAddr.coinAddress">
                     <!-- <img src="../../../public/img/user_icon.png" alt=""> -->
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
-                    <div class="router-list" v-if="storeCurrentAddr.platform == 'DISPATCHER'">
+                    <div class="router-list nominscreen" v-if="storeCurrentAddr.platform == 'DISPATCHER'">
                         <router-link to="my-assets">{{$t("message.property")}}</router-link>
                         <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
                         <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>

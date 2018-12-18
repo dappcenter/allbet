@@ -157,7 +157,7 @@ export default {
 
         //邀请好友页
         inviteFriend: "Invite Friend",
-        inviteRule: "Support two levels of invitation sharing, invite friends to participate in the game, get AB token rewards, enjoy ETH dividends",
+        inviteRule: "Support two levels of invitation sharing, invite friends to participate in the game, get AB token rewards, enjoy platform dividends",
         inviteTotalBill: "Issued Rewards: ",
         invitationSuccessed: "Successful invitation",
         invitationCode: "Invitation code: ",
@@ -353,7 +353,7 @@ export default {
         preTotalAb: 'The presale of AB Token is limited to 50,000,000 TRX.',
         preAddress: 'Contract Address: ',
         preTrxNum: 'Enter TRX amount',
-        preTrxBet: 'Bet',
+        preTrxBet: 'Buy',
         preSale: 'Presale Scheme',
         preLess:'The purchase cannot be less than 1000 TRX each time.',
         preRefuse: 'An exchange address is not accepted, otherwise you will not receive AB.',
@@ -363,6 +363,18 @@ export default {
         preHelp: 'If you have any questions, please join our community.',
         preCanYu: "success",
         preTooLow: "A single participation cannot be less than ",
-        preTips1: "Please log in TronLink or TronPay to operate"
+        preTips1: "Please log in TronLink or TronPay to operate",
+
+        // Poker游戏
+        PokerKJQ: "LOTTERY",
+        PokerPL: "PAYOUT",
+        PokerFigure: "FIGURE",
+        PokerHS: "SUIT",
+        PokerBettingArea: "AREA",
+        PokerBet: "BET",
+        PokerSuits: "Suits",
+        PokerResults: "Results",
+        PokerTips1: "Last card, no more choices!",
+        PokerTips2: "Last suits, no more choices!"
     }
 }

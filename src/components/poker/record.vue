@@ -17,8 +17,8 @@
 				<span>{{$t("message.GamePlay")}}</span>
 				<span class="tl">{{$t("message.GameTime")}}</span>
 				<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
-				<span class="nominscreen">投注牌型</span>
-				<span class="nominscreen">开奖结果</span>
+				<span class="nominscreen">{{$t('message.PokerSuits')}}</span>  
+				<span class="nominscreen">{{$t('message.PokerResults')}}</span>
 				<span class="tr">{{$t("message.GameReward")}}</span>
 				<span class="nominscreen">AB</span>
 			</div>
@@ -362,7 +362,7 @@ export default {
 	}
 }
 @media screen and (max-width: 800px){
-	.module-roller-record {
+	.module-poker-record {
 		padding: 0 .2rem;
 		.tl {
 			text-align: left !important;
