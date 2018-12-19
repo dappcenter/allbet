@@ -73,6 +73,9 @@ export default {
         isShowBPpopup: {
             type: Boolean,
             default: false
+        },
+        ab: {
+            default: false
         }
     },
     data() {
@@ -93,6 +96,9 @@ export default {
                 this.$emit("change", newVal)
             }else {
                 this.getBonusPools()
+                if(this.ab) {
+                    this.tab = 2
+                }
             }
         },
         isShowBPpopup(newVal) {
@@ -106,6 +112,9 @@ export default {
         event: "change"
     },
     mounted() {
+        if(this.ab) {
+            this.tab = 2
+        }
     },
     computed: {
         ...mapState({
@@ -121,7 +130,6 @@ export default {
                     coinType: this.coinType
                 }
             }).then(res => {
-                console.log("getBonusPools",res)
                 if(res.code == 200) {
                     this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
                 }

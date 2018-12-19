@@ -105,13 +105,13 @@
 						<i v-else>0</i> {{coinType}}
 					</div>
 
-					<div class="cell fr">
+					<div class="cell fr" @mouseenter="getBonusPools">
 						<img src="../../../public/img/coin/AB.png">
 						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
 						<i v-else>0</i> AB
-						<div class="supernatant">
-							<span>61787 AB</span>
-							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：61787 AB</a>
+						<div class="supernatant nominscreen">
+							<span>{{bonusPoolsData.transferred}} AB</span>
+							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{bonusPoolsData.ab}} AB</a>
 						</div>
 					</div>
 				</div>
@@ -139,7 +139,7 @@
 		<AbPopup v-model="isShowABpopup"></AbPopup>
 
 		<!-- 分红挖矿弹框 -->
-		<BonusPoolsPopup v-model="isShowBPpopup"></BonusPoolsPopup>
+		<BonusPoolsPopup v-model="isShowBPpopup" :ab='true'></BonusPoolsPopup>
 
 		<!-- 募资弹框 -->
 		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
@@ -206,7 +206,11 @@ export default {
 				list: []
 			},
 			music: false,
-			isIOS: false
+			isIOS: false,
+			bonusPoolsData: {
+				ab: 0,
+				transferred: 0
+			}
         }
 	},
 	created() {
@@ -354,7 +358,6 @@ export default {
 					coinType: this.coinType
 				}
 			}).then(res => {
-				console.log("getRule",res)
 				if(res.code == 200) {
 					this.rule = res.result
 					this.amount = res.result.minInvest
@@ -647,9 +650,24 @@ export default {
 			if(this.$IsPC()) {
 				this.isShowBPpopup = true
 			}else {
-				this.$router.push('bonus-pool?ab=1')
+				this.$router.push('bonus-pool?ab=true')
 			}
-		}
+		},
+		//获取分红池信息
+        getBonusPools() {
+            PollHttp({
+				type: 'get',
+				url: '/app/profit/profit',
+				data: {
+					coinType: this.coinType
+				}
+			}).then(res => {
+				if(res.code == 200) {
+					this.bonusPoolsData.transferred = res.result.transferred || 0
+					this.bonusPoolsData.ab = res.result.ab || 0
+                }
+            })
+        },
     },
     watch: {
         diceList: {

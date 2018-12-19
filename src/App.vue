@@ -264,7 +264,7 @@ body {
   .win-box {
       position: fixed;
       left: calc(50% - 200px);
-      top: 10%;
+      top: 3%;
       width: 400px;
       z-index: 9999999999;
       .centent {
