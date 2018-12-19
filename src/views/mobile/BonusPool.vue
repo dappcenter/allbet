@@ -42,34 +42,39 @@
         </div>
         <div class="part2" v-show="topBtnIndex == 1">
           <div class="progress-wrap">
-              <h4>{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
-              <div class="progress-bar"><i>896589/500,000,000</i><span style="width: 30%"></span></div>
-              <p>{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 100TRX：45AB）</p>
+              <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
+              <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
+              <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+              <p v-show="coinType == 'TRX'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 100TRX：45AB）</p>
+              <p v-show="coinType == 'ETH'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 1ETH：2800AB）</p>
           </div>
           <div class="ctn-area area1">
               <label>{{$t("message.BPgame")}}</label>
-              <h4>1,343,354,555 AB</h4>
+              <h4>{{(bonusPoolsData.totalDig).toFixed(2)}} AB</h4>
           </div>
           <div class="ctn-area area2">
               <div class="cell">
                   <label>{{$t("message.BPreceived")}}</label>
-                  <h4>4589.54</h4>
+                  <h4>{{(bonusPoolsData.transferred).toFixed(2)}}</h4>
               </div>
               <div class="cell">
                   <label>{{$t("message.BPtoReceive")}}</label>
-                  <h4>4589.54</h4>
+                  <h4>{{(bonusPoolsData.ab).toFixed(2)}}</h4>
               </div>
           </div>
-          <p class="tips">{{$t("message.BPhandleFee")}}</p>
-          <a href="javascript:;" class="get">{{$t("message.BPbtnGet")}}</a>
-          <p class="tips tips-spec">{{$t('message.BPtip')}}</p>
+          <p class="tips" v-show="coinType == 'TRX'">{{$t("message.BPhandleFee")}}</p>
+          <p class="tips" v-show="coinType == 'ETH'">{{$t("message.BPEthFee")}}</p>
+
+          <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">{{$t("message.login")}}</a>
+          <a href="javascript:;" class="get" v-else @click="isShow=false;openLogin()">{{$t("message.login")}}</a>
+          <p class="tips">{{$t('message.BPtip')}}</p>
         </div>
     </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import HeaderBar from "@/components/common/header_bar"
 export default {
   props: {
@@ -80,7 +85,12 @@ export default {
   },
   data() {
     return {
-      bonusPoolsData: {},
+      bonusPoolsData: {
+        progressDig: 0,
+        totalDig: 0,
+        transferred: 0,
+        ab: 0
+      },
       isShow: false,
       topBtnIndex: 0,
     };
@@ -89,6 +99,8 @@ export default {
     isShow(newVal) {
       if (!newVal) {
         this.$emit("change", newVal);
+      }else {
+          this.getBonusPools()
       }
     },
     isShowBPpopup(newVal) {
@@ -106,7 +118,8 @@ export default {
   },
   computed: {
     ...mapState({
-      storeCurrentAddr: state => state.user.currentAddr
+        storeCurrentAddr: state => state.user.currentAddr,
+        coinType: state => state.user.coinType
     })
   },
   methods: {
@@ -115,12 +128,39 @@ export default {
     },
     //获取分红池信息
     getBonusPools() {
-      this.$http.get("/app/profit/profit").then(res => {
-        if (res.code == 200) {
-          this.bonusPoolsData = res.result;
-        }
-      });
-    }
+        this.$http.get('/app/profit/profit', {
+            params: {
+                coinType: this.coinType
+            }
+        }).then(res => {
+            console.log("getBonusPools",res)
+            if(res.code == 200) {
+              this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
+            }
+        })
+    },
+    // 提取ab
+    getAB() {
+        this.$http.post('/app/transfer/ab_withdraw').then(res => {
+            console.log("getAB",res)
+            if(res.code == 200) {
+                this.getBonusPools()
+                this.alert({
+                    type: "success",
+                    msg: res.msg
+                })
+            }else {
+                this.alert({
+                    type: "info",
+                    msg: res.msg
+                })
+            }
+        })
+    },
+    ...mapMutations({
+        alert: "alert",
+        openLogin: "OPEN_LOGIN",
+    })
   },
   components: {
       HeaderBar
