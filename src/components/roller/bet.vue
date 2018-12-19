@@ -111,7 +111,7 @@
 						<i v-else>0</i> AB
 						<div class="supernatant">
 							<span>61787 AB</span>
-							<a href="javascript:;" @click="showBP">待领取：61787 AB</a>
+							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：61787 AB</a>
 						</div>
 					</div>
 				</div>
@@ -137,6 +137,9 @@
 
 		<!-- Ab弹框 -->
 		<AbPopup v-model="isShowABpopup"></AbPopup>
+
+		<!-- 分红挖矿弹框 -->
+		<BonusPoolsPopup v-model="isShowBPpopup"></BonusPoolsPopup>
 
 		<!-- 募资弹框 -->
 		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
@@ -506,6 +509,7 @@ export default {
 				
 				that.getBetResult(orderId,amount)
 			}).catch(err => {
+				console.log("placeBetTRX",err)
 				that.betBtnLoading = false
 				that.alert({
 					type: "info",
@@ -640,7 +644,11 @@ export default {
 		},
 		//显示挖矿页面
 		showBP() {
-			console.log(this.$IsPC())
+			if(this.$IsPC()) {
+				this.isShowBPpopup = true
+			}else {
+				this.$router.push('bonus-pool?ab=1')
+			}
 		}
     },
     watch: {
