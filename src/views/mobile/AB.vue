@@ -32,8 +32,8 @@
                 </tr>
                 <tr>
                 <th>挖矿阶段</th>
-                <th>TRX/AB</th>
-                <th>TRX/AB</th>
+                <th>TRX:AB</th>
+                <th>TRX:AB</th>
                 <th>AB总量</th>
                 <th>占总量</th>
                 </tr>

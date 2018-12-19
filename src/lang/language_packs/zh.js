@@ -171,7 +171,7 @@ export default {
         InviteBind: "请先登陆账号，再邀请好友参与游戏",
         InviteQrcode: "专属邀请二维码",
         InviteDesc: '将您的邀请链接发送给好友们，只要好友在这个网址下面完成过一次登录（Web端使用TronLikn、TronPay、MetaMask均可；客户端使用Math Wallet、Cobo Wallet均可），那么您将邀请成功。',
-        InviteReward: '您将享受以下两种邀请奖励：：',
+        InviteReward: '您将享受以下两种邀请奖励：',
         // 所有弹框页
         PopRegister: "注册",
         PopEmailFind: '邮箱找回',
@@ -358,7 +358,7 @@ export default {
         abLast: '则最后的分配情况如下为：',
         abEthpool: 'AT币的ETH资金池',
         abPool: 'AB分红池',
-        abReferRate: 'ETH/EOS比例每周参考TRX汇率进行调整：',
+        abReferRate: 'ETH:EOS比例每周参考TRX汇率进行调整：',
         abDivid: 'AB 代币分红',
         abDividDesc: 'AB 代币的价值暂时无法计算，AB 代币作为 ALLBET 平台币，极有潜力及价值，因此分红设计方案为平台运行初期时挖矿释放的 AB 代币先暂时锁仓，用户若需要提取，您可以随时在分红页进行 AB 代币提取。接下来我们将上线质押分红功能，所以为了方便获得分红，您可先不进行提取。',
         abStage: '挖矿阶段',
