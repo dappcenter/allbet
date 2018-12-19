@@ -171,7 +171,7 @@ export default {
         InviteBind: "请先登陆账号，再邀请好友参与游戏",
         InviteQrcode: "专属邀请二维码",
         InviteDesc: '将您的邀请链接发送给好友们，只要好友在这个网址下面完成过一次登录（Web端使用TronLikn、TronPay、MetaMask均可；客户端使用Math Wallet、Cobo Wallet均可），那么您将邀请成功。',
-        InviteReward: '您将享受以下两种邀请奖励：：',
+        InviteReward: '您将享受以下两种邀请奖励：',
         // 所有弹框页
         PopRegister: "注册",
         PopEmailFind: '邮箱找回',
@@ -313,6 +313,15 @@ export default {
         BPSoon: "即将上线",
         BPtip2: "即将上线 EOS、AB 游戏投注挖矿，多币种分红池等您来领取。",
         BPTotal: '当前 AB 币流通量：',
+        BPDig: '挖矿',
+        BP3stage: '第三阶段',
+        BPmost: '最高',
+        BPnext: '接下来第四阶段',
+        BPgame: '游戏总挖矿释放量',
+        BPreceived: '已领取 AB',
+        BPtoReceive: '待领取 AB',
+        BPhandleFee: '提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。',
+        BPbtnGet: '领取 AB',
 
         // 公告
         notice1: "公告：ALLBET游戏平台已上线，注册即送0.01ETH+1000AB，更多的邀请奖励等您来领取！",
@@ -350,9 +359,25 @@ export default {
         abLast: '则最后的分配情况如下为：',
         abEthpool: 'AT币的ETH资金池',
         abPool: 'AB分红池',
-        abReferRate: 'ETH/EOS比例每周参考TRX汇率进行调整：',
+        abReferRate: 'ETH:EOS比例每周参考TRX汇率进行调整：',
         abDivid: 'AB 代币分红',
         abDividDesc: 'AB 代币的价值暂时无法计算，AB 代币作为 ALLBET 平台币，极有潜力及价值，因此分红设计方案为平台运行初期时挖矿释放的 AB 代币先暂时锁仓，用户若需要提取，您可以随时在分红页进行 AB 代币提取。接下来我们将上线质押分红功能，所以为了方便获得分红，您可先不进行提取。',
+        abStage: '挖矿阶段',
+        abAmount: 'AB总量',
+        abProportion: '占总量',
+        abStage1: '第一阶段',
+        abStage2: '第二阶段',
+        abStage3: '第三阶段',
+        abStage4: '第四阶段',
+        abStage5: '第五阶段',
+        abStage6: '第六阶段',
+        abStage7: '第七阶段',
+        abStage8: '第八阶段',
+        abStage9: '第九阶段',
+        abStage10: '第十阶段',
+
+
+
 
         //预售
         preTarget: '一个致力于打造最全游戏品类，最棒游戏体验的DAPP游戏平台。',
