@@ -87,22 +87,33 @@
 					<a class="trumpet" href="javascript:;"><i :class="{'on': music}" @click="music = !music"></i></a>
 				</div>
 				<div class="bet-wrap">
-					<span class="fl nominscreen">
+					<div class="cell fl nominscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
-						<i v-else>0</i> {{coinType}}</span>
+						<i v-else>0</i> {{coinType}}
+					</div>
 					<button v-if="currentAddr.token && !timer" class="enter" :class="{'loading': betBtnLoading}" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else-if="currentAddr.token && timer" class="enter">{{luckyNum}}</button>
 					<!-- <button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button> -->
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 
-					<span class="fl minscreen">
+					<div class="cell fl minscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
-						<i v-else>0</i> {{coinType}}</span>
-					<span class="fr"><img src="../../../public/img/coin/AB.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
+						<i v-else>0</i> {{coinType}}
+					</div>
+
+					<div class="cell fr">
+						<img src="../../../public/img/coin/AB.png">
+						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
+						<i v-else>0</i> AB
+						<div class="supernatant">
+							<span>61787 AB</span>
+							<a href="javascript:;" @click="showBP">待领取：61787 AB</a>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- 挖矿数量 -->
@@ -153,6 +164,7 @@ import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
 import GameHelpPopup from "@/components/common/gamehelp_popup"
+import BonusPoolsPopup from "@/components/common/bonusPools_popup"
 
 export default {
 	props: {
@@ -185,6 +197,7 @@ export default {
 			scroll: null,
 			betBtnLoading: false,
 			isShowResult: false,
+			isShowBPpopup: false,
 			audioList: {
 				timerID: null,
 				list: []
@@ -624,6 +637,10 @@ export default {
 			this.$refs.luckynum.style.left = stepWidth*resNum - 8 + "px"
 			this.$refs.luckynum.innerHTML = resNum
 			this.isShowResult = true
+		},
+		//显示挖矿页面
+		showBP() {
+			console.log(this.$IsPC())
 		}
     },
     watch: {
@@ -686,7 +703,8 @@ export default {
 		DigitalRoll,
 		AbPopup,
 		FundraiyPopup,
-		GameHelpPopup
+		GameHelpPopup,
+		BonusPoolsPopup
 	},
 	destroyed() {
 		clearInterval(this.timer)
@@ -1095,10 +1113,13 @@ export default {
 							}
 						}
 					}
-					span {
+					.cell {
+						position: relative;
 						flex: 1;
 						font-size: 16px;
 						text-align: left;
+						padding: 10px 0;
+						cursor: pointer;
 						img {
 							width: 30px;
 							vertical-align: middle;
@@ -1112,6 +1133,32 @@ export default {
 						}
 						&.fr {
 							text-align: right;
+						}
+						.supernatant {
+							position: absolute;
+							bottom: 50px;
+							right: 0;
+							background-color: #54506D;
+							text-align: left;
+							padding: 12px 20px;
+							border-radius: 5px;
+							display: none;
+							span {
+								display: block;
+								font-size: 12px;
+							}
+							a {
+								color: #13F693;
+								font-size: 14px;
+								&:hover {
+									text-decoration: underline;
+								}
+							}
+						}
+						&:hover {
+							.supernatant {
+								display: block;
+							}
 						}
 					}
 				}
@@ -1392,7 +1439,7 @@ export default {
 							outline: none;
 							font-size: .24rem;
 						}
-						span {
+						.cell {
 							font-size: .16rem;
 							&.fl {
 								width: 50%;
