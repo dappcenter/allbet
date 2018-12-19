@@ -78,7 +78,7 @@
 								<mu-menu cover placement="bottom-end" :open.sync="coinTypeSelectShow">
 									<mu-button icon>
 										<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
-										<!-- <i class=""></i> -->
+										<i class=""></i>
 									</mu-button>
 									<mu-list slot="content">
 										<mu-list-item button @click="coinTypeSelectShow=false,changeCoinType('TRX')">
@@ -532,7 +532,7 @@ export default {
 			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
 				return 0
 			}
-			return ((13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length))).toFixed(2)
+			return Math.floor((13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length))*1000)/1000
 		},
 		// 奖金
 		bonus() {

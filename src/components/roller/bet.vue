@@ -109,7 +109,8 @@
 			<div class="dig-wrap" v-if="rule.winDig">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
-					<p>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</p>
+					<h4>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</h4>
+					<p>挖矿阶段：第一轮已挖出 46.75%</p>
 					<span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
 				</div>
 				<i class="help nominscreen" @click="isShowABpopup = true"></i>
@@ -1137,7 +1138,7 @@ export default {
 						font-size: 14px;
 					}
 					p {
-						font-size: 16px;
+						font-size: 12px;
 						color: #FFDE6F;
 					}
 					span {

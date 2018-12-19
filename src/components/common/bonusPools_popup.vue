@@ -35,26 +35,29 @@
         </div>
         <div class="tab2" v-if="tab == 2">
             <div class="progress-wrap">
-                <h4>第三阶段（最高 100TRX：50AB）</h4>
-                <div class="progress-bar"><i>896589/500,000,000</i><span style="width: 30%"></span></div>
-                <p>接下来第四阶段（最高 100TRX：50AB）</p>
+                <h4 v-show="coinType == 'TRX'">第三阶段（最高 100TRX：50AB）</h4>
+                <h4 v-show="coinType == 'ETH'">第三阶段（最高 1ETH：3200AB）</h4>
+                <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+                <p v-show="coinType == 'TRX'">接下来第四阶段（最高 100TRX：45AB）</p>
+                <p v-show="coinType == 'ETH'">接下来第四阶段（最高 1ETH：2800AB）</p>
             </div>
             <div class="ctn-area area1">
                 <label>游戏总挖矿释放量</label>
-                <h4>1,343,354,555 AB（24.8%）</h4>
+                <h4>{{(bonusPoolsData.totalDig).toFixed(2)}} AB（{{(bonusPoolsData.totalDig/5000000000*100).toFixed(2)}}%）</h4>
             </div>
             <div class="ctn-area area2">
                 <div class="cell">
                     <label>已领取 AB</label>
-                    <h4>4589.54</h4>
+                    <h4>{{(bonusPoolsData.transferred).toFixed(2)}}</h4>
                 </div>
                 <div class="cell">
                     <label>待领取 AB</label>
-                    <h4>4589.54</h4>
+                    <h4>{{(bonusPoolsData.ab).toFixed(2)}}</h4>
                 </div>
             </div>
-            <p class="tips">提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。</p>
-            <a href="javascript:;" class="get">领取 AB</a>
+            <p class="tips" v-show="coinType == 'TRX'">提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。</p>
+            <p class="tips" v-show="coinType == 'ETH'">提取AB需支付少量gas费，建议不要频繁操作。</p>
+            <a href="javascript:;" class="get" @click="getAB">领取 AB</a>
             <p class="tips">{{$t('message.BPtip')}}</p>
         </div>
         <i class="close-btn" @click="isShow = false"></i>
@@ -62,7 +65,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapState, mapMutations} from "vuex"
 export default {
     props: {
         isShowBPpopup: {
@@ -72,9 +75,14 @@ export default {
     },
     data() {
         return {
-            bonusPoolsData: {},
-            isShow: true,
-            tab: 2
+            bonusPoolsData: {
+                progressDig: 0,
+                totalDig: 0,
+                transferred: 0,
+                ab: 0
+            },
+            isShow: false,
+            tab: 1
         }
     },
     watch: {
@@ -98,20 +106,44 @@ export default {
     },
     computed: {
         ...mapState({
-            storeCurrentAddr: state => state.user.currentAddr
+            storeCurrentAddr: state => state.user.currentAddr,
+            coinType: state => state.user.coinType
         })
     },
     methods: {
         //获取分红池信息
         getBonusPools() {
-            this.$http.get('/app/profit/profit').then(res => {
+            this.$http.get('/app/profit/profit', {
+                params: {
+                    coinType: this.coinType
+                }
+            }).then(res => {
                 console.log("getBonusPools",res)
                 if(res.code == 200) {
                     this.bonusPoolsData = res.result
                 }
             })
         },
-        // 
+        // 提取ab
+        getAB() {
+            this.$http.get('/app/transfer/ab_withdraw').then(res => {
+                console.log("getAB",res)
+                if(res.code == 200) {
+                    this.alert({
+                        type: "success",
+                        mes: res.msg
+                    })
+                }else {
+                    this.alert({
+                        type: "info",
+                        mes: res.msg
+                    })
+                }
+            })
+        },
+        ...mapMutations({
+            alert: "alert"
+        })
     }
 }
 </script>
