@@ -110,7 +110,7 @@
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
 					<h4>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</h4>
-					<p>挖矿阶段：第一轮已挖出 46.75%</p>
+					<p>{{$t('message.GameStage')}} {{(rule.totalDig/1000000000*100).toFixed(2)}}%</p>
 					<span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
 				</div>
 				<i class="help nominscreen" @click="isShowABpopup = true"></i>
@@ -338,6 +338,7 @@ export default {
 					coinType: this.coinType
 				}
 			}).then(res => {
+				console.log("getRule",res)
 				if(res.code == 200) {
 					this.rule = res.result
 					this.amount = res.result.minInvest

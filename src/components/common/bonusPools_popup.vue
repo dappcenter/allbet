@@ -38,8 +38,6 @@
                 <h4 v-show="coinType == 'TRX'">第三阶段（最高 100TRX：50AB）</h4>
                 <h4 v-show="coinType == 'ETH'">第三阶段（最高 1ETH：3200AB）</h4>
                 <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
-                <p v-show="coinType == 'TRX'">接下来第四阶段（最高 100TRX：45AB）</p>
-                <p v-show="coinType == 'ETH'">接下来第四阶段（最高 1ETH：2800AB）</p>
             </div>
             <div class="ctn-area area1">
                 <label>游戏总挖矿释放量</label>
@@ -48,16 +46,19 @@
             <div class="ctn-area area2">
                 <div class="cell">
                     <label>已领取 AB</label>
-                    <h4>{{(bonusPoolsData.transferred).toFixed(2)}}</h4>
+                    <h4>{{(bonusPoolsData.transferred || 0).toFixed(2)}}</h4>
                 </div>
                 <div class="cell">
                     <label>待领取 AB</label>
-                    <h4>{{(bonusPoolsData.ab).toFixed(2)}}</h4>
+                    <h4>{{(bonusPoolsData.ab || 0).toFixed(2)}}</h4>
                 </div>
             </div>
             <p class="tips" v-show="coinType == 'TRX'">提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。</p>
             <p class="tips" v-show="coinType == 'ETH'">提取AB需支付少量gas费，建议不要频繁操作。</p>
-            <a href="javascript:;" class="get" @click="getAB">领取 AB</a>
+
+            <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">领取 AB</a>
+            <a href="javascript:;" class="get" v-else @click="isShow=false;openLogin()">{{$t("message.login")}}</a>
+
             <p class="tips">{{$t('message.BPtip')}}</p>
         </div>
         <i class="close-btn" @click="isShow = false"></i>
@@ -89,6 +90,8 @@ export default {
         isShow(newVal) {
             if(!newVal) {
                 this.$emit("change", newVal)
+            }else {
+                this.getBonusPools()
             }
         },
         isShowBPpopup(newVal) {
@@ -102,7 +105,6 @@ export default {
         event: "change"
     },
     mounted() {
-        this.getBonusPools()
     },
     computed: {
         ...mapState({
@@ -126,23 +128,25 @@ export default {
         },
         // 提取ab
         getAB() {
-            this.$http.get('/app/transfer/ab_withdraw').then(res => {
+            this.$http.post('/app/transfer/ab_withdraw').then(res => {
                 console.log("getAB",res)
                 if(res.code == 200) {
+                    this.getBonusPools()
                     this.alert({
                         type: "success",
-                        mes: res.msg
+                        msg: res.msg
                     })
                 }else {
                     this.alert({
                         type: "info",
-                        mes: res.msg
+                        msg: res.msg
                     })
                 }
             })
         },
         ...mapMutations({
-            alert: "alert"
+            alert: "alert",
+            openLogin: "OPEN_LOGIN",
         })
     }
 }
@@ -154,7 +158,7 @@ export default {
     .mu-dialog {
         position: absolute;
         top: 10%;
-        width: 800px;
+        width: 700px;
         background-color: transparent;
         background:linear-gradient(140deg,rgba(122,113,189,1),rgba(163,94,199,1));
     }
@@ -166,13 +170,13 @@ export default {
         .tab-bar {
             display: flex;
             border-bottom: 1px solid #CCBCF8;
-            height: 80px;
+            height: 60px;
             padding: 0 24px;
             a {
-                line-height: 80px;
+                line-height: 60px;
                 padding: 0 20px;
                 color: #CCBCF8;
-                font-size: 24px;
+                font-size: 20px;
                 border-bottom: 3px solid transparent;
                 &.active {
                     color: #fff;
@@ -261,7 +265,7 @@ export default {
                     background-color: #673583;
                     border-radius: 15px;
                     overflow: hidden;
-                    margin: 30px 0 20px;
+                    margin: 20px 0 20px;
                     text-align: center;
                     span {
                         position: absolute;

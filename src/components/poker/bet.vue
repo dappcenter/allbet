@@ -37,8 +37,6 @@
                       </li>
                     </div>
                 </div>
-
-
                 <div class="number-area hs-area">
                     <div class="watermark">
                         <span>{{$t("message.PokerHS")}}</span>
@@ -237,7 +235,7 @@ export default {
 		// 点击牌花色
 		moveCard (item, index) {
 			if (item == '') return
-			if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length >= 13 ) {
+			if ((this.cardSelectedList.length >= 3 || this.cardSelectedList.length == 0) && this.pokerSelectedList.length >= 13 ) {
 				this.alert({
 					type: "info",
 					msg: this.$t('message.PokerTips2')

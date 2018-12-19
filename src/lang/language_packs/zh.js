@@ -301,6 +301,7 @@ export default {
         GameBetAmount: "投注金额",
         GameRUTW: "小于该数获胜",
         GameBetToGet: "下注立刻获得",
+        GameStage: "挖矿阶段：第一轮已挖出",
         GameDigProportion: "挖矿比例",
         GameHigGet: "现在投注最高可获得投注货币",
         GamePresell: "预售中",
