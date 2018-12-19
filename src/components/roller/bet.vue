@@ -494,8 +494,8 @@ export default {
 				that.betBtnLoading = false
 				that.alert({
 					type: "info",
-					// msg: "User rejected the signature request.",
-					msg: err,
+					msg: "User rejected the signature request.",
+					// msg: err,
 					timeout: 3000
 				})
 			})

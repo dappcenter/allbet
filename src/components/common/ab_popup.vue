@@ -158,7 +158,7 @@ export default {
         border-radius: 6px;
         overflow: auto!important;
         background-color: #52476F;
-        height: 80%;
+        // height: 80%;
     }
     .mu-dialog-body {
         position: relative;

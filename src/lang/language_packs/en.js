@@ -306,7 +306,7 @@ export default {
         GamePresell: "Presell",
         // 分红池
         BPbonusPools: "Bonus Pools",
-        BPtip: "The current bonus pool is made up of the profits from Allbet games, with the data refreshed every hour.",
+        BPtip: "Note: data refresh every hour.",
         BPab: "My AB balance",
         BPcurrentAmount: "Bonus Pool",
         BPSoon: "Coming",

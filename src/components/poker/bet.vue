@@ -62,7 +62,7 @@
                 <div class="hs-area">
                     <ul>
                       <li v-for="(item,index) in cardList" :key="index" @click="moveCard(item,index)">
-                          <img :src="'img/poker/card'+item+'.png'" alt="">
+                          <img v-show="item !== ''" :src="'img/poker/card'+item+'.png'">
                       </li>
                     </ul>
                 </div>
@@ -409,8 +409,7 @@ export default {
 			}).catch(err => {
 				that.alert({
 					type: "info",
-					// msg: "User rejected the signature request.",
-					msg: err,
+					msg: "User rejected the signature request.",
 					timeout: 3000
 				})
 			})

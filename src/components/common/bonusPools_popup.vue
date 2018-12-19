@@ -1,35 +1,61 @@
 <template>
     <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup">
-        <h4>{{$t('message.BPbonusPools')}}</h4>
-        <p class="tip1">{{$t('message.BPtip')}}</p>
-        <div class="coin-wrap eth">
-            <div class="coin-logo">
-                <img src="../../../public/img/coin/ETH.png" />
-                <span>{{$t('message.BPcurrentAmount')}}</span>
-            </div>
-            <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(8) : 0}} ETH</h3>
+        <div class="tab-bar">
+            <a href="javascript:;" :class="{'active': tab == 1}" @click="tab = 1">分红</a>
+            <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">挖矿</a>
         </div>
-        <div class="coin-wrap eth">
-            <div class="coin-logo">
-                <img src="../../../public/img/coin/TRX.png" />
-                <span>{{$t('message.BPcurrentAmount')}}</span>
+        <div class="tab1" v-show="tab == 1">
+            <div class="coin-wrap eth">
+                <div class="coin-logo">
+                    <img src="../../../public/img/coin/ETH.png" />
+                    <span>{{$t('message.BPcurrentAmount')}}</span>
+                </div>
+                <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(8) : 0}} ETH</h3>
             </div>
-            <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(8) : 0}} TRX</h3>
+            <div class="coin-wrap eth">
+                <div class="coin-logo">
+                    <img src="../../../public/img/coin/TRX.png" />
+                    <span>{{$t('message.BPcurrentAmount')}}</span>
+                </div>
+                <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(8) : 0}} TRX</h3>
+            </div>
+            <ul>
+                <li>
+                    <img src="../../../public/img/coin/EOS.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+                <li>
+                    <img src="../../../public/img/coin/AB.png" />
+                    <span>{{$t("message.BPSoon")}}</span>
+                </li>
+            </ul>
+            <div class="tip3">
+                <p>{{$t('message.BPtip')}}</p>
+            </div>
         </div>
-        <ul>
-            <li>
-                <img src="../../../public/img/coin/EOS.png" />
-                <span>{{$t("message.BPSoon")}}</span>
-            </li>
-            <li>
-                <img src="../../../public/img/coin/AB.png" />
-                <span>{{$t("message.BPSoon")}}</span>
-            </li>
-        </ul>
-        <p class="tip2">{{$t("message.BPtip2")}}</p>
-        <div class="tip3">
-            <p v-if="storeCurrentAddr.bet">{{$t("message.BPab")}}：{{storeCurrentAddr.bet || 0}} AB</p>
-            <!-- <p>当前 AB 币流通量：100000000 AB</p> -->
+        <div class="tab2" v-if="tab == 2">
+            <div class="progress-wrap">
+                <h4>第三阶段（最高 100TRX：50AB）</h4>
+                <div class="progress-bar"><i>896589/500,000,000</i><span style="width: 30%"></span></div>
+                <p>接下来第四阶段（最高 100TRX：50AB）</p>
+            </div>
+            <div class="ctn-area area1">
+                <label>游戏总挖矿释放量</label>
+                <h4>1,343,354,555 AB（24.8%）</h4>
+            </div>
+            <div class="ctn-area area2">
+                <div class="cell">
+                    <label>已领取 AB</label>
+                    <h4>4589.54</h4>
+                </div>
+                <div class="cell">
+                    <label>待领取 AB</label>
+                    <h4>4589.54</h4>
+                </div>
+            </div>
+            <p class="tips">提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。</p>
+            <a href="javascript:;" class="get">领取 AB</a>
+            <p class="tips">{{$t('message.BPtip')}}</p>
         </div>
         <i class="close-btn" @click="isShow = false"></i>
     </mu-dialog>
@@ -47,7 +73,8 @@ export default {
     data() {
         return {
             bonusPoolsData: {},
-            isShow: false
+            isShow: true,
+            tab: 2
         }
     },
     watch: {
@@ -78,102 +105,204 @@ export default {
         //获取分红池信息
         getBonusPools() {
             this.$http.get('/app/profit/profit').then(res => {
+                console.log("getBonusPools",res)
                 if(res.code == 200) {
                     this.bonusPoolsData = res.result
                 }
             })
         },
+        // 
     }
 }
 </script>
 
 <style lang="less">
 .bonus-pools-popup {
-    left: 0;
-    bottom: 0;
-    right: 0;
-    top: 0;
+    overflow-y: scroll;
     .mu-dialog {
-        width: 40%;
+        position: absolute;
+        top: 10%;
+        width: 800px;
         background-color: transparent;
+        background:linear-gradient(140deg,rgba(122,113,189,1),rgba(163,94,199,1));
     }
     .mu-dialog-body {
-        background: url(../../../public/img/bonus-pools.png) no-repeat center;
+        background: url(../../../public/img/bonus-pools.png) no-repeat center !important;
         background-size: 100% 100%;
         color: #fff !important;
-        h4 {
-            color: #FFD558;
-        }
-        .tip1 {
-            color: #FFD558;
-            margin-bottom: 30px;
-            margin-top: 10px;
-            font-size: 16px;
-            text-align: center;
-        }
-        .tip2 {
-            color: #FFD558;
-            margin-bottom: 30px;
-            margin-top: 40px;
-            font-size: 14px;
-            text-align: center;
-            border-bottom: 1px solid #E18F5E;
-        }
-        .tip3 {
-            text-align: center;
-            font-size: 16px;
-        }
-        .coin-wrap {
+        padding: 0;
+        .tab-bar {
             display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 10px 20px;
-            border-radius:4px;
-            background:#E95678;
-            margin-top: 10px;
-            .coin-logo {
+            border-bottom: 1px solid #CCBCF8;
+            height: 80px;
+            padding: 0 24px;
+            a {
+                line-height: 80px;
+                padding: 0 20px;
+                color: #CCBCF8;
+                font-size: 24px;
+                border-bottom: 3px solid transparent;
+                &.active {
+                    color: #fff;
+                    border-color: #fff;
+                }
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+        .tab1 {
+            padding: 24px;
+            .tip3 {
                 text-align: center;
-                margin-left: 20px;
-                img {
-                    width: 62px;
-                    height: 62px;
-                    display: block;
-                    margin: 0 auto 10px;
-                    background-color: #CD3A5A;
-                    border-radius: 50%;
-                    
-                }
-                span {
-                    font-size: 16px;
-                }
+                font-size: 14px;
+                color: #EAC1FF;
+                margin-top: 100px;
             }
-            h3 {
-                flex: 1;
-                text-align: right;
-                font-size: 32px;
-            }
-        }
-        ul {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            li {
+            .coin-wrap {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
-                background-color: #DB705E;
-                width: 49%;
+                justify-content: space-around;
+                padding: 10px 20px;
+                border-radius:4px;
+                background:rgba(211,205,255,.3);
                 margin-top: 10px;
-                padding: 20px 40px;
-                border-radius: 4px;
-                img {
-                    width: 62px;
-                    background-color: #C54537;
-                    border-radius: 50%;
+                .coin-logo {
+                    text-align: center;
+                    margin-left: 20px;
+                    img {
+                        width: 62px;
+                        height: 62px;
+                        display: block;
+                        margin: 0 auto 10px;
+                        background-color: #7F74BC;
+                        border-radius: 50%;
+                        
+                    }
+                    span {
+                        font-size: 16px;
+                    }
                 }
-                span {
+                h3 {
+                    flex: 1;
+                    text-align: right;
+                    font-size: 32px;
+                }
+            }
+            ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin-top: 10px;
+                li {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background:rgba(128,47,170,.3);
+                    width: 49%;
+                    margin-top: 10px;
+                    padding: 20px 40px;
+                    border-radius: 4px;
+                    img {
+                        width: 62px;
+                        background-color: #A65ECC;
+                        border-radius: 50%;
+                    }
+                    span {
+                        font-size: 18px;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        .tab2 {
+            padding: 24px;
+            .progress-wrap {
+                margin-bottom: 40px;
+                h4 {
                     font-size: 18px;
-                    color: #fff;
+                    font-weight: 400;
+                }
+                .progress-bar {
+                    position: relative;
+                    height: 30px;
+                    background-color: #673583;
+                    border-radius: 15px;
+                    overflow: hidden;
+                    margin: 30px 0 20px;
+                    text-align: center;
+                    span {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        background-color: #13F693;
+                        height: 100%;
+                        box-shadow: 0 0 10px #13F693;
+                    }
+                    i {
+                        font-size: 14px;
+                        color: #EAC1FF;
+                        font-style: normal;
+                        line-height: 30px;
+                    }
+                }
+                p {
+                    color: #EAC1FF;
+                    text-align: center;
+                }
+            }
+            .ctn-area {
+                text-align: center;
+                background:rgba(103,53,131,.4);
+                margin-top: 20px;
+                border-radius:6px;
+                height: 120px;
+                label {
+                    display: inline-block;
+                    font-size: 20px;
+                    color: #E8C1FF;
+                }
+                h4 {
+                    font-size: 28px;
+                    color: #13F693;
+                }
+                &.area1 {
+                    label {
+                        margin-top: 24px;
+                    }
+                }
+                &.area2 {
+                    display: flex;
+                    align-items: center;
+                    .cell {
+                        flex: 1;
+                        &:first-child {
+                            border-right: 1px solid #CCBCF8;
+                        }
+                    }
+                }
+            }
+            .tips {
+                text-align: center;
+                color: #EAC1FF;
+                font-size: 14px;
+                margin-top: 20px;
+            }
+            .get {
+                display: block;
+                margin: 0 auto;
+                height: 40px;
+                width: 250px;
+                background:linear-gradient(90deg,rgba(190,180,255,1),rgba(219,167,255,1));
+                box-shadow:0px 2px 12px 0px rgba(126,79,181,0.75);
+                border-radius:20px;
+                color: #fff;
+                font-size: 18px;
+                line-height: 40px;
+                text-align: center;
+                margin-top: 40px;
+                &:hover {
+                    background:linear-gradient(90deg,rgba(219,167,255,1),rgba(190,180,255,1));
                 }
             }
         }

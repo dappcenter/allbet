@@ -306,7 +306,7 @@ export default {
         GamePresell: "预售中",
         // 分红池
         BPbonusPools: "分红池",
-        BPtip: "当前分红池由 Allbet 游戏所得收益构成，数据每小时刷新一次。",
+        BPtip: "注：数据每小时刷新一次。",
         BPab: "我的 AB 余额",
         BPcurrentAmount: "当前分红池累计",
         BPSoon: "即将上线",
