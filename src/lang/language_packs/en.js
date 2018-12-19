@@ -320,7 +320,8 @@ export default {
         BPgame: 'The total released amount of gaming mining',
         BPreceived: 'Received',
         BPtoReceive: 'To be received',
-        BPhandleFee: 'Withdrawing AB will cost a little TRX(probably 0.5-0.8 TRX each time). It is adviced that you should not operate frequently.',
+        BPhandleFee: 'Withdrawing AB will cost a little TRX (probably 0.5-0.8 TRX each time). It is adviced that you should not operate frequently.',
+        BPEthFee: 'Withdrawing AB token will cost a little gas. It is advised that you should not operate frequently.',
         BPbtnGet: 'Get AB',
 
         // 公告
@@ -375,6 +376,12 @@ export default {
         abStage8: 'Eighth',
         abStage9: 'Ninth',
         abStage10: 'Tenth',
+        ab1000M: '1000 Million',
+        ab700M: '700 Million',
+        ab600M: '600 Million',
+        ab500M: '500 Million',
+        ab400M: '400 Million',
+        ab300M: '300 Million',
 
         //预售
         preTarget: 'A game platform aiming to create a DAPP with the most complete game categories and the best game experience.',

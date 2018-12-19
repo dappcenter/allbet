@@ -321,6 +321,7 @@ export default {
         BPreceived: '已领取 AB',
         BPtoReceive: '待领取 AB',
         BPhandleFee: '提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。',
+        BPEthFee: '提取AB需支付少量gas费，建议不要频繁操作。',
         BPbtnGet: '领取 AB',
 
         // 公告
@@ -375,6 +376,13 @@ export default {
         abStage8: '第八阶段',
         abStage9: '第九阶段',
         abStage10: '第十阶段',
+        ab1000M: '10亿',
+        ab700M: '7亿',
+        ab600M: '6亿',
+        ab500M: '5亿',
+        ab400M: '4亿',
+        ab300M: '3亿',
+
 
 
 

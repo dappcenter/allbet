@@ -40,70 +40,70 @@
             <td>{{$t('message.abStage1')}}</td>
             <td>100:45</td>
             <td>100:50</td>
-            <td>10亿</td>
+            <td>{{$t('message.ab1000M')}}</td>
             <td>10%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage2')}}</td>
             <td>100:40</td>
             <td>100:45</td>
-            <td>7亿</td>
+            <td>{{$t('message.ab700M')}}</td>
             <td>7%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage3')}}</td>
             <td>100:35</td>
             <td>100:40</td>
-            <td>6亿</td>
+            <td>{{$t('message.ab600M')}}</td>
             <td>6%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage4')}}</td>
             <td>100:30</td>
             <td>100:35</td>
-            <td>5亿</td>
+            <td>{{$t('message.ab500M')}}</td>
             <td>5%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage5')}}</td>
             <td>100:25</td>
             <td>100:30</td>
-            <td>5亿</td>
+            <td>{{$t('message.ab500M')}}</td>
             <td>5%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage6')}}</td>
             <td>100:20</td>
             <td>100:35</td>
-            <td>4亿</td>
+            <td>{{$t('message.ab400M')}}</td>
             <td>4%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage7')}}</td>
             <td>100:15</td>
             <td>100:20</td>
-            <td>4亿</td>
+            <td>{{$t('message.ab400M')}}</td>
             <td>4%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage8')}}</td>
             <td>100:10</td>
             <td>100:15</td>
-            <td>3亿</td>
+            <td>{{$t('message.ab300M')}}</td>
             <td>3%</td>
             </tr>
             <tr>
             <td>{{$t('message.abStage9')}}</td>
             <td>100:5</td>
             <td>100:10</td>
-            <td>3亿</td>
+            <td>{{$t('message.ab300M')}}</td>
             <td>3%</td>
             </tr>
             <tr>
             <td class="no-bt-bd">{{$t('message.abStage10')}}</td>
             <td class="no-bt-bd">100:0</td>
             <td class="no-bt-bd">100:5</td>
-            <td class="no-bt-bd">3亿</td>
+            <td class="no-bt-bd">{{$t('message.ab300M')}}</td>
             <td class="no-bt-bd">3%</td>
             </tr>
         </table>

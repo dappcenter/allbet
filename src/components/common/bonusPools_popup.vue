@@ -1,8 +1,8 @@
 <template>
     <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup">
         <div class="tab-bar">
-            <a href="javascript:;" :class="{'active': tab == 1}" @click="tab = 1">分红</a>
-            <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">挖矿</a>
+            <a href="javascript:;" :class="{'active': tab == 1}" @click="tab = 1">{{$t('message.bonusPool')}}</a>
+            <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">{{$t('message.BPDig')}}</a>
         </div>
         <div class="tab1" v-show="tab == 1">
             <div class="coin-wrap eth">
@@ -35,30 +35,31 @@
         </div>
         <div class="tab2" v-if="tab == 2">
             <div class="progress-wrap">
-                <h4 v-show="coinType == 'TRX'">第三阶段（最高 100TRX：50AB）</h4>
-                <h4 v-show="coinType == 'ETH'">第三阶段（最高 1ETH：3200AB）</h4>
+                <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
+                <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
                 <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+                <p v-show="coinType == 'TRX'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 100TRX：45AB）</p>
+                <p v-show="coinType == 'ETH'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 1ETH：2800AB）</p>
             </div>
             <div class="ctn-area area1">
-                <label>游戏总挖矿释放量</label>
+                <label>{{$t("message.BPgame")}}</label>
                 <h4>{{(bonusPoolsData.totalDig).toFixed(2)}} AB（{{(bonusPoolsData.totalDig/5000000000*100).toFixed(2)}}%）</h4>
             </div>
             <div class="ctn-area area2">
                 <div class="cell">
-                    <label>已领取 AB</label>
-                    <h4>{{(bonusPoolsData.transferred || 0).toFixed(2)}}</h4>
+                    <label>{{$t("message.BPreceived")}}</label>
+                    <h4>{{(bonusPoolsData.transferred).toFixed(2)}}</h4>
                 </div>
                 <div class="cell">
-                    <label>待领取 AB</label>
-                    <h4>{{(bonusPoolsData.ab || 0).toFixed(2)}}</h4>
+                    <label>{{$t("message.BPtoReceive")}}</label>
+                    <h4>{{(bonusPoolsData.ab).toFixed(2)}}</h4>
                 </div>
             </div>
-            <p class="tips" v-show="coinType == 'TRX'">提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。</p>
-            <p class="tips" v-show="coinType == 'ETH'">提取AB需支付少量gas费，建议不要频繁操作。</p>
+            <p class="tips" v-show="coinType == 'TRX'">{{$t("message.BPhandleFee")}}</p>
+            <p class="tips" v-show="coinType == 'ETH'">{{$t("message.BPEthFee")}}</p>
 
-            <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">领取 AB</a>
+            <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">{{$t("message.login")}}</a>
             <a href="javascript:;" class="get" v-else @click="isShow=false;openLogin()">{{$t("message.login")}}</a>
-
             <p class="tips">{{$t('message.BPtip')}}</p>
         </div>
         <i class="close-btn" @click="isShow = false"></i>
@@ -213,7 +214,7 @@ export default {
                         margin: 0 auto 10px;
                         background-color: #7F74BC;
                         border-radius: 50%;
-                        
+
                     }
                     span {
                         font-size: 16px;
@@ -438,4 +439,3 @@ export default {
     }
 }
 </style>
-
