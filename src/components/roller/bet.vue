@@ -226,16 +226,16 @@ export default {
 		var that = this
         window.onmouseup = function() {
 			window.onmousemove = null
-			that.$store.commit('closeAlert')
+			that.closePopup()
 			that.isShowResult = false
 		}
 		window.ontouchend = function() {
-			that.$store.commit('closeAlert')
+			that.closePopup()
 			that.isShowResult = false
 			window.ontouchmove = null	
 		}
 		window.ontouchstart = function() {
-			that.$store.commit('closeAlert')
+			that.closePopup()
 			that.isShowResult = false
         }
         this.setBetInfo({
