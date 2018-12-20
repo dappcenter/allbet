@@ -157,7 +157,7 @@ export default {
 
         //邀请好友页
         inviteFriend: "Invite Friend",
-        inviteRule: "Support two levels of invitation sharing, invite friends to participate in the game, get AB token rewards, enjoy platform dividends",
+        inviteRule: "Support two levels of invitation sharing, invite friends to participate in the game, get AB token rewards, enjoy multi-currency dividends",
         inviteTotalBill: "Issued Rewards: ",
         invitationSuccessed: "Successful invitation",
         invitationCode: "Invitation code: ",
@@ -165,14 +165,14 @@ export default {
         invitateCopyCode: "Copy invitation code",
         invitateCopyLink: "Copy Link",
         InvitationRules: "Invitation Rules: ",
-        InvitationRules1: "1.You can get a reward of 1% AB token which was bought by your friend when your friend join in the presale.",
-        InvitationRules2: "2.You can get a reward of 8% AB token which was mined by your friend when your friend join in game mining, and your friend can also get a reward of 2% AB token.",
+        InvitationRules1: "1.You can get a reward of 1% AB token which is bought by your friend when your friend joins in the presale.",
+        InvitationRules2: "2.You can get a reward of 8% AB token which is mined by your friend when your friend joins in game mining, and your friend can also get a reward of 2% AB token.",
         InvitationRules3: "3.Rewards from upper two ways are from system airdrop.",
         InvitePeople: "People",
         InviteBind: "Please login the account first, then invite friends to participate in the game.",
         InviteQrcode: "Exclusive invitation QR code",
-        InviteDesc: 'Send your invitation link to your friend. You will be successful in the invitation as long as your friend completes a login on this website ( TronLikn, TronPay, MetaMask are allowed in Web. Math Wallet, Cobo Wallet are allowed in Mobile.',
-        InviteReward: 'Two invitation rewards:',
+        InviteDesc: 'Send your invitation link to your friend. You will be successful in the invitation as long as your friend completes a login on this website ( TronLikn, TronPay, MetaMask are allowed in Web. Math Wallet, Cobo Wallet are allowed in Mobile).',
+        InviteReward: 'Two ways of invitation rewards:',
         // 所有弹框页
         PopRegister: "Register",
         PopEmailFind: 'Mailbox retrieval',

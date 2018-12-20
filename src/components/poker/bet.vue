@@ -134,8 +134,11 @@
                     <i class="help nominscreen" @click="isShowABpopup = true"></i>
                     <i class="help minscreen" @click="$router.push('ab')"></i>
                 </div>
+
             </div>
-        </div>
+            <!-- Ab弹框 -->
+            <AbPopup v-model="isShowABpopup"></AbPopup>
+    </div>
     </div>
 </template>
 
@@ -347,7 +350,7 @@ export default {
 				})
 				return
 			}
-			
+
 		},
 		/**
 		 * 调用合约下注
@@ -804,7 +807,7 @@ export default {
 							height: 40px;
 							border-radius:4px;
 							margin-right: 4px;
-							
+
 							.mu-menu {
 								height: 100%;
 								.mu-icon-button {
@@ -1179,7 +1182,7 @@ export default {
 						li {
 							margin-left: -0.6rem;
 							img {
-								width: 1rem;	
+								width: 1rem;
 							}
 						}
 					}

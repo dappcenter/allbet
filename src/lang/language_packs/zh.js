@@ -156,7 +156,7 @@ export default {
         tradeAddress: "交易地址",
         //邀请好友页
         inviteFriend: "邀请好友",
-        inviteRule: "支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受平台分红",
+        inviteRule: "支持两级邀请分成，邀请好友参与游戏，获得 AB 代币奖励，享受多币种分红",
         inviteTotalBill: "平台已发放邀请奖励：",
         invitationSuccessed: "成功邀请：",
         invitationCode: "专属邀请码：",

@@ -12,7 +12,7 @@
         </div>
         <div class="progress-wrap">
             <div class="progress-bg">
-                <div class="progress-bar" :style="{'width': pageData.achieve/pageData.goal*100 + '%'}">
+                <div class="progress-bar" :style="{'width': pageData.achieve/50000000*100 + '%'}">
                     <span>{{pageData.achieve}}</span>
                 </div>
             </div>
@@ -113,7 +113,7 @@ export default {
                             msg: that.$t('message.preCanYu')
                         })
                     }
-                    
+
                 }).catch(err => {
 
                 })

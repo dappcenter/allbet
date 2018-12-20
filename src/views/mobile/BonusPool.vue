@@ -13,14 +13,14 @@
                   <img src="../../../public/img/coin/ETH.png" />
                   <span>{{$t('message.BPcurrentAmount')}}</span>
               </div>
-              <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(8) : 0}} ETH</h3>
+              <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(2) : 0}} ETH</h3>
           </div>
           <div class="coin-wrap eth">
               <div class="coin-logo">
                   <img src="../../../public/img/coin/TRX.png" />
                   <span>{{$t('message.BPcurrentAmount')}}</span>
               </div>
-              <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(8) : 0}} TRX</h3>
+              <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(2) : 0}} TRX</h3>
           </div>
           <ul>
               <li>
@@ -45,8 +45,8 @@
               <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
               <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
               <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
-              <p v-show="coinType == 'TRX'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 100TRX：45AB）</p>
-              <p v-show="coinType == 'ETH'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 1ETH：2800AB）</p>
+              <!-- <p v-show="coinType == 'TRX'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 100TRX：45AB）</p>
+              <p v-show="coinType == 'ETH'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 1ETH：2800AB）</p> -->
           </div>
           <div class="ctn-area area1">
               <label>{{$t("message.BPgame")}}</label>
@@ -67,7 +67,7 @@
 
           <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">{{$t("message.login")}}</a>
           <a href="javascript:;" class="get" v-else @click="isShow=false;openLogin()">{{$t("message.login")}}</a>
-          <p class="tips">{{$t('message.BPtip')}}</p>
+          <p class="tips tips-spec">{{$t('message.BPtip')}}</p>
         </div>
     </div>
     </div>
@@ -299,9 +299,9 @@ export default {
                       position: absolute;
                       left: 0;
                       top: 0;
-                      background-color: #13F693;
+                      background-color: #FFC425;
                       height: 100%;
-                      box-shadow: 0 0 10px #13F693;
+                      box-shadow: 0 0 10px #FFC425;
                   }
                   i {
                       font-size: 0.18rem;
@@ -330,7 +330,7 @@ export default {
               }
               h4 {
                   font-size: 0.42rem;
-                  color: #13F693;
+                  color: #FFC425;
               }
               &.area1 {
                 margin-top: 1rem;
@@ -365,9 +365,9 @@ export default {
               margin: 0 auto;
               height: 0.8rem;
               width: 4.8rem;
-              background:linear-gradient(90deg,#7A71BD,#925EC7);
+              background:linear-gradient(90deg,#F1714B,#FFD558);
               // box-shadow:0px 2px 12px 0px rgba(126,79,181,0.75);
-              border-radius:0.4rem;
+              border-radius:6px;
               color: #fff;
               font-size: 0.3rem;
               line-height: 0.8rem;
