@@ -73,7 +73,7 @@ export default {
                     }
                 }, this.speed)
             }else {
-                this.rollNumber = this.value
+                this.rollNumber = this.value.toFixed(this.decimal)
             }
         }
     }

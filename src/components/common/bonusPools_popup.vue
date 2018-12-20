@@ -193,12 +193,23 @@ export default {
 					timeout: 3000
 				})
 			}).catch(err => {
+                that.recall(orderId)
 				that.alert({
 					type: "info",
 					msg: "User rejected the signature request.",
 					timeout: 3000
 				})
 			})
+        },
+        recall(withdrawId) {
+            this.$http.post('/app/transfer/trx_ab_withdraw/recall', {
+                // noLoading: true,
+                withdrawId: withdrawId
+            }).then(res => {
+                if(res.code == 200) {
+                    this.getBonusPools()
+                }
+            })
         },
         ...mapMutations({
             alert: "alert",

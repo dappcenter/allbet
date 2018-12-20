@@ -216,19 +216,27 @@ export default {
 		let that = this
 		this.getRule()
 		window.hd = {}
-
 		this.isIOS = !(!this.$browser || !this.$browser.version.ios)
 	},
     mounted() {
         this.setBetInfo({
             diceList: this.diceList,
             amount: this.amount
-        })
+		})
+		var that = this
         window.onmouseup = function() {
-            window.onmousemove = null
+			window.onmousemove = null
+			that.$store.commit('closeAlert')
+			that.isShowResult = false
 		}
 		window.ontouchend = function() {
-            window.ontouchmove = null
+			that.$store.commit('closeAlert')
+			that.isShowResult = false
+			window.ontouchmove = null	
+		}
+		window.ontouchstart = function() {
+			that.$store.commit('closeAlert')
+			that.isShowResult = false
         }
         this.setBetInfo({
             odds: 1
@@ -239,7 +247,9 @@ export default {
 			this.$router.push('mobile-fundraiy')
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
-
+		
+		
+		
     },
     methods: {
 		inputAmountBlur() {
