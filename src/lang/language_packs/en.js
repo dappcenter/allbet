@@ -410,7 +410,10 @@ export default {
         PokerBet: "BET",
         PokerSuits: "Suits",
         PokerResults: "Results",
-        PokerTips1: "Last card, no more choices!",
-        PokerTips2: "Last suits, no more choices!"
+        PokerTips1: "You can only choose twelve figures on the pure figure betting.",
+        PokerTips2: "You can only choose three suits on the pure suit betting.",
+        PokerTips3: "It has been up to the most choice on the mixed betting.",
+        PokerTips4: "One suit should be saved when you play mixed betting.",
+        PokerTips5: "One figure should be saved when you play mixed betting.",
     }
 }

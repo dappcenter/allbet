@@ -414,8 +414,11 @@ export default {
         PokerBet: "投注",
         PokerSuits: "投注牌型",
         PokerResults: "开奖结果",
-        PokerTips1: "最后一张牌了，不能再选啦！",
-        PokerTips2: "最后一个花色了，不能再选啦！"
+        PokerTips1: "纯数字投注最多可选12个数字",
+        PokerTips2: "纯花色投注最多可选3个花色",
+        PokerTips3: "已达混合投注最大投注数",
+        PokerTips4: "混合投注需保留一个花色",
+        PokerTips5: "混合投注需保留一个数字",
 
     }
 }

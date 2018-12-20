@@ -108,7 +108,7 @@ export default {
                             msg: that.$t('message.preCanYu')
                         })
                     }
-
+                    this.getPageData()
                 }).catch(err => {
 
                 })
