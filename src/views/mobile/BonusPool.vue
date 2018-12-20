@@ -155,6 +155,7 @@ export default {
         }else {
             this.$http.post('/app/transfer/trx_ab_withdraw').then(res => {
                 console.log(res)
+                this.getBonusPools()
                 if(res.code == 200) {
                     this.getTRX_AB(res.result)
                 }else {

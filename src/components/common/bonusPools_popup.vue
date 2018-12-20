@@ -38,8 +38,6 @@
                 <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
                 <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
                 <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
-                <p v-show="coinType == 'TRX'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 100TRX：45AB）</p>
-                <p v-show="coinType == 'ETH'">{{$t("message.BPnext")}}（{{$t("message.BPmost")}} 1ETH：2800AB）</p>
             </div>
             <div class="ctn-area area1">
                 <label>{{$t("message.BPgame")}}</label>
@@ -152,6 +150,7 @@ export default {
             }else {
                 this.$http.post('/app/transfer/trx_ab_withdraw').then(res => {
                     console.log(res)
+                    this.getBonusPools()
                     if(res.code == 200) {
                         this.getTRX_AB(res.result)
                     }else {

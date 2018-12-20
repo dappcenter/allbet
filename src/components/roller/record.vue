@@ -131,7 +131,8 @@ export default {
 					coinAddress: coinAddress,
 					coinType: this.coinType,
 					page: 1,
-					pageSize: this.boardType == "ME" ? 10000 : 30
+					pageSize: this.boardType == "ME" ? 10000 : 30,
+					noLoading: true
 				}
 			}).then(res => {
 				if(res.code == 200) {

@@ -94,7 +94,6 @@ const getters = {
         if(list.length == 0) {
             // 可用地址列表为空清除当前地址状态
             console.log("可用地址列表为空清除当前地址状态")
-
             state.currentAddr = {}
         }
         return list
@@ -208,7 +207,8 @@ const actions = {
         if(!coinAddress) return
         axios.get("/app/user/assets", {
             params: {
-                coinAddress: coinAddress
+                coinAddress: coinAddress,
+                noLoading: true
             }
         }).then(res => {
             if(res.code == 200) {

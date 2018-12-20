@@ -13,7 +13,11 @@ axios.defaults.baseURL = window.SERVERPATH
 axios.defaults.timeout = 15000
 
 axios.interceptors.request.use(config => {
-    store.commit("openWait")
+    if(!config.data || !config.data.noLoading) {
+        if(!config.params || !config.params.noLoading) {
+            store.commit("openWait")
+        }
+    }
     let token = store.state.user.userInfo.token || ""
     config.headers.common['token'] = token
     config.headers.common['Accept-Language'] = store.state.locale
@@ -28,7 +32,6 @@ axios.interceptors.response.use(response => {
     if(response.data.code == -2) {
         store.commit('REMOVE_USERINFO')
         router.replace('dice')
-        // location.reload()
     }
     if(response.data.code == -1) {
         store.commit('CHANGE_PSDVER', true)

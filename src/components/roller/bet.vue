@@ -398,10 +398,12 @@ export default {
 				return
 			}
 			this.betBtnLoading = true
+		
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
-				"guessNum": this.odds
+				"guessNum": this.odds,
+				"noLoading": true
 			}).then(res => {
 				if(res.code == 200) {
 					if(res.result.resultType == "DISPATCHER") {  //平台账号
@@ -457,14 +459,12 @@ export default {
 		placeBet(rollUnder, modulo, commitLastBlock, commit, sigData, amount, recdId) {
 			let that = this
 			let amountWei = this.web3.web3Instance.utils.toWei(amount+"", "ether")
-
 			this.web3.diceApiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amountWei,
 				gas: 210000,
 				gasPrice: 10000000000
 			},(err, res) => {
-				console.log("0000000000000", res)
 				if(!err) {
 					that.alert({
 						type: "info",
@@ -508,8 +508,10 @@ export default {
 					msg: "Bet submitted! Waiting for Tron...",
 					timeout: 9999999
 				})
-				
 				that.getBetResult(orderId,amount)
+				if(!this.timer) {
+					this.luckyRun()
+				}
 			}).catch(err => {
 				console.log("placeBetTRX",err)
 				that.betBtnLoading = false
@@ -539,9 +541,7 @@ export default {
 								msg: "Successful bet.",
 								timeout: 9999999
 							})
-							if(!this.timer) {
-								this.luckyRun()
-							}
+							
 							this.betBtnLoading = false
 						}else if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							this.betBtnLoading = false
