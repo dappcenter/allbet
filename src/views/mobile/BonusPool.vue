@@ -65,7 +65,7 @@
           <p class="tips" v-show="coinType == 'TRX'">{{$t("message.BPhandleFee")}}</p>
           <p class="tips" v-show="coinType == 'ETH'">{{$t("message.BPEthFee")}}</p>
 
-          <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">{{$t("message.login")}}</a>
+          <a href="javascript:;" class="get" @click="getAB" v-if="storeCurrentAddr.token">{{$t("message.BPbtnGet")}}</a>
           <a href="javascript:;" class="get" v-else @click="isShow=false;openLogin()">{{$t("message.login")}}</a>
           <p class="tips">{{$t('message.BPtip')}}</p>
         </div>
@@ -140,9 +140,35 @@ export default {
         })
     },
     // 提取ab
+    // 提取ab
     getAB() {
-        this.$http.post('/app/transfer/ab_withdraw').then(res => {
-            console.log("getAB",res)
+        if(this.bonusPoolsData.ab <= 0) {
+            this.alert({
+                type: "info",
+                msg: this.$t('message.BPnothingAB'),
+                timeout: 3000
+            })
+            return
+        }
+        if(this.coinType == 'ETH') {
+            this.getETH_AB()
+        }else {
+            this.$http.post('/app/transfer/trx_ab_withdraw').then(res => {
+                console.log(res)
+                if(res.code == 200) {
+                    this.getTRX_AB(res.result)
+                }else {
+                    this.alert({
+                        type: "info",
+                        msg: res.msg
+                    })
+                }
+            })
+            
+        }
+    },
+    getETH_AB() {
+        this.$http.post('/app/transfer/eth_ab_withdraw').then(res => {
             if(res.code == 200) {
                 this.getBonusPools()
                 this.alert({
@@ -155,6 +181,27 @@ export default {
                     msg: res.msg
                 })
             }
+        })
+    },
+    getTRX_AB(orderId) {
+        let that = this
+        const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
+        this.tronWeb.contract.askForToken(orderId, "TPGpTQSuUYDmvfn2NKRL6jVxFduN3UBMmb").send({
+            feeLimit:feeLimit,
+            callValue: 0,
+            shouldPollResponse:false
+        }).then(res => {
+            that.alert({
+                type: "info",
+                msg: that.$t('message.BPgetSuccess'),
+                timeout: 3000
+            })
+        }).catch(err => {
+            that.alert({
+                type: "info",
+                msg: "User rejected the signature request.",
+                timeout: 3000
+            })
         })
     },
     ...mapMutations({

@@ -29,7 +29,6 @@
                     </a>
                 </div>
             </div>
-            
             <p>The games provided by ALLBET are based on blockchain, fair and transparent. When you start playing these games, please note that online gambling and lottery is an entertainment vehicle 
 and that it carries with it a certain degree of financial risk. Players should be aware of this risk, and govern themselves accordingly.</p>
         </div>

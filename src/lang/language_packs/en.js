@@ -324,6 +324,8 @@ export default {
         BPhandleFee: 'Withdrawing AB will cost a little TRX (probably 0.5-0.8 TRX each time). It is adviced that you should not operate frequently.',
         BPEthFee: 'Withdrawing AB token will cost a little gas. It is advised that you should not operate frequently.',
         BPbtnGet: 'Get AB',
+        BPnothingAB: "No balance of AB",
+        BPgetSuccess: "Receiving application submitted",
 
         // 公告
         notice1: "Announcement：ALLBET has been launched! Register now and earn up 0.01ETH + 1000AB! Invite your friend to get extra rewards!",

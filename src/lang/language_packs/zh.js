@@ -324,6 +324,8 @@ export default {
         BPhandleFee: '提取AB会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。',
         BPEthFee: '提取AB需支付少量gas费，建议不要频繁操作。',
         BPbtnGet: '领取 AB',
+        BPnothingAB: "无可领取AB",
+        BPgetSuccess: "领取申请已提交",
 
         // 公告
         notice1: "公告：ALLBET游戏平台已上线，注册即送0.01ETH+1000AB，更多的邀请奖励等您来领取！",

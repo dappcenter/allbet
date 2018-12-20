@@ -1,73 +1,6 @@
 {
-    "Migrations.sol:Migrations": {
-        "address": "414587f71ee0a12665ae6e883c1e4c20be38fc3b83",
-        "abi": [
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "new_address",
-                        "type": "address"
-                    }
-                ],
-                "name": "upgrade",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "last_completed_migration",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "owner",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "completed",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "setCompleted",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "constructor"
-            }
-        ]
-    },
     "Roller": {
-        "address": "TXgZZ5ZCLd9kndjRiW61R86WMSFUH652Ha",
+        "address": "TBnk88LDpp6zv59X9rxNPRiQQuektRJGmA",
         "abi": [{
             "constant": false,
             "inputs": [{"name": "_newOwner", "type": "address"}],
@@ -86,11 +19,27 @@
             "type": "function"
         }, {
             "constant": false,
+            "inputs": [{"name": "orderid", "type": "uint256"}, {"name": "random", "type": "uint8"}],
+            "name": "settleBetV1",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
             "inputs": [{"name": "newCfo", "type": "address"}],
             "name": "setCfo",
             "outputs": [{"name": "", "type": "bool"}],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "orderid", "type": "uint256"}, {"name": "to", "type": "address"}],
+            "name": "askForToken",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
             "type": "function"
         }, {
             "constant": false,
@@ -102,28 +51,19 @@
             "type": "function"
         }, {
             "constant": false,
-            "inputs": [{"name": "amout", "type": "uint256"}],
-            "name": "setMaxAmount",
+            "inputs": [{"name": "minAmount", "type": "uint256"}, {"name": "maxAmount", "type": "uint256"}],
+            "name": "setBetLimit",
             "outputs": [{"name": "", "type": "bool"}],
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
         }, {
-            "constant": false,
-            "inputs": [{"name": "orderid", "type": "uint256"}, {"name": "blockHash", "type": "bytes32"}, {
-                "name": "random",
-                "type": "uint8"
-            }],
-            "name": "settleBetV1",
-            "outputs": [{"name": "", "type": "uint256"}, {"name": "", "type": "uint8"}, {
-                "name": "",
-                "type": "uint8"
-            }, {"name": "", "type": "uint40"}, {"name": "", "type": "address"}, {"name": "", "type": "uint8"}, {
-                "name": "",
-                "type": "uint8"
-            }, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}],
+            "constant": true,
+            "inputs": [],
+            "name": "MIN_BET",
+            "outputs": [{"name": "", "type": "uint256"}],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
             "type": "function"
         }, {
             "constant": true,
@@ -135,7 +75,15 @@
             }, {"name": "", "type": "uint40"}, {"name": "", "type": "address"}, {"name": "", "type": "uint8"}, {
                 "name": "",
                 "type": "uint8"
-            }, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}],
+            }, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "MAX_BET",
+            "outputs": [{"name": "", "type": "uint256"}],
             "payable": false,
             "stateMutability": "view",
             "type": "function"
@@ -165,14 +113,6 @@
             "outputs": [],
             "payable": true,
             "stateMutability": "payable",
-            "type": "function"
-        }, {
-            "constant": true,
-            "inputs": [],
-            "name": "MAX_AMOUNT",
-            "outputs": [{"name": "", "type": "uint256"}],
-            "payable": false,
-            "stateMutability": "view",
             "type": "function"
         }, {
             "constant": true,
@@ -211,15 +151,6 @@
                 "type": "uint256"
             }],
             "name": "Payment",
-            "type": "event"
-        }, {
-            "anonymous": false,
-            "inputs": [{"indexed": false, "name": "placeBlockHash", "type": "bytes32"}, {
-                "indexed": false,
-                "name": "blockHash",
-                "type": "bytes32"
-            }],
-            "name": "CheckHash",
             "type": "event"
         }]
     },

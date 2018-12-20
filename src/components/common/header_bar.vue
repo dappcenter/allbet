@@ -8,9 +8,14 @@
                 <router-link to="dice"><span>DICE</span></router-link>
                 <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
                 <router-link to="poker"><span>POKER</span></router-link>
-                <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
+                <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
-                <a href="javascript:;" class="pull-menu">
+                <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
+                
+                <!-- <a href="javascript:;" @click="openWhiteBook">{{$t("message.course")}}</a> -->
+                
+                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
+                <!-- <a href="javascript:;" class="pull-menu">
                     <span>{{$t("message.course")}}</span>
                     <i></i>
                     <div class="router-list">
@@ -18,7 +23,7 @@
                         <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                         <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
                     </div>
-                </a>
+                </a> -->
             </menu>
             <div class="statusbar">
                 <div class="contact nominscreen">
