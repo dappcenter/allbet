@@ -315,7 +315,7 @@ export default {
         BPtip2: "即将上线 EOS、AB 游戏投注挖矿，多币种分红池等您来领取。",
         BPTotal: '当前 AB 币流通量：',
         BPDig: '挖矿',
-        BP3stage: '第三阶段',
+        BP3stage: '第一阶段',
         BPmost: '最高',
         BPnext: '接下来第四阶段',
         BPgame: '游戏总挖矿释放量',

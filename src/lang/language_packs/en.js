@@ -315,7 +315,7 @@ export default {
         BPtip2: "EOS, AB game bet mining, multi-token bonus pool are coming soon. Wait for your receiving.",
         BPTotal: 'Current AB currency circulation:',
         BPDig: 'Mining',
-        BP3stage: 'The third stage',
+        BP3stage: 'First stage',
         BPmost: 'Most',
         BPnext: 'The following fourth stage',
         BPgame: 'The total released amount of gaming mining',

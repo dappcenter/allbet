@@ -247,6 +247,7 @@ export default {
         background-size: 100% 100%;
         color: #fff !important;
         padding: 0;
+        position: relative;
         .tab-bar {
             display: flex;
             border-bottom: 1px solid #8176A2;
