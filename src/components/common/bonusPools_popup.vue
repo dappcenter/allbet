@@ -10,14 +10,14 @@
                     <img src="../../../public/img/coin/ETH.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(8) : 0}} ETH</h3>
+                <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(2) : 0}} ETH</h3>
             </div>
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/coin/TRX.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(8) : 0}} TRX</h3>
+                <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(2) : 0}} TRX</h3>
             </div>
             <ul>
                 <li>
@@ -112,6 +112,7 @@ export default {
         event: "change"
     },
     mounted() {
+      this.getBonusPools();
         if(this.ab) {
             this.tab = 2
         }

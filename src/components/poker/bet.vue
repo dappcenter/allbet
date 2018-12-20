@@ -115,7 +115,7 @@
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
                             <i v-else>0</i> {{coinType}}</span>
-                        <button class="enter" @click="betDo">{{$t('message.PokerBet')}}</button>
+                        <button class="enter" @click="betDo">{{$t('message.BPSoon')}}</button>
                         <span class="fl minscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
@@ -134,8 +134,11 @@
                     <i class="help nominscreen" @click="isShowABpopup = true"></i>
                     <i class="help minscreen" @click="$router.push('ab')"></i>
                 </div>
+
             </div>
-        </div>
+            <!-- Ab弹框 -->
+            <AbPopup v-model="isShowABpopup"></AbPopup>
+    </div>
     </div>
 </template>
 
@@ -220,6 +223,13 @@ export default {
 			if (this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
 				this.alert({
 					type: "info",
+					msg: this.$t('message.PokerTips3')
+				})
+				return
+			}
+      if (this.cardSelectedList.length == 0 && this.pokerSelectedList.length >= 12 ) {
+				this.alert({
+					type: "info",
 					msg: this.$t('message.PokerTips1')
 				})
 				return
@@ -229,27 +239,48 @@ export default {
 		},
 		// 点击牌归位
 		homingPoker (item, index) {
-			this.pokerSelectedList.splice(index,1)
+      if (this.cardSelectedList.length >= 4 && this.pokerSelectedList.length <= 1 ) {
+        this.alert({
+          type: "info",
+          msg: this.$t('message.PokerTips5')
+        })
+        return
+      }
+      this.pokerSelectedList.splice(index,1)
 			this.pokerList.splice(item-1,1,item)
 		},
-		// 点击牌花色
+		// 点击花色
 		moveCard (item, index) {
 			if (item == '') return
 			if ((this.cardSelectedList.length >= 3 || this.cardSelectedList.length == 0) && this.pokerSelectedList.length >= 13 ) {
 				this.alert({
 					type: "info",
-					msg: this.$t('message.PokerTips2')
+					msg: this.$t('message.PokerTips3')
 				})
 				return
 			}
+      if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length == 0 ) {
+        this.alert({
+          type: "info",
+          msg: this.$t('message.PokerTips2')
+        })
+        return
+      }
 			this.cardList.splice(index,1,'')
 			this.cardSelectedList.push(item)
 		},
-		// 点击牌花色
+		// 点击花色归位
 		homingCard (item, index) {
-			this.cardSelectedList.splice(index,1)
-			this.cardList.splice(item-1,1,item)
 			console.log(this.cardList,this.cardSelectedList);
+      if (this.cardSelectedList.length == 1 && this.pokerSelectedList.length >= 13 ) {
+        this.alert({
+          type: "info",
+          msg: this.$t('message.PokerTips4')
+        })
+        return
+      }
+      this.cardSelectedList.splice(index,1)
+			this.cardList.splice(item-1,1,item)
 		},
 		inputAmountBlur() {
 			if(this.amount < this.rule.minInvest) {
@@ -347,7 +378,7 @@ export default {
 				})
 				return
 			}
-			
+
 		},
 		/**
 		 * 调用合约下注
@@ -804,7 +835,7 @@ export default {
 							height: 40px;
 							border-radius:4px;
 							margin-right: 4px;
-							
+
 							.mu-menu {
 								height: 100%;
 								.mu-icon-button {
@@ -1179,7 +1210,7 @@ export default {
 						li {
 							margin-left: -0.6rem;
 							img {
-								width: 1rem;	
+								width: 1rem;
 							}
 						}
 					}
