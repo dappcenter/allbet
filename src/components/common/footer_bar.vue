@@ -6,22 +6,25 @@
                     <img src="../../../public/img/allbet01.png" alt="">
                 </div>
                 <div class="linklist">
-                    <a href="https://twitter.com/allbet10">
+                    <a href="javascript:;" @click="openWhiteBook" :data-text="$t('message.course')">
+                        <img class="icon" src="../../../public/img/whitebook_icon.png" alt="">
+                    </a>
+                    <a href="https://twitter.com/allbet10" data-text="Twitter">
                         <img class="icon" src="../../../public/img/Twitter.png" alt="">
                     </a>
-                    <a href="javascript:;">
+                    <a href="javascript:;" data-text="WeChat">
                         <img class="icon" src="../../../public/img/weixin_icon.png" alt="">
                         <div class="qrcode">
                             <img src="../../../public/img/weixin_qrcode.png" alt="">
                         </div>
                     </a>
-                    <a href="https://weibo.com/6773769402/profile?rightmod=1&wvr=6&mod=personinfo">
+                    <a href="https://weibo.com/6773769402/profile?rightmod=1&wvr=6&mod=personinfo" data-text="WeiBo">
                         <img class="icon" src="../../../public/img/Weibo.png" alt="">
                     </a>
-                    <a href="https://t.me/allbetAB">
+                    <a href="https://t.me/allbetAB" data-text="Telegram">
                         <img class="icon" src="../../../public/img/Telegram.png" alt="">
                     </a>
-                    <a href="https://www.facebook.com/bet.all.315">
+                    <a href="https://www.facebook.com/bet.all.315" data-text="Facebook">
                         <img class="icon" src="../../../public/img/facebook.png" alt="">
                     </a>
                 </div>
@@ -34,14 +37,35 @@ and that it carries with it a certain degree of financial risk. Players should b
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
     created() {
         
     },
+    methods: {
+        //打开白皮书
+        openWhiteBook() {
+            if(this.locale == "en-US") {
+                window.open("pdf/whitebook_en.pdf")
+                try {
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook_en.pdf")
+                } catch (error) {
+                }
+            }else {
+                window.open("pdf/whitebook.pdf")
+                try {
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook.pdf")
+                } catch (error) {
+                }
+            }
+
+        },
+    },
     computed: {
-        web3() {
-            return this.$store.state.web3Handler.web3
-        }
+        ...mapState({
+            web3: state => state.web3Handler.web3,
+            locale: state => state.locale
+        })
     }
 }
 </script>
@@ -78,6 +102,17 @@ export default {
                 &:hover {
                     .qrcode {
                         display: block;
+                    }
+                    &:after {
+                        content: attr(data-text);
+                        position: absolute;
+                        top: 45px;
+                        left: 0;
+                        font-size: 12px;
+                        color: #D3CDFF;
+                        border: 1px solid #D3CDFF;
+                        padding: 2px 4px;
+                        white-space: nowrap;
                     }
                 }
                 .qrcode {

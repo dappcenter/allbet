@@ -37,7 +37,10 @@
                     <CircleBar v-if="storeTronWeb.energyLimit" :value="storeTronWeb.energyLimit/storeTronWeb.totalEnergyLimit" text="EN"></CircleBar>
                 </div>
                 <div class="user-center" v-if="storeCurrentAddr.coinAddress">
-                    <img src="../../../public/img/user_icon.png" alt="">
+                    <img src="../../../public/img/user_icon.png" v-if="userInfo.userLevel == 0" alt="">
+                    <img src="../../../public/img/level_1.png" v-if="userInfo.userLevel == 1" alt="">
+                    <img src="../../../public/img/level_2.png" v-if="userInfo.userLevel == 2" alt="">
+                    <img src="../../../public/img/level_3.png" v-if="userInfo.userLevel == 3" alt="">
                     <span>{{storeCurrentAddr.userName}}</span>
                     <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
                     <div class="router-list nominscreen" v-if="storeCurrentAddr.platform == 'DISPATCHER'">

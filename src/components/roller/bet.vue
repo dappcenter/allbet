@@ -111,7 +111,7 @@
 						<i v-else>0</i> AB
 						<div class="supernatant nominscreen">
 							<span>{{bonusPoolsData.transferred}} AB</span>
-							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{bonusPoolsData.ab}} AB</a>
+							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab)}} AB</a>
 						</div>
 					</div>
 				</div>
@@ -150,7 +150,6 @@
 		<audio hidden="true" ref="diceB" >
 			<source src="../../../public/music/b.wav" loop="false">
 		</audio>
-		
 		<div>
 			<audio controls="controls" hidden="true" autoplay v-for="item in audioList.list">
 				<source src="../../../public/music/Tick.mp3" loop="false">
@@ -1267,12 +1266,12 @@ export default {
 					border-radius: 50%;
 					top: -12px;
 					left: calc(50% - 18px);
-					cursor: pointer;
+					cursor: grabbing;
 					i {
 						position: absolute;
 						top: -31px;
 						left: -1px;
-						color: #1F47A0;
+						color: #161220;
 						font-size: 17px;
 						font-style: normal;
 						width: 36px;

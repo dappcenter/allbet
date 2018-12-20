@@ -1,5 +1,5 @@
 <template>
-    <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup">
+    <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup" :class="{'isbp': tab == 1}">
         <div class="tab-bar">
             <a href="javascript:;" :class="{'active': tab == 1}" @click="tab = 1">{{$t('message.bonusPool')}}</a>
             <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">{{$t('message.BPDig')}}</a>
@@ -163,12 +163,25 @@ export default {
 <style lang="less">
 .bonus-pools-popup {
     overflow-y: scroll;
+    &.isbp {
+        .mu-dialog {
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: url(../../../public/img/bp_bg.png) no-repeat left bottom;
+            }
+        }
+    }
     .mu-dialog {
         position: absolute;
         top: 10%;
-        width: 700px;
-        background-color: transparent;
-        background:linear-gradient(140deg,rgba(122,113,189,1),rgba(163,94,199,1));
+        width: 600px;
+        background-color: #52476F;
+        
     }
     .mu-dialog-body {
         background: url(../../../public/img/bonus-pools.png) no-repeat center !important;
@@ -177,7 +190,7 @@ export default {
         padding: 0;
         .tab-bar {
             display: flex;
-            border-bottom: 1px solid #CCBCF8;
+            border-bottom: 1px solid #8176A2;
             height: 60px;
             padding: 0 24px;
             a {
@@ -185,13 +198,14 @@ export default {
                 padding: 0 20px;
                 color: #CCBCF8;
                 font-size: 20px;
+                font-weight: 700;
                 border-bottom: 3px solid transparent;
                 &.active {
-                    color: #fff;
-                    border-color: #fff;
+                    color: #FFD558;
+                    border-color: #FFD558;
                 }
                 &:hover {
-                    color: #fff;
+                    color: #FFD558;
                 }
             }
         }
@@ -209,7 +223,7 @@ export default {
                 justify-content: space-around;
                 padding: 10px 20px;
                 border-radius:4px;
-                background:rgba(211,205,255,.3);
+                background:rgba(233,86,120,.8);
                 margin-top: 10px;
                 .coin-logo {
                     text-align: center;
@@ -219,7 +233,7 @@ export default {
                         height: 62px;
                         display: block;
                         margin: 0 auto 10px;
-                        background-color: #7F74BC;
+                        background-color: #B72F4D;
                         border-radius: 50%;
 
                     }
@@ -242,14 +256,14 @@ export default {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    background:rgba(128,47,170,.3);
+                    background:rgba(233,117,82,.8);
                     width: 49%;
                     margin-top: 10px;
                     padding: 20px 40px;
                     border-radius: 4px;
                     img {
                         width: 62px;
-                        background-color: #A65ECC;
+                        background-color: #B6463A;
                         border-radius: 50%;
                     }
                     span {
@@ -270,7 +284,7 @@ export default {
                 .progress-bar {
                     position: relative;
                     height: 30px;
-                    background-color: #673583;
+                    background-color: #3C3450;
                     border-radius: 15px;
                     overflow: hidden;
                     margin: 20px 0 20px;
@@ -279,40 +293,40 @@ export default {
                         position: absolute;
                         left: 0;
                         top: 0;
-                        background-color: #13F693;
+                        background-color: #FFD558;
                         height: 100%;
-                        box-shadow: 0 0 10px #13F693;
+                        box-shadow: 0 0 10px #FFD558;
                     }
                     i {
                         font-size: 14px;
-                        color: #EAC1FF;
+                        color: #FFFFFE;
                         font-style: normal;
                         line-height: 30px;
                     }
                 }
                 p {
-                    color: #EAC1FF;
+                    color: #FFFFFE;
                     text-align: center;
                 }
             }
             .ctn-area {
                 text-align: center;
-                background:rgba(103,53,131,.4);
+                background:rgba(56,47,79,.4);
                 margin-top: 20px;
                 border-radius:6px;
-                height: 120px;
+                height: 100px;
                 label {
                     display: inline-block;
                     font-size: 20px;
-                    color: #E8C1FF;
+                    color: #FFFFFE;
                 }
                 h4 {
                     font-size: 28px;
-                    color: #13F693;
+                    color: #FFD558;
                 }
                 &.area1 {
                     label {
-                        margin-top: 24px;
+                        margin-top: 16px;
                     }
                 }
                 &.area2 {
@@ -328,7 +342,7 @@ export default {
             }
             .tips {
                 text-align: center;
-                color: #EAC1FF;
+                color: #FFFFFF;
                 font-size: 14px;
                 margin-top: 20px;
             }
@@ -337,16 +351,15 @@ export default {
                 margin: 0 auto;
                 height: 40px;
                 width: 250px;
-                background:linear-gradient(90deg,rgba(190,180,255,1),rgba(219,167,255,1));
-                box-shadow:0px 2px 12px 0px rgba(126,79,181,0.75);
-                border-radius:20px;
+                background:linear-gradient(90deg,rgba(241,113,75,1),rgba(255,213,88,1));
+                border-radius:4px;
                 color: #fff;
                 font-size: 18px;
                 line-height: 40px;
                 text-align: center;
                 margin-top: 40px;
                 &:hover {
-                    background:linear-gradient(90deg,rgba(219,167,255,1),rgba(190,180,255,1));
+                    background:linear-gradient(90deg,rgba(255,213,88,1),rgba(241,113,75,1));
                 }
             }
         }
