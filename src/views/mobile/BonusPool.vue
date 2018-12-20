@@ -114,7 +114,7 @@ export default {
     event: "change"
   },
   mounted() {
-    this.getBonusPools();
+    this.getBonusPools()
   },
   computed: {
     ...mapState({
@@ -188,7 +188,7 @@ export default {
     getTRX_AB(orderId) {
         let that = this
         const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
-        this.tronWeb.contract.askForToken(orderId, "TPGpTQSuUYDmvfn2NKRL6jVxFduN3UBMmb").send({
+        this.tronWeb.contract.askForToken(orderId, this.tronWeb.coinbase).send({
             feeLimit:feeLimit,
             callValue: 0,
             shouldPollResponse:false
