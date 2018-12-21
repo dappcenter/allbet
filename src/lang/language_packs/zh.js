@@ -348,7 +348,7 @@ export default {
 
         // AB代币
         abTitle: 'AB代币分发规则',
-        abLittleTitle: 'AB 代币的总量为 100 亿，永不增发',
+        abLittleTitle: 'AB 代币的总量为 100 亿，永不增发。（智能合约地址：TCN77KWWyUyi2A4Cu7vrh5dnmRyvUuME1E）',
         abOwner: '持有者',
         abRate: '比例',
         abTeam: '开发者团队',
