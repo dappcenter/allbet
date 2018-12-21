@@ -110,7 +110,7 @@
 						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
 						<i v-else>0</i> AB
 						<div class="supernatant nominscreen">
-							<span>{{bonusPoolsData.transferred}} AB</span>
+							<span>{{contractAB}} AB</span>
 							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab)}} AB</a>
 						</div>
 					</div>
@@ -209,7 +209,8 @@ export default {
 			bonusPoolsData: {
 				ab: 0,
 				transferred: 0
-			}
+			},
+			contractAB: 0  //合约上的AB
         }
 	},
 	created() {
@@ -675,7 +676,20 @@ export default {
 					this.bonusPoolsData.transferred = res.result.transferred || 0
 					this.bonusPoolsData.ab = res.result.ab || 0
                 }
-            })
+			})
+			this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+				if(err) {
+					console.error(err)
+				}else {
+					abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
+						if(err) {
+							console.error(err)
+						}else {
+							this.contractAB = parseInt(res._hex,16)/1000000
+						}
+					})
+				}
+			})
         },
     },
     watch: {
