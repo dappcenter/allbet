@@ -733,11 +733,15 @@ export default {
 		},
 		// 奖金
 		bonus() {
-			if((this.amount * this.peilv * 0.01) <= 0.0003) {
-				if(Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000 < 0) {
+			let minFee = 0.0003
+			if(this.coinType == 'TRX') {
+				minFee = 0.03
+			}
+			if((this.amount * this.peilv * 0.01) <= minFee) {
+				if(Math.floor((this.amount * this.peilv - minFee) * 1000) / 1000 < 0) {
 					return 0
 				}else {
-					return Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000
+					return Math.floor((this.amount * this.peilv - minFee) * 1000) / 1000
 				}
 			}else {
 				if(Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000 < 0) {

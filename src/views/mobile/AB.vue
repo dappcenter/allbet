@@ -25,8 +25,8 @@
             <table class="referRate">
                 <tr>
                 <th></th>
-                <th>{{$t('message.abRate')}}</th>
-                <th>{{$t('message.abOwner')}}</th>
+                <th>{{$t('message.abWin')}}</th>
+                <th>{{$t('message.abLose')}}</th>
                 <th></th>
                 <th></th>
                 </tr>

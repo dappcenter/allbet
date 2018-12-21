@@ -166,7 +166,7 @@ export default {
                     })
                 }
             })
-            
+
         }
     },
     getETH_AB() {
@@ -354,6 +354,7 @@ export default {
                   overflow: hidden;
                   margin: 0.2rem 0 0.2rem;
                   text-align: center;
+                  line-height: 0.35rem;
                   span {
                       position: absolute;
                       left: 0;
