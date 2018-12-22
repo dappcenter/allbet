@@ -3,7 +3,7 @@
         <HeaderBar></HeaderBar>
         <div class="main">
             <h4>{{$t('message.abTitle')}}</h4>
-            <p class="tip1">{{$t('message.abLittleTitle')}}</p>
+            <p class="tip1">{{$t('message.abLittleTitle')}}{{$window.TRONABTOKEN}}</p>
             <table>
                 <tr>
                 <th>{{$t('message.abOwner')}}</th>
