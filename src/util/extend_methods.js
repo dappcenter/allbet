@@ -16,12 +16,13 @@ const fmtNumber = (n) => {
  * @param {String} type
  */
 const fmtDate = (obj, type) => {
-	var tempDate = new Date(obj+'+0800');
-    if(tempDate=='Invalid Date'){
-        obj = obj.replace(/T/g,' ');
-        obj = obj.replace(/-/g,'/');
-    }
-	let date = new Date(obj);
+	obj = obj*1
+	// var tempDate = new Date(obj+'+0800');
+    // if(tempDate=='Invalid Date'){
+    //     obj = obj.replace(/T/g,' ');
+    //     obj = obj.replace(/-/g,'/');
+	// }
+	let date = new Date(obj)
 	let y = 1900 + date.getYear();
 	let m = "0" + (date.getMonth() + 1);
 	let d = "0" + date.getDate();

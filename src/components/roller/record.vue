@@ -28,7 +28,7 @@
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
 					<li class="tl">
-						<span>{{$fmtDate(item.createTime, "time")}}</span>
+						<span>{{$fmtDate(item.updateTimestamp, "time")}}</span>
 					</li>
 					<li>
 						<span>{{item.coinAmount}}</span>
@@ -63,7 +63,7 @@
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
 					<li v-else>
-						<span>{{$fmtDate(item.createTime, "time")}}</span>
+						<span>{{$fmtDate(item.updateTimestamp, "time")}}</span>
 					</li>
 					<li>
 						<span>{{item.guess}}</span>

@@ -5,6 +5,7 @@ import {axios} from "../../axios"
 import router from "../../router"
 import {DappABI} from "../../util/constants/dapp.abi"
 import {RollerABI} from '../../util/constants/roller.abi'
+import contracts from '../../util/constants/eth.abi.json'
 import LangZh from "../../lang/language_packs/zh"
 import LangEn from "../../lang/language_packs/en"
 
@@ -49,6 +50,7 @@ const mutations = {
         web3Copy.web3Instance = payload.web3
         web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS)
         web3Copy.diceApiHandle = new payload.web3.eth.Contract(RollerABI, window.ROLLERADDRESS)
+        web3Copy.ABapiHandle = new payload.web3.eth.Contract(contracts.AB, window.ETHABTOKEN)
         state.web3 = web3Copy
         // 轮询
         pollWeb3()

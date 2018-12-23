@@ -110,7 +110,7 @@
 						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
 						<i v-else>0</i> AB
 						<div class="supernatant nominscreen">
-							<span>{{contractAB}} AB</span>
+							<span>{{Math.floor(contractAB)}} AB</span>
 							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab)}} AB</a>
 						</div>
 					</div>
@@ -677,7 +677,8 @@ export default {
 					this.bonusPoolsData.ab = res.result.ab || 0
                 }
 			})
-			this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+			
+			this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
 				if(err) {
 					console.error(err)
 				}else {
@@ -688,6 +689,13 @@ export default {
 							this.contractAB = parseInt(res._hex,16)/1000000
 						}
 					})
+				}
+			})
+			this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
+				if(!error) {
+					this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")
+				} else {
+					console.error(error);
 				}
 			})
         },
