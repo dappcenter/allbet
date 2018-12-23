@@ -348,7 +348,7 @@ export default {
 
         // AB代币
         abTitle: 'AB Token Distribution',
-        abLittleTitle: 'The total supply of AB token is 10 billion. The supply is fixed and will never be increased. (Token address:TCN77KWWyUyi2A4Cu7vrh5dnmRyvUuME1E)',
+        abLittleTitle: 'The total supply of AB token is 10 billion. The supply is fixed and will never be increased. Token address:',
         abOwner: 'AB Holder',
         abRate: 'Ratio',
         abTeam: 'Team of ALLBET',

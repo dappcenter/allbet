@@ -2,7 +2,7 @@
     <mu-dialog :open.sync="isShow" :append-body="false" class="ab-bancor">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.abTitle')}}</h4>
-        <p class="tip1">{{$t('message.abLittleTitle')}}</p>
+        <p class="tip1">{{$t('message.abLittleTitle')}}{{$window.TRONABTOKEN}}</p>
         <table>
             <tr>
             <th>{{$t('message.abOwner')}}</th>
