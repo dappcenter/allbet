@@ -115,6 +115,9 @@ export default {
   },
   mounted() {
     this.getBonusPools()
+    if(this.$route.query.ab) {
+        this.topBtnIndex = 1
+    }
   },
   computed: {
     ...mapState({

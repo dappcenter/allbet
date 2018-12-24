@@ -39,7 +39,9 @@
 					</div>
 				</div>
 				<div class="award">
-					<p>{{$t('message.GamePlayOutWin')}}</p>
+					<p>{{$t('message.GamePlayOutWin')}} 
+						<i class="help" :data-text="$t('message.GameFeeHelp' + coinType)"></i>
+					</p>
 					<div>
 						<img src="../../../public/img/coin/ETH.png" alt="" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" alt="" v-show="coinType == 'TRX'">
@@ -95,7 +97,6 @@
 					</div>
 					<button v-if="currentAddr.token && !timer" class="enter" :class="{'loading': betBtnLoading}" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else-if="currentAddr.token && timer" class="enter">{{luckyNum}}</button>
-					<!-- <button v-else-if="userInfo.token && coinType == 'TRX'" class="enter" @click="openFundraiy">{{$t("message.GamePresell")}}</button> -->
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
 
 					<div class="cell fl minscreen">
@@ -109,7 +110,7 @@
 						<img src="../../../public/img/coin/AB.png">
 						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1" :decimal="2"></DigitalRoll></i>
 						<i v-else>0</i> AB
-						<div class="supernatant nominscreen">
+						<div class="supernatant">
 							<span>{{Math.floor(contractAB)}} AB</span>
 							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab)}} AB</a>
 						</div>
@@ -258,12 +259,16 @@ export default {
     methods: {
 		inputAmountBlur() {
 			let balance = 0
-			this.currentAddr.assets && (balance = this.currentAddr.assets[this.coinType].amount)
+			this.currentAddr.assets && (balance = Math.floor(this.currentAddr.assets[this.coinType].amount*1000)/1000)
 			if(this.amount < this.rule.minInvest) {
-				this.amount = this.rule.minInvest
+				if(this.coinType == "TRX") {
+					this.amount = 100
+				}else {
+					this.amount = 0.01
+				}
 			}
 			if(this.amount > balance) {
-				if(this.amount > this.rule.maxInvest) {
+				if(balance > this.rule.maxInvest) {
 					this.amount = this.rule.maxInvest
 				}else {
 					this.amount = balance	
@@ -283,8 +288,7 @@ export default {
 		},
         onHotkeys(amount) {
 			let balance = 0
-			this.currentAddr.assets && (balance = this.currentAddr.assets[this.coinType].amount)
-			
+			this.currentAddr.assets && (balance = Math.floor(this.currentAddr.assets[this.coinType].amount*1000)/1000)
 			switch(amount) {
 				case 'max':
 					if(balance < this.rule.maxInvest) {
@@ -932,7 +936,7 @@ export default {
 			.ctn-top {
 				display: flex;
 				background-size: 100% 100%;
-				overflow: hidden;
+				// overflow: hidden;
 				p {
 					text-align: left;
 					color: #676284;
@@ -1003,6 +1007,37 @@ export default {
 				.award {
 					flex: 1;
 					margin-left: 10px;
+					p {
+						.help {
+							display: inline-block;
+							position: relative;
+							width: 20px;
+							height: 20px;
+							background: url(../../../public/img/help_icon.png) no-repeat center;
+							background-size: 70%;
+							cursor: pointer;
+							vertical-align: middle;
+							&:hover {
+								&:after {
+									content: attr(data-text);
+									position: absolute;
+									top: 0px;
+									left: 24px;
+									width: 240px;
+									font-size: 12px;
+									background-color: rgba(0, 0, 0, 0.9);
+									text-align: left;
+									color: #ccc;
+									font-size: 15px;
+									padding: 10px;
+									border-radius: 4px;
+									z-index: 9999999;
+									font-style: normal;
+									word-break: break-all;
+								}
+							}
+						}
+					}
 					div {
 						display: flex;
 						align-items: center;
@@ -1460,6 +1495,25 @@ export default {
 								font-size: .3rem;
 							}
 						}
+						p {
+							.help {
+								width: 20px;
+								height: 20px;
+								background-size: 70%;
+								&:hover {
+									&:after {
+										top: initial;
+										bottom: 20px;
+										left: -50px;
+										width: 240px;
+										font-size: 12px;
+										font-size: 15px;
+										padding: 10px;
+										border-radius: 4px;
+									}
+								}
+							}
+						}
 					}
 				}
 				.ctn-mdl {
@@ -1511,7 +1565,8 @@ export default {
 					.bet-wrap {
 						display: block;
 						margin: .6rem 0;
-						overflow: hidden;
+						float: left;
+						width: 100%;
 						.enter {
 							display: block;
 							width: 3rem;
@@ -1533,6 +1588,9 @@ export default {
 							}
 							img {
 								width: 20px;
+							}
+							.supernatant {
+								bottom: 37px;
 							}
 						}
 					}
@@ -1557,10 +1615,6 @@ export default {
 				}
 				.slider-wrap {
 					margin: .5rem 0;
-					.slider {
-						.handle {
-						}
-					}
 				}
 				.dig-wrap {
 					width: 100%;
