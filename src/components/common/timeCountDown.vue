@@ -56,9 +56,10 @@ export default {
             padding: 10px 0;
             width: 80px;
             margin: 0 20px;
-            font-size: 16px;
+            font-size: 22px;
             font-weight: bold;
             border-radius: 4px;
+            color: #ffba00;
         }
     }
     div {
@@ -70,6 +71,7 @@ export default {
             margin: 0 20px;
             font-weight: bold;
             border-radius: 4px;
+            
         }
     }
     
@@ -85,7 +87,6 @@ export default {
                 padding: 10px 0;
                 width: 80px;
                 margin: 0 .2rem;
-                font-size: 16px;
                 font-weight: bold;
                 border-radius: 4px;
             }
@@ -99,6 +100,7 @@ export default {
                 margin: 0 .2rem;
                 font-weight: bold;
                 border-radius: 4px;
+                
             }
         }
         
