@@ -19,6 +19,7 @@
     "qrcodejs2": "0.0.2",
     "tronweb": "^2.1.9",
     "vue": "^2.5.17",
+    "vue-flip-down": "^1.0.1",
     "vue-i18n": "^8.1.0",
     "vue-particles": "^1.0.9",
     "vue-router": "^3.0.1",

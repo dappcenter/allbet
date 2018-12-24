@@ -271,7 +271,15 @@ export default {
 				if(balance > this.rule.maxInvest) {
 					this.amount = this.rule.maxInvest
 				}else {
-					this.amount = balance	
+					if(balance <= 0) {
+						if(this.coinType == "TRX") {
+							this.amount = 100
+						}else {
+							this.amount = 0.01
+						}
+					}else {
+						this.amount = balance	
+					}
 				}
 			}
 			
