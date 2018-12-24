@@ -3,6 +3,16 @@
         <img class="logo" src="../../../public/img/LOGO.png" alt="">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
+        <FlipDown
+          :endDate="1547596800000"
+          :type="3"
+          @timeUp="func"
+        />
+        <div class="time-unit">
+          <div class="">时</div>
+          <div class="minute-unit">分</div>
+          <div class="">秒</div>
+        </div>
         <div class="addr-wrap">
             <p>1 TRX = 20 AB</p>
             <p>{{$t('message.preTotalAb')}}</p>
@@ -50,6 +60,7 @@
 
 <script>
 import {mapMutations} from "vuex"
+import FlipDown from 'vue-flip-down';
 
 export default {
     props: {
@@ -73,7 +84,13 @@ export default {
             return this.$store.state.tronHandler.tronWeb
         }
     },
+    components: {
+  		FlipDown
+  	},
     methods: {
+      func() {
+
+      },
         send() {
             if(!this.storeTronWeb.coinbase) {
                 this.alert({
@@ -197,6 +214,19 @@ export default {
             font-weight: 400;
             font-size: 16px !important;
             margin-top: 10px;
+        }
+        .time-unit {
+          display: flex;
+          align-items: center;
+          justify-content: left;
+          margin-top: 20px;
+          div:first-child {
+            margin-right: 104px;
+            margin-left: 152px;
+          }
+          .minute-unit {
+                margin-right: 96px;
+          }
         }
         .addr-wrap {
             background:rgba(72,61,101,.6);
@@ -336,6 +366,102 @@ export default {
                     }
                 }
             }
+        }
+        .vue-countdown-component[data-v-5ef48958] {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: scale(1.9);
+          margin-top: 20px;
+          letter-spacing:3px;
+          font-style: normal;
+
+        }
+        .vue-countdown-component .time-box[data-v-5ef48958] {
+          position: relative;
+    box-sizing: border-box;
+    height: 30px;
+    min-width: 28px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #483D65;
+    color: #FFC425;
+    -webkit-perspective: 50px;
+    perspective: 50px;
+    border-radius: 3px;
+    padding: 0 2px;
+    &::before {
+      content: '';
+    position: absolute;
+    background: #483D65;
+    width: 2px;
+    height: 6px;
+    top: 50%;
+    left: -1px;
+    margin-top: -3px;
+    }
+        }
+        .vue-countdown-component .time-box > div.b0[data-v-5ef48958] {
+          top: 15px;
+    border-radius: 0 0 3px 3px;
+    background-color: #483D65;
+    -webkit-transform-origin: 50% top;
+    transform-origin: 50% top;
+    -webkit-animation-duration: 500ms;
+    animation-duration: 500ms;
+    -webkit-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 2;
+        }
+        .vue-countdown-component .time-box > div.a0[data-v-5ef48958] {
+          top: 0;
+    border-radius: 3px 3px 0 0;
+    background-color: #483D65;
+    -webkit-transform-origin: 50% bottom;
+    transform-origin: 50% bottom;
+    -webkit-animation-duration: 500ms;
+    animation-duration: 500ms;
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 2;
+        }
+        .vue-countdown-component .time-box > div.a1[data-v-5ef48958] {
+          top: 15px;
+border-radius: 0 0 3px 3px;
+background-color: #483D65;
+        &::after {
+          content: '';
+    position: absolute;
+    background: #483D65;
+    width: 2px;
+    height: 6px;
+    top: 50%;
+    right: -1px;
+    margin-top: -3px;
+        }
+        }
+        .vue-countdown-component .time-box[data-v-5ef48958] {
+          &::after {
+            content: '';
+            background: #483D65;
+            width: 2px;
+            height: 6px;
+            top: 50%;
+            right: -1px;
+            margin-top: -3px;
+          }
+        }
+        .vue-countdown-component .time-box[data-v-5ef48958] {
+          margin-left: 22px;
+          padding: 0 5px;
+          &:first-child {
+            margin-left: 0;
+          }
         }
     }
 }
