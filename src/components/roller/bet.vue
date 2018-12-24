@@ -56,7 +56,7 @@
 				</li>
 				<li>
 					<label>{{$t("message.GameOdds")}}</label>
-					<span>{{Math.floor(peilv*1000) / 1000}} x</span>
+					<span>{{Math.floor(peilv*10000) / 10000}} x</span>
 				</li>
 				<li>
 					<label>{{$t("message.GameProbability")}}</label>
@@ -107,7 +107,7 @@
 
 					<div class="cell fr" @mouseenter="getBonusPools">
 						<img src="../../../public/img/coin/AB.png">
-						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
+						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1" :decimal="2"></DigitalRoll></i>
 						<i v-else>0</i> AB
 						<div class="supernatant nominscreen">
 							<span>{{Math.floor(contractAB)}} AB</span>
@@ -120,7 +120,7 @@
 			<div class="dig-wrap" v-if="rule.winDig">
 				<img src="../../../public/img/ab_icon03.png" alt="">
 				<div class="content">
-					<h4>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</h4>
+					<h4>{{$t('message.GameBetToGet')}} {{Math.floor((rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)*100)/100}} AB</h4>
 					<p>{{$t('message.GameStage')}} {{(rule.totalDig/1000000000*100).toFixed(2)}}%</p>
 					<span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
 				</div>
@@ -183,7 +183,7 @@ export default {
 	},
     data() {
         return {
-            amount: 0.1,
+            amount: 100,
 			odds: 50,
 			rule: {},
 			luckyColor: "green",
@@ -218,6 +218,12 @@ export default {
 		this.getRule()
 		window.hd = {}
 		this.isIOS = !(!this.$browser || !this.$browser.version.ios)
+
+		if(this.coinType == "TRX") {
+			this.amount = 100
+		}else {
+			this.amount = 0.01
+		}
 	},
     mounted() {
         this.setBetInfo({
@@ -248,18 +254,22 @@ export default {
 			this.$router.push('mobile-fundraiy')
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
-		
-		
-		
     },
     methods: {
 		inputAmountBlur() {
+			let balance = 0
+			this.currentAddr.assets && (balance = this.currentAddr.assets[this.coinType].amount)
 			if(this.amount < this.rule.minInvest) {
 				this.amount = this.rule.minInvest
 			}
-			if(this.amount > this.rule.maxInvest) {
-				this.amount = this.rule.maxInvest
+			if(this.amount > balance) {
+				if(this.amount > this.rule.maxInvest) {
+					this.amount = this.rule.maxInvest
+				}else {
+					this.amount = balance	
+				}
 			}
+			
 		},
 		//幸运数跳动
 		luckyRun() {
@@ -270,12 +280,18 @@ export default {
 				this.luckyNum = Math.floor(Math.random() * 89) + 10
 				this.luckyColor = ["green", "red", "golden"][Math.floor(Math.random() * 2)]
 			}, 50)
-			
 		},
         onHotkeys(amount) {
+			let balance = 0
+			this.currentAddr.assets && (balance = this.currentAddr.assets[this.coinType].amount)
+			
 			switch(amount) {
 				case 'max':
-					this.amount = this.rule.maxInvest
+					if(balance < this.rule.maxInvest) {
+						this.amount  = balance <= 0 ? this.rule.minInvest : balance
+					}else {
+						this.amount = this.rule.maxInvest
+					}
 					break;
 				case 'min':
 					this.amount = this.rule.minInvest
@@ -370,7 +386,6 @@ export default {
 			}).then(res => {
 				if(res.code == 200) {
 					this.rule = res.result
-					this.amount = res.result.minInvest
 					this.luckyNum = res.result.lastLucky || "00"
 				}
 			})
@@ -718,6 +733,11 @@ export default {
 		},
 		coinType() {
 			this.getRule()
+			if(this.coinType == "TRX") {
+				this.amount = 100
+			}else {
+				this.amount = 0.01
+			}
 		},
 		odds() {
 			if(!this.music) return

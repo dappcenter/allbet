@@ -14,7 +14,7 @@
                 
                 <!-- <a href="javascript:;" @click="openWhiteBook">{{$t("message.course")}}</a> -->
                 
-                <router-link to="invite" v-show="addressList.length > 0"><span>{{$t("message.invitation")}}</span></router-link>
+                <router-link to="invite"><span>{{$t("message.invitation")}}</span></router-link>
                 <!-- <a href="javascript:;" class="pull-menu">
                     <span>{{$t("message.course")}}</span>
                     <i></i>
@@ -649,7 +649,7 @@ export default {
     position: relative;
     width: 100%;
     z-index: 20181212;
-    padding: 0 120px;
+    padding: 0 6%;
     &.steep {
         position: fixed;
     }
@@ -1114,6 +1114,11 @@ export default {
                 background-color: #FFC425;
             }
         }
+    }
+}
+@media screen and (max-width: 1400px){
+    .headerbar {
+        padding: 0 3%;
     }
 }
 @media screen and (max-width: 800px){

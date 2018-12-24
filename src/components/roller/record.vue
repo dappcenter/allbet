@@ -8,7 +8,7 @@
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
 			<span class="fl">{{$t("message.GameParticipation")}} <i>{{diceBasis.totalParticipate || 0}}</i></span>
-			<span class="fr">AB: <i>{{diceBasis.totalAb || 0}}</i></span>
+			<span class="fr">AB: <i>{{Math.floor(diceBasis.totalAb*100)/100}}</i></span>
 			<span class="fr">{{$t("message.GameProfit")}}<i>{{diceBasis.totalEarn || 0}}</i>{{coinType}}</span>
 			<span class="fr nominscreen">{{$t("message.GameTips1")}}</span>
 		</div>
@@ -43,7 +43,7 @@
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
 					</li>
 					<li>
-						<span>{{Math.floor(item.abNum)}}</span>
+						<span>{{Math.floor(item.abNum*100)/100}}</span>
 					</li>
 				</ul>
 			</div>
@@ -91,7 +91,9 @@ export default {
 			boardType: "RECENT",
 			rule: {},
 			timer: null,
-			diceBasis: {}
+			diceBasis: {
+				totalAb: 0
+			}
         }
 	},
 	created() {

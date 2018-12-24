@@ -365,6 +365,7 @@ import {mapMutations, mapState} from "vuex"
 					font-size: 18px;
 					padding: 4px 7px;
 					margin: auto;
+					cursor: pointer;
 					-webkit-text-stroke:1px #1371FF;
 					}
 				}

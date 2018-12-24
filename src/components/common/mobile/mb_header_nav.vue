@@ -7,7 +7,7 @@
             <router-link to="ab" tag="li">{{$t("message.abBancor")}}</router-link>
             <router-link to="bonus-pool" tag="li">{{$t("message.bonusPool")}}</router-link>
             <!-- <li @click="switchBonusPools">{{$t("message.bonusPool")}}</li> -->
-            <router-link to="mobile-invite" tag="li" v-show="addressList.length > 0">{{$t("message.invitation")}}</router-link>
+            <router-link to="mobile-invite" tag="li">{{$t("message.invitation")}}</router-link>
             <router-link class="flicker" to="mobile-fundraiy" tag="li">{{$t("message.presell")}}</router-link>
             <li @click="openWhiteBook">{{$t("message.course")}}</li>
         </ul>

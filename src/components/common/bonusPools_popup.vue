@@ -10,14 +10,14 @@
                     <img src="../../../public/img/coin/ETH.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(2) : 0}} ETH</h3>
+                <h3><DigitalRoll :value="Math.floor(Number(bonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
             </div>
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/coin/TRX.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(2) : 0}} TRX</h3>
+                <h3><DigitalRoll :value="Math.floor(Number(bonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
             </div>
             <ul>
                 <li>
@@ -66,6 +66,7 @@
 
 <script>
 import {mapState, mapMutations} from "vuex"
+import DigitalRoll from "@/components/common/digitalRoll"
 export default {
     props: {
         isShowBPpopup: {
@@ -110,7 +111,7 @@ export default {
         event: "change"
     },
     mounted() {
-      this.getBonusPools();
+        this.getBonusPools();
         if(this.ab) {
             this.tab = 2
         }
@@ -131,6 +132,8 @@ export default {
                 }
             }).then(res => {
                 if(res.code == 200) {
+                    res.trxPool < 0 && (res.trxPool = 0)
+                    res.ethPool < 0 && (res.ethPool = 0)
                     this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
                 }
             })
@@ -214,6 +217,9 @@ export default {
             alert: "alert",
             openLogin: "OPEN_LOGIN",
         })
+    },
+    components: {
+        DigitalRoll
     }
 }
 </script>
