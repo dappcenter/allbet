@@ -79,25 +79,29 @@ export default {
 @media screen and (max-width: 800px){
     .timecountdown-com {
         text-align: center;
-        margin: 20px 0;
+        margin: 10px 0;
         p {
+            display: flex;
+            justify-content: space-around;
             span {
                 display: inline-block;
                 background: rgba(72, 61, 101, 0.6);
                 padding: 10px 0;
-                width: 80px;
-                margin: 0 .2rem;
+                width: 30%;
+                margin: 0;
                 font-weight: bold;
                 border-radius: 4px;
             }
         }
         div {
+            display: flex;
+            justify-content: space-around;
             span {
                 display: inline-block;
                 padding: 10px 0;
-                width: 80px;
-                font-size: 16px;
-                margin: 0 .2rem;
+                width: 30%;
+                font-size: 14px;
+                margin: 0;
                 font-weight: bold;
                 border-radius: 4px;
                 
