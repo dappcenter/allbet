@@ -3,16 +3,17 @@
         <img class="logo" src="../../../public/img/LOGO.png" alt="">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
-        <FlipDown
+        <!-- <FlipDown
           :endDate="1547596800000"
           :type="3"
           @timeUp="func"
-        />
-        <div class="time-unit">
-          <div class="">时</div>
-          <div class="minute-unit">分</div>
-          <div class="">秒</div>
-        </div>
+        /> -->
+        <TimeCountDown></TimeCountDown>
+        <!-- <div class="time-unit">
+          <div class="">{{$t('message.preHour')}}</div>
+          <div class="minute-unit">{{$t('message.preMinute')}}</div>
+          <div class="">{{$t('message.preSecond')}}</div>
+        </div> -->
         <div class="addr-wrap">
             <p>1 TRX = 20 AB</p>
             <p>{{$t('message.preTotalAb')}}</p>
@@ -61,6 +62,7 @@
 <script>
 import {mapMutations} from "vuex"
 import FlipDown from 'vue-flip-down';
+import TimeCountDown from "@/components/common/timeCountDown"
 
 export default {
     props: {
@@ -85,7 +87,8 @@ export default {
         }
     },
     components: {
-  		FlipDown
+        FlipDown,
+        TimeCountDown
   	},
     methods: {
       func() {
@@ -437,13 +440,13 @@ export default {
             background-color: #483D65;
         &::after {
           content: '';
-    position: absolute;
-    background: #483D65;
-    width: 2px;
-    height: 6px;
-    top: 50%;
-    right: -1px;
-    margin-top: -3px;
+        position: absolute;
+        background: #483D65;
+        width: 2px;
+        height: 6px;
+        top: 50%;
+        right: -1px;
+        margin-top: -3px;
         }
         }
         .vue-countdown-component .time-box {

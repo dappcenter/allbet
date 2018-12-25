@@ -410,6 +410,9 @@ export default {
         preCanYu: "参与成功",
         preTooLow: "单次参与不能小于",
         preTips1: "请登录TronLink或TronPay进行操作",
+        preHour: "时",
+        preMinute: "分",
+        preSecond: "秒",
 
         // Poker游戏
         PokerKJQ: "开奖区",

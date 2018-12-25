@@ -406,6 +406,9 @@ export default {
         preCanYu: "success",
         preTooLow: "A single participation cannot be less than ",
         preTips1: "Please log in TronLink or TronPay to operate",
+        preHour: "Hour",
+        preMinute: "Minute",
+        preSecond: "Second",
 
         // Poker游戏
         PokerKJQ: "LOTTERY",

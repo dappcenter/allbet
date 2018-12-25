@@ -101,7 +101,7 @@ export default {
 		this.getData(this.boardType)
 		this.timer = window.setInterval(() => {
 			this.getDataPoll()
-		}, 3000)
+		}, 1000)
 	},
 	watch: {
 		currentAddr() {
