@@ -367,7 +367,7 @@ export default {
                 }
             }
         }
-        .vue-countdown-component[data-v-5ef48958] {
+        .vue-countdown-component {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -376,7 +376,7 @@ export default {
           letter-spacing:3px;
           font-family: initial;
         }
-        .vue-countdown-component .time-box[data-v-5ef48958] {
+        .vue-countdown-component .time-box {
             position: relative;
             box-sizing: border-box;
             height: 30px;
@@ -389,7 +389,7 @@ export default {
             -webkit-perspective: 50px;
             perspective: 50px;
             border-radius: 3px;
-            padding: 0 2px;
+            // padding: 0 2px;
             &::before {
                 content: '';
                 position: absolute;
@@ -401,7 +401,7 @@ export default {
                 margin-top: -3px;
             }
         }
-        .vue-countdown-component .time-box > div.b0[data-v-5ef48958] {
+        .vue-countdown-component .time-box > div.b0 {
             top: 15px;
             border-radius: 0 0 3px 3px;
             background-color: #483D65;
@@ -416,7 +416,7 @@ export default {
             z-index: 2;
             position: absolute;
         }
-        .vue-countdown-component .time-box > div.a0[data-v-5ef48958] {
+        .vue-countdown-component .time-box > div.a0 {
             top: 0;
             border-radius: 3px 3px 0 0;
             background-color: #483D65;
@@ -431,7 +431,7 @@ export default {
             z-index: 2;
             position: absolute;
         }
-        .vue-countdown-component .time-box > div.a1[data-v-5ef48958] {
+        .vue-countdown-component .time-box > div.a1 {
             top: 15px;
             border-radius: 0 0 3px 3px;
             background-color: #483D65;
@@ -446,7 +446,7 @@ export default {
     margin-top: -3px;
         }
         }
-        .vue-countdown-component .time-box[data-v-5ef48958] {
+        .vue-countdown-component .time-box {
           &::after {
             content: '';
             background: #483D65;
@@ -457,7 +457,7 @@ export default {
             margin-top: -3px;
           }
         }
-        .vue-countdown-component .time-box[data-v-5ef48958] {
+        .vue-countdown-component .time-box {
           margin-left: 22px;
           padding: 0 5px;
           &:first-child {
