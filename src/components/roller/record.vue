@@ -204,7 +204,7 @@ export default {
 			}
 			setTimeout(() => {
 				this.updateList()
-			}, 200)
+			}, 300)
 		},
 		...mapMutations({
 			alert: "alert"

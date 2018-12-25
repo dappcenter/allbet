@@ -47,7 +47,7 @@
                     <img src="../../../public/img/level_2.png" v-if="userInfo.userLevel == 2" alt="">
                     <img src="../../../public/img/level_3.png" v-if="userInfo.userLevel == 3" alt="">
                     <span>{{storeCurrentAddr.userName}}</span>
-                    <i v-if="storeCurrentAddr.platform == 'DISPATCHER'"></i>
+                    <i v-if="storeCurrentAddr.platform == 'DISPATCHER'" class="nominscreen"></i>
                     <div class="router-list nominscreen" v-if="storeCurrentAddr.platform == 'DISPATCHER'">
                         <router-link to="my-assets">{{$t("message.property")}}</router-link>
                         <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
