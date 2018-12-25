@@ -23,7 +23,7 @@
 				<span class="nominscreen">AB</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in displayedList">
 					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
@@ -58,7 +58,7 @@
 				<span class="tr">{{$t("message.GameReward")}}</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in displayedList">
 					<li class="user" v-if="boardType != 'ME'">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
@@ -88,12 +88,14 @@ export default {
         return {
 			unfold: -1,
 			recordsList: [],
+			displayedList: [],
 			boardType: "RECENT",
 			rule: {},
 			timer: null,
 			diceBasis: {
 				totalAb: 0
-			}
+			},
+			lastRecord: ""
         }
 	},
 	created() {
@@ -101,13 +103,16 @@ export default {
 		this.getData(this.boardType)
 		this.timer = window.setInterval(() => {
 			this.getDataPoll()
-		}, 1000)
+		}, 3000)
+
+		console.log(this.$fmtDate("1545722738000","time"))
 	},
 	watch: {
 		currentAddr() {
-			this.getData(this.boardType)
+			// this.getData(this.boardType)
 		},
 		coinType() {
+			this.getData(this.boardType)
 			this.getRule()
 		}
 	},
@@ -120,6 +125,7 @@ export default {
 	methods: {
 		getData(type) {
 			this.boardType = type
+			this.lastRecord = ""
 			let coinAddress = null
 			if(this.currentAddr.assets) {
 				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
@@ -134,12 +140,15 @@ export default {
 					coinType: this.coinType,
 					page: 1,
 					pageSize: this.boardType == "ME" ? 10000 : 30,
-					noLoading: true
+					noLoading: true,
+					last: this.lastRecord
 				}
 			}).then(res => {
 				if(res.code == 200) {
-					this.recordsList = res.result.records.list
+					this.displayedList = res.result.records.list
 					this.diceBasis = res.result.diceBasis
+					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].id)
+					this.updateList()
 				}
 			})
 		},
@@ -172,16 +181,30 @@ export default {
 					coinAddress: coinAddress,
 					coinType: this.coinType,
 					page: 1,
-					pageSize: this.boardType == "ME" ? 10000 : 30
+					pageSize: this.boardType == "ME" ? 10000 : 30,
+					last: this.lastRecord
 				}
 			}).then(res => {
 				if(res.code == 200) {
-					this.recordsList = res.result.records.list
+					res.result.records && (this.recordsList = res.result.records.list.concat(this.recordsList))
 					this.diceBasis = res.result.diceBasis
+					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].id)
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
 				}
 			})
+		},
+		updateList() {
+			if(this.recordsList.length > 0) {
+				if(this.displayedList.length >= 30) {
+					this.displayedList.pop()
+				}
+				let addItem = this.recordsList.pop()
+				addItem && this.displayedList.unshift(addItem)
+			}
+			setTimeout(() => {
+				this.updateList()
+			}, 200)
 		},
 		...mapMutations({
 			alert: "alert"
