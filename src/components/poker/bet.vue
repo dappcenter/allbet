@@ -22,7 +22,8 @@
                         </div>
                     </div>
                     <div class="poker">
-                        <img src="../../../public/img/poker/kj_poker.png" alt="">
+                        <img class="back" src="../../../public/img/poker/kj_poker.png" alt="">
+						<img class="front" src="../../../public/img/poker/full/p1_1.png" alt="">
                     </div>
                 </div>
 				<!-- 移动端 -->
@@ -684,10 +685,32 @@ export default {
                     }
                 }
                 .poker {
+					position: relative;
+					height: 198px;
+					width: 140px;
                     img {
+						position: absolute;
                         display: block;
-                        height: 198px;
-                    }
+						height: 100%;
+						width: 100%;
+						backface-visibility: hidden;
+						transform-style: preserve-3d;
+  						transition: ease-in-out 600ms;
+					}
+					.front {
+						transform: rotateY(-180deg);
+					}
+					.back {
+						
+					}
+					&:hover {
+						.front {
+							transform: rotateY(0deg);
+						}
+						.back {
+							transform: rotateY(180deg);
+						}
+					}
                 }
             }
             .hs-area {

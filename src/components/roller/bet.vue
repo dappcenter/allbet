@@ -111,8 +111,8 @@
 						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1" :decimal="2"></DigitalRoll></i>
 						<i v-else>0</i> AB
 						<div class="supernatant">
-							<span>{{Math.floor(contractAB)}} AB</span>
-							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab)}} AB</a>
+							<span>{{Math.floor(contractAB*100)/100}} AB</span>
+							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab*100)/100}} AB</a>
 						</div>
 					</div>
 				</div>
