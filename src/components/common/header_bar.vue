@@ -578,15 +578,15 @@ export default {
         //打开白皮书
         openWhiteBook() {
             if(this.locale == "en-US") {
-                window.open("pdf/whitebook_en.pdf")
+                window.open("pdf/whitepaper_en.pdf")
                 try {
-                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook_en.pdf")
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitepaper_en.pdf")
                 } catch (error) {
                 }
             }else {
-                window.open("pdf/whitebook.pdf")
+                window.open("pdf/whitepaper.pdf")
                 try {
-                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitebook.pdf")
+                    window.app.openURLOnSystermBrowser(window.location.origin + "/pdf/whitepaper.pdf")
                 } catch (error) {
                 }
             }
