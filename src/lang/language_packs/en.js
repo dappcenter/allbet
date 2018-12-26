@@ -392,7 +392,7 @@ export default {
 
         //预售
         preTarget: 'A game platform aiming to create a DAPP with the most complete game categories and the best game experience.',
-        preTotalAb: 'The presale of AB Token is limited to 50,000,000 TRX.',
+        preTotalAb: 'The presale of AB Token is limited to 10,000,000 TRX.',
         preAddress: 'Contract Address: ',
         preTrxNum: 'Enter TRX amount',
         preTrxBet: 'Buy',

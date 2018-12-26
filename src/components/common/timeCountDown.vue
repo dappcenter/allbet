@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     countdown: function () {
-      const end = Date.parse(new Date(1547596800000))
+      const end = Date.parse(new Date(1547179200000))
       const now = Date.parse(new Date())
       const msec = end - now
       if(msec < 0) return

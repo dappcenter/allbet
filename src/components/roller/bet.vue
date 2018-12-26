@@ -40,7 +40,7 @@
 				</div>
 				<div class="award">
 					<p>{{$t('message.GamePlayOutWin')}} 
-						<i class="help" :data-text="$t('message.GameFeeHelp' + coinType)"></i>
+						<!-- <i class="help" :data-text="$t('message.GameFeeHelp' + coinType)"></i> -->
 					</p>
 					<div>
 						<img src="../../../public/img/coin/ETH.png" alt="" v-show="coinType == 'ETH'">
@@ -773,22 +773,10 @@ export default {
 		},
 		// 奖金
 		bonus() {
-			let minFee = 0.0003
-			if(this.coinType == 'TRX') {
-				minFee = 0.03
-			}
-			if((this.amount * this.peilv * 0.01) <= minFee) {
-				if(Math.floor((this.amount * this.peilv - minFee) * 1000) / 1000 < 0) {
-					return 0
-				}else {
-					return Math.floor((this.amount * this.peilv - minFee) * 1000) / 1000
-				}
+			if(Math.floor(this.amount * this.peilv * 1000) / 1000 < 0) {
+				return 0
 			}else {
-				if(Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000 < 0) {
-					return 0
-				}else {
-					return Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000
-				}
+				return Math.floor(this.amount * this.peilv * 1000) / 1000
 			}
 		}
 	},

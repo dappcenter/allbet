@@ -5,7 +5,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.ROLLERADDRESS = "0x5544b7603c39e7f471a08e761ff0c7362878c70b"
     window.ETHABTOKEN = "0x9a6d042f8be45202464d66a88602864ebdc287f1"
 
-    window.TRONROLLARADDRESS = "TDZPd1D5C9ZtPCxcuUQCn5TTpUouMue4MU"
+    window.TRONROLLARADDRESS = "TSRw4q71LdDBXtFe3FAsGjxiRbdM5eqeGC"
     window.TRONFUNDRAIYADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
     window.TRONABTOKEN = "TNbYoP22d74RWy4ETssHsXYFrnmmbQ2fvt"

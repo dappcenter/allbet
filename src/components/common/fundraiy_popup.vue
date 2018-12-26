@@ -21,13 +21,13 @@
         </div>
         <div class="progress-wrap">
             <div class="progress-bg">
-                <div class="progress-bar" :style="{'width': pageData.achieve/50000000*100 + '%'}">
+                <div class="progress-bar" :style="{'width': percent + '%'}">
                     <span>{{pageData.achieve}}</span>
                 </div>
             </div>
             <div class="flex-wrap">
                 <span>0 TRX</span>
-                <span>50,000,000 TRX</span>
+                <span>10,000,000 TRX</span>
             </div>
         </div>
         <div class="input-wrap">
@@ -75,7 +75,9 @@ export default {
         return {
             isShow: false,
             amount: "",
-            pageData: {},
+            pageData: {
+                achieve: 0
+            }
         }
     },
     mounted() {
@@ -84,6 +86,9 @@ export default {
     computed: {
         storeTronWeb() {
             return this.$store.state.tronHandler.tronWeb
+        },
+        percent() {
+            return this.pageData.achieve/10000000*100 > 99 ? 99 : this.pageData.achieve/10000000*100
         }
     },
     components: {
