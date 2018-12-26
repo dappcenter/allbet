@@ -147,7 +147,7 @@ export default {
 				if(res.code == 200) {
 					this.displayedList = res.result.records.list
 					this.diceBasis = res.result.diceBasis
-					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].id)
+					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
 					this.updateList()
 				}
 			})
@@ -188,7 +188,7 @@ export default {
 				if(res.code == 200) {
 					res.result.records && (this.recordsList = res.result.records.list.concat(this.recordsList))
 					this.diceBasis = res.result.diceBasis
-					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].id)
+					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
 				}

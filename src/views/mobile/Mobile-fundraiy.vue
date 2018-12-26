@@ -24,7 +24,7 @@
         <div class="progress-wrap">
             <div class="progress-bg">
                 <div class="progress-bar" :style="{'width': percent + '%'}">
-                    <span>{{pageData.achieve}}</span>
+                    <span>{{pageData.achieve > 9900000 ? 9900000 : pageData.achieve}}</span>
                 </div>
             </div>
             <div class="flex-wrap">

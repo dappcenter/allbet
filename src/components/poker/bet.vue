@@ -602,12 +602,18 @@ export default {
     background: url(../../../public/img/poker/roker_bet_bg.png) repeat center;
     .content-wrap {
         max-width: 1200px;
-        margin: 0 auto;
+		margin: 0 auto;
+		user-select: none;
         .view-top {
             display: flex;
             height: 260px;
             border-right: 1px dashed #0F4C34;
-            border-left: 1px dashed #0F4C34;
+			border-left: 1px dashed #0F4C34;
+			position: sticky;
+			top: 0;
+			z-index: 2;
+			background: url(../../../public/img/poker/roker_bet_bg.png) repeat center;
+			border-bottom: 3px solid #0F4C34;
             .number-area {
                 position: relative;
                 flex: 1;
@@ -658,11 +664,10 @@ export default {
                 padding: 0 60px;
                 .odds {
                     text-align: center;
-                    margin-right: 42px;
+					margin-right: 42px;
                     h3 {
                         font-size: 48px;
                         color: #0F4A33;
-
                     }
                     div {
                         color: #FFC425;
@@ -671,7 +676,8 @@ export default {
                         width: 300px;
                         border-radius: 60px;
                         text-align: center;
-                        overflow: hidden;
+						overflow: hidden;
+						box-shadow: 0 0 10px #0C422D;
                         label {
                             display: block;
                             font-size: 18px;
@@ -748,7 +754,6 @@ export default {
         }
         .view-btm {
             display: flex;
-            border-top: 3px solid #0F4C34;
             border-bottom: 3px solid #0F4C34;
 
             .poker-area {
@@ -1210,9 +1215,8 @@ export default {
 						}
 					}
 					.poker {
-						img {
-							height: 1.98rem;
-						}
+						height: 1.98rem;
+						width: 1.4rem;
 					}
 				}
 				.number-area {
