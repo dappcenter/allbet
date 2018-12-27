@@ -67,6 +67,7 @@
 <script>
 import {mapState, mapMutations} from "vuex"
 import DigitalRoll from "@/components/common/digitalRoll"
+import PollHttp from "../../util/pollHttp"
 export default {
     props: {
         isShowBPpopup: {
@@ -131,10 +132,11 @@ export default {
     methods: {
         //获取分红池信息
         getBonusPools() {
-            this.$http.get('/app/profit/profit', {
-                params: {
-                    coinType: this.coinType,
-                    noLoading: true
+            PollHttp({
+                type: "get",
+                url: "/app/profit/profit",
+                data: {
+                    coinType: this.coinType
                 }
             }).then(res => {
                 if(res.code == 200) {

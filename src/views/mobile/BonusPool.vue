@@ -136,14 +136,17 @@ export default {
     },
     //获取分红池信息
     getBonusPools() {
-        this.$http.get('/app/profit/profit', {
-            params: {
+        PollHttp({
+            type: "get",
+            url: "/app/profit/profit",
+            data: {
                 coinType: this.coinType
             }
         }).then(res => {
-            console.log("getBonusPools",res)
             if(res.code == 200) {
-              this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
+                res.trxPool < 0 && (res.trxPool = 0)
+                res.ethPool < 0 && (res.ethPool = 0)
+                this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
             }
         })
     },
