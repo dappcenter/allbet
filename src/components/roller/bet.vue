@@ -414,7 +414,7 @@ export default {
 				})
 				return
 			}
-			if(this.amount > this.currentAddr.assets[this.coinType].amount) {
+			if(this.amount > (this.currentAddr.assets[this.coinType].amount*1)) {
 				this.alert({
 					type: "info",
 					msg: this.$t("message.assetsNotEnough")
@@ -773,22 +773,28 @@ export default {
 		},
 		// 奖金
 		bonus() {
-			let minFee = 0.0003
-			if(this.coinType == 'TRX') {
-				minFee = 0.3
-			}
-			if((this.amount * 0.015) <= minFee) {
-				if(Math.floor((this.amount * (this.peilv*100/98.5) - minFee) * 1000) / 1000 < 0) {
-					return 0
-				}else {
-					return Math.floor((this.amount * (this.peilv*100/98.5) - minFee) * 1000) / 1000
-				}
+			// let minFee = 0.0003
+			// if(this.coinType == 'TRX') {
+			// 	minFee = 0.3
+			// }
+			// if((this.amount * 0.015) <= minFee) {
+			// 	if(Math.floor((this.amount * (this.peilv*100/98.5) - minFee) * 1000) / 1000 < 0) {
+			// 		return 0
+			// 	}else {
+			// 		return Math.floor((this.amount * (this.peilv*100/98.5) - minFee) * 1000) / 1000
+			// 	}
+			// }else {
+			// 	if(Math.floor(this.amount * this.peilv * 1000) / 1000 < 0) {
+			// 		return 0
+			// 	}else {
+			// 		return Math.floor(this.amount * this.peilv * 1000) / 1000
+			// 	}
+			// }
+
+			if(Math.floor(this.amount * this.peilv * 10000) / 10000 < 0) {
+				return 0
 			}else {
-				if(Math.floor(this.amount * this.peilv * 1000) / 1000 < 0) {
-					return 0
-				}else {
-					return Math.floor(this.amount * this.peilv * 1000) / 1000
-				}
+				return Math.floor(this.amount * this.peilv * 10000) / 10000
 			}
 		}
 	},

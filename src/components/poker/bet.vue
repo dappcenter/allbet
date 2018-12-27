@@ -8,10 +8,11 @@
                         <span>{{$t("message.PokerBettingArea")}}</span>
                     </div>
                     <div class="poker-box">
-                      <li v-for="(item,index) in pokerSelectedList" :key="index" @click="homingPoker(item,index)">
-                          <img :src="'img/poker/poker_'+item+'.png'" alt="">
-                      </li>
+						<li v-for="(item,index) in pokerSelectedList" :key="index" @click="homingPoker(item,index)">
+							<img :src="'img/poker/poker_'+item+'.png'" alt="">
+						</li>
                     </div>
+					<a href="javascript:;" class="reset" @click="reset('num')">重置</a>
                 </div>
                 <div class="kj-area">
                     <div class="odds">
@@ -23,7 +24,7 @@
                     </div>
                     <div class="poker">
                         <img class="back" src="../../../public/img/poker/kj_poker.png" alt="">
-						<img class="front" src="../../../public/img/poker/full/p1_1.png" alt="">
+						<img class="front" src="../../../public/img/poker/full/p1.png" alt="">
                     </div>
                 </div>
 				<!-- 移动端 -->
@@ -37,6 +38,7 @@
                           <img :src="'img/poker/poker_'+item+'.png'" alt="">
                       </li>
                     </div>
+					<a href="javascript:;" class="reset" @click="reset('num')">重置</a>
                 </div>
                 <div class="number-area hs-area">
                     <div class="watermark">
@@ -48,6 +50,7 @@
                           <img :src="'img/poker/card'+item+'.png'" alt="">
                       </li>
                     </div>
+					<a href="javascript:;" class="reset" @click="reset">重置</a>
                 </div>
             </div>
             <div class="view-btm">
@@ -74,20 +77,20 @@
                         <p>{{$t('message.GameBetAmount')}}</p>
                         <div class="flex-wrap">
                             <div class="input-wrap">
-								<mu-menu cover placement="bottom-end" :open.sync="coinTypeSelectShow">
-									<mu-button icon>
-										<label :class="{'eth': coinType == 'ETH','trx': coinType == 'TRX'}"></label>
-										<i class=""></i>
-									</mu-button>
-									<mu-list slot="content">
-										<mu-list-item button @click="coinTypeSelectShow=false,changeCoinType('TRX')">
-											<mu-list-item-title>TRX</mu-list-item-title>
-										</mu-list-item>
-										<mu-list-item button @click="coinTypeSelectShow=false,changeCoinType('ETH')">
-											<mu-list-item-title>ETH</mu-list-item-title>
-										</mu-list-item>
-									</mu-list>
-								</mu-menu>
+								<div class="cointype-select">
+									<i class="icon" :class="{'eth': coinType == 'ETH', 'trx': coinType == 'TRX'}"></i>
+									<i class="arrow"></i>
+									<ul>
+										<li @click="changeCoinType('ETH')">
+											<img src="../../../public/img/coin/ETH.png" alt="">
+											<label for="">ETH</label>
+										</li>
+										<li @click="changeCoinType('TRX')">
+											<img src="../../../public/img/coin/TRX.png" alt="">
+											<label for="">TRX</label>
+										</li>
+									</ul>
+								</div>
                                 <input type="text" v-model="amount" @blur="inputAmountBlur" oninput="value=value.replace(/[^0-9\.]/g,'')" onkeyup="value=value.replace(/[^0-9\.]/g,'')" onpaste="value=value.replace(/[^0-9\.]/g,'')">
                                 <span>{{coinType}}</span>
                             </div>
@@ -193,7 +196,7 @@ export default {
 		this.getRule()
 		window.hd = {}
 		for (var i = 1;i<=13;i++) {
-		this.pokerList.push(i)
+			this.pokerList.push(i)
 		}
 	},
     mounted() {
@@ -220,15 +223,15 @@ export default {
     methods: {
 		// 点击牌移动
 		movePoker (item, index) {
-			if (item == '') return
-			if (this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
+			if(item == '') return
+			if(this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
 				this.alert({
 					type: "info",
 					msg: this.$t('message.PokerTips3')
 				})
 				return
 			}
-      if (this.cardSelectedList.length == 0 && this.pokerSelectedList.length >= 12 ) {
+      		if(this.cardSelectedList.length == 0 && this.pokerSelectedList.length >= 12 ) {
 				this.alert({
 					type: "info",
 					msg: this.$t('message.PokerTips1')
@@ -240,14 +243,14 @@ export default {
 		},
 		// 点击牌归位
 		homingPoker (item, index) {
-      if (this.cardSelectedList.length >= 4 && this.pokerSelectedList.length <= 1 ) {
-        this.alert({
-          type: "info",
-          msg: this.$t('message.PokerTips5')
-        })
-        return
-      }
-      this.pokerSelectedList.splice(index,1)
+			if (this.cardSelectedList.length >= 4 && this.pokerSelectedList.length <= 1 ) {
+				this.alert({
+					type: "info",
+					msg: this.$t('message.PokerTips5')
+				})
+				return
+      		}
+      		this.pokerSelectedList.splice(index,1)
 			this.pokerList.splice(item-1,1,item)
 		},
 		// 点击花色
@@ -260,27 +263,27 @@ export default {
 				})
 				return
 			}
-      if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length == 0 ) {
-        this.alert({
-          type: "info",
-          msg: this.$t('message.PokerTips2')
-        })
-        return
-      }
+			if (this.cardSelectedList.length >= 3 && this.pokerSelectedList.length == 0 ) {
+				this.alert({
+				type: "info",
+				msg: this.$t('message.PokerTips2')
+				})
+				return
+			}
 			this.cardList.splice(index,1,'')
 			this.cardSelectedList.push(item)
 		},
 		// 点击花色归位
 		homingCard (item, index) {
 			console.log(this.cardList,this.cardSelectedList);
-      if (this.cardSelectedList.length == 1 && this.pokerSelectedList.length >= 13 ) {
-        this.alert({
-          type: "info",
-          msg: this.$t('message.PokerTips4')
-        })
-        return
-      }
-      this.cardSelectedList.splice(index,1)
+			if (this.cardSelectedList.length == 1 && this.pokerSelectedList.length >= 13 ) {
+				this.alert({
+				type: "info",
+				msg: this.$t('message.PokerTips4')
+				})
+				return
+			}
+      		this.cardSelectedList.splice(index,1)
 			this.cardList.splice(item-1,1,item)
 		},
 		inputAmountBlur() {
@@ -537,6 +540,16 @@ export default {
 				this.$router.push('mobile-fundraiy')
 				sessionStorage.setItem('IsFirstEnter', 'YES')
 			}
+		},
+		// 重置
+		reset(type) {
+			if(type == 'num') {
+				this.pokerList = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+				this.pokerSelectedList = []
+			}else {
+				this.cardList = [1,2,3,4]
+				this.cardSelectedList = []
+			}
 		}
     },
     watch: {
@@ -654,7 +667,21 @@ export default {
 						display: block;
 						cursor: pointer;
                     }
-                }
+				}
+				.reset {
+					position: absolute;
+					bottom: 20px;
+					right: 20px;
+					width:60px;
+					height:32px;
+					border:2px solid rgba(255,196,37,1);
+					border-radius:16px;
+					font-size: 14px;
+					color: #FFC425;
+					line-height: 28px;
+					font-weight: 700;
+					text-align: center;
+				}
             }
             .kj-area {
                 display: flex;
@@ -746,7 +773,10 @@ export default {
                         display: block;
                         white-space: nowrap;
                     }
-                }
+				}
+				.reset {
+					left: 20px;
+				}
 			}
 			.minscreen {
 				display: none;
@@ -845,7 +875,6 @@ export default {
 			.ctn-top {
 				display: flex;
 				background-size: 100% 100%;
-				overflow: hidden;
 				p {
 					text-align: left;
 					color: #CAFFE9;
@@ -863,44 +892,70 @@ export default {
 							height: 40px;
 							border-radius:4px;
 							margin-right: 4px;
-
-							.mu-menu {
+							.cointype-select {
+								position: relative;
 								height: 100%;
-								.mu-icon-button {
-									padding: 0;
-									border-radius: initial;
-									width: 100%;
+								cursor: pointer;
+								padding-right: 20px;
+								.icon {
+									display: inline-block;
+									width: 30px;
 									height: 100%;
-									.mu-button-wrapper {
-										label {
-											width: 40px;
-											height: 40px;
-											&.eth {
-												background: url(../../../public/img/coin/ETH.png) no-repeat center;
-												background-size: 60%;
-											}
-											&.trx {
-												background: url(../../../public/img/coin/TRX.png) no-repeat center;
-												background-size: 60%;
-											}
-										}
-										i {
+									&.eth {
+										background: url(../../../public/img/coin/ETH.png) no-repeat center;
+										background-size: 90% auto;	
+									}
+									&.trx {
+										background: url(../../../public/img/coin/TRX.png) no-repeat center;
+										background-size: 90% auto;	
+									}
+								}
+								.arrow {
+									position: absolute;
+									right: 4px;
+									top: calc(50% - 8px);
+									width: 16px;
+									height: 16px;
+									background: url(../../../public/img/sanjiao.png) no-repeat center;
+									background-size: 100% 100%;
+								}
+								&:after {
+									position: absolute;
+									content: "";
+									width: 1px;
+									height: 50%;
+									right: 0;
+									top: 25%;
+									background-color: #0F4C34;
+								}
+								&:hover {
+									ul {
+										display: block;
+									}
+								}
+								ul {
+									position: absolute;
+									top: 40px;
+									background-color: #14533A;
+									box-shadow: 0 0 10px #14533A;
+									display: none;
+									li {
+										width: 66px;
+										height: 40px;
+										line-height: 40px;
+										text-align: center;
+										cursor: pointer;
+										img {
 											display: inline-block;
 											width: 20px;
-											height: 20px;
-											background: url(../../../public/img/sanjiao.png) no-repeat center;
-											background-size: 100% 100%;
-											margin-right: 5px;
+											vertical-align: middle;
 										}
-									}
-									&:after {
-										content: "";
-										position: absolute;
-										right: 0;
-										top: 15%;
-										height: 70%;
-										width: 1px;
-										background-color: #0F4C34;
+										&:hover {
+											background-color: #1B6B4A;
+										}
+										label {
+											cursor: pointer;
+										}
 									}
 								}
 							}
@@ -1241,10 +1296,26 @@ export default {
 							}
 						}
 					}
+					.reset {
+						position: absolute;
+						bottom: .2rem;
+						right: .2rem;
+						width: .8rem;
+						height:22px;
+						border-radius:11px;
+						font-size: 12px;
+						color: #FFC425;
+						line-height: 18px;
+						font-weight: 700;
+						text-align: center;
+					}
 					&.hs-area {
 						.poker-box {
 							justify-content: center;
 							margin-top: .8rem;
+						}
+						.reset {
+							left: .2rem;
 						}
 					}
 				}

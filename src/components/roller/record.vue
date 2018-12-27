@@ -173,11 +173,12 @@ export default {
 				this.boardType = "RECENT"
 				return
 			}
+			let boardType = this.boardType
 			PollHttp({
 				type: 'get',
 				url: '/app/dice/board',
 				data: {
-					boardType: this.boardType,
+					boardType: boardType,
 					coinAddress: coinAddress,
 					coinType: this.coinType,
 					page: 1,
@@ -186,9 +187,9 @@ export default {
 				}
 			}).then(res => {
 				if(res.code == 200) {
-					res.result.records && (this.recordsList = res.result.records.list.concat(this.recordsList))
+					boardType == this.boardType && res.result.records && (this.recordsList = res.result.records.list.concat(this.recordsList))
 					this.diceBasis = res.result.diceBasis
-					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
+					boardType == this.boardType && res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
 				}

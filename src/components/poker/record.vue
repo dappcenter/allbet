@@ -28,16 +28,25 @@
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
 					<li class="tl">
-						<span>{{$fmtDate(item.createTime, "time")}}</span>
+						<span>{{$fmtDate(item.updateTimestamp, "time")}}</span>
 					</li>
 					<li>
 						<span>{{item.coinAmount}}</span>
 					</li>
-					<li>
-						<span>{{item.guess}}</span>
+					<li class="multi-row">
+						<div class="hs">
+							<img src="../../../public/img/poker/card1.png" alt="">
+							<img src="../../../public/img/poker/card2.png" alt="">
+							<img src="../../../public/img/poker/card3.png" alt="">
+							<img src="../../../public/img/poker/card4.png" alt="">
+						</div>
+						<div class="num">A 2 3 4 5 6 7 8 9 10 J Q K</div>
 					</li>
-					<li>
-						<span>{{item.luckyNum}}</span>
+					<li class="multi-row">
+						<div class="hs">
+							<img src="../../../public/img/poker/card3.png" alt="">
+						</div>
+						<div class="num">A</div>
 					</li>
 					<li class="golden tr">
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
@@ -51,25 +60,17 @@
 		<!-- 移动端 -->
 		<div class="table-record minscreen">
 			<div class="t-head">
-				<span v-if="boardType != 'ME'">{{$t("message.GamePlay")}}</span>
-				<span v-else>{{$t("message.GameTime")}}</span>
-				<span>{{$t("message.GameForecast")}}</span>
-				<span>{{$t("message.GameLucky")}}</span>
+				<span>{{$t("message.GamePlay")}}</span>
+				<span>{{$t("message.GameTime")}}</span>
 				<span class="tr">{{$t("message.GameReward")}}</span>
 			</div>
 			<div class="t-body">
 				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
-					<li class="user" v-if="boardType != 'ME'">
+					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
-					<li v-else>
-						<span>{{$fmtDate(item.createTime, "time")}}</span>
-					</li>
 					<li>
-						<span>{{item.guess}}</span>
-					</li>
-					<li>
-						<span>{{item.luckyNum}}</span>
+						<span>{{$fmtDate(item.updateTimestamp, "time")}}</span>
 					</li>
 					<li class="golden tr">
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
@@ -102,9 +103,6 @@ export default {
 		}, 3000)
 	},
 	watch: {
-		currentAddr() {
-			this.getData(this.boardType)
-		},
 		coinType() {
 			this.getRule()
 		}
@@ -317,6 +315,21 @@ export default {
 					text-align: center;
 					line-height: 59px;
 					overflow: hidden;
+					&.multi-row {
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						line-height: normal;
+						.hs {
+							img {
+								width: 15px;
+								margin: 0 2px;
+							}
+						}
+						.num {
+							font-size: 12px;
+						}
+					}
 					&:first-child {
 						flex: 1;
 						text-align: left;

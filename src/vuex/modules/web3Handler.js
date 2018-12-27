@@ -49,7 +49,7 @@ const mutations = {
         web3Copy.isInjected = payload.injectedWeb3
         web3Copy.web3Instance = payload.web3
         web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS)
-        web3Copy.diceApiHandle = new payload.web3.eth.Contract(RollerABI, window.ROLLERADDRESS)
+        web3Copy.diceApiHandle = new payload.web3.eth.Contract(contracts.Roller, window.ROLLERADDRESS)
         web3Copy.ABapiHandle = new payload.web3.eth.Contract(contracts.AB, window.ETHABTOKEN)
         state.web3 = web3Copy
         // 轮询

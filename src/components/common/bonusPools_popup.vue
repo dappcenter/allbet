@@ -86,7 +86,8 @@ export default {
                 ab: 0
             },
             isShow: false,
-            tab: 1
+            tab: 1,
+            timer: null
         }
     },
     watch: {
@@ -111,7 +112,10 @@ export default {
         event: "change"
     },
     mounted() {
-        this.getBonusPools();
+        this.getBonusPools()
+        this.timer = setInterval(() => {
+            this.getBonusPools()
+        }, 3000)
         if(this.ab) {
             this.tab = 2
         }
@@ -120,7 +124,8 @@ export default {
         ...mapState({
             storeCurrentAddr: state => state.user.currentAddr,
             coinType: state => state.user.coinType,
-            tronWeb: state => state.tronHandler.tronWeb
+            tronWeb: state => state.tronHandler.tronWeb,
+            web3: state => state.web3Handler.web3
         })
     },
     methods: {
@@ -128,7 +133,8 @@ export default {
         getBonusPools() {
             this.$http.get('/app/profit/profit', {
                 params: {
-                    coinType: this.coinType
+                    coinType: this.coinType,
+                    noLoading: true
                 }
             }).then(res => {
                 if(res.code == 200) {
@@ -148,36 +154,45 @@ export default {
 				})
                 return
             }
-            if(this.coinType == 'ETH') {
-                this.getETH_AB()
-            }else {
-                this.$http.post('/app/transfer/trx_ab_withdraw').then(res => {
-                    console.log(res)
-                    this.getBonusPools()
-                    if(res.code == 200) {
-                        this.getTRX_AB(res.result)
-                    }else {
-                        this.alert({
-                            type: "info",
-                            msg: res.msg
-                        })
-                    }
-                })
-                
+
+            if(this.storeCurrentAddr.platform == "DISPATCHER") {
+                this.$router.push("my-assets")
+                return
             }
-        },
-        getETH_AB() {
-            this.$http.post('/app/transfer/eth_ab_withdraw').then(res => {
+            
+            this.$http.post('/app/transfer/ab_withdraw').then(res => {
+                this.getBonusPools()
                 if(res.code == 200) {
-                    this.getBonusPools()
-                    this.alert({
-                        type: "success",
-                        msg: res.msg
-                    })
+                    if(this.coinType == 'ETH') {
+                        this.getETH_AB(res.result)
+                    }else {
+                        this.getTRX_AB(res.result)
+                    }
                 }else {
                     this.alert({
                         type: "info",
                         msg: res.msg
+                    })
+                }
+            })
+        },
+        getETH_AB(orderId) {
+            let that = this
+            this.web3.diceApiHandle.methods.askForToken(orderId, this.web3.coinbase).send({
+                from: this.web3.coinbase
+            }, (err, res) => {
+                if(!err) {
+                    that.alert({
+                        type: "info",
+                        msg: that.$t('message.BPgetSuccess'),
+                        timeout: 3000
+                    })
+                }else {
+                    that.recall(orderId)
+                    that.alert({
+                        type: "info",
+                        msg: "User rejected the signature request.",
+                        timeout: 3000
                     })
                 }
             })
@@ -218,9 +233,12 @@ export default {
             openLogin: "OPEN_LOGIN",
         })
     },
+    deactivated() {
+        clearInterval(this.timer)
+        this.timer = null
+    },
     components: {
-        DigitalRoll
-        
+        DigitalRoll   
     }
 }
 </script>
