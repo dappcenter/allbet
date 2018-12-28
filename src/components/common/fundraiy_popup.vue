@@ -117,7 +117,7 @@ export default {
             }
             if(this.amount > this.storeTronWeb.balance) {
                 this.alert({
-					type: "success",
+					type: "info",
 					msg: this.$t('message.assetsNotEnough')
                 })
                 return

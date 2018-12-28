@@ -113,6 +113,13 @@
                     </div>
                 </div>
                 <div class="ctn-btm">
+					<div class="auto-bet">
+						<div class="mid">
+							<label>{{$t('message.GameAutoBet')}}</label>
+							<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
+							<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
+						</div>
+					</div>
                     <div class="bet-wrap">
                         <span class="fl nominscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
@@ -132,7 +139,8 @@
                 <div class="dig-wrap" v-if="rule.winDig">
                     <img src="../../../public/img/poker/ab.png" alt="">
                     <div class="content">
-                        <p>{{$t('message.GameBetToGet')}} {{Math.floor(rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)}} AB</p>
+                        <h4>{{$t('message.GameBetToGet')}} {{Math.floor((rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)*100)/100}} AB</h4>
+						<p>{{$t('message.GameStage')}} {{(rule.totalDig/1000000000*100).toFixed(2)}}%</p>
                         <span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
                     </div>
                     <i class="help nominscreen" @click="isShowABpopup = true"></i>
@@ -188,7 +196,8 @@ export default {
 			pokerSelectedList: [],
 			cardList: [1,2,3,4],
 			cardSelectedList: [],
-			coinTypeSelectShow: false
+			coinTypeSelectShow: false,
+			music: false
         }
 	},
 	created() {
@@ -935,6 +944,7 @@ export default {
 								}
 								ul {
 									position: absolute;
+									z-index: 12;
 									top: 40px;
 									background-color: #14533A;
 									box-shadow: 0 0 10px #14533A;
@@ -1117,7 +1127,7 @@ export default {
 							position: relative;
 							width: 24px;
 							height: 24px;
-							background: url(../../../public/img/help_icon.png) no-repeat center;
+							background: url(../../../public/img/poker/help_icon.png) no-repeat center;
 							background-size: 70%;
 							cursor: pointer;
 							&:hover {
@@ -1217,7 +1227,7 @@ export default {
 						font-size: 14px;
 					}
 					p {
-						font-size: 16px;
+						font-size: 12px;
 						color: #FFDE6F;
 					}
 					span {

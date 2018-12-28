@@ -1,15 +1,15 @@
 if(window.location.href.indexOf('www.allbet.io') >= 0) {
-    //正式环境
+    //正式环境 ETH
     window.SERVERPATH = "https://apinodehk.allbet.io"
     window.BANCORADDRESS = "0x36fc06fef49e2d92fe9460685d56a5998d9ba187"
-    window.ROLLERADDRESS = "0x5544b7603c39e7f471a08e761ff0c7362878c70b"
+    window.ROLLERADDRESS = "0x2aef00e45e610fcd13fbc5b734b68c2353941520"   //dice游戏合约
     window.ETHABTOKEN = "0x9a6d042f8be45202464d66a88602864ebdc287f1"
-
-    window.TRONROLLARADDRESS = "TSRw4q71LdDBXtFe3FAsGjxiRbdM5eqeGC"
+    // TRX
+    window.TRONROLLARADDRESS = "TKQ2WmYs9KRmD3c9TwUMjZ3vj5BKgADUZ5"   //dice游戏合约
     window.TRONFUNDRAIYADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
     window.TRONABTOKEN = "TNbYoP22d74RWy4ETssHsXYFrnmmbQ2fvt"
-
+    // 网络标识
     window.NETWORK = 1
 }else if(window.location.href.indexOf('47.91.247.93') >= 0){
     //测试环境
