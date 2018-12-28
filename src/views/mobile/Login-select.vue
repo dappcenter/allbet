@@ -47,9 +47,9 @@ export default {
         //打开白皮书
         openWhiteBook() {
             if(this.locale == "en-US") {
-                window.open("pdf/whitebook_en.pdf")
+                window.open("pdf/whitepaper_en.pdf")
             }else {
-                window.open("pdf/whitebook.pdf")
+                window.open("pdf/whitepaper.pdf")
             }
         },
         ...mapMutations({
