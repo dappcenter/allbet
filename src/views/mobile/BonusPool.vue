@@ -76,6 +76,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import HeaderBar from "@/components/common/header_bar"
+import PollHttp from "../../util/pollHttp"
 export default {
   props: {
     isShowBPpopup: {

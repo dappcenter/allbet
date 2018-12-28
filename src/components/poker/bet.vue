@@ -12,7 +12,7 @@
 							<img :src="'img/poker/poker_'+item+'.png'" alt="">
 						</li>
                     </div>
-					<a href="javascript:;" class="reset" @click="reset('num')">重置</a>
+					<!-- <a href="javascript:;" class="reset" @click="reset('num')">重置</a> -->
                 </div>
                 <div class="kj-area">
                     <div class="odds">
@@ -26,6 +26,7 @@
                         <img class="back" src="../../../public/img/poker/kj_poker.png" alt="">
 						<img class="front" src="../../../public/img/poker/full/p1.png" alt="">
                     </div>
+					<a href="javascript:;" class="reset show" @click="reset"></a>
                 </div>
 				<!-- 移动端 -->
 				<div class="number-area minscreen">
@@ -38,7 +39,7 @@
                           <img :src="'img/poker/poker_'+item+'.png'" alt="">
                       </li>
                     </div>
-					<a href="javascript:;" class="reset" @click="reset('num')">重置</a>
+					<!-- <a href="javascript:;" class="reset" @click="reset('num')">重置</a> -->
                 </div>
                 <div class="number-area hs-area">
                     <div class="watermark">
@@ -50,7 +51,7 @@
                           <img :src="'img/poker/card'+item+'.png'" alt="">
                       </li>
                     </div>
-					<a href="javascript:;" class="reset" @click="reset">重置</a>
+					<!-- <a href="javascript:;" class="reset" @click="reset">重置</a> -->
                 </div>
             </div>
             <div class="view-btm">
@@ -552,13 +553,10 @@ export default {
 		},
 		// 重置
 		reset(type) {
-			if(type == 'num') {
-				this.pokerList = [1,2,3,4,5,6,7,8,9,10,11,12,13]
-				this.pokerSelectedList = []
-			}else {
-				this.cardList = [1,2,3,4]
-				this.cardSelectedList = []
-			}
+			this.pokerList = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+			this.pokerSelectedList = []
+			this.cardList = [1,2,3,4]
+			this.cardSelectedList = []
 		}
     },
     watch: {
@@ -685,6 +683,7 @@ export default {
 				}
             }
             .kj-area {
+				position: relative;
                 display: flex;
                 align-items: center;
                 border-left: 1px dashed rgba(15,76,52,1);
@@ -745,7 +744,26 @@ export default {
 							transform: rotateY(180deg);
 						}
 					}
-                }
+				}
+				.reset {
+					position: absolute;
+					left: 5%;
+					top: 5%;
+					width: 40px;
+					height: 40px;
+					background: #0F4A33 url('../../../public/img/poker/reset_icon.png') no-repeat center;
+					background-size: 60%;
+					border-radius:4px;
+					box-shadow: 0 0 10px #0F4A33;
+					transition: all .5s;
+					// transform: scale(0);
+					&:active {
+						transform: rotate(360deg);
+					}
+					// &.show {
+					// 	transform: scale(1);
+					// }
+				}
             }
             .hs-area {
                 position: relative;
@@ -1274,6 +1292,10 @@ export default {
 					.poker {
 						height: 1.98rem;
 						width: 1.4rem;
+					}
+					.reset {
+						width: .6rem;
+						height: .6rem;
 					}
 				}
 				.number-area {
