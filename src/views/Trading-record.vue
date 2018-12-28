@@ -104,7 +104,7 @@
 				<!-- 处理时间 -->
 				<li v-if="detailData.createTimestamp">
 					<span>{{$t('message.tradeProcessingTime')}}:</span>
-					<div>{{$fmtDate(detailData.createTimestamp, 'full')}}</div>
+					<div>{{$fmtDate(itemDetail.createTimestamp, 'full')}}</div>
 				</li>
 			</mu-dialog>
 		</div>
