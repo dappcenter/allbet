@@ -19,7 +19,7 @@
                         <h3>{{$t('message.PokerKJQ')}}</h3>
                         <div>
                             <label>{{$t("message.PokerPL")}}</label>
-                            <span>{{peilv}}x</span>
+                            <span>{{Math.floor(peilv*10000)/10000}}x</span>
                         </div>
                     </div>
                     <div class="poker">
@@ -584,7 +584,7 @@ export default {
 			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
 				return 0
 			}
-			return Math.floor((13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length) * 0.985)*1000)/1000
+			return (13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length)) * 0.985
 		},
 		// 奖金
 		bonus() {

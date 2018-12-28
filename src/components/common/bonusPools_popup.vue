@@ -181,7 +181,9 @@ export default {
         getETH_AB(orderId) {
             let that = this
             this.web3.diceApiHandle.methods.askForToken(orderId, this.web3.coinbase).send({
-                from: this.web3.coinbase
+                from: this.web3.coinbase,
+                gas: 210000,
+				gasPrice: 10000000000
             }, (err, res) => {
                 if(!err) {
                     that.alert({
