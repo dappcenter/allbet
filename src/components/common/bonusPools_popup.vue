@@ -114,9 +114,9 @@ export default {
     },
     mounted() {
         this.getBonusPools()
-        this.timer = setInterval(() => {
-            this.getBonusPools()
-        }, 3000)
+        // this.timer = setInterval(() => {
+        //     this.getBonusPools()
+        // }, 3000)
         if(this.ab) {
             this.tab = 2
         }

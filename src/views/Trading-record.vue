@@ -102,9 +102,9 @@
 					<div>{{detailData.fee}} {{detailData.transferCoinType}}</div>
 				</li>
 				<!-- 处理时间 -->
-				<li v-if="detailData.updateTime">
+				<li v-if="detailData.createTimestamp">
 					<span>{{$t('message.tradeProcessingTime')}}:</span>
-					<div>{{$fmtDate(detailData.updateTime, 'full')}}</div>
+					<div>{{$fmtDate(detailData.createTimestamp, 'full')}}</div>
 				</li>
 			</mu-dialog>
 		</div>

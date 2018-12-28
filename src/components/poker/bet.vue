@@ -584,22 +584,14 @@ export default {
 			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
 				return 0
 			}
-			return Math.floor((13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length))*1000)/1000
+			return Math.floor((13/(this.pokerSelectedList.length == 0 ? 13 : this.pokerSelectedList.length)) * (4/(this.cardSelectedList.length == 0 ? 4 : this.cardSelectedList.length) * 0.985)*1000)/1000
 		},
 		// 奖金
 		bonus() {
-			if((this.amount * this.peilv * 0.01) <= 0.0003) {
-				if(Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000 < 0) {
-					return 0
-				}else {
-					return Math.floor((this.amount * this.peilv - 0.0003) * 1000) / 1000
-				}
+			if(Math.floor(this.amount * this.peilv * 1000) / 1000 < 0) {
+				return 0
 			}else {
-				if(Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000 < 0) {
-					return 0
-				}else {
-					return Math.floor(this.amount * this.peilv * 0.99 * 1000) / 1000
-				}
+				return Math.floor(this.amount * this.peilv * 1000) / 1000
 			}
 		}
 	},

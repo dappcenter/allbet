@@ -115,9 +115,9 @@ export default {
   },
   mounted() {
     this.getBonusPools()
-    this.timer = setInterval(() => {
-        this.getBonusPools()
-    }, 3000)
+    // this.timer = setInterval(() => {
+    //     this.getBonusPools()
+    // }, 3000)
     if(this.$route.query.ab) {
         this.topBtnIndex = 1
     }
