@@ -226,7 +226,7 @@ export default {
         })
     },
     recall(withdrawId) {
-        this.$http.post('/app/transfer/trx_ab_withdraw/recall/' + withdrawId, {
+        this.$http.post('/app/transfer/ab_withdraw/recall/' + withdrawId, {
             noLoading: true,
         }).then(res => {
             if(res.code == 200) {
