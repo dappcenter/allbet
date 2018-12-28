@@ -2,7 +2,7 @@
     <mu-dialog width="600" :open.sync="isShow" :append-body="false" class="pokergamehelp-popup" :overlay-close="false">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t("message.GameRule")}}</h4>
-        <div class="content-text nominscreen" v-html="$t('message.GameHelp')" ref="contentText"></div>
+        <div class="content-text nominscreen" v-html="$t('message.PokerGameRule')" ref="contentText"></div>
         <div class="content-text minscreen" v-html="$t('message.GameHelpMobile')" ref="contentText"></div>
         <div class="btn-wrap">
             <button class="high" @click="isShow = false">{{$t("message.GameKnow")}}</button>
@@ -67,7 +67,7 @@ export default {
     }
     .mu-dialog-body {
         position: relative;
-        background: #52476F url(../../../public/img/ab_popup_bg.png) no-repeat bottom right;
+        background: #52476F url(../../../../public/img/ab_popup_bg.png) no-repeat bottom right;
         padding: 24px 24px 20px 24px;
         background-size: 40%;
         .close-btn {
@@ -76,7 +76,7 @@ export default {
             top: 20px;
             width: 25px;
             height: 25px;
-            background: url(../../../public/img/close_icon01.png) no-repeat center;
+            background: url(../../../../public/img/close_icon01.png) no-repeat center;
             background-size: 100%;
         }
         h4 {

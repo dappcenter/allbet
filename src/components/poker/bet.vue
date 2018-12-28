@@ -151,7 +151,9 @@
             </div>
             <!-- Ab弹框 -->
             <AbPopup v-model="isShowABpopup"></AbPopup>
-    </div>
+			<!-- 游戏玩法 -->
+			<GameHelpPopup v-model="isShowHelp"></GameHelpPopup>
+    	</div>
     </div>
 </template>
 
@@ -162,7 +164,7 @@ import {RollerABI} from '../../util/constants/roller.abi'
 import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
-import GameHelpPopup from "@/components/common/gamehelp_popup"
+import GameHelpPopup from "@/components/common/popup/pokerGameHelp_popup"
 
 export default {
 	props: {

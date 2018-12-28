@@ -450,7 +450,7 @@ export default {
 							msg: res.msg
 						})
 						this.luckyRun()
-						that.getBetResult(res.result.recdId, this.amount)
+						that.getBetResult(res.result.recdId, res.result.coinAmount)
 					}else {   //合约账号
 						this.alert({
 							type: "info",
@@ -459,10 +459,10 @@ export default {
 						})
 						switch(res.result.coinType) {
 							case "ETH":
-								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, this.amount, res.result.recdId)
+								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, res.result.coinAmount, res.result.recdId)
 								break;
 							case "TRX":
-								this.placeBetTRX(this.odds, res.result.recdId, this.amount)
+								this.placeBetTRX(this.odds, res.result.recdId, res.result.coinAmount)
 								break;
 						}
 						//注册方法与原生交互
@@ -480,7 +480,7 @@ export default {
 								timeout: 9999999
 							})
 							that.luckyRun()
-							that.getBetResult(res.result.recdId, this.amount)
+							that.getBetResult(res.result.recdId, res.result.coinAmount)
 						}
 					}
 				}else {
