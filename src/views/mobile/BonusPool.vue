@@ -13,7 +13,7 @@
                   <img src="../../../public/img/coin/ETH.png" />
                   <span>{{$t('message.BPcurrentAmount')}}</span>
               </div>
-              <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Number(bonusPoolsData.ethPool).toFixed(2) : 0}} ETH</h3>
+              <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Math.floor(bonusPoolsData.ethPool*100)/100 : 0}} ETH</h3>
           </div>
           <div class="coin-wrap eth">
               <div class="coin-logo">
@@ -90,7 +90,9 @@ export default {
         progressDig: 0,
         totalDig: 0,
         transferred: 0,
-        ab: 0
+        ab: 0,
+        ethPool: 0,
+        trxPool: 0
       },
       isShow: false,
       topBtnIndex: 0,
@@ -144,6 +146,7 @@ export default {
                 coinType: this.coinType
             }
         }).then(res => {
+            console.log("profit",res)
             if(res.code == 200) {
                 res.trxPool < 0 && (res.trxPool = 0)
                 res.ethPool < 0 && (res.ethPool = 0)

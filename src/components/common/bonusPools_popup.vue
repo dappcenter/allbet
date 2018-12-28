@@ -84,7 +84,9 @@ export default {
                 progressDig: 0,
                 totalDig: 0,
                 transferred: 0,
-                ab: 0
+                ab: 0,
+                ethPool: 0,
+                trxPool: 0
             },
             isShow: false,
             tab: 1,

@@ -95,7 +95,8 @@ export default {
 			diceBasis: {
 				totalAb: 0
 			},
-			lastRecord: ""
+			lastRecord: "",
+			updateListTimer: null
         }
 	},
 	created() {
@@ -145,6 +146,7 @@ export default {
 				}
 			}).then(res => {
 				if(res.code == 200) {
+					this.recordsList = []
 					this.displayedList = res.result.records.list
 					this.diceBasis = res.result.diceBasis
 					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
@@ -196,6 +198,7 @@ export default {
 			})
 		},
 		updateList() {
+			clearTimeout(this.updateListTimer)
 			if(this.recordsList.length > 0) {
 				if(this.displayedList.length >= 30) {
 					this.displayedList.pop()
@@ -203,7 +206,7 @@ export default {
 				let addItem = this.recordsList.pop()
 				addItem && this.displayedList.unshift(addItem)
 			}
-			setTimeout(() => {
+			this.updateListTimer = setTimeout(() => {
 				this.updateList()
 			}, 300)
 		},
