@@ -143,6 +143,7 @@ export default {
                 }
             }).then(res => {
                 if(res.code == 200) {
+                    console.log(res)
                     res.result.trxPool < 0 && (res.result.trxPool = 0)
                     res.result.ethPool < 0 && (res.result.ethPool = 0)
                     this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)

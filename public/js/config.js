@@ -27,6 +27,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
 }else {
     //本地环境
     window.SERVERPATH = "http://192.168.120.64:8080"
+    // window.SERVERPATH = "https://apinodehk.allbet.io"
     // window.SERVERPATH = "http://47.91.247.93:7788"
     window.BANCORADDRESS = "0xd06b02f187c137f59f9351c62a421dae59739d37"
     window.ROLLERADDRESS = "0x9fb54a29924ecca77e8f2c6c7e762e9e18e56b04"
