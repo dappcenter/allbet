@@ -115,7 +115,7 @@ export default {
         break;
     }
 
-    getBonusPools()
+    // getBonusPools()
   },
   computed: {
     ...mapState({

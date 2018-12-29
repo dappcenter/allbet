@@ -38,4 +38,5 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONABTOKEN = "TGouFj5A3gw2eTcQyQpupHrZmKdMnkehRW"
 
     window.NETWORK = 4
+    
 }

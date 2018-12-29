@@ -10,14 +10,14 @@
                     <img src="../../../public/img/coin/ETH.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                <h3><DigitalRoll :value="Math.floor(Number(bonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
             </div>
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/coin/TRX.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
+                <h3><DigitalRoll :value="Math.floor(Number(bonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
             </div>
             <ul>
                 <li>
