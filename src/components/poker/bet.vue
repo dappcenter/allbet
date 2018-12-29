@@ -22,9 +22,10 @@
                             <span>{{Math.floor(peilv*10000)/10000}}x</span>
                         </div>
                     </div>
-                    <div class="poker">
-                        <img class="back" src="../../../public/img/poker/kj_poker.png" alt="">
-						<img class="front" src="../../../public/img/poker/full/p1.png" alt="">
+                    <div class="poker" :class="{'loading' : loading, 'open': open}">
+                        <img class="img back" src="../../../public/img/poker/kj_poker.png" alt="">
+						<img class="img front" src="../../../public/img/poker/full/p1.png" alt="">
+						<img class="svg" src="../../../public/svg/loading2.svg" alt="">
                     </div>
 					<a href="javascript:;" class="reset show" @click="reset"></a>
                 </div>
@@ -147,7 +148,6 @@
                     <i class="help nominscreen" @click="isShowABpopup = true"></i>
                     <i class="help minscreen" @click="$router.push('ab')"></i>
                 </div>
-
             </div>
             <!-- Ab弹框 -->
             <AbPopup v-model="isShowABpopup"></AbPopup>
@@ -188,19 +188,19 @@ export default {
 			luckyNum: "00",
 			timer: null,
 			getBetResultTimer: null,
-			maxNum: 96,
 			isShowHelp: false,
 			openWeixinQR: false,
 			autoBet: false,
 			isShowABpopup: false,
 			isShowFundraiy: false,
-			scroll: null,
 			pokerList: [],
 			pokerSelectedList: [],
 			cardList: [1,2,3,4],
 			cardSelectedList: [],
 			coinTypeSelectShow: false,
-			music: false
+			music: false,
+			loading: false,
+			open: false
         }
 	},
 	created() {
@@ -316,9 +316,15 @@ export default {
 			}, 50)
 		},
         onHotkeys(amount) {
+			let balance = 0
+			this.currentAddr.assets && (balance = Math.floor(this.currentAddr.assets[this.coinType].amount*1000)/1000)
 			switch(amount) {
 				case 'max':
-					this.amount = this.rule.maxInvest
+					if(balance < this.rule.maxInvest) {
+						this.amount  = balance <= 0 ? this.rule.minInvest : balance
+					}else {
+						this.amount = this.rule.maxInvest
+					}
 					break;
 				case 'min':
 					this.amount = this.rule.minInvest
@@ -723,7 +729,7 @@ export default {
 					position: relative;
 					height: 198px;
 					width: 140px;
-                    img {
+                    .img {
 						position: absolute;
                         display: block;
 						height: 100%;
@@ -735,16 +741,27 @@ export default {
 					.front {
 						transform: rotateY(-180deg);
 					}
-					.back {
-						
-					}
-					&:hover {
+					&.open {
 						.front {
 							transform: rotateY(0deg);
 						}
 						.back {
 							transform: rotateY(180deg);
 						}
+					}
+					&.loading {
+						.svg {
+							display: block;
+						}
+					}
+					.svg {
+						position: absolute;
+						left: 10%;
+						top: 50%;
+						transform: translateY(-50%);
+						z-index: 2;
+						width: 80%;
+						display: none;
 					}
 				}
 				.reset {

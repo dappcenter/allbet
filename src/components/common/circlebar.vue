@@ -4,7 +4,7 @@
         <div class="circle-bar-right" ref="circleBarRight"></div>
         <!-- 遮罩层，显示百分比 -->
         <div class="mask">
-            <span class="percent">{{(value*100).toFixed()}}%</span>
+            <span class="percent">{{isNaN((value*100).toFixed()) ? 0 : (value*100).toFixed()}}%</span>
             <span>{{text}}</span>
         </div>
     </div>
@@ -32,11 +32,10 @@ export default {
         }
     },
     mounted() {
-        //封装了css3函数，主要是懒得重复书写代码，既然写了css3函数，顺便写个css吧，统一样式，好看一些
+        console.log(this.value)
         Element.prototype.css = function(property,value){
             
             if ( value ) {
-                //CSS中像background-color这样的属性，‘-’在JavaScript中不兼容，需要设置成驼峰格式
                 var index = property.indexOf('-');
                 if( index != -1 ) {
                     var char = property.charAt(index+1).toUpperCase();
@@ -44,7 +43,6 @@ export default {
                 }
                 this.style[property] = value;
             }else{
-                //getPropertyValue()方法参数类似background-color写法，所以不要转驼峰格式
                 return window.getComputedStyle(this).getPropertyValue(property);
             }
         }

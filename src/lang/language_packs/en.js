@@ -424,6 +424,6 @@ export default {
         PokerTips3: "It has been up to the most choice on the mixed betting.",
         PokerTips4: "One suit should be saved when you play mixed betting.",
         PokerTips5: "One figure should be saved when you play mixed betting.",
-        PokerGameRule: "<p style='text-align: justify'>1、数字投注：您可以在13个数字中选择1个或最多12个数字进行投注，如果“开奖数字”与您的“预测数字”一样则中奖。</br ></br >2、花色投注：你可以在4个花色中选择1个或最多3个花色进行投注，如果“开奖花色”与您的“预测花色”一样则中奖。</br></br>3、混合投注：您可以同时选择数字和花色进行投注，如果您选择了13个数字，则花色最多选择3个；如果您选择了4个花色，则数字最多选择12个；如果开奖“数字结合花色”与您的“预测数字结合花色”一样则中奖。</br></br>4、赔率根据您选择的数字和花色的多少来进行调整。</p>",
+        PokerGameRule: "<p style='text-align: justify'>1. Figure Bet: You can choose one or less than twelve numbers to bet. If the ‘Lucky Suit’ is the same as the prediction, you can get rewards.</br ></br >2. Suit Bet: You can choose one or less than three suits to bet. If the ‘Lucky suit’ is the same as the prediction, you can get rewards.</br></br>3. Mixed Bet: You can choose numbers and suits at the same time. If you choose 13 numbers, the suits are no more than 3.If you choose 4 suits, the numbers are no more than 12. If the ‘Lucky Mixed bet’ is the same as the prediction, you can get rewards.</br></br>4. Payout will be adjusted according to numbers and suits you choose.</p>",
     }
 }

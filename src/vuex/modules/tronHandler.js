@@ -18,6 +18,11 @@ const state = {
         surplusBandwidth: 0,
         totalEnergyLimit: 0,
         energyLimit: 0,
+        energyUsed: 0,
+        freeNetLimit: 0,  //赠送5000
+        freeNetUsed: 0,
+        netLimit: 0,  //质押
+        netUsed: 0,  //使用质押
         error: null,
         apiHandle: null,
         at: 0,   //平台游戏币
@@ -122,7 +127,8 @@ const actions = {
             axios.post("/open/plugin_login", {
                 "chainType": "TRX",
                 "publicAddress": address,
-                "inviteCode": sessionStorage.getItem('inviteCode')
+                "inviteCode": sessionStorage.getItem('inviteCode'),
+                "appFrom": localStorage.getItem("APPFROM") || ""
             }).then(res => {
                 if(res.code == 200) {
                     commit(types.SET_USERINFO, res.result)

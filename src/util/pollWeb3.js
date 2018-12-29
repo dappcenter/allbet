@@ -37,7 +37,8 @@ const coinLogin = function(signature, address, nonce) {
         "message": nonce,
         "publicAddress": address,
         "signature": signature,
-        "inviteCode": sessionStorage.getItem('inviteCode')
+        "inviteCode": sessionStorage.getItem('inviteCode'),
+        "appFrom": localStorage.getItem("APPFROM") || ""
     }).then(res => {
         if(res.code == 200) {
             // 存储新的登录态

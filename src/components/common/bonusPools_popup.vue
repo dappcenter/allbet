@@ -10,14 +10,14 @@
                     <img src="../../../public/img/coin/ETH.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3><DigitalRoll :value="Math.floor(Number(bonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
             </div>
             <div class="coin-wrap eth">
                 <div class="coin-logo">
                     <img src="../../../public/img/coin/TRX.png" />
                     <span>{{$t('message.BPcurrentAmount')}}</span>
                 </div>
-                <h3><DigitalRoll :value="Math.floor(Number(bonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
+                <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
             </div>
             <ul>
                 <li>
@@ -128,7 +128,8 @@ export default {
             storeCurrentAddr: state => state.user.currentAddr,
             coinType: state => state.user.coinType,
             tronWeb: state => state.tronHandler.tronWeb,
-            web3: state => state.web3Handler.web3
+            web3: state => state.web3Handler.web3,
+            storeBonusPoolsData: state => state.database.bonusPools
         })
     },
     methods: {
@@ -142,8 +143,8 @@ export default {
                 }
             }).then(res => {
                 if(res.code == 200) {
-                    res.trxPool < 0 && (res.trxPool = 0)
-                    res.ethPool < 0 && (res.ethPool = 0)
+                    res.result.trxPool < 0 && (res.result.trxPool = 0)
+                    res.result.ethPool < 0 && (res.result.ethPool = 0)
                     this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
                 }
             })

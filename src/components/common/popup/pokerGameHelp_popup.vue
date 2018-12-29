@@ -131,7 +131,7 @@ export default {
     }
 }
 @media screen and (max-width: 800px){
-    .gamehelp-popup {
+    .pokergamehelp-popup {
         z-index: 20191212 !important;
         .mu-dialog {
             width: 90% !important;

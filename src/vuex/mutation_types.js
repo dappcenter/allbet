@@ -132,3 +132,11 @@ export const REGISTER_TRON_INSTANCE = "REGISTER_TRON_INSTANCE"
  */
 export const UPDATE_TRON_ASSET = "UPDATE_TRON_ASSET"
 
+/**
+ * 更新分红池数据
+ * @author shanks
+ * @module database
+ */
+export const UPDATE_BP_DATA = "UPDATE_BP_DATA"
+
+

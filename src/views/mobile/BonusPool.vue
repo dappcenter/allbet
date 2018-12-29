@@ -13,14 +13,14 @@
                   <img src="../../../public/img/coin/ETH.png" />
                   <span>{{$t('message.BPcurrentAmount')}}</span>
               </div>
-              <h3>{{Number(bonusPoolsData.ethPool) > 0 ? Math.floor(bonusPoolsData.ethPool*100)/100 : 0}} ETH</h3>
+              <h3>{{Number(storeBonusPoolsData.ethPool) > 0 ? Math.floor(storeBonusPoolsData.ethPool*100)/100 : 0}} ETH</h3>
           </div>
           <div class="coin-wrap eth">
               <div class="coin-logo">
                   <img src="../../../public/img/coin/TRX.png" />
                   <span>{{$t('message.BPcurrentAmount')}}</span>
               </div>
-              <h3>{{Number(bonusPoolsData.trxPool) > 0 ? Number(bonusPoolsData.trxPool).toFixed(2) : 0}} TRX</h3>
+              <h3>{{Number(storeBonusPoolsData.trxPool) > 0 ? Number(storeBonusPoolsData.trxPool).toFixed(2) : 0}} TRX</h3>
           </div>
           <ul>
               <li>
@@ -130,7 +130,8 @@ export default {
         storeCurrentAddr: state => state.user.currentAddr,
         coinType: state => state.user.coinType,
         tronWeb: state => state.tronHandler.tronWeb,
-        web3: state => state.web3Handler.web3
+        web3: state => state.web3Handler.web3,
+        storeBonusPoolsData: state => state.database.bonusPools
     })
   },
   methods: {

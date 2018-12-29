@@ -414,6 +414,7 @@ export default {
 				})
 				return
 			}
+			// 余额检测
 			if(this.amount > (this.currentAddr.assets[this.coinType].amount*1)) {
 				this.alert({
 					type: "info",
@@ -421,6 +422,7 @@ export default {
 				})
 				return
 			}
+			// 金额过下检测
 			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
@@ -428,6 +430,7 @@ export default {
 				})
 				return
 			}
+			// 金额过大检测
 			if(this.amount*1 > this.rule.maxInvest*1) {
 				this.alert({
 					type: "info",
@@ -579,7 +582,6 @@ export default {
 								msg: "Successful bet.",
 								timeout: 9999999
 							})
-							
 							this.betBtnLoading = false
 						}else if(res.result.tradeStatus == "DONE" || res.result.tradeStatus == "FAIL") {
 							this.betBtnLoading = false
@@ -636,7 +638,6 @@ export default {
 						this.getBetResultTimer = null
 						this.luckyNum = "00"
 						this.luckyColor = "green"
-
 					}
 				}).catch(err => {
 					this.betBtnLoading = false
@@ -648,22 +649,6 @@ export default {
 					this.luckyNum = "00"
 				})
 			}, 1000)
-		},
-		// 预测失败
-		noWin(ab) {
-			this.openConfirm({
-				content: this.$t('message.GameNoWin'),
-				other: this.$t('message.GameWinBox2') + ab + "AB",
-				btn: [
-					{
-						type: "high",
-						text: this.$t('message.GameWinBox3'),
-						cb: () => {
-							this.$router.push('roller')
-						}
-					}
-				]
-			})
 		},
 		// 打开预售
 		openFundraiy() {
@@ -704,7 +689,6 @@ export default {
 					this.bonusPoolsData.ab = res.result.ab || 0
                 }
 			})
-			
 			this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
 				if(err) {
 					console.error(err)

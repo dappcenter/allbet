@@ -13,6 +13,7 @@ import web3Handler from "./vuex/modules/web3Handler"
 import dialogs from "./vuex/modules/dialogs"
 import user from "./vuex/modules/user"
 import tronHandler from "./vuex/modules/tronHandler"
+import database from "./vuex/modules/database"
 
 
 Vue.use(Vuex);
@@ -35,7 +36,8 @@ export default new Vuex.Store({
         web3Handler,
         dialogs,
         user,
-        tronHandler
+        tronHandler,
+        database
     },
     plugins: [vuexLocal.plugin]
 });

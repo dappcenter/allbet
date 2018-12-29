@@ -37,9 +37,9 @@
                         <img class="icon" src="../../../public/img/Telegram02.png" alt="">
                     </a>
                 </div>
-                <div class="circle-progress nominscreen" v-if="storeTronWeb.usageBandwidth && coinType == 'TRX'">
-                    <CircleBar :value="storeTronWeb.usageBandwidth/(storeTronWeb.usageBandwidth+storeTronWeb.surplusBandwidth)" text="BW"></CircleBar>
-                    <CircleBar v-if="storeTronWeb.energyLimit" :value="storeTronWeb.energyLimit/storeTronWeb.totalEnergyLimit" text="EN"></CircleBar>
+                <div class="circle-progress nominscreen" v-if="coinType == 'TRX'">
+                    <CircleBar :value="((storeTronWeb.freeNetUsed+storeTronWeb.netUsed)/(storeTronWeb.netLimit+storeTronWeb.freeNetLimit)) || 0" text="BW"></CircleBar>
+                    <CircleBar v-if="storeTronWeb.energyLimit" :value="storeTronWeb.energyUsed/storeTronWeb.energyLimit" text="EN"></CircleBar>
                 </div>
                 <div class="user-center" v-if="storeCurrentAddr.coinAddress">
                     <img src="../../../public/img/user_icon.png" v-if="userInfo.userLevel == 0" alt="">
@@ -245,7 +245,8 @@ export default {
                 "phoneLogin": {
                     "phone": "",
                     "prefix": "+86"
-                }
+                },
+                "appFrom": localStorage.getItem("APPFROM") || ""
             },
             formData: {
                 phone: "",   //手机号

@@ -26,7 +26,12 @@ const pollTronWeb = function(tronWeb) {
                         usageBandwidth: res.freeNetUsed,
                         surplusBandwidth: res.freeNetLimit - res.freeNetUsed,
                         totalEnergyLimit: res.TotalEnergyLimit,
-                        energyLimit: res.EnergyLimit,
+                        energyLimit: res.EnergyLimit || 0,
+                        energyUsed: res.EnergyUsed || 0,
+                        netLimit: res.NetLimit || 0,  //质押
+                        netUsed: res.NetUsed || 0,  //使用质押
+                        freeNetLimit: res.freeNetLimit || 0,  //赠送5000
+                        freeNetUsed: res.freeNetUsed || 0,
                         coinbase: address,
                         balance: Math.floor(balance/1000)/1000,
                     })
@@ -68,7 +73,8 @@ function coinLogin(address) {
     axios.post("/open/plugin_login", {
         "chainType": "TRX",
         "publicAddress": address,
-        "inviteCode": sessionStorage.getItem('inviteCode')
+        "inviteCode": sessionStorage.getItem('inviteCode'),
+        "appFrom": localStorage.getItem("APPFROM") || ""
     }).then(res => {
         if(res.code == 200) {
             store.commit(types.SET_USERINFO, res.result)

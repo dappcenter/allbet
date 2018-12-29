@@ -4,7 +4,7 @@
 			<a href="javascript:;" class="tl" :class="{'active' : boardType == 'RECENT'}" @click="getData('RECENT')">{{$t("message.GamesPlayers")}}</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'GANGSTER'}" @click="getData('GANGSTER')">{{$t("message.GameBig")}}</a>
 			<a href="javascript:;" :class="{'active' : boardType == 'LUCKY'}" @click="getData('LUCKY')">{{$t("message.GameLuckyList")}}</a>
-			<a href="javascript:;" class="tr" :class="{'active' : boardType == 'ME'}" @click="getData('ME')" v-show="currentAddr.token">{{$t("message.GameRecord")}}</a>
+			<a href="javascript:;" class="tr" :class="{'active' : boardType == 'ME'}" @click="getData('ME')">{{$t("message.GameRecord")}}</a>
 		</div>
 		<div class="myinfo" v-show="boardType == 'ME'">
 			<span class="fl">{{$t("message.GameParticipation")}} <i>{{diceBasis.totalParticipate || 0}}</i></span>
@@ -132,7 +132,9 @@ export default {
 				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
 			}
 			if(!coinAddress && this.boardType == "ME") {
-				this.boardType = "RECENT"
+				this.recordsList = []
+				this.displayedList = []
+				return
 			}
 			this.$http.get('/app/dice/board', {
 				params: {
@@ -172,7 +174,8 @@ export default {
 				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
 			}
 			if(!coinAddress && this.boardType == "ME") {
-				this.boardType = "RECENT"
+				this.recordsList = []
+				this.displayedList = []
 				return
 			}
 			let boardType = this.boardType

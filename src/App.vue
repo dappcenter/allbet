@@ -61,6 +61,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import {getBonusPools} from "./util/im_getData"
 import Md5 from "./assets/js/md5.js"
 export default {
   name: "App",
@@ -113,6 +114,8 @@ export default {
       default:
         break;
     }
+
+    getBonusPools()
   },
   computed: {
     ...mapState({

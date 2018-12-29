@@ -15,13 +15,12 @@
         // if(window.NETWORK == 4) {
         //   var vConsole=new VConsole();
         // }
-
         function getQueryString(name) { 
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
             var r = window.location.search.substr(1).match(reg); 
             if (r != null) return unescape(r[2]); 
             return null; 
-        } 
+        }
         var inviteCode = getQueryString('inv') || getQueryString('inviteCode')
         if(sessionStorage.getItem('inviteCode') && sessionStorage.getItem('inviteCode').trim() != "") {
             if(inviteCode && inviteCode != sessionStorage.getItem('inviteCode')) {
