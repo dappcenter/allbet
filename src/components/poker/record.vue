@@ -17,7 +17,7 @@
 				<span>{{$t("message.GamePlay")}}</span>
 				<span class="tl">{{$t("message.GameTime")}}</span>
 				<span class="nominscreen">{{$t("message.GameBetNum")}}</span>
-				<span class="nominscreen">{{$t('message.PokerSuits')}}</span>  
+				<span class="nominscreen">{{$t('message.PokerSuits')}}</span>
 				<span class="nominscreen">{{$t('message.PokerResults')}}</span>
 				<span class="tr">{{$t("message.GameReward")}}</span>
 				<span class="nominscreen">AB</span>
@@ -112,7 +112,7 @@ export default {
 	computed: {
 		...mapState({
 			currentAddr: state => state.user.currentAddr,
-			coinType: state => state.user.coinType
+			coinType: state => state.user.coinType,
 		})
 	},
 	methods: {
@@ -212,8 +212,8 @@ export default {
 			const arr2 = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 			let n = luckyNum%13
 			n = n == 0 ? 13 : n
-			let t = luckyNum%4
-			t = t == 0 ? 4 : t
+			let t = Math.ceil(luckyNum/13%4)
+			// t = t == 0 ? 4 : t
 			return [arr1[t-1], arr2[n-1]]
 		},
 		// 卡牌数字转译
@@ -357,7 +357,7 @@ export default {
 						background-size: 53px 53px;
 					}
 				}
-				
+
 				li {
 					flex: 1;
 					text-align: center;
@@ -409,7 +409,7 @@ export default {
 			}
 		}
 	}
-	
+
 	.slide-fade-enter-active {
 		transition: all .3s ease;
 	}
@@ -491,7 +491,7 @@ export default {
 				}
 			}
 		}
-		
+
 	}
 }
 </style>

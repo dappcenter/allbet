@@ -28,8 +28,14 @@
         <div class="centent" :class="{'win': winPopupOption.winFlag == 'WIN'}">
           <h3 v-if="winPopupOption.winFlag == 'WIN'" class="">Congratulations, you bet  {{winPopupOption.amount}} {{winPopupOption.coinType}}</h3>
           <h3 v-else class="">Unfortunately, you bet  {{winPopupOption.amount}} {{winPopupOption.coinType}}</h3>
-          <p v-if="winPopupOption.winFlag == 'WIN'">Roll result {{winPopupOption.luckyNum}}, win {{Math.floor(winPopupOption.rewards*10000)/10000}} {{winPopupOption.coinType}}</p>
-          <p v-else>Roll result {{winPopupOption.luckyNum}}, lost {{winPopupOption.amount}} {{winPopupOption.coinType}}</p>
+          <p v-if="winPopupOption.winFlag == 'WIN'"><span>Roll result </span>
+						<img v-show="winPopupOption.cardType" :src="'/img/poker/cardtype'+ winPopupOption.cardType +'.png'" alt="">
+						<span>{{winPopupOption.luckyNum}}, win {{Math.floor(winPopupOption.rewards*10000)/10000}} {{winPopupOption.coinType}}</span>
+					</p>
+          <p v-else><span>Roll result </span>
+						<img v-show="winPopupOption.cardType" :src="'/img/poker/cardtype'+ winPopupOption.cardType +'.png'" alt="">
+						<span>{{winPopupOption.luckyNum}}, lost {{winPopupOption.amount}} {{winPopupOption.coinType}}</span>
+					</p>
         </div>
       </div>
 
@@ -114,7 +120,7 @@ export default {
       default:
         break;
     }
-    this.$store.dispatch("registerEOS")
+    // this.$store.dispatch("registerEOS")
     // getBonusPools()
   },
   computed: {
@@ -313,6 +319,13 @@ body {
           background-color: #FE0E4E;
           width: 100%;
         }
+				img {
+					width: 15px;
+					// height: 15px;
+					margin: 0 3px;
+					display: inline-block;
+					vertical-align: bottom;
+				}
       }
   }
 
