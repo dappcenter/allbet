@@ -132,12 +132,20 @@
                             <i v-else>0</i> {{coinType}}</span>
                         <button class="enter" v-if="currentAddr.token" @click="betDo">{{$t('message.PokerBet')}}</button>
                         <button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
-                        <span class="fl minscreen">
+                        <div class="cell fl minscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
-                            <i v-else>0</i> {{coinType}}</span>
-                        <span class="fr"><img src="../../../public/img/coin/AB.png"><i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i><i v-else>0</i> AB</span>
+                            <i v-else>0</i> {{coinType}}</div>
+                        <div class="cell fr" @mouseenter="getBonusPools">
+              						<img src="../../../public/img/coin/AB.png">
+              						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
+              						<i v-else>0</i> AB
+              						<div class="supernatant">
+              							<span>{{Math.floor(contractAB*100)/100}} AB</span>
+              							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab*100)/100}} AB</a>
+              						</div>
+              					</div>
                     </div>
                 </div>
                 <!-- 挖矿数量 -->
@@ -154,6 +162,8 @@
             </div>
             <!-- Ab弹框 -->
             <AbPopup v-model="isShowABpopup"></AbPopup>
+            <!-- 分红挖矿弹框 -->
+        		<BonusPoolsPopup v-model="isShowBPpopup" :ab='true'></BonusPoolsPopup>
 			<!-- 游戏玩法 -->
 			<GameHelpPopup v-model="isShowHelp"></GameHelpPopup>
     	</div>
@@ -168,6 +178,7 @@ import PollHttp from "../../util/pollHttp"
 import AbPopup from "@/components/common/ab_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
 import GameHelpPopup from "@/components/common/popup/pokerGameHelp_popup"
+import BonusPoolsPopup from "@/components/common/bonusPools_popup"
 
 export default {
 	props: {
@@ -196,6 +207,7 @@ export default {
 			autoBet: false,
 			isShowABpopup: false,
 			isShowFundraiy: false,
+      isShowBPpopup: false,
 			pokerList: [],
 			pokerSelectedList: [],
 			cardList: [1,2,3,4],
@@ -203,7 +215,12 @@ export default {
 			coinTypeSelectShow: false,
 			music: false,
 			loading: false,
-			open: false
+			open: false,
+      bonusPoolsData: {
+				ab: 0,
+				transferred: 0
+			},
+      contractAB: 0,  //合约上的AB
         }
 	},
 	created() {
@@ -643,6 +660,49 @@ export default {
 				})
 			}, 1000)
 		},
+    //显示挖矿页面
+		showBP() {
+			if(this.$IsPC()) {
+				this.isShowBPpopup = true
+			}else {
+				this.$router.push('bonus-pool?ab=true')
+			}
+		},
+    //获取分红池信息
+        getBonusPools() {
+            PollHttp({
+        type: 'get',
+        url: '/app/profit/profit',
+        data: {
+          coinType: this.coinType
+        }
+      }).then(res => {
+        if(res.code == 200) {
+          this.bonusPoolsData.transferred = res.result.transferred || 0
+          this.bonusPoolsData.ab = res.result.ab || 0
+                }
+      })
+      this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+        if(err) {
+          console.error(err)
+        }else {
+          abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
+            if(err) {
+              console.error(err)
+            }else {
+              this.contractAB = parseInt(res._hex,16)/1000000
+            }
+          })
+        }
+      })
+      this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
+        if(!error) {
+          this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")
+        } else {
+          console.error(error);
+        }
+      })
+        },
     // 幸运数转译
 		luckyNumTranslation(luckyNum) {
 			const arr1 = ["A", "C", "B", "D"]
@@ -713,7 +773,8 @@ export default {
 		DigitalRoll,
 		AbPopup,
 		FundraiyPopup,
-		GameHelpPopup
+		GameHelpPopup,
+    BonusPoolsPopup
 	},
 	destroyed() {
 		clearInterval(this.timer)
@@ -1321,6 +1382,54 @@ export default {
 							background-color: #ffba00;
 						}
 					}
+          .cell {
+						position: relative;
+						flex: 1;
+						font-size: 16px;
+						text-align: left;
+						padding: 10px 0;
+						cursor: pointer;
+						img {
+							width: 30px;
+							vertical-align: middle;
+							margin-right: 10px;
+							background-color: #0F4C34;
+							border-radius: 50%;
+						}
+						i {
+							color: #FFC425;
+							font-style: normal;
+						}
+						&.fr {
+							text-align: right;
+						}
+						.supernatant {
+							position: absolute;
+							bottom: 50px;
+							right: 0;
+							background-color: #54506D;
+							text-align: left;
+							padding: 12px 20px;
+							border-radius: 5px;
+							display: none;
+							span {
+								display: block;
+								font-size: 12px;
+							}
+							a {
+								color: #13F693;
+								font-size: 14px;
+								&:hover {
+									text-decoration: underline;
+								}
+							}
+						}
+						&:hover {
+							.supernatant {
+								display: block;
+							}
+						}
+					}
 					span {
 						flex: 1;
 						font-size: 16px;
@@ -1595,7 +1704,8 @@ export default {
 					.bet-wrap {
 						display: block;
 						margin: .6rem 0;
-						overflow: hidden;
+						// overflow: hidden;
+            height: 100%;
 						.enter {
 							display: block;
 							width: 3rem;
@@ -1603,6 +1713,24 @@ export default {
 							margin: 0 auto .2rem;
 							outline: none;
 							font-size: .24rem;
+						}
+            .cell {
+							font-size: .16rem;
+							&.fl {
+								width: 50%;
+								float: left;
+							}
+							&.fr {
+								width: 50%;
+								float: right;
+								text-align: right;
+							}
+							img {
+								width: 20px;
+							}
+							.supernatant {
+								bottom: 37px;
+							}
 						}
 						span {
 							font-size: .16rem;
