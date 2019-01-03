@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				<div class="award">
-					<p>{{$t('message.GamePlayOutWin')}} 
+					<p>{{$t('message.GamePlayOutWin')}}
 						<!-- <i class="help" :data-text="$t('message.GameFeeHelp' + coinType)"></i> -->
 					</p>
 					<div>
@@ -240,7 +240,7 @@ export default {
 		window.ontouchend = function() {
 			that.closePopup()
 			that.isShowResult = false
-			window.ontouchmove = null	
+			window.ontouchmove = null
 		}
 		window.ontouchstart = function() {
 			that.closePopup()
@@ -278,11 +278,11 @@ export default {
 							this.amount = 0.01
 						}
 					}else {
-						this.amount = balance	
+						this.amount = balance
 					}
 				}
 			}
-			
+
 		},
 		//幸运数跳动
 		luckyRun() {
@@ -367,7 +367,7 @@ export default {
                     odds: that.odds,
                     amount: that.amount
 				})
-				
+
 			}
 		},
         onHandleTouchS(e) {
@@ -439,7 +439,7 @@ export default {
 				return
 			}
 			this.betBtnLoading = true
-		
+
 			this.$http.post("/app/dice/dice", {
 				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
 				"coinAmount": this.amount,
@@ -1409,7 +1409,7 @@ export default {
 				}
 			}
 		}
-		
+
 	}
 	@media screen and (max-width: 800px){
 		.module-roller-bet {

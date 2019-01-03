@@ -3,7 +3,7 @@
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t("message.GameRule")}}</h4>
         <div class="content-text nominscreen" v-html="$t('message.PokerGameRule')" ref="contentText"></div>
-        <div class="content-text minscreen" v-html="$t('message.GameHelpMobile')" ref="contentText"></div>
+        <div class="content-text minscreen" v-html="$t('message.PokerGameRule')" ref="contentText"></div>
         <div class="btn-wrap">
             <button class="high" @click="isShow = false">{{$t("message.GameKnow")}}</button>
         </div>

@@ -179,6 +179,7 @@ export default {
 				return
 			}
 			let boardType = this.boardType
+			if(this.lastRecord == "") return
 			PollHttp({
 				type: 'get',
 				url: '/app/dice/board',

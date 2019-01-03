@@ -83,10 +83,10 @@
 									<i class="icon" :class="{'eth': coinType == 'ETH', 'trx': coinType == 'TRX'}"></i>
 									<i class="arrow"></i>
 									<ul>
-										<li @click="changeCoinType('ETH')">
+										<!-- <li @click="changeCoinType('ETH')">
 											<img src="../../../public/img/coin/ETH.png" alt="">
 											<label for="">ETH</label>
-										</li>
+										</li> -->
 										<li @click="changeCoinType('TRX')">
 											<img src="../../../public/img/coin/TRX.png" alt="">
 											<label for="">TRX</label>
@@ -116,11 +116,13 @@
                 </div>
                 <div class="ctn-btm">
 					<div class="auto-bet">
+            			<p class="rule" @click="isShowHelp = true">{{$t("message.GameHowToPlay")}}</p>
 						<div class="mid">
 							<label>{{$t('message.GameAutoBet')}}</label>
 							<span class="switch" :class="{'on' : autoBet}" @click="autoBet = !autoBet"></span>
 							<i class="help" :data-text="$t('message.GameAutoBetHelp')"></i>
 						</div>
+						<p></p>
 					</div>
                     <div class="bet-wrap">
                         <span class="fl nominscreen">
@@ -128,7 +130,8 @@
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
                             <i v-else>0</i> {{coinType}}</span>
-                        <button class="enter" @click="betDo">{{$t('message.PokerBet')}}</button>
+                        <button class="enter" v-if="currentAddr.token" @click="betDo">{{$t('message.PokerBet')}}</button>
+                        <button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
                         <span class="fl minscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
@@ -181,7 +184,7 @@ export default {
 	},
     data() {
         return {
-            amount: 0.1,
+            amount: 100,
 			odds: 50,
 			rule: {},
 			luckyColor: "green",
@@ -209,6 +212,11 @@ export default {
 		window.hd = {}
 		for (var i = 1;i<=13;i++) {
 			this.pokerList.push(i)
+		}
+    if(this.coinType == "TRX") {
+			this.amount = 100
+		}else {
+			this.amount = 0.01
 		}
 	},
     mounted() {
@@ -241,7 +249,11 @@ export default {
 		// 		}, 3000)
 		// 	}, 5000)
 		// }, 3000)
-
+		setTimeout(() => {
+			if(this.coinType != "TRX") {
+				this.changeCoinType("TRX")
+			}
+		}, 1000)
     },
     methods: {
 		// 点击牌移动
@@ -372,13 +384,24 @@ export default {
 			}).then(res => {
 				if(res.code == 200) {
 					this.rule = res.result
-					this.amount = res.result.minInvest
+					// this.amount = res.result.minInvest
 				}
 			})
 		},
 		//下注
 		betDo() {
+      if (this.coinType == 'ETH') {
+        this.alert({
+          type: "info",
+          msg: this.$t("message.PokerNoSupportEth")
+        })
+        return
+      }
 			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
+        this.alert({
+          type: "info",
+          msg: this.$t("message.PokerNoSelect")
+        })
 				return
 			}
 			this.isShowResult = false  //隐藏结果显示
@@ -422,7 +445,7 @@ export default {
 			let pokerTypeArr = []
 			this.cardSelectedList.forEach((val, idx) => {
 				switch(val) {
-					case 1: 
+					case 1:
 						pokerTypeArr.push("A")
 						break
 					case 2:
@@ -444,9 +467,7 @@ export default {
 				"pokerType": pokerType || "0",
 				"noLoading": true
 			}).then(res => {
-				console.log("/app/dice/poker", res)
 				if(res.code == 200) {
-					
 					if(res.result.resultType == "DISPATCHER") {  //平台账号
 						this.alert({
 							type: "success",
@@ -580,7 +601,8 @@ export default {
 										coinType: res.result.coinType,
 										winFlag: "WIN",
 										amount: res.result.coinAmount,
-										luckyNum: res.result.luckyNum
+                    cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+										luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
 									})
 								}else if(res.result.winFlag == "LOSE") {
 									this.openWinPopup({
@@ -589,7 +611,8 @@ export default {
 										coinType: res.result.coinType,
 										winFlag: "LOSE",
 										amount: res.result.coinAmount,
-										luckyNum: res.result.luckyNum
+                    cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+										luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
 									})
 								}
 								// 自动下注
@@ -620,6 +643,16 @@ export default {
 				})
 			}, 1000)
 		},
+    // 幸运数转译
+		luckyNumTranslation(luckyNum) {
+			const arr1 = ["A", "C", "B", "D"]
+			const arr2 = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+			let n = luckyNum%13
+			n = n == 0 ? 13 : n
+			let t = Math.ceil(luckyNum/13%4)
+			// t = t == 0 ? 4 : t
+			return [arr1[t-1], arr2[n-1]]
+		},
 		// 打开预售
 		openFundraiy() {
 			if(this.coinType == 'TRX' && this.$IsPC()) {
@@ -646,6 +679,11 @@ export default {
 		},
 		coinType() {
 			this.getRule()
+      if(this.coinType == "TRX") {
+				this.amount = 100
+			}else {
+				this.amount = 0.01
+			}
 		},
 	},
 	computed: {
@@ -1011,11 +1049,11 @@ export default {
 									height: 100%;
 									&.eth {
 										background: url(../../../public/img/coin/ETH.png) no-repeat center;
-										background-size: 90% auto;	
+										background-size: 90% auto;
 									}
 									&.trx {
 										background: url(../../../public/img/coin/TRX.png) no-repeat center;
-										background-size: 90% auto;	
+										background-size: 90% auto;
 									}
 								}
 								.arrow {
@@ -1258,8 +1296,9 @@ export default {
 					}
 					.rule {
 						width: 200px;
-						text-align: right;
+						text-align: left;
 						color: #D3CDFF;
+						cursor: pointer;
 					}
 				}
 				.bet-wrap {

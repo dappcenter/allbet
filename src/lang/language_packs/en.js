@@ -425,5 +425,7 @@ export default {
         PokerTips4: "One suit should be saved when you play mixed betting.",
         PokerTips5: "One figure should be saved when you play mixed betting.",
         PokerGameRule: "<p style='text-align: justify'>1. Figure Bet: You can choose one or less than twelve numbers to bet. If the ‘Lucky Suit’ is the same as the prediction, you can get rewards.</br ></br >2. Suit Bet: You can choose one or less than three suits to bet. If the ‘Lucky suit’ is the same as the prediction, you can get rewards.</br></br>3. Mixed Bet: You can choose numbers and suits at the same time. If you choose 13 numbers, the suits are no more than 3.If you choose 4 suits, the numbers are no more than 12. If the ‘Lucky Mixed bet’ is the same as the prediction, you can get rewards.</br></br>4. Payout will be adjusted according to numbers and suits you choose.</p>",
+        PokerNoSupportEth: 'Do not support ETH bet!',
+        PokerNoSelect: "You haven't choose any figure or suit.",
     }
 }
