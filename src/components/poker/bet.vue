@@ -24,7 +24,7 @@
                     </div>
                     <div class="poker" :class="{'loading' : loading, 'open': open}">
                         <img class="img back" src="../../../public/img/poker/kj_poker.png" alt="">
-						<img class="img front" src="../../../public/img/poker/full/p1.png" alt="">
+						<img class="img front" :src="'img/poker/full/p' + luckyNum +'.png'" alt="">
 						<img class="svg" src="../../../public/svg/loading2.svg" alt="">
                     </div>
 					<a href="javascript:;" class="reset show" @click="reset"></a>
@@ -128,7 +128,7 @@
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
                             <i v-else>0</i> {{coinType}}</span>
-                        <button class="enter" @click="betDo">{{$t('message.BPSoon')}}</button>
+                        <button class="enter" @click="betDo">{{$t('message.PokerBet')}}</button>
                         <span class="fl minscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
@@ -185,7 +185,7 @@ export default {
 			odds: 50,
 			rule: {},
 			luckyColor: "green",
-			luckyNum: "00",
+			luckyNum: "2",
 			timer: null,
 			getBetResultTimer: null,
 			isShowHelp: false,
@@ -231,10 +231,22 @@ export default {
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
 
+		// setTimeout(() => {
+		// 	this.loading = true
+		// 	setTimeout(() => {
+		// 		this.loading = false
+		// 		this.open = true
+		// 		setTimeout(() => {
+		// 			this.open = false
+		// 		}, 3000)
+		// 	}, 5000)
+		// }, 3000)
+
     },
     methods: {
 		// 点击牌移动
 		movePoker (item, index) {
+			if(this.loading) return
 			if(item == '') return
 			if(this.cardSelectedList.length == 4 && this.pokerSelectedList.length >= 12 ) {
 				this.alert({
@@ -255,6 +267,7 @@ export default {
 		},
 		// 点击牌归位
 		homingPoker (item, index) {
+			if(this.loading) return
 			if (this.cardSelectedList.length >= 4 && this.pokerSelectedList.length <= 1 ) {
 				this.alert({
 					type: "info",
@@ -267,6 +280,7 @@ export default {
 		},
 		// 点击花色
 		moveCard (item, index) {
+			if(this.loading) return
 			if (item == '') return
 			if ((this.cardSelectedList.length >= 3 || this.cardSelectedList.length == 0) && this.pokerSelectedList.length >= 13 ) {
 				this.alert({
@@ -287,7 +301,7 @@ export default {
 		},
 		// 点击花色归位
 		homingCard (item, index) {
-			console.log(this.cardList,this.cardSelectedList);
+			if(this.loading) return
 			if (this.cardSelectedList.length == 1 && this.pokerSelectedList.length >= 13 ) {
 				this.alert({
 				type: "info",
@@ -356,21 +370,19 @@ export default {
 					coinType: this.coinType
 				}
 			}).then(res => {
-				console.log("getRule",res)
 				if(res.code == 200) {
 					this.rule = res.result
 					this.amount = res.result.minInvest
-					this.luckyNum = res.result.lastLucky || "00"
 				}
 			})
 		},
 		//下注
 		betDo() {
-			this.alert({
-				type: "info",
-				msg: this.$t("message.BPSoon")
-			})
-			return
+			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
+				return
+			}
+			this.isShowResult = false  //隐藏结果显示
+			this.open = false
 			let that = this
 			if(!/^\d+(\.\d+)?$/.test(this.amount)) {
 				this.alert({
@@ -379,13 +391,15 @@ export default {
 				})
 				return
 			}
-			if(this.amount > this.currentAddr.assets[this.coinType].amount) {
+			// 余额检测
+			if(this.amount > (this.currentAddr.assets[this.coinType].amount*1)) {
 				this.alert({
 					type: "info",
 					msg: this.$t("message.assetsNotEnough")
 				})
 				return
 			}
+			// 金额过下检测
 			if(Number(this.amount) < this.rule.minInvest) {
 				this.alert({
 					type: "info",
@@ -393,6 +407,7 @@ export default {
 				})
 				return
 			}
+			// 金额过大检测
 			if(this.amount*1 > this.rule.maxInvest*1) {
 				this.alert({
 					type: "info",
@@ -400,6 +415,66 @@ export default {
 				})
 				return
 			}
+			this.betBtnLoading = true
+
+			let pokerNumber = this.pokerSelectedList.join(",")
+
+			let pokerTypeArr = []
+			this.cardSelectedList.forEach((val, idx) => {
+				switch(val) {
+					case 1: 
+						pokerTypeArr.push("A")
+						break
+					case 2:
+						pokerTypeArr.push("B")
+						break
+					case 3:
+						pokerTypeArr.push("C")
+						break
+					case 4:
+						pokerTypeArr.push("D")
+						break
+				}
+			})
+			let pokerType = pokerTypeArr.join(",")
+			this.$http.post("/app/dice/poker", {
+				"coinAddress": this.currentAddr.assets[this.coinType].coinAddress,
+				"coinAmount": this.amount,
+				"pokerNumber": pokerNumber || "0",
+				"pokerType": pokerType || "0",
+				"noLoading": true
+			}).then(res => {
+				console.log("/app/dice/poker", res)
+				if(res.code == 200) {
+					
+					if(res.result.resultType == "DISPATCHER") {  //平台账号
+						this.alert({
+							type: "success",
+							msg: res.msg
+						})
+						this.loading = true
+						that.getBetResult(res.result.recdId, res.result.coinAmount)
+					}else {   //合约账号
+						this.alert({
+							type: "info",
+							msg: "Please Wait For Wallet to ConfirmTransfer...",
+							timeout: 9999999
+						})
+						switch(res.result.coinType) {
+							case "ETH":
+								this.placeBet(this.odds, 100, res.result.commitLastBlock, res.result.commit, res.result.signData, res.result.coinAmount, res.result.recdId)
+								break;
+							case "TRX":
+								this.placeBetTRX(res.result.pokerCnts, res.result.recdId, res.result.coinAmount, res.result.pokerListA, res.result.pokerListB)
+								break;
+						}
+					}
+				}else {
+					this.betBtnLoading = false
+				}
+			}).catch(err => {
+				this.betBtnLoading = false
+			})
 
 		},
 		/**
@@ -442,11 +517,11 @@ export default {
 		/**
 		 * TRX下注
 		 */
-		placeBetTRX(rollUnder, orderId, amount) {
+		placeBetTRX(pokerCnts, orderId, amount, pokerListA, pokerListB) {
 			let that = this
-			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
-			const callValue = this.tronWeb.tronWebInstance.toSun(amount);
-			this.tronWeb.contract.placeBetV1(rollUnder, 100, orderId).send({
+			const feeLimit  = this.tronWeb.tronWebInstance.toSun(100);
+			const callValue = this.tronWeb.tronWebInstance.toSun(amount)
+			this.tronWeb.pokerContract.placePoker(pokerListA, pokerListB, pokerCnts, orderId).send({
 				feeLimit:feeLimit,
 				callValue:callValue,
 				shouldPollResponse:false
@@ -456,8 +531,10 @@ export default {
 					msg: "Bet submitted! Waiting for Tron...",
 					timeout: 9999999
 				})
+				that.loading = true
 				that.getBetResult(orderId)
 			}).catch(err => {
+				console.log("err", err)
 				that.alert({
 					type: "info",
 					msg: "User rejected the signature request.",
@@ -472,7 +549,7 @@ export default {
 			this.getBetResultTimer = setInterval(() => {
 				PollHttp({
 					type: 'get',
-					url: '/app/dice/dice/' + recdId,
+					url: '/app/dice/bet/' + recdId,
 					data: {}
 				}).then(res => {
 					if(res.code == 200) {
@@ -490,17 +567,30 @@ export default {
 							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
+								console.log(res)
 								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
+								this.loading = false  //关闭loading
+								this.open = true
 								this.$store.dispatch('updateProperty')
 								if(res.result.winFlag == "WIN") {
 									this.openWinPopup({
 										ab: res.result.abNum,
 										rewards: res.result.rewards,
-										coinType: res.result.coinType
+										coinType: res.result.coinType,
+										winFlag: "WIN",
+										amount: res.result.coinAmount,
+										luckyNum: res.result.luckyNum
 									})
 								}else if(res.result.winFlag == "LOSE") {
-									this.noWin(res.result.abNum)
+									this.openWinPopup({
+										ab: res.result.abNum,
+										rewards: 0,
+										coinType: res.result.coinType,
+										winFlag: "LOSE",
+										amount: res.result.coinAmount,
+										luckyNum: res.result.luckyNum
+									})
 								}
 								// 自动下注
 								setTimeout(() => {
@@ -521,34 +611,14 @@ export default {
 						this.timer = null
 						clearInterval(this.getBetResultTimer)
 						this.getBetResultTimer = null
-						this.luckyNum = "00"
-						this.luckyColor = "green"
 					}
 				}).catch(err => {
 					clearInterval(this.timer)
 					this.timer = null
 					clearInterval(this.getBetResultTimer)
 					this.getBetResultTimer = null
-					this.luckyColor = "green"
-					this.luckyNum = "00"
 				})
 			}, 1000)
-		},
-		// 预测失败
-		noWin(ab) {
-			this.openConfirm({
-				content: this.$t('message.GameNoWin'),
-				other: this.$t('message.GameWinBox2') + ab + "AB",
-				btn: [
-					{
-						type: "high",
-						text: this.$t('message.GameWinBox3'),
-						cb: () => {
-							this.$router.push('roller')
-						}
-					}
-				]
-			})
 		},
 		// 打开预售
 		openFundraiy() {

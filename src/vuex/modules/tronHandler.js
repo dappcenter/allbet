@@ -6,6 +6,7 @@ import pollTronWeb from "../../util/pollTronWeb"
 
 const contract = contracts['Roller']
 const fundraiy = contracts['Fundraiy']
+const poker = contracts['Poker']
 
 const state = {
     tronWeb: {
@@ -46,6 +47,7 @@ const mutations = {
         state.tronWeb.tronWebInstance = payload.tronWebInstance
         state.tronWeb.contract = payload.contract
         state.tronWeb.fundraiy = payload.fundraiy
+        state.tronWeb.pokerContract = payload.pokerContract
         // 轮询
         pollTronWeb(payload.tronWebInstance)
     },
@@ -93,7 +95,8 @@ const actions = {
                         balance: Math.floor(balance/1000)/1000,
                         tronWebInstance: tronWeb,
                         contract: tronWeb.contract(contract.abi, window.TRONROLLARADDRESS),
-                        fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS2)
+                        fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS2),
+                        pokerContract: tronWeb.contract(poker.abi, window.TRONPOKERADDRESS)
                     })
                 }
             });

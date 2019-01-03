@@ -23,7 +23,7 @@
 				<span class="nominscreen">AB</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in displayedList">
 					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
@@ -34,25 +34,22 @@
 						<span>{{item.coinAmount}}</span>
 					</li>
 					<li class="multi-row">
-						<div class="hs">
-							<img src="../../../public/img/poker/card1.png" alt="">
-							<img src="../../../public/img/poker/card2.png" alt="">
-							<img src="../../../public/img/poker/card3.png" alt="">
-							<img src="../../../public/img/poker/card4.png" alt="">
+						<div class="hs" v-if="item.pokerType != 0">
+							<img v-for="pt in item.pokerType.split(',')" :src="'img/poker/cardtype'+ pt +'.png'" alt="">
 						</div>
-						<div class="num">A 2 3 4 5 6 7 8 9 10 J Q K</div>
+						<div class="num">{{pokerNumTranslation(item.pokerNumber)}}</div>
 					</li>
 					<li class="multi-row">
 						<div class="hs">
-							<img src="../../../public/img/poker/card3.png" alt="">
+							<img :src="'img/poker/cardtype'+ luckyNumTranslation(item.luckyNum)[0] +'.png'" alt="">
 						</div>
-						<div class="num">A</div>
+						<div class="num">{{luckyNumTranslation(item.luckyNum)[1]}}</div>
 					</li>
 					<li class="golden tr">
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>
 					</li>
 					<li>
-						<span>{{Math.floor(item.abNum)}}</span>
+						<span>{{Math.floor(item.abNum*100)/100}}</span>
 					</li>
 				</ul>
 			</div>
@@ -65,7 +62,7 @@
 				<span class="tr">{{$t("message.GameReward")}}</span>
 			</div>
 			<div class="t-body">
-				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in recordsList">
+				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in displayedList">
 					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
@@ -89,17 +86,22 @@ export default {
         return {
 			unfold: -1,
 			recordsList: [],
+			displayedList: [],
 			boardType: "RECENT",
 			rule: {},
 			timer: null,
-			diceBasis: {}
+			diceBasis: {
+				totalAb: 0
+			},
+			lastRecord: "",
+			updateListTimer: null
         }
 	},
 	created() {
 		this.getRule()
-		// this.getData(this.boardType)
+		this.getData(this.boardType)
 		this.timer = window.setInterval(() => {
-			// this.getDataPoll()
+			this.getDataPoll()
 		}, 3000)
 	},
 	watch: {
@@ -116,27 +118,35 @@ export default {
 	methods: {
 		getData(type) {
 			this.boardType = type
+			this.lastRecord = ""
 			let coinAddress = null
 			if(this.currentAddr.assets) {
 				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
 			}
 			if(!coinAddress && this.boardType == "ME") {
-				this.boardType = "RECENT"
+				this.recordsList = []
+				this.displayedList = []
+				return
 			}
-			// this.$http.get('/app/dice/board', {
-			// 	params: {
-			// 		boardType: this.boardType,
-			// 		coinAddress: coinAddress,
-			// 		coinType: this.coinType,
-			// 		page: 1,
-			// 		pageSize: this.boardType == "ME" ? 10000 : 30
-			// 	}
-			// }).then(res => {
-			// 	if(res.code == 200) {
-			// 		this.recordsList = res.result.records.list
-			// 		this.diceBasis = res.result.diceBasis
-			// 	}
-			// })
+			this.$http.get('/app/dice/board', {
+				params: {
+					boardType: this.boardType,
+					coinAddress: coinAddress,
+					coinType: this.coinType,
+					page: 1,
+					gameType: "POKER",
+					pageSize: this.boardType == "ME" ? 10000 : 30,
+					last: ""
+				}
+			}).then(res => {
+				if(res.code == 200) {
+					this.recordsList = []
+					this.displayedList = res.result.records.list
+					this.diceBasis = res.result.diceBasis
+					res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
+					this.updateList()
+				}
+			})
 		},
 		getRule() {
 			this.$http.get('/app/dice/rule', {
@@ -156,9 +166,11 @@ export default {
 				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
 			}
 			if(!coinAddress && this.boardType == "ME") {
-				this.boardType = "RECENT"
+				this.recordsList = []
+				this.displayedList = []
 				return
 			}
+			let boardType = this.boardType
 			PollHttp({
 				type: 'get',
 				url: '/app/dice/board',
@@ -167,16 +179,52 @@ export default {
 					coinAddress: coinAddress,
 					coinType: this.coinType,
 					page: 1,
-					pageSize: this.boardType == "ME" ? 10000 : 30
+					gameType: "POKER",
+					pageSize: this.boardType == "ME" ? 10000 : 30,
+					last: this.lastRecord
 				}
 			}).then(res => {
 				if(res.code == 200) {
-					this.recordsList = res.result.records.list
+					boardType == this.boardType && res.result.records && (this.recordsList = res.result.records.list.concat(this.recordsList))
 					this.diceBasis = res.result.diceBasis
+					boardType == this.boardType && res.result.records.list[0] && (this.lastRecord = res.result.records.list[0].updateTimestamp)
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
 				}
 			})
+		},
+		updateList() {
+			clearTimeout(this.updateListTimer)
+			if(this.recordsList.length > 0) {
+				if(this.displayedList.length >= 30) {
+					this.displayedList.pop()
+				}
+				let addItem = this.recordsList.pop()
+				addItem && this.displayedList.unshift(addItem)
+			}
+			this.updateListTimer = setTimeout(() => {
+				this.updateList()
+			}, 300)
+		},
+		// 幸运数转译
+		luckyNumTranslation(luckyNum) {
+			const arr1 = ["A", "C", "B", "D"]
+			const arr2 = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+			let n = luckyNum%13
+			n = n == 0 ? 13 : n
+			let t = luckyNum%4
+			t = t == 0 ? 4 : t
+			return [arr1[t-1], arr2[n-1]]
+		},
+		// 卡牌数字转译
+		pokerNumTranslation(pokerNum) {
+			const arr1 = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+			let arr2 = pokerNum.split(',')
+			let arr3 = []
+			arr2.forEach((val, idx) => {
+				arr3.push(arr1[val-1])
+			})
+			return arr3.join(" ")
 		},
 		...mapMutations({
 			alert: "alert"

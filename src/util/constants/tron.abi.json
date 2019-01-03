@@ -6,5 +6,179 @@
     "Fundraiy": {
         "address": "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT",
         "abi": [{"constant":true,"inputs":[],"name":"getRemainDays","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_owner","type":"address"}],"name":"setOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"cfo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"bonus","type":"uint256"}],"name":"reward","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_cfo","type":"address"}],"name":"setCfo","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"endTime","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_trxAmount","type":"uint256"}],"name":"withdrawTRX","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_abAmount","type":"uint256"}],"name":"withdrawAB","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"projectName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"goalMoney","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"raise","outputs":[{"name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"token","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_projectName","type":"string"},{"name":"_goalMoney","type":"uint256"},{"name":"_token","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
+    },
+    "Poker": {
+        "address": "TW36tqAW1ngc2YDQUNKg4JVQufjXtxVkrp",
+        "abi": [{
+            "constant": false,
+            "inputs": [{"name": "newOwner", "type": "address"}],
+            "name": "setOwner",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "cfo",
+            "outputs": [{"name": "", "type": "address"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "orderid", "type": "uint256"}, {"name": "random", "type": "uint8"}],
+            "name": "settlePoker",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "newCfo", "type": "address"}],
+            "name": "setCfo",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "feeAddr",
+            "outputs": [{"name": "", "type": "address"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [],
+            "name": "kill",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "minAmount", "type": "uint256"}, {"name": "maxAmount", "type": "uint256"}],
+            "name": "setBetLimit",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "flag", "type": "uint8"}],
+            "name": "setActive",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "MIN_BET",
+            "outputs": [{"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "MAX_BET",
+            "outputs": [{"name": "", "type": "uint256"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "owner",
+            "outputs": [{"name": "", "type": "address"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [{"name": "orderid", "type": "uint256"}],
+            "name": "getPokerInfo",
+            "outputs": [{"name": "", "type": "uint256"}, {"name": "", "type": "uint8"}, {
+                "name": "",
+                "type": "bytes26"
+            }, {"name": "", "type": "bytes26"}, {"name": "", "type": "uint40"}, {"name": "", "type": "address"}, {
+                "name": "",
+                "type": "uint8"
+            }, {"name": "", "type": "uint8"}, {"name": "", "type": "uint256"}, {"name": "", "type": "uint256"}, {
+                "name": "",
+                "type": "uint256"
+            }],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "PokerListA", "type": "bytes26"}, {
+                "name": "PokerListB",
+                "type": "bytes26"
+            }, {"name": "pokerCnts", "type": "uint8"}, {"name": "orderid", "type": "uint256"}],
+            "name": "placePoker",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "newFeeAddr", "type": "address"}],
+            "name": "setFeeAddr",
+            "outputs": [{"name": "", "type": "bool"}],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "to", "type": "address"}, {"name": "withdrawAmount", "type": "uint256"}],
+            "name": "withdrawFunds",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {
+            "constant": true,
+            "inputs": [],
+            "name": "activated_",
+            "outputs": [{"name": "", "type": "uint8"}],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }, {
+            "constant": false,
+            "inputs": [{"name": "orderid", "type": "uint256"}],
+            "name": "refundPoker",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }, {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"}, {
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "fallback"
+        }, {
+            "anonymous": false,
+            "inputs": [{"indexed": true, "name": "to", "type": "address"}, {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            }],
+            "name": "FailedPayment",
+            "type": "event"
+        }, {
+            "anonymous": false,
+            "inputs": [{"indexed": true, "name": "to", "type": "address"}, {
+                "indexed": false,
+                "name": "amount",
+                "type": "uint256"
+            }],
+            "name": "Payment",
+            "type": "event"
+        }]
     }
 }
