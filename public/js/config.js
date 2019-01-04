@@ -9,7 +9,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONFUNDRAIYADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
     window.TRONABTOKEN = "TNbYoP22d74RWy4ETssHsXYFrnmmbQ2fvt"
-    window.TRONPOKERADDRESS = "TFCMvVAyA2gFQ9hK9NpeVcyexkv4FtqLNU"  //poker游戏合约
+    window.TRONPOKERADDRESS = "TQAeHRPkwwCB7EUhMUes6nswSXWXZrj7mM"  //poker游戏合约
     // 网络标识
     window.NETWORK = 1
 }else if(window.location.href.indexOf('47.91.247.93') >= 0){
