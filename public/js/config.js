@@ -14,7 +14,8 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.NETWORK = 1
 }else if(window.location.href.indexOf('47.91.247.93') >= 0){
     //测试环境
-    window.SERVERPATH = "http://47.91.247.93:7788"
+    // window.SERVERPATH = "http://47.91.247.93:7788"
+    window.SERVERPATH = "http://192.168.120.64:8080"  //海云本地
     window.BANCORADDRESS = "0xd06b02f187c137f59f9351c62a421dae59739d37"
     window.ROLLERADDRESS = "0x9fb54a29924ecca77e8f2c6c7e762e9e18e56b04"
     window.ETHABTOKEN = "0x1f1a8108671c893AD3382166Edd427E487be3266"

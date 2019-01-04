@@ -130,7 +130,8 @@
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
                             <i v-else>0</i> {{coinType}}</span>
-                        <button class="enter" v-if="currentAddr.token" @click="betDo">{{$t('message.PokerBet')}}</button>
+                        <button class="enter" v-if="currentAddr.token && !loading" @click="betDo">{{$t('message.PokerBet')}}</button>
+						<button v-else-if="loading" class="enter">{{$t("message.PokerWaiting")}}</button>
                         <button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
                         <div class="cell fl minscreen">
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
