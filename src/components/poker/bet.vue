@@ -28,6 +28,7 @@
 						<img class="svg" src="../../../public/svg/loading2.svg" alt="">
                     </div>
 					<a href="javascript:;" class="reset show" @click="reset"></a>
+					<a href="javascript:;" class="rule show" @click="isShowHelp = true"></a>
                 </div>
 				<!-- 移动端 -->
 				<div class="number-area minscreen">
@@ -606,39 +607,41 @@ export default {
 							this.getBetResultTimer = null
 							this.luckyColor = "green"
 							if(res.result.tradeStatus == "DONE") {
-								console.log(res)
 								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
-								this.loading = false  //关闭loading
-								this.open = true
-								this.$store.dispatch('updateProperty')
-								if(res.result.winFlag == "WIN") {
-									this.openWinPopup({
-										ab: res.result.abNum,
-										rewards: res.result.rewards,
-										coinType: res.result.coinType,
-										winFlag: "WIN",
-										amount: res.result.coinAmount,
-                    cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
-										luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
-									})
-								}else if(res.result.winFlag == "LOSE") {
-									this.openWinPopup({
-										ab: res.result.abNum,
-										rewards: 0,
-										coinType: res.result.coinType,
-										winFlag: "LOSE",
-										amount: res.result.coinAmount,
-                    cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
-										luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
-									})
-								}
-								// 自动下注
+								
 								setTimeout(() => {
-									if(this.autoBet && this.userInfo.token) {
-										this.closePopup()
-										this.betDo()
+									this.loading = false  //关闭loading
+									this.open = true
+									this.$store.dispatch('updateProperty')
+									if(res.result.winFlag == "WIN") {
+										this.openWinPopup({
+											ab: res.result.abNum,
+											rewards: res.result.rewards,
+											coinType: res.result.coinType,
+											winFlag: "WIN",
+											amount: res.result.coinAmount,
+											cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+											luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
+										})
+									}else if(res.result.winFlag == "LOSE") {
+										this.openWinPopup({
+											ab: res.result.abNum,
+											rewards: 0,
+											coinType: res.result.coinType,
+											winFlag: "LOSE",
+											amount: res.result.coinAmount,
+											cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+											luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
+										})
 									}
+									// 自动下注
+									setTimeout(() => {
+										if(this.autoBet && this.userInfo.token) {
+											this.closePopup()
+											this.betDo()
+										}
+									}, 1000)
 								}, 1000)
 							}else {
 								this.alert({
@@ -937,7 +940,7 @@ export default {
 				}
 				.reset {
 					position: absolute;
-					left: 5%;
+					left: 3%;
 					top: 5%;
 					width: 40px;
 					height: 40px;
@@ -953,6 +956,18 @@ export default {
 					// &.show {
 					// 	transform: scale(1);
 					// }
+				}
+				.rule {
+					position: absolute;
+					left: 12%;
+					top: 5%;
+					width: 40px;
+					height: 40px;
+					background: #0F4A33 url('../../../public/img/poker/rule_icon.png') no-repeat center;
+					background-size: 60%;
+					border-radius:4px;
+					box-shadow: 0 0 10px #0F4A33;
+					transition: all .5s;
 				}
             }
             .hs-area {
@@ -1533,6 +1548,10 @@ export default {
 						width: 1.4rem;
 					}
 					.reset {
+						width: .6rem;
+						height: .6rem;
+					}
+					.rule {
 						width: .6rem;
 						height: .6rem;
 					}

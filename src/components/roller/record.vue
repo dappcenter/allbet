@@ -143,7 +143,7 @@ export default {
 					coinType: this.coinType,
 					page: 1,
 					pageSize: this.boardType == "ME" ? 10000 : 30,
-					noLoading: true,
+					// noLoading: true,
 					last: this.lastRecord
 				}
 			}).then(res => {

@@ -95,7 +95,8 @@ axios.interceptors.response.use(response => {
         }
         store.commit('alert', {
             type: 'info',
-            msg: err.message
+            // msg: err.message
+            msg: language[store.state.locale].message.PopHttpTimeout
         })
     }else {
         store.commit('alert', {
