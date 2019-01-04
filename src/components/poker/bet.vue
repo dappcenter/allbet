@@ -707,12 +707,12 @@ export default {
         },
     // 幸运数转译
 		luckyNumTranslation(luckyNum) {
-			const arr1 = ["A", "C", "B", "D"]
+			const arr1 = ["A", "B", "C", "D"]
 			const arr2 = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 			let n = luckyNum%13
 			n = n == 0 ? 13 : n
 			let t = Math.ceil(luckyNum/13%4)
-			// t = t == 0 ? 4 : t
+			t = t == 0 ? 4 : t
 			return [arr1[t-1], arr2[n-1]]
 		},
 		// 打开预售

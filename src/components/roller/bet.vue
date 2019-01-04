@@ -205,7 +205,7 @@ export default {
 				timerID: null,
 				list: []
 			},
-			music: false,
+			music: true,
 			isIOS: false,
 			bonusPoolsData: {
 				ab: 0,
@@ -571,7 +571,7 @@ export default {
 			this.getBetResultTimer = setInterval(() => {
 				PollHttp({
 					type: 'get',
-					url: '/app/dice/dice/' + recdId,
+					url: '/app/dice/bet/' + recdId,
 					data: {}
 				}).then(res => {
 					if(res.code == 200) {
