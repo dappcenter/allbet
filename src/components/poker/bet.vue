@@ -22,11 +22,12 @@
                             <span>{{Math.floor(peilv*10000)/10000}}x</span>
                         </div>
                     </div>
-                    <div class="poker" :class="{'loading' : loading, 'open': open}">
+                    <!-- <div class="poker" :class="{'loading' : loading, 'open': open}">
                         <img class="img back" src="../../../public/img/poker/kj_poker.png" alt="">
 						<img class="img front" :src="'img/poker/full/p' + luckyNum +'.png'" alt="">
 						<img class="svg" src="../../../public/svg/loading2.svg" alt="">
-                    </div>
+                    </div> -->
+					<PokerShuffle :loading="loading" :open="open" :luckyNum="luckyNum"></PokerShuffle>
 					<a href="javascript:;" class="reset show" @click="reset"></a>
 					<a href="javascript:;" class="rule show" @click="isShowHelp = true"></a>
                 </div>
@@ -131,7 +132,7 @@
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
                             <i v-else>0</i> {{coinType}}</span>
-                        <button class="enter" v-if="currentAddr.token && !loading" @click="betDo">{{$t('message.PokerBet')}}</button>
+                        <button class="enter" :class="{'loading': betBtnLoading}" v-if="currentAddr.token && !loading" @click="betDo">{{$t('message.PokerBet')}}</button>
 						<button v-else-if="loading" class="enter">{{$t("message.PokerWaiting")}}</button>
                         <button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
                         <div class="cell fl minscreen">
@@ -181,6 +182,7 @@ import AbPopup from "@/components/common/ab_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
 import GameHelpPopup from "@/components/common/popup/pokerGameHelp_popup"
 import BonusPoolsPopup from "@/components/common/bonusPools_popup"
+import PokerShuffle from "@/components/common/poker_shuffle"
 
 export default {
 	props: {
@@ -209,7 +211,7 @@ export default {
 			autoBet: false,
 			isShowABpopup: false,
 			isShowFundraiy: false,
-      isShowBPpopup: false,
+      		isShowBPpopup: false,
 			pokerList: [],
 			pokerSelectedList: [],
 			cardList: [1,2,3,4],
@@ -218,11 +220,12 @@ export default {
 			music: false,
 			loading: false,
 			open: false,
-      bonusPoolsData: {
+      		bonusPoolsData: {
 				ab: 0,
 				transferred: 0
 			},
-      contractAB: 0,  //合约上的AB
+			contractAB: 0,  //合约上的AB
+			betBtnLoading: false
         }
 	},
 	created() {
@@ -258,16 +261,6 @@ export default {
 			sessionStorage.setItem('IsFirstEnter', 'YES')
 		}
 
-		// setTimeout(() => {
-		// 	this.loading = true
-		// 	setTimeout(() => {
-		// 		this.loading = false
-		// 		this.open = true
-		// 		setTimeout(() => {
-		// 			this.open = false
-		// 		}, 3000)
-		// 	}, 5000)
-		// }, 3000)
 		setTimeout(() => {
 			if(this.coinType != "TRX") {
 				this.changeCoinType("TRX")
@@ -409,18 +402,19 @@ export default {
 		},
 		//下注
 		betDo() {
-      if (this.coinType == 'ETH') {
-        this.alert({
-          type: "info",
-          msg: this.$t("message.PokerNoSupportEth")
-        })
-        return
-      }
+			if(this.betBtnLoading) return
+			if (this.coinType == 'ETH') {
+				this.alert({
+				type: "info",
+				msg: this.$t("message.PokerNoSupportEth")
+				})
+				return
+			}
 			if(this.pokerSelectedList.length == 0 && this.cardSelectedList.length == 0) {
-        this.alert({
-          type: "info",
-          msg: this.$t("message.PokerNoSelect")
-        })
+				this.alert({
+					type: "info",
+					msg: this.$t("message.PokerNoSelect")
+				})
 				return
 			}
 			this.isShowResult = false  //隐藏结果显示
@@ -573,6 +567,7 @@ export default {
 				})
 				that.loading = true
 				that.getBetResult(orderId)
+				this.betBtnLoading = false
 			}).catch(err => {
 				console.log("err", err)
 				that.alert({
@@ -580,6 +575,7 @@ export default {
 					msg: "User rejected the signature request.",
 					timeout: 3000
 				})
+				this.betBtnLoading = false
 			})
 		},
 		//查询下注结果
@@ -779,7 +775,8 @@ export default {
 		AbPopup,
 		FundraiyPopup,
 		GameHelpPopup,
-    BonusPoolsPopup
+		BonusPoolsPopup,
+		PokerShuffle
 	},
 	destroyed() {
 		clearInterval(this.timer)
@@ -899,45 +896,45 @@ export default {
                         }
                     }
                 }
-                .poker {
-					position: relative;
-					height: 198px;
-					width: 140px;
-                    .img {
-						position: absolute;
-                        display: block;
-						height: 100%;
-						width: 100%;
-						backface-visibility: hidden;
-						transform-style: preserve-3d;
-  						transition: ease-in-out 600ms;
-					}
-					.front {
-						transform: rotateY(-180deg);
-					}
-					&.open {
-						.front {
-							transform: rotateY(0deg);
-						}
-						.back {
-							transform: rotateY(180deg);
-						}
-					}
-					&.loading {
-						.svg {
-							display: block;
-						}
-					}
-					.svg {
-						position: absolute;
-						left: 10%;
-						top: 50%;
-						transform: translateY(-50%);
-						z-index: 2;
-						width: 80%;
-						display: none;
-					}
-				}
+                // .poker {
+				// 	position: relative;
+				// 	height: 198px;
+				// 	width: 140px;
+                //     .img {
+				// 		position: absolute;
+                //         display: block;
+				// 		height: 100%;
+				// 		width: 100%;
+				// 		backface-visibility: hidden;
+				// 		transform-style: preserve-3d;
+  				// 		transition: ease-in-out 600ms;
+				// 	}
+				// 	.front {
+				// 		transform: rotateY(-180deg);
+				// 	}
+				// 	&.open {
+				// 		.front {
+				// 			transform: rotateY(0deg);
+				// 		}
+				// 		.back {
+				// 			transform: rotateY(180deg);
+				// 		}
+				// 	}
+				// 	&.loading {
+				// 		.svg {
+				// 			display: block;
+				// 		}
+				// 	}
+				// 	.svg {
+				// 		position: absolute;
+				// 		left: 10%;
+				// 		top: 50%;
+				// 		transform: translateY(-50%);
+				// 		z-index: 2;
+				// 		width: 80%;
+				// 		display: none;
+				// 	}
+				// }
 				.reset {
 					position: absolute;
 					left: 3%;
@@ -1398,8 +1395,20 @@ export default {
 						&:hover {
 							background-color: #ffba00;
 						}
+						&.loading {
+							&:after {
+								content: "";
+								background: url(../../../public/gif/Spinner-1.gif) no-repeat center;
+								background-size: 100%;
+								display: inline-block;
+								width: 2em;
+								height: 2em;
+								vertical-align: middle;
+								margin-top: -1px;
+							}
+						}
 					}
-          .cell {
+          			.cell {
 						position: relative;
 						flex: 1;
 						font-size: 16px;
@@ -1542,10 +1551,6 @@ export default {
 
 
 						}
-					}
-					.poker {
-						height: 1.98rem;
-						width: 1.4rem;
 					}
 					.reset {
 						width: .6rem;
@@ -1726,7 +1731,7 @@ export default {
 						display: block;
 						margin: .6rem 0;
 						// overflow: hidden;
-            height: 100%;
+            			height: 100%;
 						.enter {
 							display: block;
 							width: 3rem;
@@ -1734,8 +1739,9 @@ export default {
 							margin: 0 auto .2rem;
 							outline: none;
 							font-size: .24rem;
+							
 						}
-            .cell {
+            			.cell {
 							font-size: .16rem;
 							&.fl {
 								width: 50%;

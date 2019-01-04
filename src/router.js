@@ -101,6 +101,6 @@ export default new Router({
             path: "/poker",
             name: "poker",
             component: () => import("./views/Roker.vue")
-        },
+        }
     ]
 });
