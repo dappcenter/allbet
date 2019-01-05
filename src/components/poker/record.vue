@@ -58,7 +58,8 @@
 		<div class="table-record minscreen">
 			<div class="t-head">
 				<span>{{$t("message.GamePlay")}}</span>
-				<span>{{$t("message.GameTime")}}</span>
+				<!-- <span>{{$t("message.GameTime")}}</span> -->
+				<span>{{$t("message.GameBetNum")}}</span>
 				<span class="tr">{{$t("message.GameReward")}}</span>
 			</div>
 			<div class="t-body">
@@ -66,8 +67,11 @@
 					<li class="user">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
-					<li>
+					<!-- <li>
 						<span>{{$fmtDate(item.updateTimestamp, "time")}}</span>
+					</li> -->
+					<li>
+						<span>{{item.coinAmount}}</span>
 					</li>
 					<li class="golden tr">
 						<span v-if="item.rewards > 0">{{Math.floor(item.rewards*10000)/10000}}</span>

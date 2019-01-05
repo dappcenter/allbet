@@ -646,7 +646,7 @@ export default {
 									type: "info",
 									msg: "Frustrated bet."
 								})
-                this.loading = false  //关闭loading
+                				this.loading = false  //关闭loading
 							}
 						}
 					}else {
