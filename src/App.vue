@@ -120,8 +120,7 @@ export default {
       default:
         break;
     }
-    // this.$store.dispatch("registerEOS")
-    // getBonusPools()
+    getBonusPools()
   },
   computed: {
     ...mapState({
