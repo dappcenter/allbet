@@ -131,7 +131,8 @@
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
-                            <i v-else>0</i> {{coinType}}</span>
+                            <i v-else>0</i> {{coinType}}
+						</span>
                         <button class="enter" :class="{'loading': betBtnLoading}" v-if="currentAddr.token && !loading" @click="betDo">{{$t('message.PokerBet')}}</button>
 						<button v-else-if="loading" class="enter">{{$t("message.PokerWaiting")}}</button>
                         <button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
@@ -139,16 +140,17 @@
                             <img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
                             <img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
                             <i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
-                            <i v-else>0</i> {{coinType}}</div>
+                            <i v-else>0</i> {{coinType}}
+						</div>
                         <div class="cell fr" @mouseenter="getBonusPools">
-              						<img src="../../../public/img/coin/AB.png">
-              						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
-              						<i v-else>0</i> AB
-              						<div class="supernatant">
-              							<span>{{Math.floor(contractAB*100)/100}} AB</span>
-              							<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab*100)/100}} AB</a>
-              						</div>
-              					</div>
+							<img src="../../../public/img/coin/AB.png">
+							<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
+							<i v-else>0</i> AB
+							<div class="supernatant">
+								<span>{{Math.floor(contractAB*100)/100}} AB</span>
+								<a href="javascript:;" @click="showBP">{{$t('message.GameGeted')}}：{{Math.floor(bonusPoolsData.ab*100)/100}} AB</a>
+							</div>
+						</div>
                     </div>
                 </div>
                 <!-- 挖矿数量 -->

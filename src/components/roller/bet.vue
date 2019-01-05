@@ -108,7 +108,7 @@
 
 					<div class="cell fr" @mouseenter="getBonusPools">
 						<img src="../../../public/img/coin/AB.png">
-						<i v-if="userInfo.token"><DigitalRoll :value="currentAddr.bet*1" :decimal="2"></DigitalRoll></i>
+						<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1" :decimal="2"></DigitalRoll></i>
 						<i v-else>0</i> AB
 						<div class="supernatant">
 							<span>{{Math.floor(contractAB*100)/100}} AB</span>
@@ -757,24 +757,6 @@ export default {
 		},
 		// 奖金
 		bonus() {
-			// let minFee = 0.0003
-			// if(this.coinType == 'TRX') {
-			// 	minFee = 0.3
-			// }
-			// if((this.amount * 0.015) <= minFee) {
-			// 	if(Math.floor((this.amount * (this.peilv*100/98.5) - minFee) * 1000) / 1000 < 0) {
-			// 		return 0
-			// 	}else {
-			// 		return Math.floor((this.amount * (this.peilv*100/98.5) - minFee) * 1000) / 1000
-			// 	}
-			// }else {
-			// 	if(Math.floor(this.amount * this.peilv * 1000) / 1000 < 0) {
-			// 		return 0
-			// 	}else {
-			// 		return Math.floor(this.amount * this.peilv * 1000) / 1000
-			// 	}
-			// }
-
 			if(Math.floor(this.amount * this.peilv * 10000) / 10000 < 0) {
 				return 0
 			}else {
