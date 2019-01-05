@@ -24,7 +24,7 @@
 		<div class="shade" v-show="noMainNetwork"></div>
 		<!-- 中奖弹框 -->
 		<transition name="bounce">
-      <div class="win-box" v-click-outside="clickoutside" v-show="isShowWin">
+      <div class="win-box" :class="{'pokerPage' : $route.name == 'poker'}" v-click-outside="clickoutside" v-show="isShowWin">
         <div class="centent" :class="{'win': winPopupOption.winFlag == 'WIN'}">
           <h3 v-if="winPopupOption.winFlag == 'WIN'" class="">Congratulations, you bet  {{winPopupOption.amount}} {{winPopupOption.coinType}}</h3>
           <h3 v-else class="">Unfortunately, you bet  {{winPopupOption.amount}} {{winPopupOption.coinType}}</h3>
@@ -276,6 +276,9 @@ body {
       top: 3%;
       width: 400px;
       z-index: 9999999999;
+      &.pokerPage {
+        top: 320px;
+      }
       .centent {
         position: relative;
         z-index: 2;
@@ -328,7 +331,6 @@ body {
 				}
       }
   }
-
   .newwork-box {
     position: fixed;
     left: calc(50% - 250px);
@@ -467,6 +469,9 @@ body {
     .win-box {
       left: 5%;
       width: 90%;
+      &.pokerPage {
+        top: 39%;
+      }
       .centent {
         border-radius: 12px;
         h3 {

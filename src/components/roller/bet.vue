@@ -299,7 +299,7 @@ export default {
 			this.currentAddr.assets && (balance = Math.floor(this.currentAddr.assets[this.coinType].amount*1000)/1000)
 			switch(amount) {
 				case 'max':
-					if(balance < this.rule.maxInvest) {
+					if(balance < this.rule.maxInvest && this.currentAddr.assets) {
 						this.amount  = balance <= 0 ? this.rule.minInvest : balance
 					}else {
 						this.amount = this.rule.maxInvest
