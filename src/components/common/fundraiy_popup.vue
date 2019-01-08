@@ -3,21 +3,12 @@
         <img class="logo" src="../../../public/img/LOGO.png" alt="">
         <a href="javascript:;" class="close-btn" @click="isShow = false"></a>
         <h4>{{$t('message.preTarget')}}</h4>
-        <!-- <FlipDown
-          :endDate="1547596800000"
-          :type="3"
-          @timeUp="func"
-        /> -->
         <TimeCountDown></TimeCountDown>
-        <!-- <div class="time-unit">
-          <div class="">{{$t('message.preHour')}}</div>
-          <div class="minute-unit">{{$t('message.preMinute')}}</div>
-          <div class="">{{$t('message.preSecond')}}</div>
-        </div> -->
         <div class="addr-wrap">
             <p>1 TRX = 20 AB</p>
             <p>{{$t('message.preTotalAb')}}</p>
             <p>{{$t('message.preAddress')}}{{$window.TRONFUNDRAIYADDRESS}}</p>
+            <p>{{$t('message.preABAddress')}} {{$window.TRONABTOKEN}}</p>
         </div>
         <div class="progress-wrap">
             <div class="progress-bg">
