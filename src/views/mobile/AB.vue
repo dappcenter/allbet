@@ -75,7 +75,7 @@
                 <tr>
                 <td>{{$t('message.abStage6')}}</td>
                 <td>100:20</td>
-                <td>100:35</td>
+                <td>100:25</td>
                 <td>{{$t('message.ab400M')}}</td>
                 <td>4%</td>
                 </tr>
