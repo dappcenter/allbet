@@ -323,7 +323,7 @@ export default {
         BPgame: 'The total released amount of gaming mining',
         BPreceived: 'Received',
         BPtoReceive: 'To be received',
-        BPhandleFee: 'Withdrawing AB will cost a little TRX (probably 0.5-0.8 TRX each time). It is adviced that you should not operate frequently.',
+        BPhandleFee: 'Withdrawing AB may cost TRX (between 0.5-0.8 each time). We advise withdrawing only when necessary to avoid transaction costs.',
         BPEthFee: 'Withdrawing AB will cost a little gas. It is adviced that you should not operate frequently.',
         BPbtnGet: 'Withdraw AB',
         BPnothingAB: "No balance of AB",
