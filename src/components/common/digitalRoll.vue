@@ -25,7 +25,7 @@ export default {
             type: Number
         },
         time: {
-            default: 1500,
+            default: 600,
             type: Number
         },
         decimal: {
@@ -82,5 +82,7 @@ export default {
 
 
 <style>
-
+.digital-roll {
+    font-family: initial !important;
+}
 </style>

@@ -24,7 +24,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONFUNDRAIYADDRESS = "TJdfA7GzgV8MtBBAxKJ5KtCpC9iH5kVxtN"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
     window.TRONABTOKEN = "TGouFj5A3gw2eTcQyQpupHrZmKdMnkehRW"
-    window.TRONPOKERADDRESS = "TFCMvVAyA2gFQ9hK9NpeVcyexkv4FtqLNU"  //poker游戏合约
+    window.TRONPOKERADDRESS = "TFcjC9q3w2KUGpf7dCqkLmNUKQz2P8a4Bb"  //poker游戏合约
 
     window.NETWORK = 4
 }else {
@@ -40,7 +40,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONFUNDRAIYADDRESS = "TJdfA7GzgV8MtBBAxKJ5KtCpC9iH5kVxtN"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
     window.TRONABTOKEN = "TGouFj5A3gw2eTcQyQpupHrZmKdMnkehRW"
-    window.TRONPOKERADDRESS = "TFCMvVAyA2gFQ9hK9NpeVcyexkv4FtqLNU"  //poker游戏合约
+    window.TRONPOKERADDRESS = "TFcjC9q3w2KUGpf7dCqkLmNUKQz2P8a4Bb"  //poker游戏合约
 
     window.NETWORK = 4
     
