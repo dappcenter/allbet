@@ -253,6 +253,7 @@ export default {
         PopLoginText1: "快速体验游戏，",
 
         PopHttpTimeout: "请刷新页面",
+        PopHttpTimeout2: "请稍后再试",
         // 游戏页
         GameForecast: "预测数",
         GameLucky: "开奖号码",

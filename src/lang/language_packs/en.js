@@ -252,7 +252,8 @@ export default {
         PopLoginSelectMobileTRX: "<p>If you have not downloaded the wallet, please download:<br /> Math: <a href='http://www.mathwallet.org' target='_blank'> http://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
         PopLoginText1: "Quick experience,",
 
-        PopHttpTimeout: "please refresh page",
+        PopHttpTimeout: "Please refresh page",
+        PopHttpTimeout2: "Please try again later",
         // 游戏页
         GameForecast: "Roll Under",
         GameLucky: "Roll",
