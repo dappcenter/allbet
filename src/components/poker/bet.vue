@@ -144,7 +144,7 @@
 						</div>
                         <div class="cell fr" @mouseenter="getBonusPools">
 							<img src="../../../public/img/coin/AB.png">
-							<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1"></DigitalRoll></i>
+							<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1 + contractAB"></DigitalRoll></i>
 							<i v-else>0</i> AB
 							<div class="supernatant">
 								<span>{{Math.floor(contractAB*100)/100}} AB</span>
@@ -664,7 +664,7 @@ export default {
 				})
 			}, 1000)
 		},
-    //显示挖矿页面
+    	//显示挖矿页面
 		showBP() {
 			if(this.$IsPC()) {
 				this.isShowBPpopup = true
@@ -672,40 +672,44 @@ export default {
 				this.$router.push('bonus-pool?ab=true')
 			}
 		},
-    //获取分红池信息
+    	//获取分红池信息
         getBonusPools() {
             PollHttp({
-        type: 'get',
-        url: '/app/profit/profit',
-        data: {
-          coinType: this.coinType
-        }
-      }).then(res => {
-        if(res.code == 200) {
-          this.bonusPoolsData.transferred = res.result.transferred || 0
-          this.bonusPoolsData.ab = res.result.ab || 0
-                }
-      })
-      this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
-        if(err) {
-          console.error(err)
-        }else {
-          abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
-            if(err) {
-              console.error(err)
-            }else {
-              this.contractAB = parseInt(res._hex,16)/1000000
-            }
-          })
-        }
-      })
-      this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
-        if(!error) {
-          this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")
-        } else {
-          console.error(error);
-        }
-      })
+				type: 'get',
+				url: '/app/profit/profit',
+				data: {
+					coinType: this.coinType
+				}
+			}).then(res => {
+				if(res.code == 200) {
+					this.bonusPoolsData.transferred = res.result.transferred || 0
+					this.bonusPoolsData.ab = res.result.ab || 0
+				}
+			})
+      		try {
+				this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+					if(err) {
+						console.error(err)
+					}else {
+						abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
+							if(err) {
+								console.error(err)
+							}else {
+								this.contractAB = parseInt(res._hex,16)/1000000
+							}
+						})
+					}
+				})
+				this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
+					if(!error) {
+						this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")*1
+					} else {
+						console.error(error);
+					}
+				})
+			} catch (error) {
+				
+			}
         },
     // 幸运数转译
 		luckyNumTranslation(luckyNum) {
@@ -743,12 +747,16 @@ export default {
 		},
 		coinType() {
 			this.getRule()
-      if(this.coinType == "TRX") {
+      		if(this.coinType == "TRX") {
 				this.amount = 100
 			}else {
 				this.amount = 0.01
 			}
+			this.contractAB = 0
 		},
+		currentAddr() {
+			this.getBonusPools()
+		}
 	},
 	computed: {
 		...mapState({

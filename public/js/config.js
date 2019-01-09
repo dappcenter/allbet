@@ -43,5 +43,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONPOKERADDRESS = "TFcjC9q3w2KUGpf7dCqkLmNUKQz2P8a4Bb"  //poker游戏合约
 
     window.NETWORK = 4
+
+
     
 }

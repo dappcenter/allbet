@@ -64,7 +64,6 @@ const pollTronWeb = function(tronWeb) {
                 coinLogin(address)
             }
         }
-
     }, 1000)
 }
 

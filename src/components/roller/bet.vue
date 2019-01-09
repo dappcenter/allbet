@@ -108,7 +108,7 @@
 
 					<div class="cell fr" @mouseenter="getBonusPools">
 						<img src="../../../public/img/coin/AB.png">
-						<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1" :decimal="2"></DigitalRoll></i>
+						<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1 + contractAB" :decimal="2"></DigitalRoll></i>
 						<i v-else>0</i> AB
 						<div class="supernatant">
 							<span>{{Math.floor(contractAB*100)/100}} AB</span>
@@ -689,26 +689,30 @@ export default {
 					this.bonusPoolsData.ab = res.result.ab || 0
                 }
 			})
-			this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
-				if(err) {
-					console.error(err)
-				}else {
-					abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
-						if(err) {
-							console.error(err)
-						}else {
-							this.contractAB = parseInt(res._hex,16)/1000000
-						}
-					})
-				}
-			})
-			this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
-				if(!error) {
-					this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")
-				} else {
-					console.error(error);
-				}
-			})
+			try {
+				this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+					if(err) {
+						console.error(err)
+					}else {
+						abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
+							if(err) {
+								console.error(err)
+							}else {
+								this.contractAB = parseInt(res._hex,16)/1000000
+							}
+						})
+					}
+				})
+				this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
+					if(!error) {
+						this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")*1
+					} else {
+						console.error(error);
+					}
+				})
+			} catch (error) {
+				
+			}
         },
     },
     watch: {
@@ -734,6 +738,7 @@ export default {
 			}else {
 				this.amount = 0.01
 			}
+			this.contractAB = 0
 		},
 		odds() {
 			if(!this.music) return
@@ -742,6 +747,9 @@ export default {
 			this.audioList.timerID = setTimeout(() => {
 				this.audioList.list = []
 			}, 400)
+		},
+		currentAddr() {
+			this.getBonusPools()
 		}
 	},
 	computed: {

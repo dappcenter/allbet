@@ -104,6 +104,7 @@ axios.interceptors.response.use(response => {
             msg: language[store.state.locale].message.PopHttpTimeout
         })
     }
+    console.log("httperr",err)
     return Promise.reject(err)
 })
 
