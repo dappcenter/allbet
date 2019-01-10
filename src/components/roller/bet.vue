@@ -491,6 +491,11 @@ export default {
 				}
 			}).catch(err => {
 				this.betBtnLoading = false
+				// 自动下注
+				if(this.autoBet && this.userInfo.token) {
+					this.closePopup()
+					this.betDo()
+				}
 			})
 		},
 		/**
