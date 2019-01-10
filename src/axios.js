@@ -10,7 +10,7 @@ const language = {
 }
 
 axios.defaults.baseURL = window.SERVERPATH
-axios.defaults.timeout = 15000
+axios.defaults.timeout = 20000
 
 axios.interceptors.request.use(config => {
     if(!config.data || !config.data.noLoading) {

@@ -672,7 +672,7 @@ export default {
 			if(this.$IsPC()) {
 				this.isShowBPpopup = true
 			}else {
-				this.$router.push('bonus-pool?ab=true')
+				this.$router.push('bonus-pool')
 			}
 		},
 		//获取分红池信息
