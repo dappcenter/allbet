@@ -1,5 +1,5 @@
 <template>
-    <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup isbp">
+    <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup" :class="{'isbp': tab == 1}">
         <div class="tab-bar">
             <a href="javascript:;" :class="{'active': tab == 1}" @click="tab = 1">{{$t('message.bonusPool')}}</a>
             <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">我的余额</a>
@@ -71,12 +71,12 @@
                 <div class="item">
                     <label>已持有 (AB)</label>
                     <span>{{contractAB}}</span>
-                    <a href="javascript:;" class="freeze">冻结</a>
+                    <a href="javascript:;" class="freeze" @click="freezeInputPopup = true">冻结<i></i></a>
                 </div>
                 <div class="item">
                     <label>已冻结 (AB)</label>
                     <span>348485.43</span>
-                    <a href="javascript:;" class="unfreeze">解冻</a>
+                    <a href="javascript:;" class="unfreeze" @click="unfreezeInputPopup = true">解冻</a>
                 </div>
             </div>
             <div class="freeze-status">
@@ -89,6 +89,33 @@
             <div class="tip3">
                 <p>注：AB 解冻后需 24 小时才可到账。</p>
             </div>
+            <!-- 冻结数量输入 -->
+            <mu-dialog :append-body="false" width="360" :open.sync="freezeInputPopup" class="freeze-input-popup">
+                <p>可冻结余额：10.89 AB</p>
+                <div class="input-wrap">
+                    <div>
+                        <input type="text">
+                        <span>AB</span>
+                    </div>
+                    <a href="javascript:;">ALL</a>
+                </div>
+                <a href="javascript:;" class="enter">确定</a>
+                <i class="close-btn" @click="freezeInputPopup = false"></i>
+            </mu-dialog>
+
+            <!-- 解冻数量输入 -->
+            <mu-dialog :append-body="false" width="360" :open.sync="unfreezeInputPopup" class="freeze-input-popup">
+                <p>可解冻数量：10.89 AB</p>
+                <div class="input-wrap">
+                    <div>
+                        <input type="text">
+                        <span>AB</span>
+                    </div>
+                    <a href="javascript:;">ALL</a>
+                </div>
+                <a href="javascript:;" class="enter">确定</a>
+                <i class="close-btn" @click="unfreezeInputPopup = false"></i>
+            </mu-dialog>
         </div>
         <div class="tab2" v-if="tab == 2">
             <ul>
@@ -171,7 +198,9 @@ export default {
             tab: 1,
             timer: null,
             active: "ETH",
-            contractAB: 0
+            contractAB: 0,
+            freezeInputPopup: false,
+            unfreezeInputPopup: false
         }
     },
     watch: {
@@ -363,12 +392,6 @@ export default {
     &.isbp {
         .mu-dialog {
             &:before {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
                 background: url(../../../public/img/bp_bg.png) no-repeat left bottom;
             }
         }
@@ -376,9 +399,18 @@ export default {
     .mu-dialog {
         position: absolute;
         top: 10%;
-        width: 600px;
+        width: 650px;
         background-color: #52476F;
-        
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(../../../public/img/bp_bg.png) no-repeat left bottom;
+            background-size: cover;
+        }
     }
     .mu-dialog-body {
         background: url(../../../public/img/bonus-pools.png) no-repeat center !important;
@@ -549,7 +581,11 @@ export default {
                         border-radius: 18px;
                         color: #68286C;
                         &.freeze {
+                            position: relative;
                             background-color: #13F693;
+                            i {
+                                position: absolute;
+                            }
                         }
                         &.unfreeze {
                             background-color: #FFD558;
@@ -598,6 +634,65 @@ export default {
                         line-height: 36px;
                         font-size: 14px;
                         font-weight: 700;
+                    }
+                }
+            }
+            .freeze-input-popup {
+                .mu-dialog {
+                    top: initial;
+                    &:before {
+                        display: none;
+                    }
+                    .mu-dialog-body {
+                        padding: 20px;
+                        .input-wrap {
+                            display: flex;
+                            margin-top: 10px;
+                            div {
+                                flex: 1;
+                                display: flex;
+                                height: 38px;
+                                line-height: 38px;
+                                background-color: #443A60;
+                                border-radius: 4px;
+                                overflow: hidden;
+                                input {
+                                    flex: 1;
+                                    background-color: #443A60;
+                                    border: none;
+                                    outline: none;
+                                    height: 38px;
+                                    color: #fff;
+                                    padding: 0 10px;
+                                }
+                                span {
+                                    padding: 0 10px;
+                                }
+                            }
+                            a {
+                                color: #fff;
+                                line-height: 38px;
+                                padding: 0 0 0 10px;
+                                &:hover {
+                                    color: #FFC425;
+                                }
+                            }
+                        }
+                        .enter {
+                            display: block;
+                            background-color: #FFC425;
+                            color: #1A0D59;
+                            text-align: center;
+                            width: 70%;
+                            line-height: 36px;
+                            border-radius: 18px;
+                            font-weight: 700;
+                            margin: 20px auto 0;
+                        }
+                        .close-btn {
+                            top: 10px;
+                            right: 10px;
+                        }
                     }
                 }
             }
