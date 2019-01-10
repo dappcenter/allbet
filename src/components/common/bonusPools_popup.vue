@@ -65,12 +65,12 @@
                 <div class="item">
                     <label>待领取 (AB)</label>
                     <span>{{bonusPoolsData.ab}}</span>
-                    <a href="javascript:;">领取</a>
+                    <a href="javascript:;" @click="getAB">领取</a>
                     <i>已领取: {{bonusPoolsData.transferred}}</i>
                 </div>
                 <div class="item">
                     <label>已持有 (AB)</label>
-                    <span>348485.43</span>
+                    <span>{{contractAB}}</span>
                     <a href="javascript:;" class="freeze">冻结</a>
                 </div>
                 <div class="item">
@@ -170,7 +170,8 @@ export default {
             isShow: false,
             tab: 1,
             timer: null,
-            active: "ETH"
+            active: "ETH",
+            contractAB: 0
         }
     },
     watch: {
@@ -179,6 +180,7 @@ export default {
                 this.$emit("change", newVal)
             }else {
                 this.getBonusPools()
+                this.getContractAB()
                 if(this.ab) {
                     this.tab = 2
                 }
@@ -196,9 +198,6 @@ export default {
     },
     mounted() {
         this.getBonusPools()
-        // this.timer = setInterval(() => {
-        //     this.getBonusPools()
-        // }, 3000)
         if(this.ab) {
             this.tab = 2
         }
@@ -316,6 +315,32 @@ export default {
                     this.getBonusPools()
                 }
             })
+        },
+        getContractAB() {
+			try {
+				this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+					if(err) {
+						console.error(err)
+					}else {
+						abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
+							if(err) {
+								console.error(err)
+							}else {
+								this.contractAB = parseInt(res._hex,16)/1000000
+							}
+						})
+					}
+				})
+				this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
+					if(!error) {
+						this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")*1
+					} else {
+						console.error(error);
+					}
+				})
+			} catch (error) {
+				
+			}
         },
         ...mapMutations({
             alert: "alert",

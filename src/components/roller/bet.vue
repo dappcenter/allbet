@@ -140,7 +140,7 @@
 		<AbPopup v-model="isShowABpopup"></AbPopup>
 
 		<!-- 分红挖矿弹框 -->
-		<BonusPoolsPopup v-model="isShowBPpopup" :ab='true'></BonusPoolsPopup>
+		<BonusPoolsPopup v-model="isShowBPpopup"></BonusPoolsPopup>
 
 		<!-- 募资弹框 -->
 		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>

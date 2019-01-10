@@ -23,7 +23,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONROLLARADDRESS = "TKB6CUENUWqcLy5FzQZhEHJQVgF1kGiNfN"
     window.TRONFUNDRAIYADDRESS = "TJdfA7GzgV8MtBBAxKJ5KtCpC9iH5kVxtN"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
-    window.TRONABTOKEN = "TGouFj5A3gw2eTcQyQpupHrZmKdMnkehRW"
+    window.TRONABTOKEN = "TAgToUuR4ZPiWWWsdGtR2NMJfbs7Hc6cqG"
     window.TRONPOKERADDRESS = "TFcjC9q3w2KUGpf7dCqkLmNUKQz2P8a4Bb"  //poker游戏合约
 
     window.NETWORK = 4
@@ -39,7 +39,7 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
     window.TRONROLLARADDRESS = "TKB6CUENUWqcLy5FzQZhEHJQVgF1kGiNfN"
     window.TRONFUNDRAIYADDRESS = "TJdfA7GzgV8MtBBAxKJ5KtCpC9iH5kVxtN"
     window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
-    window.TRONABTOKEN = "TGouFj5A3gw2eTcQyQpupHrZmKdMnkehRW"
+    window.TRONABTOKEN = "TAgToUuR4ZPiWWWsdGtR2NMJfbs7Hc6cqG"
     window.TRONPOKERADDRESS = "TFcjC9q3w2KUGpf7dCqkLmNUKQz2P8a4Bb"  //poker游戏合约
 
     window.NETWORK = 4
