@@ -3,6 +3,7 @@
         <HeaderBar></HeaderBar>
         <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
             <iframe :src="'web-mobile/threecards.html'" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}"></iframe>
+            <Record />
         </div>
         <FooterBar></FooterBar>
     </div>
@@ -12,6 +13,7 @@
 <script>
 import HeaderBar from "@/components/common/header_bar"
 import FooterBar from "@/components/common/footer_bar"
+import Record from "@/components/threecards/record"
 import {IsPC} from "../util/extend_methods"
 export default {
     mounted() {
@@ -19,7 +21,8 @@ export default {
     },
     components: {
         HeaderBar,
-        FooterBar
+        FooterBar,
+        Record
     },
     beforeRouteEnter(to, from, next) {
         if(IsPC()) {
