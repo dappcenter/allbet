@@ -2,7 +2,7 @@
     <div class="threecards-page">
         <HeaderBar></HeaderBar>
         <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-            <iframe src="web-mobile/index.html" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}"></iframe>
+            <iframe :src="'web-mobile/threecards.html'" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}"></iframe>
         </div>
         <FooterBar></FooterBar>
     </div>
