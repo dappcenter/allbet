@@ -12,7 +12,7 @@ const pollTronWeb = function(tronWeb) {
             return
         }
         tronWeb.trx.getBalance((err, balance) => {
-            if(tronWeb.eventServer.host.indexOf('api.trongrid.io') < 0 && window.NETWORK == 1) {
+            if(tronWeb.eventServer.host.indexOf('api.shasta.trongrid.io') >= 0 && window.NETWORK == 1) {
                 store.state.dialogs.noMainNetwork = true
             }else {
                 store.state.dialogs.noMainNetwork = false

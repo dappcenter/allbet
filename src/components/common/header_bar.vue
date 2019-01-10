@@ -8,6 +8,7 @@
                 <router-link to="dice"><span>DICE</span></router-link>
                 <!-- <router-link to="index"><span>{{$t("message.atDeal")}}</span></router-link> -->
                 <router-link to="poker"><span>POKER</span></router-link>
+                <router-link to="threecards"><span>AAA</span></router-link>
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
