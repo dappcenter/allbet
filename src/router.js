@@ -93,11 +93,6 @@ export default new Router({
             component: () => import("./views/mobile/Mobile-invite.vue")
         },
         {
-            path: "/mobile-fundraiy",
-            name: "mobile-fundraiy",
-            component: () => import("./views/mobile/Mobile-fundraiy.vue")
-        },
-        {
             path: "/poker",
             name: "poker",
             component: () => import("./views/Roker.vue")

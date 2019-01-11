@@ -10,7 +10,6 @@
                 <router-link to="poker"><span>POKER</span></router-link>
                 <router-link to="threecards"><span>AAA</span></router-link>
                 <a href="javascript:;" @click="displayStatus.abBancor = !displayStatus.abBancor"><span>{{$t("message.abBancor")}}</span></a>
-                <a href="javascript:;" @click="displayStatus.fundraiyPopup = true"><span class="flicker">{{$t("message.presell")}}</span></a>
                 <a href="javascript:;" @click="displayStatus.bonusPools= !displayStatus.bonusPools"><span>{{$t("message.bonusPool")}}</span></a>
                 
                 <!-- <a href="javascript:;" @click="openWhiteBook">{{$t("message.course")}}</a> -->
@@ -186,7 +185,6 @@
         <!-- AB代币 -->
         <AbPopup v-model="displayStatus.abBancor"></AbPopup>
 
-        <FundraiyPopup v-model="displayStatus.fundraiyPopup"></FundraiyPopup>
     </div>
 </template>
 

@@ -142,8 +142,6 @@
 		<!-- 分红挖矿弹框 -->
 		<BonusPoolsPopup v-model="isShowBPpopup" :ab='true'></BonusPoolsPopup>
 
-		<!-- 募资弹框 -->
-		<FundraiyPopup v-model="isShowFundraiy"></FundraiyPopup>
 		<!-- 骰子音乐 -->
 		<audio loop="true" hidden="true" ref="diceA" >
 			<source src="../../../public/music/a.wav">
@@ -249,12 +247,6 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-		if(this.coinType == 'TRX' && this.$IsPC()) {
-			this.isShowFundraiy = true
-		} else if (this.coinType == 'TRX' && !this.$IsPC() && sessionStorage.getItem('IsFirstEnter') != 'YES') {
-			this.$router.push('mobile-fundraiy')
-			sessionStorage.setItem('IsFirstEnter', 'YES')
-		}
     },
     methods: {
 		inputAmountBlur() {
