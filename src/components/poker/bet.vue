@@ -168,7 +168,7 @@
             <!-- Ab弹框 -->
             <AbPopup v-model="isShowABpopup"></AbPopup>
             <!-- 分红挖矿弹框 -->
-        		<BonusPoolsPopup v-model="isShowBPpopup" :ab='true'></BonusPoolsPopup>
+        	<BonusPoolsPopup v-model="isShowBPpopup" :ab='true'></BonusPoolsPopup>
 			<!-- 游戏玩法 -->
 			<GameHelpPopup v-model="isShowHelp"></GameHelpPopup>
     	</div>
@@ -256,13 +256,6 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
-		if(this.coinType == 'TRX' && this.$IsPC()) {
-			this.isShowFundraiy = true
-		} else if (this.coinType == 'TRX' && !this.$IsPC() && sessionStorage.getItem('IsFirstEnter') != 'YES') {
-			this.$router.push('mobile-fundraiy')
-			sessionStorage.setItem('IsFirstEnter', 'YES')
-		}
-
 		setTimeout(() => {
 			if(this.coinType != "TRX") {
 				this.changeCoinType("TRX")
