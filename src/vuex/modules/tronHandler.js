@@ -7,6 +7,7 @@ import pollTronWeb from "../../util/pollTronWeb"
 const contract = contracts['Roller']
 const fundraiy = contracts['Fundraiy']
 const poker = contracts['Poker']
+const pledge = contracts['Pledge']
 
 const state = {
     tronWeb: {
@@ -31,7 +32,8 @@ const state = {
         userName: "",  //平台账号名
         token: "",  //平台账号token
         platform: "IMPORT", //账号标识（平台or mateMask）
-        inviteCode: ""  //邀请码
+        inviteCode: "",  //邀请码
+        contractAB: 0, //合约ab余额
     },
     contractInstance: null
 }
@@ -48,6 +50,7 @@ const mutations = {
         state.tronWeb.contract = payload.contract
         state.tronWeb.fundraiy = payload.fundraiy
         state.tronWeb.pokerContract = payload.pokerContract
+        state.tronWeb.pledgeContract = payload.pledgeContract
         // 轮询
         pollTronWeb(payload.tronWebInstance)
     },
@@ -96,7 +99,8 @@ const actions = {
                         tronWebInstance: tronWeb,
                         contract: tronWeb.contract(contract.abi, window.TRONROLLARADDRESS),
                         fundraiy: tronWeb.contract(fundraiy.abi, window.TRONFUNDRAIYADDRESS2),
-                        pokerContract: tronWeb.contract(poker.abi, window.TRONPOKERADDRESS)
+                        pokerContract: tronWeb.contract(poker.abi, window.TRONPOKERADDRESS),
+                        pledgeContract: tronWeb.contract(pledge.abi, window.TRONPLEDGEADDRESS)
                     })
                 }
             });

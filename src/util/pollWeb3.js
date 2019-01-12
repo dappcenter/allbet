@@ -124,6 +124,16 @@ let pollWeb3 = function() {
                     }
                 }
             })
+            storeWeb3.ABapiHandle.methods.balanceOf(storeWeb3.coinbase).call((error, result) => {
+                if(!error) {
+                    let contractAB = storeWeb3.web3Instance.utils.fromWei(result, "ether")*1
+                    store.commit(types.UPDATE_WEB3_AT, {
+                        contractAB: contractAB
+                    })
+                } else {
+                    console.error(error);
+                }
+            })
         }
     }, 500)
 }

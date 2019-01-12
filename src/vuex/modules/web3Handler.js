@@ -31,7 +31,9 @@ const state = {
         userName: "",  //平台账号名
         token: "",  //平台账号token
         platform: "IMPORT", //账号标识（平台or mateMask）
-        inviteCode: ""  //邀请码
+        inviteCode: "",  //邀请码
+        contractAB: 0,
+        pledgeApiHandle: null
     },
     contractInstance: null
 }
@@ -51,6 +53,7 @@ const mutations = {
         web3Copy.apiHandle = new payload.web3.eth.Contract(DappABI, window.BANCORADDRESS)
         web3Copy.diceApiHandle = new payload.web3.eth.Contract(contracts.Roller, window.ROLLERADDRESS)
         web3Copy.ABapiHandle = new payload.web3.eth.Contract(contracts.AB, window.ETHABTOKEN)
+        web3Copy.pledgeApiHandle = new payload.web3.eth.Contract(contracts.Pledge, window.ETHPLEDGEADDRESS)
         state.web3 = web3Copy
         // 轮询
         pollWeb3()

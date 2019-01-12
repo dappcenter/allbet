@@ -2,7 +2,7 @@
     <mu-dialog :open.sync="isShow" :append-body="false" class="bonus-pools-popup" :class="{'isbp': tab == 1}">
         <div class="tab-bar">
             <a href="javascript:;" :class="{'active': tab == 1}" @click="tab = 1">{{$t('message.bonusPool')}}</a>
-            <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">我的余额</a>
+            <a href="javascript:;" :class="{'active': tab == 2}" @click="tab = 2">{{$t('message.BPmyBalance')}}</a>
         </div>
         <div class="tab1" v-show="tab == 1">
             <div class="progress-wrap">
@@ -11,36 +11,36 @@
                 <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
             </div>
             <div class="jackpot-wrap">
-                <h2>当前网络已冻结<span>87977978.34</span>AB，您冻结了<span>1439.34</span> AB</h2>
+                <h2>{{$t('message.BPtip3')}}<span>{{storeBonusPoolsData.totalPledge}}</span>AB，{{$t('message.BPtip4')}}<span>{{storeBonusPoolsData.pledgeAb}}</span> AB</h2>
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/ETH.png" />
-                        <span>{{$t('message.BPcurrentAmount')}}</span>
+                        <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
-                            <label>当前奖池累计：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                            <label>{{$t('message.BPcurrentAmount')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.ETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
                         </div>
                         <div class="cell-top">
-                            <label>我的预期收益：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                            <label>{{$t('message.BPmyErnings')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.ETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
                         </div>
                     </div>
                 </div>
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/TRX.png" />
-                        <span>{{$t('message.BPcurrentAmount')}}</span>
+                        <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
-                            <label>当前奖池累计：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
+                            <label>{{$t('message.BPcurrentAmount')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.TRX)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
                         </div>
                         <div class="cell-top">
-                            <label>我的预期收益：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
+                            <label>{{$t('message.BPmyErnings')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.TRX)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
                         </div>
                     </div>
                 </div>
@@ -51,70 +51,86 @@
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
-                            <label>当前奖池累计：</label>
-                            <h3><DigitalRoll :value="0" :decimal="2"></DigitalRoll> EOS</h3>
+                            <label>{{$t('message.BPcurrentAmount')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.EOS)*100)/100" :decimal="2"></DigitalRoll> EOS</h3>
                         </div>
                         <div class="cell-top">
-                            <label>我的预期收益：</label>
-                            <h3><DigitalRoll :value="0" :decimal="2"></DigitalRoll> EOS</h3>
+                            <label>{{$t('message.BPmyErnings')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.EOS)*100)/100" :decimal="2"></DigitalRoll> EOS</h3>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="user-ab-status">
                 <div class="item">
-                    <label>待领取 (AB)</label>
+                    <label>{{$t('message.GameGeted')}} (AB)</label>
                     <span>{{bonusPoolsData.ab}}</span>
-                    <a href="javascript:;" @click="getAB">领取</a>
-                    <i>已领取: {{bonusPoolsData.transferred}}</i>
+                    <a href="javascript:;" @click="getAB">{{$t('message.BPbtnGet')}}</a>
+                    <i>{{$t('message.BPreceived')}}: {{bonusPoolsData.transferred}}</i>
                 </div>
                 <div class="item">
-                    <label>已持有 (AB)</label>
+                    <label>{{$t('message.BPyichiyou')}} (AB)</label>
                     <span>{{contractAB}}</span>
-                    <a href="javascript:;" class="freeze" @click="freezeInputPopup = true">冻结<i></i></a>
+                    <div class="btn-wrap">
+                        <a href="javascript:;" class="freeze" @click="freezeInputPopup = true">{{$t('message.BPfreeze')}}</a>
+                        <i data-text="冻结说明" @click="instructionsPopup = true"></i>
+                    </div>
                 </div>
                 <div class="item">
-                    <label>已冻结 (AB)</label>
-                    <span>348485.43</span>
-                    <a href="javascript:;" class="unfreeze" @click="unfreezeInputPopup = true">解冻</a>
+                    <label>{{$t('message.BPyidongjie')}} (AB)</label>
+                    <span>{{storeBonusPoolsData.pledgeAb}}</span>
+                    <a href="javascript:;" class="unfreeze" @click="unfreezeInputPopup = true">{{$t('message.BPunfreeze')}}</a>
                 </div>
             </div>
-            <div class="freeze-status">
-                <label>解冻完成倒计时：23：29：30</label>
+            <div class="freeze-status" v-if="storeBonusPoolsData.recoverAb != 0">
+                <label>解冻完成倒计时：<TimeCountDown :time="storeBonusPoolsData.recoverAbTime"></TimeCountDown></label>
                 <div class="freeze-amount">
-                    <span><i>解冻数量：</i>348485.43</span>
-                    <a href="javascript:;">撤销</a>
+                    <span><i>解冻数量：</i>{{storeBonusPoolsData.recoverAb}}</span>
+                    <a href="javascript:;">{{$t('message.BPrepeal')}}</a>
                 </div>
             </div>
             <div class="tip3">
-                <p>注：AB 解冻后需 24 小时才可到账。</p>
+                <p>{{$t('message.BPtip5')}}</p>
             </div>
             <!-- 冻结数量输入 -->
             <mu-dialog :append-body="false" width="360" :open.sync="freezeInputPopup" class="freeze-input-popup">
-                <p>可冻结余额：10.89 AB</p>
+                <p>可冻结余额：{{contractAB}} AB</p>
                 <div class="input-wrap">
                     <div>
-                        <input type="text">
+                        <input type="text" v-model="freezeAmount">
                         <span>AB</span>
                     </div>
-                    <a href="javascript:;">ALL</a>
+                    <a href="javascript:;" @click="freezeAmount = contractAB">ALL</a>
                 </div>
-                <a href="javascript:;" class="enter">确定</a>
+                <a href="javascript:;" class="enter" @click="freezeDo">确定</a>
                 <i class="close-btn" @click="freezeInputPopup = false"></i>
             </mu-dialog>
 
             <!-- 解冻数量输入 -->
             <mu-dialog :append-body="false" width="360" :open.sync="unfreezeInputPopup" class="freeze-input-popup">
-                <p>可解冻数量：10.89 AB</p>
+                <p>可解冻数量：{{storeBonusPoolsData.recoverAb}} AB</p>
                 <div class="input-wrap">
                     <div>
-                        <input type="text">
+                        <input type="text" v-model="unfreezeAmount">
                         <span>AB</span>
                     </div>
-                    <a href="javascript:;">ALL</a>
+                    <a href="javascript:;" @click="unfreezeAmount = storeBonusPoolsData.recoverAb">ALL</a>
                 </div>
                 <a href="javascript:;" class="enter">确定</a>
                 <i class="close-btn" @click="unfreezeInputPopup = false"></i>
+            </mu-dialog>
+
+            <!-- 质押说明 -->
+            <mu-dialog :append-body="false" :open.sync="instructionsPopup" class="instructions-popup">
+                <h2>质押说明</h2>
+                <div class="ctn"><p>
+                    1.冻结以及解冻AB最低数量为1个。每次分红期间不能进行冻结与解冻操作。<br /><br />
+                    2.必须是冻结中的AB才能获得分红。每次分红倒计时结束之前冻结的AB均可以获得这次分红（建议至少提前几分钟）。<br /><br />
+                    3.提取和冻结AB均会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。<br /><br />
+                    4.以最后一次解冻时间为准，解冻AB需要24小时后到账钱包，解冻中的AB不能获得分红。<br /><br />
+                    5.由于采用智能合约自动分红，tronscan目前不支持智能合约交易查询，我们确保分红都会即时到账。</p>
+                </div>
+                <i class="close-btn" @click="instructionsPopup = false"></i>
             </mu-dialog>
         </div>
         <div class="tab2" v-if="tab == 2">
@@ -122,7 +138,7 @@
                 <li>
                     <div class="balance">
                         <img src="../../../public/img/coin/ETH.png" alt="">
-                        <span>1,343,354,555.34 ETH</span>
+                        <span>{{storeBonusPoolsData.balance.ETH}} ETH</span>
                         <a href="javascript:;" @click="active = 'ETH'" v-show="active != 'ETH'">领取</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'ETH'">
@@ -137,7 +153,7 @@
                 <li>
                     <div class="balance">
                         <img src="../../../public/img/coin/TRX.png" alt="">
-                        <span>1,343,354,555.34 TRX</span>
+                        <span>{{storeBonusPoolsData.balance.TRX}} TRX</span>
                         <a href="javascript:;" @click="active = 'TRX'" v-show="active != 'TRX'">领取</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'TRX'">
@@ -152,7 +168,7 @@
                 <li>
                     <div class="balance">
                         <img src="../../../public/img/coin/EOS.png" alt="">
-                        <span>1,343,354,555.34 EOS</span>
+                        <span>{{storeBonusPoolsData.balance.EOS}} EOS</span>
                         <a href="javascript:;" @click="active = 'EOS'" v-show="active != 'EOS'">领取</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'EOS'">
@@ -174,6 +190,7 @@
 import {mapState, mapMutations} from "vuex"
 import DigitalRoll from "@/components/common/digitalRoll"
 import PollHttp from "../../util/pollHttp"
+import TimeCountDown from "@/components/common/timeCountDown2"
 export default {
     props: {
         isShowBPpopup: {
@@ -198,9 +215,11 @@ export default {
             tab: 1,
             timer: null,
             active: "ETH",
-            contractAB: 0,
             freezeInputPopup: false,
-            unfreezeInputPopup: false
+            unfreezeInputPopup: false,
+            instructionsPopup: false,  //质押说明
+            freezeAmount: 0,
+            unfreezeAmount: 0
         }
     },
     watch: {
@@ -209,7 +228,6 @@ export default {
                 this.$emit("change", newVal)
             }else {
                 this.getBonusPools()
-                this.getContractAB()
                 if(this.ab) {
                     this.tab = 2
                 }
@@ -237,8 +255,27 @@ export default {
             coinType: state => state.user.coinType,
             tronWeb: state => state.tronHandler.tronWeb,
             web3: state => state.web3Handler.web3,
-            storeBonusPoolsData: state => state.database.bonusPools
-        })
+            storeBonusPoolsData: state => state.database.bonusPools,
+            TRXcontractAB: state => state.tronHandler.tronWeb.contractAB,
+            ETHcontractAB: state => state.web3Handler.web3.contractAB
+        }),
+        contractAB() {
+            if(this.storeCurrentAddr.platform='IMPORT') {
+                switch(this.coinType) {
+                    case "ETH":
+                        return Math.floor(this.ETHcontractAB*1000)/1000
+                        break
+                    case "TRX":
+                        return this.TRXcontractAB
+                        break
+                    default: 
+                        return 0
+                        break
+                }
+            }else {
+                return 0
+            }
+        }
     },
     methods: {
         //获取分红池信息
@@ -371,6 +408,47 @@ export default {
 				
 			}
         },
+        // 冻结
+        freezeDo() {
+            switch(this.coinType) {
+                case "ETH":
+                    let freezeAmountWei = this.web3.web3Instance.utils.toWei(this.freezeAmount+"", "ether")
+                    this.web3.pledgeApiHandle.methods.lock(freezeAmountWei).send({
+                        from: this.web3.coinbase,
+                        gas: 210000,
+				        gasPrice: 10000000000
+                    }).then(res => {
+                        console.log(res)
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                    break
+                case "TRX":
+                    console.log(this.tronWeb.pledgeContract)
+                    // const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
+                    // const callValue = this.tronWeb.tronWebInstance.toSun(amount);
+                    this.tronWeb.pledgeContract.lock(this.freezeAmount).send({
+
+                    }).then(res => {
+                        this.alert({
+                            type: "info",
+                            msg: "success",
+                            timeout: 9999999
+                        })
+                    }).catch(err => {
+                        console.log("placeBetTRX",err)
+                        this.alert({
+                            type: "info",
+                            msg: "User rejected the signature request.",
+                            // msg: err,
+                            timeout: 3000
+                        })
+                    })
+                    break
+                default: 
+                    break
+            }
+        },
         ...mapMutations({
             alert: "alert",
             openLogin: "OPEN_LOGIN",
@@ -381,7 +459,8 @@ export default {
         this.timer = null
     },
     components: {
-        DigitalRoll   
+        DigitalRoll,
+        TimeCountDown   
     }
 }
 </script>
@@ -583,12 +662,22 @@ export default {
                         &.freeze {
                             position: relative;
                             background-color: #13F693;
-                            i {
-                                position: absolute;
-                            }
                         }
                         &.unfreeze {
                             background-color: #FFD558;
+                        }
+                    }
+                    .btn-wrap {
+                        position: relative;
+                        i {
+                            position: absolute;
+                            top: 8px;
+                            right: 10px;
+                            width: 20px;
+                            height: 20px;
+                            background: url(../../../public/img/help_icon.png) no-repeat center;
+                            background-size: 80%;   
+                            cursor: pointer;
                         }
                     }
                     i {
@@ -599,7 +688,6 @@ export default {
                         border: none;
                     }
                 }
-
             }
             .freeze-status {
                 background-color: rgba(255,179,197,.2);
@@ -696,6 +784,22 @@ export default {
                     }
                 }
             }
+            .instructions-popup {
+                .mu-dialog {
+                    width: 400px;
+                }
+                .mu-dialog-body {
+                    background: #52476F !important;
+                    padding: 20px;
+                    h2 {
+                        text-align: center;
+                        font-size: 20px;
+                    }
+                    .ctn {
+                        margin-top: 20px;
+                    }
+                }
+            }
         }
         .tab2 {
             padding: 24px;
@@ -747,6 +851,7 @@ export default {
                             outline: none;
                             border: none;
                             padding: 0 10px;
+                            color: #fff;
                         }
                         a {
                             background-color:#13F693;

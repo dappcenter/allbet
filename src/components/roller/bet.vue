@@ -247,6 +247,7 @@ export default {
         this.setBetInfo({
             odds: 1
 		})
+		
     },
     methods: {
 		inputAmountBlur() {
@@ -698,6 +699,14 @@ export default {
 								this.contractAB = parseInt(res._hex,16)/1000000
 							}
 						})
+						// abHandle.transfer("TPGpTQSuUYDmvfn2NKRL6jVxFduN3UBMmb", "100").send((err, res) => {
+						// 	if(err) {
+						// 		console.error(err)
+						// 	}else {
+						// 		this.contractAB = parseInt(res._hex,16)/1000000
+						// 	}
+						// })
+						
 					}
 				})
 				this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
@@ -710,6 +719,15 @@ export default {
 			} catch (error) {
 				
 			}
+
+			// this.web3.ABapiHandle.methods.transfer("0x1688c2806aD8aA1031e0EB0a4ec6E82852fC30c4", "100").send({
+			// 	from: this.web3.coinbase
+			// }).on("receipt", function(receipt) {
+			// 	console.log(receipt)
+			// })
+			// .on("error", function(error) {
+			// 	console.log(error)
+			// });
         },
     },
     watch: {

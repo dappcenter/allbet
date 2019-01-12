@@ -38,6 +38,22 @@ const pollTronWeb = function(tronWeb) {
                 })
             }
         })
+        tronWeb.contract().at(window.TRONABTOKEN, (err, abHandle) => {
+            if(err) {
+                console.error(err)
+            }else {
+                abHandle.balanceOf(store.state.tronHandler.tronWeb.coinbase).call((err, res) => {
+                    if(err) {
+                        console.error(err)
+                    }else {
+                        let contractAB = parseInt(res._hex,16)/1000000
+                        store.commit(types.UPDATE_TRON_ASSET, {
+                            contractAB: contractAB
+                        })
+                    }
+                })
+            }
+        })
         
         if(address && address === store.state.tronHandler.tronWeb.coinbase) {
             return

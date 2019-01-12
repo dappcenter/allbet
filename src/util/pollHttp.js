@@ -1,9 +1,10 @@
 import qs from 'qs'
 import store from "../store"
 //创建http对象
-let ajax = new XMLHttpRequest();
+
 
 let pollHttp = function(playload) {
+    let ajax = new XMLHttpRequest();
     return new Promise(function(resolve, reject) {
         let data = qs.stringify(playload.data)
         ajax.open(playload.type, window.SERVERPATH + playload.url + "?" + data)
