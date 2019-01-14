@@ -1,6 +1,6 @@
 <template>
     <div class="login-page">
-      <MBheaderBar title="登陆"></MBheaderBar>
+      <MBheaderBar :title="$t('message.login')"></MBheaderBar>
         <!-- <div class="top">
             <a href="javascript:;" class="backarrow" @click="$goBack"></a>
             <img class="logo" src="../../../public/img/allbet_mobile.png" alt="">

@@ -1,6 +1,6 @@
 <template>
     <div class="register-page" :style="{minHeight: $window.innerHeight + 'px'}">
-      <MBheaderBar title="注册"></MBheaderBar>
+      <MBheaderBar :title="$t('message.PopRegister')"></MBheaderBar>
         <!-- <div class="top">
             <a href="javascript:;" class="backarrow" @click="$goBack"></a>
             <div class="tab">

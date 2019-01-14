@@ -1,6 +1,6 @@
 <template>
     <div class="loginselect-page" :style="{minHeight: $window.innerHeight + 'px'}">
-      <MBheaderBar title="登陆"></MBheaderBar>
+      <MBheaderBar :title="$t('message.login')"></MBheaderBar>
       <h3>{{$t('message.PopLoginSelectTitleMobile')}}</h3>
       <div class="content-text" v-html="$t('message.PopLoginSelectMobile' + coinType)"></div>
       <!-- <p class="other">{{$t('message.PopLoginText1')}}</p>

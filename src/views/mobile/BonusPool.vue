@@ -10,39 +10,39 @@
             <div class="progress-wrap">
                 <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
                 <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
-                <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+                <div class="progress-bar"><i>{{(storeBonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': storeBonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
             </div>
             <div class="jackpot-wrap">
-                <h2>当前网络已冻结<span>87977978.34</span>AB，您冻结了<span>1439.34</span> AB</h2>
+                <h2>{{$t('message.BPtip3')}}<span>{{storeBonusPoolsData.totalPledge}}</span>AB，{{$t('message.BPtip4')}}<span>{{storeBonusPoolsData.pledgeAb}}</span> AB</h2>
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/ETH.png" />
-                        <span>分红倒计时：<TimeCountDown :time="1549080000000"></TimeCountDown></span>
+                        <span>分红倒计时：<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
                             <label>当前奖池累计：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.ethPool)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.ETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
                         </div>
                         <div class="cell-top">
                             <label>我的预期收益：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.pledgePredictETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.ETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
                         </div>
                     </div>
                 </div>
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/TRX.png" />
-                        <span>分红倒计时：<TimeCountDown :time="1549080000000"></TimeCountDown></span>
+                        <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
-                            <label>当前奖池累计：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.trxPool)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
+                            <label>{{$t('message.BPcurrentAmount')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.TRX)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
                         </div>
                         <div class="cell-top">
-                            <label>我的预期收益：</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.pledgePredictTRX)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
+                            <label>{{$t('message.BPmyErnings')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.TRX)*100)/100" :decimal="2"></DigitalRoll> TRX</h3>
                         </div>
                     </div>
                 </div>
@@ -53,12 +53,12 @@
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
-                            <label>当前奖池累计：</label>
-                            <h3><DigitalRoll :value="0" :decimal="2"></DigitalRoll> EOS</h3>
+                            <label>{{$t('message.BPcurrentAmount')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.EOS)*100)/100" :decimal="2"></DigitalRoll> EOS</h3>
                         </div>
                         <div class="cell-top">
-                            <label>我的预期收益：</label>
-                            <h3><DigitalRoll :value="0" :decimal="2"></DigitalRoll> EOS</h3>
+                            <label>{{$t('message.BPmyErnings')}}</label>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.EOS)*100)/100" :decimal="2"></DigitalRoll> EOS</h3>
                         </div>
                     </div>
                 </div>
@@ -66,9 +66,9 @@
             <div class="user-ab-status">
                 <div class="item">
                     <label>待领取 (AB)</label>
-                    <span>{{bonusPoolsData.ab}}</span>
+                    <span>{{storeBonusPoolsData.ab}}</span>
                     <a href="javascript:;" @click="getAB">领取</a>
-                    <i>已领取: {{bonusPoolsData.transferred}}</i>
+                    <i>已领取: {{storeBonusPoolsData.transferred}}</i>
                 </div>
                 <div class="item">
                     <label>已持有 (AB)</label>
@@ -82,6 +82,13 @@
                     <label>已冻结 (AB)</label>
                     <span>348485.43</span>
                     <a href="javascript:;" class="unfreeze" @click="unfreezeInputPopup = true">解冻</a>
+                </div>
+            </div>
+            <div class="freeze-status" v-if="storeBonusPoolsData.recoverAb == 0">
+                <label>{{$t('message.BPCompleteCountdown')}}<TimeCountDown :time="storeBonusPoolsData.recoverAbTime"></TimeCountDown></label>
+                <div class="freeze-amount">
+                    <span><i>{{$t('message.BPFreezeAmount')}}</i>{{storeBonusPoolsData.recoverAb}}</span>
+                    <a href="javascript:;">{{$t('message.BPrepeal')}}</a>
                 </div>
             </div>
             <div class="tip2">
@@ -564,6 +571,46 @@ export default {
                 }
                 i {
                     font-style: normal;
+                }
+            }
+        }
+        .freeze-status {
+            background-color: #58516D;
+            margin-top: 10px;
+            border-radius: 6px;
+            padding: 20px;
+            label {
+                display: block;
+                text-align: center;
+            }
+            .freeze-amount {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                span {
+                    flex: 1;
+                    display: block;
+                    background-color: #242130;
+                    line-height: .7rem;
+                    border-radius: 4px;
+                    padding: 0 .2rem;
+                    i {
+                        font-size: 12px;
+                        font-style: normal;
+                    }
+                }
+                a {
+                    display: block;
+                    margin: 0 0 0 .2rem;
+                    width: 1.8rem;
+                    height: .6rem;
+                    line-height: .6rem;
+                    background-color: #FFD558;
+                    border-radius: .3rem;
+                    color: #68286C;
+                    font-size: .2rem;
+                    font-weight: 700;
+                    text-align: center;
                 }
             }
         }

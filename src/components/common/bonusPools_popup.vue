@@ -8,7 +8,7 @@
             <div class="progress-wrap">
                 <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
                 <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
-                <div class="progress-bar"><i>{{(bonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': bonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+                <div class="progress-bar"><i>{{(storeBonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': storeBonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
             </div>
             <div class="jackpot-wrap">
                 <h2>{{$t('message.BPtip3')}}<span>{{storeBonusPoolsData.totalPledge}}</span>AB，{{$t('message.BPtip4')}}<span>{{storeBonusPoolsData.pledgeAb}}</span> AB</h2>
@@ -64,9 +64,9 @@
             <div class="user-ab-status">
                 <div class="item">
                     <label>{{$t('message.GameGeted')}} (AB)</label>
-                    <span>{{bonusPoolsData.ab}}</span>
+                    <span>{{storeBonusPoolsData.ab}}</span>
                     <a href="javascript:;" @click="getAB">{{$t('message.BPbtnGet')}}</a>
-                    <i>{{$t('message.BPreceived')}}: {{bonusPoolsData.transferred}}</i>
+                    <i>{{$t('message.BPreceived')}}: {{storeBonusPoolsData.transferred}}</i>
                 </div>
                 <div class="item">
                     <label>{{$t('message.BPyichiyou')}} (AB)</label>
@@ -83,9 +83,9 @@
                 </div>
             </div>
             <div class="freeze-status" v-if="storeBonusPoolsData.recoverAb != 0">
-                <label>解冻完成倒计时：<TimeCountDown :time="storeBonusPoolsData.recoverAbTime"></TimeCountDown></label>
+                <label>{{$t('message.BPCompleteCountdown')}}<TimeCountDown :time="storeBonusPoolsData.recoverAbTime"></TimeCountDown></label>
                 <div class="freeze-amount">
-                    <span><i>解冻数量：</i>{{storeBonusPoolsData.recoverAb}}</span>
+                    <span><i>{{$t('message.BPFreezeAmount')}}</i>{{storeBonusPoolsData.recoverAb}}</span>
                     <a href="javascript:;">{{$t('message.BPrepeal')}}</a>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     </div>
                     <a href="javascript:;" @click="freezeAmount = contractAB">ALL</a>
                 </div>
-                <a href="javascript:;" class="enter" @click="freezeDo">确定</a>
+                <a href="javascript:;" class="enter" @click="freezeDo">{{$t('message.PopConfirm')}}</a>
                 <i class="close-btn" @click="freezeInputPopup = false"></i>
             </mu-dialog>
 
@@ -116,7 +116,7 @@
                     </div>
                     <a href="javascript:;" @click="unfreezeAmount = storeBonusPoolsData.recoverAb">ALL</a>
                 </div>
-                <a href="javascript:;" class="enter">确定</a>
+                <a href="javascript:;" class="enter" @click="unFreezeDo">{{$t('message.PopConfirm')}}</a>
                 <i class="close-btn" @click="unfreezeInputPopup = false"></i>
             </mu-dialog>
 
@@ -139,45 +139,45 @@
                     <div class="balance">
                         <img src="../../../public/img/coin/ETH.png" alt="">
                         <span>{{storeBonusPoolsData.balance.ETH}} ETH</span>
-                        <a href="javascript:;" @click="active = 'ETH'" v-show="active != 'ETH'">领取</a>
+                        <a href="javascript:;" @click="active = 'ETH'" v-show="active != 'ETH'">{{$t('message.BPbtnGet')}}</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'ETH'">
-                        <label>接收地址：</label>
+                        <label>{{$t('message.BPReceivingAddress')}}</label>
                         <input type="text">
-                        <a href="javascript:;">确定</a>
+                        <a href="javascript:;">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'ETH'">
-                        <p>注：1、请确保您的地址正确，资产一旦转出不可追回；2、到账时间受网络影响，预计 2 小时内发出请耐心等待。</p>
+                        <p v-html="$t('message.BPtip6')"></p>
                     </div>
                 </li>
                 <li>
                     <div class="balance">
                         <img src="../../../public/img/coin/TRX.png" alt="">
                         <span>{{storeBonusPoolsData.balance.TRX}} TRX</span>
-                        <a href="javascript:;" @click="active = 'TRX'" v-show="active != 'TRX'">领取</a>
+                        <a href="javascript:;" @click="active = 'TRX'" v-show="active != 'TRX'">{{$t('message.BPbtnGet')}}</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'TRX'">
-                        <label>接收地址：</label>
+                        <label>{{$t('message.BPReceivingAddress')}}</label>
                         <input type="text">
-                        <a href="javascript:;">确定</a>
+                        <a href="javascript:;">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'TRX'">
-                        <p>注：1、请确保您的地址正确，资产一旦转出不可追回；2、到账时间受网络影响，预计 2 小时内发出请耐心等待。</p>
+                        <p v-html="$t('message.BPtip6')"></p>
                     </div>
                 </li>
                 <li>
                     <div class="balance">
                         <img src="../../../public/img/coin/EOS.png" alt="">
                         <span>{{storeBonusPoolsData.balance.EOS}} EOS</span>
-                        <a href="javascript:;" @click="active = 'EOS'" v-show="active != 'EOS'">领取</a>
+                        <a href="javascript:;" @click="active = 'EOS'" v-show="active != 'EOS'">{{$t('message.BPbtnGet')}}</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'EOS'">
-                        <label>接收地址：</label>
+                        <label>{{$t('message.BPReceivingAddress')}}</label>
                         <input type="text">
-                        <a href="javascript:;">确定</a>
+                        <a href="javascript:;">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'EOS'">
-                        <p>注：1、请确保您的地址正确，资产一旦转出不可追回；2、到账时间受网络影响，预计 2 小时内发出请耐心等待。</p>
+                        <p v-html="$t('message.BPtip6')"></p>
                     </div>
                 </li>
             </ul>
@@ -218,8 +218,8 @@ export default {
             freezeInputPopup: false,
             unfreezeInputPopup: false,
             instructionsPopup: false,  //质押说明
-            freezeAmount: 0,
-            unfreezeAmount: 0
+            freezeAmount: "",
+            unfreezeAmount: ""
         }
     },
     watch: {
@@ -289,9 +289,7 @@ export default {
             }).then(res => {
                 if(res.code == 200) {
                     console.log(res)
-                    res.result.trxPool < 0 && (res.result.trxPool = 0)
-                    res.result.ethPool < 0 && (res.result.ethPool = 0)
-                    this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
+                    this.$store.commit('UPDATE_BP_DATA', res.result)
                 }
             })
         },
@@ -410,6 +408,14 @@ export default {
         },
         // 冻结
         freezeDo() {
+            if(this.freezeAmount > this.contractAB) {
+                this.alert({
+                    type: "info",
+                    msg: "已持有AB不足",
+                    timeout: 3000
+                })
+                return
+            }
             switch(this.coinType) {
                 case "ETH":
                     let freezeAmountWei = this.web3.web3Instance.utils.toWei(this.freezeAmount+"", "ether")
@@ -417,8 +423,19 @@ export default {
                         from: this.web3.coinbase,
                         gas: 210000,
 				        gasPrice: 10000000000
+                    }, (err, res) => {
+                        if(!err) {
+                            this.freezeAmount = ""
+                            this.freezeInputPopup = false
+                        }
                     }).then(res => {
+                        this.getBonusPools()
                         console.log(res)
+                        this.alert({
+                            type: "info",
+                            msg: "申请已提交",
+                            timeout: 3000
+                        })
                     }).catch(err => {
                         console.log(err)
                     });
@@ -448,6 +465,13 @@ export default {
                 default: 
                     break
             }
+        },
+        unFreezeDo() {
+            this.$http.post("/app/profit/depledge", {
+                abAmount: this.unfreezeAmount,
+            }).then(res => {
+                console.log(res)
+            })
         },
         ...mapMutations({
             alert: "alert",
