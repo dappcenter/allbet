@@ -8,7 +8,7 @@ const filterAddr = function(userInfo) {
     if(userInfo && userInfo.accounts) {
         userInfo.accounts.forEach(val => {
             if(val.platform == "DISPATCHER") {
-                console.log("111",{
+                list.push({
                     coinAddress: val.userAddress,
                     eth: val.assets.ETH.amount,
                     assets: val.assets,
@@ -20,19 +20,6 @@ const filterAddr = function(userInfo) {
                     mainCoin: val.mainCoin,
                     inviteCode: userInfo.inviteCode || null   //使用平台账号邀请码
                 })
-                list.push({
-                    coinAddress: val.userAddress,
-                    eth: val.assets.ETH.amount,
-                    assets: val.assets,
-                    bet: val.assets.AB.amount,
-                    at: Math.floor(val.assets.AT.amount*1000) /1000,
-                    userName: userInfo.userName, //使用平台账号用户名
-                    token: userInfo.token,
-                    platform: "123",
-                    mainCoin: val.mainCoin,
-                    inviteCode: userInfo.inviteCode || null   //使用平台账号邀请码
-                })
-                console.log("222",list)
             }
         })
     }
@@ -41,7 +28,6 @@ const filterAddr = function(userInfo) {
 
 const state = {
     userInfo: {},
-    // addressList: [],
     currentAddr: {},
     hdUserInfo: {},
     lastCurAddrPf: "",
@@ -55,7 +41,6 @@ const getters = {
      */
     getUserAddress(state, getters, rootState) {
         let list = filterAddr(state.userInfo)
-        
         //是否有登录态
         if(!state.userInfo.token) {
             console.log("没有登录态state.userInfo.token")
@@ -70,7 +55,7 @@ const getters = {
             case "TRX":
                 walletAddress = rootState.tronHandler.tronWeb.coinbase
                 break;
-            defautl:
+            default:
                 break;
         }
 

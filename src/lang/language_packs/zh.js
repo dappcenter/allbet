@@ -343,7 +343,19 @@ export default {
         BPCompleteCountdown: "解冻完成倒计时：",
         BPFreezeAmount: "解冻数量：",
         BPReceivingAddress: "接收地址：",
+        BPcallableBalance: "可冻结余额：",
+        BPdefrostQuantity: "可解冻数量：",
         BPtip6: "注：1、请确保您的地址正确，资产一旦转出不可追回；<br />　　2、到账时间受网络影响，预计 2 小时内发出请耐心等待。",
+        BPIFS: "质押说明",
+        BPIFStext1: "1.冻结以及解冻AB最低数量为1个。每次分红期间不能进行冻结与解冻操作。",
+        BPIFStext2: "2.必须是冻结中的AB才能获得分红。每次分红倒计时结束之前冻结的AB均可以获得这次分红（建议至少提前几分钟）。",
+        BPIFStext3TRX: "3.提取和冻结AB均会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。",
+        BPIFStext3ETH: "3.提取和冻结AB均会消耗少量gas，建议不要频繁操作。",
+        BPIFStext3EOS: "3.提取和冻结AB均会消耗少量资源，建议不要频繁操作。",
+        BPIFStext4: "4.以最后一次解冻时间为准，解冻AB需要24小时后到账钱包，解冻中的AB不能获得分红。",
+        BPIFStext5: "5.由于采用智能合约自动分红，tronscan目前不支持智能合约交易查询，我们确保分红都会即时到账。",
+        BPApplicationSubmitted: "申请已提交",
+        BPalert1: "数量必须大于1",
 
 
 

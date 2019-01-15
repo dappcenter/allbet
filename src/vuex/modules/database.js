@@ -9,7 +9,11 @@ const state = {
         balance: {},
         pledgeAb: 0,
         profitPool: {},
-        profitPredict: {},
+        profitPredict: {
+            ETH: 0,
+            TRX: 0,
+            EOS: 0
+        },
         profitTime: 0,
         progressDig: 0,
         recoverAb: 0,
@@ -17,12 +21,18 @@ const state = {
         totalDig: 0,
         totalPledge: 0,
         transferred: 0,
-        
     }
 }
 
 const mutations = {
     [types.UPDATE_BP_DATA](state, payload) {
+        if(!payload.profitPredict) {
+            payload.profitPredict = {
+                ETH: 0,
+                TRX: 0,
+                EOS: 0
+            }
+        }
         state.bonusPools = Object.assign(state.bonusPools, payload)
     }
 }

@@ -205,6 +205,7 @@ import LoginSelectPopup from "@/components/account/login_select_popup"
 import FundraiyPopup from "@/components/common/fundraiy_popup"
 import CircleBar from "@/components/common/circlebar"
 import FindPsdPopup from "@/components/common/popup/findPsd_popup"
+import { debug } from 'util';
 
 export default {
     props: {

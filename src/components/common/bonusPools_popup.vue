@@ -20,11 +20,11 @@
                     <div class="item-r">
                         <div class="cell-top">
                             <label>{{$t('message.BPcurrentAmount')}}</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.ETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.ETH)*100)/100" :decimal="4"></DigitalRoll> ETH</h3>
                         </div>
                         <div class="cell-top">
                             <label>{{$t('message.BPmyErnings')}}</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.ETH)*100)/100" :decimal="2"></DigitalRoll> ETH</h3>
+                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.ETH)*100)/100" :decimal="4"></DigitalRoll> ETH</h3>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,8 @@
             <div class="user-ab-status">
                 <div class="item">
                     <label>{{$t('message.GameGeted')}} (AB)</label>
-                    <span>{{storeBonusPoolsData.ab}}</span>
+                    <span v-if="storeCurrentAddr.platform == 'IMPORT'">{{storeBonusPoolsData.ab}}</span>
+                    <span v-else>0</span>
                     <a href="javascript:;" @click="getAB">{{$t('message.BPbtnGet')}}</a>
                     <i>{{$t('message.BPreceived')}}: {{storeBonusPoolsData.transferred}}</i>
                 </div>
@@ -83,10 +84,10 @@
                 </div>
             </div>
             <div class="freeze-status" v-if="storeBonusPoolsData.recoverAb != 0">
-                <label>{{$t('message.BPCompleteCountdown')}}<TimeCountDown :time="storeBonusPoolsData.recoverAbTime"></TimeCountDown></label>
+                <label>{{$t('message.BPCompleteCountdown')}}<TimeCountDown :time="storeBonusPoolsData.recoverAbTime*1"></TimeCountDown></label>
                 <div class="freeze-amount">
                     <span><i>{{$t('message.BPFreezeAmount')}}</i>{{storeBonusPoolsData.recoverAb}}</span>
-                    <a href="javascript:;">{{$t('message.BPrepeal')}}</a>
+                    <a href="javascript:;" @click="revocationDo">{{$t('message.BPrepeal')}}</a>
                 </div>
             </div>
             <div class="tip3">
@@ -94,10 +95,10 @@
             </div>
             <!-- 冻结数量输入 -->
             <mu-dialog :append-body="false" width="360" :open.sync="freezeInputPopup" class="freeze-input-popup">
-                <p>可冻结余额：{{contractAB}} AB</p>
+                <p>{{$t('message.BPcallableBalance')}}{{contractAB}} AB</p>
                 <div class="input-wrap">
                     <div>
-                        <input type="text" v-model="freezeAmount">
+                        <input type="text" v-model="freezeAmount" oninput="value=value.replace(/[^0-9\.]/g,'')">
                         <span>AB</span>
                     </div>
                     <a href="javascript:;" @click="freezeAmount = contractAB">ALL</a>
@@ -105,16 +106,15 @@
                 <a href="javascript:;" class="enter" @click="freezeDo">{{$t('message.PopConfirm')}}</a>
                 <i class="close-btn" @click="freezeInputPopup = false"></i>
             </mu-dialog>
-
             <!-- 解冻数量输入 -->
             <mu-dialog :append-body="false" width="360" :open.sync="unfreezeInputPopup" class="freeze-input-popup">
-                <p>可解冻数量：{{storeBonusPoolsData.recoverAb}} AB</p>
+                <p>{{$t('message.BPdefrostQuantity')}}{{storeBonusPoolsData.pledgeAb}} AB</p>
                 <div class="input-wrap">
                     <div>
-                        <input type="text" v-model="unfreezeAmount">
+                        <input type="text" v-model="unfreezeAmount" oninput="value=value.replace(/[^0-9\.]/g,'')">
                         <span>AB</span>
                     </div>
-                    <a href="javascript:;" @click="unfreezeAmount = storeBonusPoolsData.recoverAb">ALL</a>
+                    <a href="javascript:;" @click="unfreezeAmount = storeBonusPoolsData.pledgeAb">ALL</a>
                 </div>
                 <a href="javascript:;" class="enter" @click="unFreezeDo">{{$t('message.PopConfirm')}}</a>
                 <i class="close-btn" @click="unfreezeInputPopup = false"></i>
@@ -122,13 +122,15 @@
 
             <!-- 质押说明 -->
             <mu-dialog :append-body="false" :open.sync="instructionsPopup" class="instructions-popup">
-                <h2>质押说明</h2>
-                <div class="ctn"><p>
-                    1.冻结以及解冻AB最低数量为1个。每次分红期间不能进行冻结与解冻操作。<br /><br />
-                    2.必须是冻结中的AB才能获得分红。每次分红倒计时结束之前冻结的AB均可以获得这次分红（建议至少提前几分钟）。<br /><br />
-                    3.提取和冻结AB均会消耗少量TRX（预计每次0.5-0.8个TRX），建议不要频繁操作。<br /><br />
-                    4.以最后一次解冻时间为准，解冻AB需要24小时后到账钱包，解冻中的AB不能获得分红。<br /><br />
-                    5.由于采用智能合约自动分红，tronscan目前不支持智能合约交易查询，我们确保分红都会即时到账。</p>
+                <h2>{{$t('message.BPIFS')}}</h2>
+                <div class="ctn">
+                    <p>
+                        {{$t('message.BPIFStext1')}}<br /><br />
+                        {{$t('message.BPIFStext2')}}<br /><br />
+                        {{$t('message.BPIFStext3' + coinType)}}<br /><br />
+                        {{$t('message.BPIFStext4')}}<br /><br />
+                        <p v-if="coinType == 'TRX'">{{$t('message.BPIFStext5')}}</p>
+                    </p>
                 </div>
                 <i class="close-btn" @click="instructionsPopup = false"></i>
             </mu-dialog>
@@ -143,8 +145,8 @@
                     </div>
                     <div class="addr-wrap" v-show="active == 'ETH'">
                         <label>{{$t('message.BPReceivingAddress')}}</label>
-                        <input type="text">
-                        <a href="javascript:;">{{$t('message.PopConfirm')}}</a>
+                        <input type="text" v-model="getAddrETH">
+                        <a href="javascript:;" @click="getMoney('ETH')">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'ETH'">
                         <p v-html="$t('message.BPtip6')"></p>
@@ -158,14 +160,14 @@
                     </div>
                     <div class="addr-wrap" v-show="active == 'TRX'">
                         <label>{{$t('message.BPReceivingAddress')}}</label>
-                        <input type="text">
-                        <a href="javascript:;">{{$t('message.PopConfirm')}}</a>
+                        <input type="text" v-model="getAddrTRX">
+                        <a href="javascript:;" @click="getMoney('TRX')">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'TRX'">
                         <p v-html="$t('message.BPtip6')"></p>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <div class="balance">
                         <img src="../../../public/img/coin/EOS.png" alt="">
                         <span>{{storeBonusPoolsData.balance.EOS}} EOS</span>
@@ -173,13 +175,13 @@
                     </div>
                     <div class="addr-wrap" v-show="active == 'EOS'">
                         <label>{{$t('message.BPReceivingAddress')}}</label>
-                        <input type="text">
-                        <a href="javascript:;">{{$t('message.PopConfirm')}}</a>
+                        <input type="text" v-model="getAddrEOS">
+                        <a href="javascript:;" @click="getMoney('EOS')">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'EOS'">
                         <p v-html="$t('message.BPtip6')"></p>
                     </div>
-                </li>
+                </li> -->
             </ul>
         </div>
         <i class="close-btn" @click="isShow = false"></i>
@@ -214,12 +216,15 @@ export default {
             isShow: false,
             tab: 1,
             timer: null,
-            active: "ETH",
+            active: "",
             freezeInputPopup: false,
             unfreezeInputPopup: false,
             instructionsPopup: false,  //质押说明
             freezeAmount: "",
-            unfreezeAmount: ""
+            unfreezeAmount: "",
+            getAddrETH: "",
+            getAddrTRX: "",
+            getAddrEOS: ""
         }
     },
     watch: {
@@ -227,7 +232,7 @@ export default {
             if(!newVal) {
                 this.$emit("change", newVal)
             }else {
-                this.getBonusPools()
+                // this.getBonusPools()
                 if(this.ab) {
                     this.tab = 2
                 }
@@ -244,7 +249,6 @@ export default {
         event: "change"
     },
     mounted() {
-        this.getBonusPools()
         if(this.ab) {
             this.tab = 2
         }
@@ -260,7 +264,7 @@ export default {
             ETHcontractAB: state => state.web3Handler.web3.contractAB
         }),
         contractAB() {
-            if(this.storeCurrentAddr.platform='IMPORT') {
+            if(this.storeCurrentAddr.platform == 'IMPORT') {
                 switch(this.coinType) {
                     case "ETH":
                         return Math.floor(this.ETHcontractAB*1000)/1000
@@ -273,7 +277,7 @@ export default {
                         break
                 }
             }else {
-                return 0
+                return this.storeBonusPoolsData.ab || 0
             }
         }
     },
@@ -295,7 +299,7 @@ export default {
         },
         // 提取ab
         getAB() {
-            if(this.bonusPoolsData.ab <= 0) {
+            if(this.storeBonusPoolsData.ab <= 0) {
                 this.alert({
 					type: "info",
 					msg: this.$t('message.BPnothingAB'),
@@ -303,7 +307,6 @@ export default {
 				})
                 return
             }
-
             if(this.storeCurrentAddr.platform == "DISPATCHER") {
                 this.$router.push("my-assets")
                 return
@@ -350,7 +353,7 @@ export default {
         },
         getTRX_AB(orderId) {
             let that = this
-			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
+			const feeLimit  = this.tronWeb.tronWebInstance.toSun(1000);
 			this.tronWeb.contract.askForToken(orderId, this.tronWeb.coinbase).send({
 				feeLimit:feeLimit,
 				callValue: 0,
@@ -375,47 +378,50 @@ export default {
                 noLoading: true,
             }).then(res => {
                 if(res.code == 200) {
-                    console.log(222)
                     this.getBonusPools()
                 }
             })
-        },
-        getContractAB() {
-			try {
-				this.coinType == "TRX" && this.tronWeb.tronWebInstance.contract().at(window.TRONABTOKEN, (err, abHandle) => {
-					if(err) {
-						console.error(err)
-					}else {
-						abHandle.balanceOf(this.tronWeb.coinbase).call((err, res) => {
-							if(err) {
-								console.error(err)
-							}else {
-								this.contractAB = parseInt(res._hex,16)/1000000
-							}
-						})
-					}
-				})
-				this.coinType == "ETH" && this.web3.ABapiHandle.methods.balanceOf(this.web3.coinbase).call((error, result) => {
-					if(!error) {
-						this.contractAB = this.web3.web3Instance.utils.fromWei(result, "ether")*1
-					} else {
-						console.error(error);
-					}
-				})
-			} catch (error) {
-				
-			}
         },
         // 冻结
         freezeDo() {
             if(this.freezeAmount > this.contractAB) {
                 this.alert({
                     type: "info",
-                    msg: "已持有AB不足",
+                    msg: this.$t('message.assetsNotEnough'),
                     timeout: 3000
                 })
                 return
             }
+            if(this.freezeAmount < 1) {
+                this.alert({
+                    type: "info",
+                    msg: this.$t('message.BPalert1'),
+                    timeout: 3000
+                })
+                return
+            }
+            // 平台账户
+            if(this.storeCurrentAddr.platform == 'DISPATCHER') {
+                this.$http.post('/app/profit/pledge/' + this.freezeAmount).then(res => {
+                    this.getBonusPools()
+                    if(res.code == 200) {
+                        this.getBonusPools()
+                        this.freezeAmount = ""
+                        this.freezeInputPopup = false
+                        this.alert({
+                            type: "success",
+                            msg: res.msg
+                        })
+                    }else {
+                        this.alert({
+                            type: "info",
+                            msg: res.msg
+                        })
+                    }
+                })
+                return
+            }
+            // 合约账户
             switch(this.coinType) {
                 case "ETH":
                     let freezeAmountWei = this.web3.web3Instance.utils.toWei(this.freezeAmount+"", "ether")
@@ -429,11 +435,9 @@ export default {
                             this.freezeInputPopup = false
                         }
                     }).then(res => {
-                        this.getBonusPools()
-                        console.log(res)
                         this.alert({
                             type: "info",
-                            msg: "申请已提交",
+                            msg: this.$t('message.BPApplicationSubmitted'),
                             timeout: 3000
                         })
                     }).catch(err => {
@@ -441,19 +445,17 @@ export default {
                     });
                     break
                 case "TRX":
-                    console.log(this.tronWeb.pledgeContract)
-                    // const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
-                    // const callValue = this.tronWeb.tronWebInstance.toSun(amount);
-                    this.tronWeb.pledgeContract.lock(this.freezeAmount).send({
-
+                    const freezeAmountSun = this.tronWeb.tronWebInstance.toSun(this.freezeAmount);
+                    this.tronWeb.pledgeContract.lock(freezeAmountSun).send({
                     }).then(res => {
                         this.alert({
                             type: "info",
-                            msg: "success",
-                            timeout: 9999999
+                            msg: this.$t('message.BPApplicationSubmitted'),
+                            timeout: 3000
                         })
+                        this.freezeAmount = ""
+                        this.freezeInputPopup = false
                     }).catch(err => {
-                        console.log("placeBetTRX",err)
                         this.alert({
                             type: "info",
                             msg: "User rejected the signature request.",
@@ -466,12 +468,241 @@ export default {
                     break
             }
         },
+        // 解冻
         unFreezeDo() {
-            this.$http.post("/app/profit/depledge", {
-                abAmount: this.unfreezeAmount,
-            }).then(res => {
-                console.log(res)
+            if(this.unfreezeAmount > this.storeBonusPoolsData.pledgeAb) {
+                this.alert({
+                    type: "info",
+                    msg: this.$t('message.assetsNotEnough'),
+                    timeout: 3000
+                })
+                return
+            }
+            if(this.unfreezeAmount <= 0) {
+                // this.alert({
+                //     type: "info",
+                //     msg: this.$t('message.BPalert1'),
+                //     timeout: 3000
+                // })
+                return
+            }
+            let unfreezeAmount = this.unfreezeAmount
+            this.$http.post("/app/profit/depledge/" + unfreezeAmount).then(res => {
+                if(res.code == 200) {
+                    if(this.storeCurrentAddr.platform == "DISPATCHER") {
+                        this.getBonusPools()
+                        this.unfreezeAmount = ""
+                        this.unfreezeInputPopup = false
+                        this.alert({
+                            type: "info",
+                            msg: this.$t('message.BPApplicationSubmitted'),
+                            timeout: 3000
+                        })
+                        return
+                    }
+                    switch(this.coinType) {
+                        case "ETH":
+                            let freezeAmountWei = this.web3.web3Instance.utils.toWei(unfreezeAmount+"", "ether")
+                            this.web3.pledgeApiHandle.methods.unlock(res.result, freezeAmountWei).send({
+                                from: this.web3.coinbase,
+                                gas: 210000,
+                                gasPrice: 10000000000
+                            }, (err, res) => {
+                                if(!err) {
+                                    this.unfreezeAmount = ""
+                                    this.unfreezeInputPopup = false
+                                }
+                            }).then(res => {
+                                this.getBonusPools()
+                                this.alert({
+                                    type: "info",
+                                    msg: this.$t('message.BPApplicationSubmitted'),
+                                    timeout: 3000
+                                })
+                            }).catch(err => {
+                                console.log(err)
+                            });
+                            break
+                        case "TRX":
+                            const unfreezeAmountSun = this.tronWeb.tronWebInstance.toSun(this.unfreezeAmount);
+                            this.tronWeb.pledgeContract.unlock(res.result, unfreezeAmountSun).send({
+
+                            }).then(res => {
+                                this.getBonusPools()
+                                this.alert({
+                                    type: "info",
+                                    msg: this.$t('message.BPApplicationSubmitted'),
+                                    timeout: 3000
+                                })
+                                this.unfreezeAmount = ""
+                                this.unfreezeInputPopup = false
+                            }).catch(err => {
+                                this.alert({
+                                    type: "info",
+                                    msg: "User rejected the signature request.",
+                                    timeout: 3000
+                                })
+                            })
+                            break
+                        default: 
+                            break
+                    }
+                }
             })
+        },
+        // 撤销
+        revocationDo() {
+            if(this.storeCurrentAddr.platform == 'DISPATCHER') {
+                this.$http.post("/app/profit/pledge_recall").then(res => {
+                    if(res.code == 200) {
+                        this.getBonusPools()
+                        this.alert({
+                            type: "info",
+                            msg: this.$t('message.BPApplicationSubmitted'),
+                            timeout: 3000
+                        })
+                    }
+                })
+                return
+            }
+            if(this.storeCurrentAddr.platform='IMPORT') {
+                switch(this.coinType) {
+                    case "ETH":
+                        this.web3.pledgeApiHandle.methods.cancel().send({
+                            from: this.web3.coinbase,
+                            gas: 210000,
+                            gasPrice: 10000000000
+                        }, (err, res) => {
+                            if(!err) {
+
+                            }
+                        }).then(res => {
+                            this.getBonusPools()
+                            this.alert({
+                                type: "info",
+                                msg: this.$t('message.BPApplicationSubmitted'),
+                                timeout: 3000
+                            })
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                        break
+                    case "TRX":
+                        console.log(this.tronWeb.pledgeContract)
+                        this.tronWeb.pledgeContract.cancel().send({
+                        }).then(res => {
+                            this.alert({
+                                type: "info",
+                                msg: this.$t('message.BPApplicationSubmitted'),
+                                timeout: 3000
+                            })
+                        }).catch(err => {
+                            console.log("placeBetTRX",err)
+                            this.alert({
+                                type: "info",
+                                msg: "User rejected the signature request.",
+                                timeout: 3000
+                            })
+                        })
+                        break
+                    default: 
+                        break
+                }
+            }
+        },
+        // 领取分红
+        getMoney(type) {
+            let addr = ""
+            switch(type) {
+                case "ETH":
+                    addr = this.getAddrETH
+                    break
+                case "TRX":
+                    addr = this.getAddrTRX
+                    break
+                case "EOS":
+                    addr = this.getAddrEOS
+                    break
+                default:
+                    break
+            }
+            if(this.storeBonusPoolsData.balance[type] <= 0) {   //余额不足
+                this.alert({
+                    type: "info",
+                    msg: this.$t('message.assetsNotEnough'),
+                    timeout: 3000
+                })
+                return
+            }
+            if(addr.trim() == "") {  //提币地址不能为空
+                this.alert({
+                    type: "info",
+                    msg: this.$t('message.assetsDestAddEmpty'),
+                    timeout: 3000
+                })
+                return
+            }
+            this.$http.post('/app/profit/draw', {
+                "coinType": type,
+                "destAddress": addr
+            }).then(res => {
+                if(res.code == 200) {
+                    this.getBonusPools()
+                    if(res.result.platform == "IMPORT") {
+                        switch(this.coinType) {
+                            case "ETH":
+                                this.web3.pledgeApiHandle.methods.askForMoney(res.result.recdId, this.web3.coinbase, addr).send({
+                                    from: this.web3.coinbase,
+                                    gas: 210000,
+                                    gasPrice: 10000000000
+                                }, (err, res) => {
+                                    if(!err) {
+                                        
+                                    }
+                                }).then(res => {
+                                    this.alert({
+                                        type: "info",
+                                        msg: this.$t('message.BPApplicationSubmitted'),
+                                        timeout: 3000
+                                    })
+                                }).catch(err => {
+                                    console.log(err)
+                                })
+                                break
+                            case "TRX":
+                                console.log(this.tronWeb.pledgeContract)
+                                this.tronWeb.pledgeContract.askForMoney(res.result.recdId, this.tronWeb.coinbase, addr).send({
+                                }).then(res => {
+                                    this.alert({
+                                        type: "info",
+                                        msg: this.$t('message.BPApplicationSubmitted'),
+                                        timeout: 3000
+                                    })
+                                }).catch(err => {
+                                    this.alert({
+                                        type: "info",
+                                        msg: "User rejected the signature request.",
+                                        timeout: 3000
+                                    })
+                                })
+                                break
+                            default: 
+                                break
+                        }
+                    }else {
+                        this.alert({
+                            type: "info",
+                            msg: this.$t('message.BPApplicationSubmitted'),
+                            timeout: 3000
+                        })
+                    }
+                }
+            })
+            
+        },
+        // 回滚
+        rollback() {
+            // this.$http.post()
         },
         ...mapMutations({
             alert: "alert",
@@ -492,6 +723,7 @@ export default {
 <style lang="less">
 .bonus-pools-popup {
     overflow-y: scroll;
+    z-index: 99999999 !important;
     &.isbp {
         .mu-dialog {
             &:before {
@@ -810,7 +1042,7 @@ export default {
             }
             .instructions-popup {
                 .mu-dialog {
-                    width: 400px;
+                    width: 550px;
                 }
                 .mu-dialog-body {
                     background: #52476F !important;
@@ -845,6 +1077,7 @@ export default {
                             border-left: 1px solid rgba(104,40,108,.2);
                             line-height: 38px;
                             padding: 0 20px;
+                            text-align: left;
                         }
                         a {
                             width: 80px;

@@ -98,14 +98,12 @@
 					<button v-if="currentAddr.token && !timer" class="enter" :class="{'loading': betBtnLoading}" @click="betDo">{{$t("message.GameLuckNum")}} {{odds}}</button>
 					<button v-else-if="currentAddr.token && timer" class="enter">{{luckyNum}}</button>
 					<button v-else class="enter" @click="openLogin">{{$t("message.login")}}</button>
-
 					<div class="cell fl minscreen">
 						<img src="../../../public/img/coin/ETH.png" v-show="coinType == 'ETH'">
 						<img src="../../../public/img/coin/TRX.png" v-show="coinType == 'TRX'">
 						<i v-if="currentAddr.token && currentAddr.assets"><DigitalRoll :value="currentAddr.assets[coinType].amount*1"></DigitalRoll></i>
 						<i v-else>0</i> {{coinType}}
 					</div>
-
 					<div class="cell fr" @mouseenter="getBonusPools">
 						<img src="../../../public/img/coin/AB.png">
 						<i v-if="currentAddr.token"><DigitalRoll :value="currentAddr.bet*1 + contractAB" :decimal="2"></DigitalRoll></i>
@@ -535,7 +533,7 @@ export default {
 		 */
 		placeBetTRX(rollUnder, orderId, amount) {
 			let that = this
-			const feeLimit  = this.tronWeb.tronWebInstance.toSun(10);
+			const feeLimit  = this.tronWeb.tronWebInstance.toSun(1000);
 			const callValue = this.tronWeb.tronWebInstance.toSun(amount);
 			this.tronWeb.contract.placeBetV1(rollUnder, 100, orderId).send({
 				feeLimit:feeLimit,

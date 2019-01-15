@@ -53,6 +53,9 @@
 
 <script type="text/javascript">
 (function () {
+   
+    console.log("window.parent",window.parent)
+    console.log("vuex-data",JSON.parse(window.parent.localStorage.getItem("vuex")))
     // open web debugger console
     if (typeof VConsole !== 'undefined') {
         window.vConsole = new VConsole();

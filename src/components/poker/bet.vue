@@ -549,7 +549,7 @@ export default {
 		 */
 		placeBetTRX(pokerCnts, orderId, amount, pokerListA, pokerListB) {
 			let that = this
-			const feeLimit  = this.tronWeb.tronWebInstance.toSun(100);
+			const feeLimit  = this.tronWeb.tronWebInstance.toSun(1000);
 			const callValue = this.tronWeb.tronWebInstance.toSun(amount)
 			this.tronWeb.pokerContract.placePoker(pokerListA, pokerListB, pokerCnts, orderId).send({
 				feeLimit:feeLimit,

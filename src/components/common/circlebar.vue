@@ -32,9 +32,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.value)
         Element.prototype.css = function(property,value){
-            
             if ( value ) {
                 var index = property.indexOf('-');
                 if( index != -1 ) {
