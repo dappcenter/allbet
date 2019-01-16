@@ -56,24 +56,24 @@ export default {
             this.stepSize = this.rollSpace / this.time * this.speed < 0.001 ? 0.001 : this.rollSpace / this.time * this.speed
             if(this.value > this.rollNumber) {
                 this.timer = setInterval(() => {
-                    this.rollNumber =(Number(this.rollNumber) + this.stepSize).toFixed(this.decimal)
+                    this.rollNumber = Math.floor((Number(this.rollNumber) + this.stepSize)*Math.pow(10, this.decimal))/Math.pow(10, this.decimal)
                     if(this.rollNumber >= this.value) {
                         clearInterval(this.timer)
                         this.timer = null
-                        this.rollNumber = this.value.toFixed(this.decimal)
+                        this.rollNumber = Math.floor(this.value*Math.pow(10, this.decimal))/Math.pow(10, this.decimal)
                     }
                 }, this.speed)
             }else if(this.value < this.rollNumber){
                 this.timer = setInterval(() => {
-                    this.rollNumber = (Number(this.rollNumber) - this.stepSize).toFixed(this.decimal)
+                    this.rollNumber = Math.floor((Number(this.rollNumber) - this.stepSize)*Math.pow(10, this.decimal))/Math.pow(10, this.decimal)
                     if(this.rollNumber <= this.value) {
                         clearInterval(this.timer)
                         this.timer = null
-                        this.rollNumber = this.value.toFixed(this.decimal)
+                        this.rollNumber = Math.floor(this.value*Math.pow(10, this.decimal))/Math.pow(10, this.decimal)
                     }
                 }, this.speed)
             }else {
-                this.rollNumber = this.value.toFixed(this.decimal)
+                this.rollNumber = Math.floor(this.value*Math.pow(10, this.decimal))/Math.pow(10, this.decimal)
             }
         }
     }

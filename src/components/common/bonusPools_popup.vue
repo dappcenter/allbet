@@ -11,7 +11,7 @@
                 <div class="progress-bar"><i>{{(storeBonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': storeBonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
             </div>
             <div class="jackpot-wrap">
-                <h2>{{$t('message.BPtip3')}}<span>{{storeBonusPoolsData.totalPledge}}</span>AB，{{$t('message.BPtip4')}}<span>{{storeBonusPoolsData.pledgeAb}}</span> AB</h2>
+                <h2>{{$t('message.BPtip3')}}<span>{{Math.floor(storeBonusPoolsData.totalPledge*100)/100}}</span>AB，{{$t('message.BPtip4')}}<span>{{Math.floor(storeBonusPoolsData.pledgeAb*100)/100}}</span> AB</h2>
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/ETH.png" />
@@ -20,11 +20,11 @@
                     <div class="item-r">
                         <div class="cell-top">
                             <label>{{$t('message.BPcurrentAmount')}}</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPool.ETH)*100)/100" :decimal="4"></DigitalRoll> ETH</h3>
+                            <h3><DigitalRoll :value="Number(storeBonusPoolsData.profitPool.ETH)" :decimal="4"></DigitalRoll> ETH</h3>
                         </div>
                         <div class="cell-top">
                             <label>{{$t('message.BPmyErnings')}}</label>
-                            <h3><DigitalRoll :value="Math.floor(Number(storeBonusPoolsData.profitPredict.ETH)*100)/100" :decimal="4"></DigitalRoll> ETH</h3>
+                            <h3><DigitalRoll :value="Number(storeBonusPoolsData.profitPredict.ETH)" :decimal="4"></DigitalRoll> ETH</h3>
                         </div>
                     </div>
                 </div>
@@ -697,8 +697,7 @@ export default {
                         })
                     }
                 }
-            })
-            
+            }) 
         },
         // 回滚
         rollback() {
@@ -858,8 +857,10 @@ export default {
                     .item-r {
                         flex: 1;
                         .cell-top {
+                            text-align: left !important;
                             label {
                                 font-size: 14px;
+                                
                             }
                             &:first-child {
                                 border-bottom: 1px solid #B72F4D;

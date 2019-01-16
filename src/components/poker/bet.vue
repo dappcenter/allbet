@@ -601,31 +601,34 @@ export default {
 							if(res.result.tradeStatus == "DONE") {
 								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
-								
 								setTimeout(() => {
 									this.loading = false  //关闭loading
 									this.open = true
 									this.$store.dispatch('updateProperty')
 									if(res.result.winFlag == "WIN") {
-										this.openWinPopup({
-											ab: res.result.abNum,
-											rewards: res.result.rewards,
-											coinType: res.result.coinType,
-											winFlag: "WIN",
-											amount: res.result.coinAmount,
-											cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
-											luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
-										})
+										!this.autoBet && setTimeout(() => {
+											this.openWinPopup({
+												ab: res.result.abNum,
+												rewards: res.result.rewards,
+												coinType: res.result.coinType,
+												winFlag: "WIN",
+												amount: res.result.coinAmount,
+												cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+												luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
+											})
+										}, 1000)
 									}else if(res.result.winFlag == "LOSE") {
-										this.openWinPopup({
-											ab: res.result.abNum,
-											rewards: 0,
-											coinType: res.result.coinType,
-											winFlag: "LOSE",
-											amount: res.result.coinAmount,
-											cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
-											luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
-										})
+										!this.autoBet && setTimeout(() => {
+											this.openWinPopup({
+												ab: res.result.abNum,
+												rewards: 0,
+												coinType: res.result.coinType,
+												winFlag: "LOSE",
+												amount: res.result.coinAmount,
+												cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+												luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
+											})
+										}, 1000)
 									}
 									// 自动下注
 									setTimeout(() => {

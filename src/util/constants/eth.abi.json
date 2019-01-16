@@ -878,7 +878,7 @@
                 },
                 {
                     "name": "to",
-                    "type": "address"
+                    "type": "string"
                 }
             ],
             "name": "askForMoney",

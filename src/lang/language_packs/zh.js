@@ -313,7 +313,7 @@ export default {
         BPbonusPools: "分红池",
         BPtip: "注：数据每小时刷新一次。",
         BPab: "我的 AB 余额",
-        BPcurrentAmount: "当前奖池累计",
+        BPcurrentAmount: "当前奖池累计：",
         BPSoon: "即将上线",
         BPtip2: "即将上线 EOS、AB 游戏投注挖矿，多币种分红池等您来领取。",
         BPTotal: '当前 AB 币流通量：',

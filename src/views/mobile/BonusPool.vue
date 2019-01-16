@@ -13,7 +13,7 @@
                 <div class="progress-bar"><i>{{(storeBonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': storeBonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
             </div>
             <div class="jackpot-wrap">
-                <h2>{{$t('message.BPtip3')}}<span>{{storeBonusPoolsData.totalPledge}}</span>AB，{{$t('message.BPtip4')}}<span>{{storeBonusPoolsData.pledgeAb}}</span> AB</h2>
+                <h2>{{$t('message.BPtip3')}}<span>{{Math.floor(storeBonusPoolsData.totalPledge*100)/100}}</span>AB，{{$t('message.BPtip4')}}<span>{{Math.floor(storeBonusPoolsData.pledgeAb*100)/100}}</span> AB</h2>
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/ETH.png" />
