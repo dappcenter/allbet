@@ -4,7 +4,31 @@
     <div class="main">
       <div class="white-div">
         <div class="" v-show="inviteCode">
-	        <div class="invite-detail">
+					<div class="invite-detail1">
+						<div class="my-prize">{{$t('message.InviteFight')}}</div>
+						<div class="account-grade">
+							<span>{{$t('message.InviteName')}}：{{getCurrentAddr.coinAddress}}</span>
+						</div>
+						<table border="1" cellspacing="0">
+							<tr>
+								<th>{{$t('message.inviteAccountLevel')}}</th>
+								<th>{{$t('message.inviteDigRatio')}}</th>
+								<th>{{$t('message.invitePeopleNum1')}}</th>
+								<th>{{$t('message.inviteCourage')}}（AB）</th>
+							</tr>
+							<tr>
+								<td v-if="userInfo.userLevel == 0">{{$t('message.InviteCommon')}}</td>
+								<td v-if="userInfo.userLevel == 1">{{$t('message.inviteLevel1')}}</td>
+								<td v-if="userInfo.userLevel == 2">{{$t('message.inviteLevel2')}}</td>
+								<td v-if="userInfo.userLevel == 3">{{$t('message.inviteLevel3')}}</td>
+								<td>1%</td>
+								<td>1</td>
+								<td>2000.28</td>
+							</tr>
+						</table>
+					</div>
+
+	        <!-- <div class="invite-detail">
 	          <div class="">
 	            <p class="title">{{$t('message.invitationSuccessed')}}</p>
 	            <h4>{{inviteCount}} {{$t('message.InvitePeople')}}</h4>
@@ -13,14 +37,14 @@
 	            <p class="title">{{$t('message.tradeInvitationReward')}}</p>
 	            <h4>{{inviteBonus}} AB</h4>
 	          </div>
-	        </div>
+	        </div> -->
 	        <div class="qrcode">
 						<div class="qrcode-content">
 							<div class="invite-div">
 								<p>{{$t('message.invitationCode')}}</p>
 								<div class="copy-div1">
 									<span id="copy_code">{{inviteCode}}</span>
-									<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
+									<span class="copy" ref="copy1" :data-clipboard-text="inviteCode" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
 								</div>
 							</div>
 							<div class="invite-div">
@@ -78,12 +102,11 @@ import {mapMutations, mapState} from "vuex"
 		  }
 	  },
 		computed: {
-			getCurrentAddr() {
-				return this.$store.state.user.currentAddr
-			},
-			getInviteCode() {
-					return this.$store.state.user.userInfo.inviteCode
-			}
+			...mapState({
+				userInfo: state => state.user.userInfo,
+				getCurrentAddr: state => state.user.currentAddr,
+				getInviteCode: state => state.user.userInfo.inviteCode,
+			}),
 		},
 		watch: {
 			getCurrentAddr(newVal) {
@@ -180,6 +203,61 @@ import {mapMutations, mapState} from "vuex"
       .white-div {
 				padding: 0 .4rem;
 				overflow: hidden;
+				.invite-detail1 {
+					.my-prize {
+						margin: 0.3rem auto 0.16rem 0;
+						text-align: left;
+						color: #D3CDFF;
+					}
+					.account-grade {
+						display: flex;
+						align-items: left;
+						flex-direction: column;
+						// justify-content: space-between;
+						font-size: 0.14rem;
+						color: #D3CDFF;
+						span {
+							text-align: left;
+						}
+						img {
+								width: 0.44rem;
+								vertical-align: middle;
+								margin-right: 0.1rem;
+								margin-bottom: 0.2rem;
+						}
+
+					}
+					table{
+						border:1;
+						 cellspacing:0;
+							border-collapse:collapse;
+							width:100%;
+							border-radius: .06rem;
+							background-color: #49425C;
+							margin: .2rem 0;
+							border-radius:7px;
+					}
+					td, th{
+							border-color: #322A46;
+							font-weight: 400;
+							// width: 25%;
+					}
+					td {
+							text-align:center;
+							vertical-align:middle;
+							height: 45px;
+							font-size: 14px;
+
+					}
+					th {
+							height: 45px;
+							color: #CCBCF8;
+					}
+					.title {
+						color: #CCBCF8;
+					}
+
+				}
         .invite-detail {
           display: flex;
           align-items: center;
