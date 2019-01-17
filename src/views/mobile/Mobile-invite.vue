@@ -21,9 +21,9 @@
 								<td v-if="userInfo.userLevel == 1">{{$t('message.inviteLevel1')}}</td>
 								<td v-if="userInfo.userLevel == 2">{{$t('message.inviteLevel2')}}</td>
 								<td v-if="userInfo.userLevel == 3">{{$t('message.inviteLevel3')}}</td>
-								<td>1%</td>
-								<td>1</td>
-								<td>2000.28</td>
+								<td>{{result.digRatio*100}}%</td>
+								<td>{{inviteCount}}</td>
+								<td>{{inviteBonus}}</td>
 							</tr>
 						</table>
 					</div>
@@ -60,7 +60,7 @@
 						<h5 class="title">{{$t('message.InvitationRules')}}</h5>
 						<h5>{{$t('message.InviteDesc')}}</h5>
 						<h5 class="title" style="margin-top: 0.35rem;">{{$t('message.InviteReward')}}</h5>
-						<h5>{{$t('message.InvitationRules1')}}</h5>
+						<!-- <h5>{{$t('message.InvitationRules1')}}</h5> -->
 						<h5>{{$t('message.InvitationRules2')}}</h5>
 						<h5>{{$t('message.InvitationRules3')}}</h5>
 					</div>
@@ -74,7 +74,7 @@
 							<h5 class="title">{{$t('message.InvitationRules')}}</h5>
 							<h5>{{$t('message.InviteDesc')}}</h5>
 							<h5 class="title" style="margin-top: 0.35rem;">{{$t('message.InviteReward')}}</h5>
-							<h5>{{$t('message.InvitationRules1')}}</h5>
+							<!-- <h5>{{$t('message.InvitationRules1')}}</h5> -->
 							<h5>{{$t('message.InvitationRules2')}}</h5>
 							<h5>{{$t('message.InvitationRules3')}}</h5>
 						</div>
@@ -98,7 +98,8 @@ import {mapMutations, mapState} from "vuex"
 		    inviteCount: '0',
 		    inviteUrl: location.origin + "/dice?inv=",
 				inviteCode: "",
-		    platformBonus: '',
+			platformBonus: '',
+			result: {}
 		  }
 	  },
 		computed: {
@@ -135,17 +136,12 @@ import {mapMutations, mapState} from "vuex"
 				}).then((res) => {
 					if (res.code == 200) {
 						let result = res.result || {}
+						this.result = res.result || {}
 						this.inviteBonus = result.inviteBonus || 0
 						this.inviteCount = result.inviteCount || 0
 						this.inviteCode =  this.getInviteCode
 						this.inviteUrl = location.origin + "/dice?inv=" + this.inviteCode
 						this.platformBonus = result.platformBonus
-						// document.getElementById("qrcode1").innerHTML = ''
-						// var qrcode = new QRCode(document.getElementById("qrcode1"), {
-						// 	width: 108,
-						// 	height: 108,
-						// });
-						// qrcode.makeCode(this.inviteUrl);
 					}
 				})
 			},
