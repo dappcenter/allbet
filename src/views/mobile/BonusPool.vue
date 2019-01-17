@@ -513,6 +513,8 @@ export default {
                             if(!err) {
                                 this.unfreezeAmount = ""
                                 this.unfreezeInputPopup = false
+                            }else {
+                                this.rollback("DEPLEDGE", res.result)
                             }
                         }).then(res => {
                             this.getBonusPools()
@@ -523,6 +525,7 @@ export default {
                             })
                         }).catch(err => {
                             console.log(err)
+                            this.rollback("DEPLEDGE", res.result)
                         });
                         break
                     case "TRX":
@@ -544,6 +547,7 @@ export default {
                                 msg: "User rejected the signature request.",
                                 timeout: 3000
                             })
+                            this.rollback("DEPLEDGE", res.result)
                         })
                         break
                     default: 
@@ -669,6 +673,7 @@ export default {
                                 })
                             }).catch(err => {
                                 console.log(err)
+                                this.rollback("DRAW", res.result.recdId)
                             })
                             break
                         case "TRX":
@@ -686,6 +691,7 @@ export default {
                                     msg: "User rejected the signature request.",
                                     timeout: 3000
                                 })
+                                this.rollback("DRAW", res.result.recdId)
                             })
                             break
                         default: 
@@ -701,6 +707,15 @@ export default {
             }
         })
         
+    },
+    // 回滚
+    rollback(type, id) {
+        this.$http.post("/app/profit/cancel", {
+            "cancelType": type,
+            "recdId": id
+        }).then(res => {
+            this.getBonusPools()
+        })
     },
     ...mapMutations({
         alert: "alert",

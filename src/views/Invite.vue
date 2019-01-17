@@ -11,16 +11,29 @@
       <div class="white-div">
 				<p class="invite-title">{{$t('message.inviteFriend')}}</p>
         <div class="" v-show="inviteCode">
-	        <div class="invite-detail">
-	          <div class="">
-	            <p class="title">{{$t('message.invitationSuccessed')}}</p>
-	            <h4>{{inviteCount}} {{$t('message.InvitePeople')}}</h4>
-	          </div>
-	          <div class="">
-	            <p class="title">{{$t('message.tradeInvitationReward')}}：</p>
-	            <h4>{{inviteBonus}} AB</h4>
-	          </div>
-	        </div>
+					<div class="invite-detail1">
+						<div class="my-prize">{{$t('message.InviteFight')}}</div>
+						<div class="account-grade">
+							<span>{{$t('message.InviteName')}}：{{getCurrentAddr.coinAddress}}</span>
+						</div>
+						<table border="1" cellspacing="0">
+							<tr>
+								<th>{{$t('message.inviteAccountLevel')}}</th>
+								<th>{{$t('message.inviteDigRatio')}}</th>
+								<th>{{$t('message.invitePeopleNum1')}}</th>
+								<th>{{$t('message.inviteCourage')}}（AB）</th>
+							</tr>
+							<tr>
+								<td v-if="userInfo.userLevel == 0">{{$t('message.InviteCommon')}}</td>
+								<td v-if="userInfo.userLevel == 1">{{$t('message.inviteLevel1')}}</td>
+								<td v-if="userInfo.userLevel == 2">{{$t('message.inviteLevel2')}}</td>
+								<td v-if="userInfo.userLevel == 3">{{$t('message.inviteLevel3')}}</td>
+								<td>{{result.digRatio*100}}%</td>
+								<td>{{inviteCount}}</td>
+								<td>{{inviteBonus}}</td>
+							</tr>
+						</table>
+					</div>
 	        <div class="qrcode">
 						<!-- <p class="invite-code minscreen">{{$t('message.InviteQrcode')}}：</p> -->
 						<div class="qrcode-content">
@@ -29,7 +42,7 @@
 								<p>{{$t('message.invitationCode')}}</p>
 								<div class="copy-div1">
 									<span id="copy_code">{{inviteCode}}</span>
-									<span class="copy" ref="copy1" data-clipboard-action="copy" data-clipboard-target="#copy_code" @click="copy1">{{$t('message.assetsCopy')}}</span>
+									<span class="copy" ref="copy1" data-clipboard-action="copy" :data-clipboard-text="inviteCode" @click="copy1">{{$t('message.assetsCopy')}}</span>
 								</div>
 							</div>
 							<div class="invite-div">
@@ -81,6 +94,7 @@ import {mapMutations, mapState} from "vuex"
  export default {
 	  data () {
 		  return {
+				result: {},
 				inviteBonus: '0',
 		    inviteCount: '0',
 		    inviteUrl: location.origin + "/dice?inv=",
@@ -89,12 +103,11 @@ import {mapMutations, mapState} from "vuex"
 		  }
 	  },
 		computed: {
-			getCurrentAddr() {
-				return this.$store.state.user.currentAddr
-			},
-			getInviteCode() {
-					return this.$store.state.user.userInfo.inviteCode
-			}
+			...mapState({
+				userInfo: state => state.user.userInfo,
+				getCurrentAddr: state => state.user.currentAddr,
+				getInviteCode: state => state.user.userInfo.inviteCode,
+			}),
 		},
 		watch: {
 			getCurrentAddr(newVal) {
@@ -124,6 +137,7 @@ import {mapMutations, mapState} from "vuex"
 				}).then((res) => {
 					if (res.code == 200) {
 						let result = res.result || {}
+						this.result = res.result || {}
 						this.inviteBonus = result.inviteBonus || 0
 						this.inviteCount = result.inviteCount || 0
 						this.inviteCode =  this.getInviteCode
@@ -248,6 +262,51 @@ import {mapMutations, mapState} from "vuex"
           font-family:PingFang-SC-Bold;
           font-weight:bold;
         }
+				.invite-detail1 {
+					padding: 0px 40px;
+					.my-prize {
+						width:90px;
+						height:24px;
+						background:#322A46;
+						border-radius:12px;
+						margin: 30px auto 16px auto;
+						height: 24px;
+						line-height: 24px;
+
+					}
+					.account-grade {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						img {
+                height: 27px;
+                vertical-align: middle;
+            }
+
+					}
+					table{
+						border:1;
+						 cellspacing:0;
+	            border-collapse:collapse;
+	            width:100%;
+	            border-radius: .06rem;
+	            margin: .2rem 0;
+	        }
+					td, th{
+							border-color: #322A46;
+							width: 25%;
+					}
+					td {
+							text-align:center;
+							vertical-align:middle;
+							height: 45px;
+							font-size: 14px;
+					}
+					th {
+							height: 45px;
+					}
+
+				}
         .invite-detail {
           display: flex;
           align-items: center;

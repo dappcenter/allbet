@@ -53,6 +53,9 @@
 
 <script type="text/javascript">
 (function () {
+   
+    console.log("top",top)
+    top.postMessage("子页面发送消息", "http://192.168.120.187:8080")
     // open web debugger console
     if (typeof VConsole !== 'undefined') {
         window.vConsole = new VConsole();
