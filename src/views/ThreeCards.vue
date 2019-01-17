@@ -2,8 +2,8 @@
     <div class="threecards-page">
         <HeaderBar></HeaderBar>
         <div class="main" :style="{minHeight: $window.innerHeight - 150 + 'px'}">
-            <!-- <iframe :src="'web-mobile/threecards.html'" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}"></iframe> -->
-            <iframe src="http://192.168.120.196:7456" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}" ref="threecards"></iframe>
+            <iframe :src="'web-mobile/threecards.html'" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}"></iframe>
+            <!-- <iframe src="http://192.168.120.196:7456" frameborder="0" :style="{minHeight: $window.innerHeight - 150 + 'px'}" ref="threecards"></iframe> -->
             <Record />
         </div>
         <FooterBar></FooterBar>

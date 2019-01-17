@@ -357,7 +357,7 @@ export default {
         BPrepeal: "Cancel",
         BPCompleteCountdown: "Unfrozen Countdown: ",
         BPFreezeAmount: "Unfreeze Amount: ",
-        BPReceivingAddress: "Receiving address: ",
+        BPReceivingAddress: "Receiving address ",
         BPcallableBalance: "Balance: ",
         BPdefrostQuantity: "Balance: ",
         BPtip6: "* 1. Make sure your address correct. Assets cannot be retrieved once transferred.<br />&nbsp; 2. Assets will be transferred within 2 hours.",

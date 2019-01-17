@@ -358,7 +358,7 @@ export default {
         BPrepeal: "撤销",
         BPCompleteCountdown: "解冻完成倒计时：",
         BPFreezeAmount: "解冻数量：",
-        BPReceivingAddress: "接收地址：",
+        BPReceivingAddress: "接收地址 ",
         BPcallableBalance: "可冻结余额：",
         BPdefrostQuantity: "可解冻数量：",
         BPtip6: "注：1、请确保您的地址正确，资产一旦转出不可追回；<br />　　2、到账时间受网络影响，预计 2 小时内发出请耐心等待。",

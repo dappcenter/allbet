@@ -17,7 +17,8 @@
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/ETH.png" />
-                        <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
+                        <!-- <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span> -->
+                        <span v-if="new Date().getTime() < 1547956800000">{{$t('message.BPtimeDown')}}<TimeCountDown :time="1547956800000"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
@@ -33,7 +34,8 @@
                 <div class="coin-wrap eth">
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/TRX.png" />
-                        <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
+                        <!-- <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span> -->
+                        <span v-if="new Date().getTime() < 1547956800000">{{$t('message.BPtimeDown')}}<TimeCountDown :time="1547956800000"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
@@ -147,8 +149,8 @@
                         <a href="javascript:;" @click="active = 'ETH'" v-show="active != 'ETH'">{{$t('message.BPbtnGet')}}</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'ETH'">
-                        <label>{{$t('message.BPReceivingAddress')}}</label>
-                        <input type="text" v-model="getAddrETH">
+                        <!-- <label>{{$t('message.BPReceivingAddress')}}</label> -->
+                        <input type="text" v-model="getAddrETH" :placeholder="$t('message.BPReceivingAddress')">
                         <a href="javascript:;" @click="getMoney('ETH')">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'ETH'">
@@ -162,8 +164,8 @@
                         <a href="javascript:;" @click="active = 'TRX'" v-show="active != 'TRX'">{{$t('message.BPbtnGet')}}</a>
                     </div>
                     <div class="addr-wrap" v-show="active == 'TRX'">
-                        <label>{{$t('message.BPReceivingAddress')}}</label>
-                        <input type="text" v-model="getAddrTRX">
+                        <!-- <label>{{$t('message.BPReceivingAddress')}}</label> -->
+                        <input type="text" v-model="getAddrTRX" :placeholder="$t('message.BPReceivingAddress')">
                         <a href="javascript:;" @click="getMoney('TRX')">{{$t('message.PopConfirm')}}</a>
                     </div>
                     <div class="tip" v-show="active == 'TRX'">
@@ -789,6 +791,8 @@ export default {
                     box-shadow: 0 0 10px #FFC425;
                 }
                 i {
+                    position: relative;
+                    z-index: 2;
                     font-size: 0.18rem;
                     color: #EAC1FF;
                     font-style: normal;
