@@ -1113,7 +1113,7 @@ export default {
                         padding: 20px 0;
                         border-top: 1px solid rgba(104,40,108,.2);
                         label {
-
+                            margin-right: 10px;
                         }
                         input {
                             flex: 1;

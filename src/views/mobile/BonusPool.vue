@@ -263,7 +263,7 @@ export default {
         ETHcontractAB: state => state.web3Handler.web3.contractAB
     }),
     contractAB() {
-        if(this.storeCurrentAddr.platform='IMPORT') {
+        if(this.storeCurrentAddr.platform == 'IMPORT') {
             switch(this.coinType) {
                 case "ETH":
                     return Math.floor(this.ETHcontractAB*1000)/1000
@@ -276,7 +276,7 @@ export default {
                     break
             }
         }else {
-            return 0
+            return this.storeBonusPoolsData.ab || 0
         }
     }
   },
@@ -473,7 +473,7 @@ export default {
     },
     // 解冻
     unFreezeDo() {
-        if(this.freezeAmount > this.storeBonusPoolsData.pledgeAb) {
+        if(this.unfreezeAmount > this.storeBonusPoolsData.pledgeAb) {
             this.alert({
                 type: "info",
                 msg: this.$t('message.assetsNotEnough'),
@@ -481,7 +481,7 @@ export default {
             })
             return
         }
-        if(this.freezeAmount <= 0) {
+        if(this.unfreezeAmount <= 0) {
             // this.alert({
             //     type: "info",
             //     msg: this.$t('message.BPalert1'),
@@ -489,7 +489,6 @@ export default {
             // })
             return
         }
-        console.log(111)
         let unfreezeAmount = this.unfreezeAmount
         this.$http.post("/app/profit/depledge/" + unfreezeAmount).then(res => {
             if(res.code == 200) {
