@@ -244,6 +244,9 @@ export default {
             if(newVal) {
                 this.isShow = true
             }
+        },
+        storeCurrentAddr() {
+            this.getBonusPools()
         }
     },
     model: {

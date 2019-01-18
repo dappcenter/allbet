@@ -240,6 +240,9 @@ export default {
       if (newVal) {
         this.isShow = true;
       }
+    },
+    storeCurrentAddr() {
+        this.getBonusPools()
     }
   },
   model: {
@@ -293,17 +296,14 @@ export default {
                 coinType: this.coinType
             }
         }).then(res => {
-            console.log("profit",res)
             if(res.code == 200) {
-                res.trxPool < 0 && (res.trxPool = 0)
-                res.ethPool < 0 && (res.ethPool = 0)
-                this.bonusPoolsData = Object.assign(this.bonusPoolsData, res.result)
+                this.$store.commit('UPDATE_BP_DATA', res.result)
             }
         })
     },
     // 提取ab
     getAB() {
-        if(this.bonusPoolsData.ab <= 0) {
+        if(this.storeBonusPoolsData.ab <= 0) {
             this.alert({
                 type: "info",
                 msg: this.$t('message.BPnothingAB'),
