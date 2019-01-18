@@ -49,7 +49,7 @@
 								<p>{{$t('message.invitationLink')}}</p>
 								<div class="copy-div1 copy-div2">
 									<span id="copy_text">{{inviteUrl}}</span>
-									<span class="copy" ref="copy" data-clipboard-action="copy" :data-clipboard-text="$t('message.inviteText') + inviteUrl" @click="copy">{{$t('message.assetsCopy')}}</span>
+									<span class="copy" ref="copy" data-clipboard-action="copy" :data-clipboard-text="inviteUrl" @click="copy">{{$t('message.assetsCopy')}}</span>
 								</div>
 							</div>
 						</div>

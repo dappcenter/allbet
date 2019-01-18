@@ -171,7 +171,7 @@ export default {
         InvitePeople: "People",
         InviteBind: "Please login the account first, then invite friends to participate in the game.",
         InviteQrcode: "Exclusive invitation QR code",
-        InviteDesc: 'Send your invitation link to your friend. You will be successful in the invitation as long as your friend completes a login on this website ( TronLikn, TronPay, MetaMask are allowed in Web. Math Wallet, Cobo Wallet are allowed in Mobile).',
+        InviteDesc: 'Send your invitation link to your friend. You will be successful in the invitation as long as your friend completes a login on this website ( TronLink, TronPay, MetaMask are allowed in Web. Math Wallet, Cobo Wallet are allowed in Mobile).',
         InviteReward: 'Below ways of invitation rewards:',
         InviteFight: 'My bets',
         InviteName: 'Account Name',
@@ -260,7 +260,7 @@ export default {
 
         PopLoginSelectTitle: "Please login Chrome Wallet",
         PopLoginSelectETH: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> MetaMask: <a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
-        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://dwz.cn/KWpH5Te2</a><br />Tron Pay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
+        PopLoginSelectTRX: "<p>If you have not downloaded the wallet, please download the Chrome extensions:<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://dwz.cn/KWpH5Te2</a><br />TronPay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",
 
         PopLoginSelectTitleMobile: "Please login Wallet",
         PopLoginSelectMobileETH: "<p>If you have not downloaded the wallet, please download:<br /> Math: <a href='http://www.mathwallet.org' target='_blank'> http://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /><br />Please switch wallet to Main Ethereum Network, don't use testnet node.<br />After logging in to the wallet or switching accounts, please refresh the page before starting the game.</p>",

@@ -170,7 +170,7 @@ export default {
         InvitePeople: "人数",
         InviteBind: "请先登陆账号，再邀请好友参与游戏",
         InviteQrcode: "专属邀请二维码",
-        InviteDesc: '将您的邀请链接发送给好友们，只要好友在这个网址下面完成过一次登录（Web端使用TronLikn、TronPay、MetaMask均可；客户端使用Math Wallet、Cobo Wallet均可），那么您将邀请成功。',
+        InviteDesc: '将您的邀请链接发送给好友们，只要好友在这个网址下面完成过一次登录（Web端使用TronLink、TronPay、MetaMask均可；客户端使用Math Wallet、Cobo Wallet均可），那么您将邀请成功。',
         InviteReward: '您将享受以下邀请奖励：',
         InviteFight: '我的战绩',
         InviteName: '账户名称',
@@ -261,7 +261,7 @@ export default {
 
         PopLoginSelectTitle: "请登录 Chrome 插件钱包",
         PopLoginSelectETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> MetaMask:<a href='https://metamask.io/' target='_blank'> https://metamask.io/</a><br /><br />请注意钱包使用主网，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
-        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://dwz.cn/KWpH5Te2</a><br />Tron Pay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
+        PopLoginSelectTRX: "<p>如果您没有安装 TRON 钱包，请您点击以下链接下载<br /> TronLink: <a href='https://chrome.google.com/webstore/detail/tronlink/ibnejdfjmmkpcnlpebklmnkoeoihofec' target='_blank'> https://dwz.cn/KWpH5Te2</a><br />TronPay: <a href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk?hl=zh-CN' target='_blank'> https://dwz.cn/FyluFVay</a><br /> <br />请注意钱包使用主网，勿切换至测试网；<br />登录钱包或切换账户后请刷新页面再开始游戏。</p>",
 
         PopLoginSelectTitleMobile: "请登录钱包",
         PopLoginSelectMobileETH: "<p>如果您没有安装 ETH 钱包，请您点击以下链接下载：<br /> Math: <a href='https://www.mathwallet.org' target='_blank'> https://www.mathwallet.org</a><br />Cobo: <a href='https://cobo.com' target='_blank'> https://cobo.com</a><br /><br />请注意钱包使用主网，勿切换至测试网；登录钱包或切换账户后请刷新页面再开始游戏。</p>",
