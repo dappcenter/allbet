@@ -763,6 +763,11 @@ export default {
 		},
 		currentAddr() {
 			this.getBonusPools()
+		},
+		music(newVal, oldVal) {
+			if(!newVal) {
+				this.$refs.diceA.pause()
+			}
 		}
 	},
 	computed: {
