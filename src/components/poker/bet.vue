@@ -606,7 +606,7 @@ export default {
 									this.open = true
 									this.$store.dispatch('updateProperty')
 									if(res.result.winFlag == "WIN") {
-										!this.autoBet && setTimeout(() => {
+										setTimeout(() => {
 											this.openWinPopup({
 												ab: res.result.abNum,
 												rewards: res.result.rewards,
@@ -616,9 +616,9 @@ export default {
 												cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
 												luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
 											})
-										}, 1000)
+										}, this.autoBet ? 0 : 1000)
 									}else if(res.result.winFlag == "LOSE") {
-										!this.autoBet && setTimeout(() => {
+										setTimeout(() => {
 											this.openWinPopup({
 												ab: res.result.abNum,
 												rewards: 0,
@@ -628,7 +628,7 @@ export default {
 												cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
 												luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
 											})
-										}, 1000)
+										}, this.autoBet ? 0 : 1000)
 									}
 									// 自动下注
 									setTimeout(() => {
