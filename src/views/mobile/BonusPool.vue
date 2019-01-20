@@ -18,7 +18,7 @@
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/ETH.png" />
                         <!-- <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span> -->
-                        <span v-if="new Date().getTime() < 1547956800000">{{$t('message.BPtimeDown')}}<TimeCountDown :time="1547956800000"></TimeCountDown></span>
+                        <span v-if="new Date().getTime() < storeBonusPoolsData.profitTime*1">{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
@@ -35,7 +35,7 @@
                     <div class="coin-logo">
                         <img src="../../../public/img/coin/TRX.png" />
                         <!-- <span>{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span> -->
-                        <span v-if="new Date().getTime() < 1547956800000">{{$t('message.BPtimeDown')}}<TimeCountDown :time="1547956800000"></TimeCountDown></span>
+                        <span v-if="new Date().getTime() < storeBonusPoolsData.profitTime*1">{{$t('message.BPtimeDown')}}<TimeCountDown :time="storeBonusPoolsData.profitTime*1"></TimeCountDown></span>
                     </div>
                     <div class="item-r">
                         <div class="cell-top">
