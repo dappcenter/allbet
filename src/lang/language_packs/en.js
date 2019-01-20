@@ -360,7 +360,7 @@ export default {
         BPReceivingAddress: "Receiving address ",
         BPcallableBalance: "Balance: ",
         BPdefrostQuantity: "Balance: ",
-        BPtip6: "* 1. Make sure your address correct. Assets cannot be retrieved once transferred.<br />&nbsp; 2. Assets will be transferred within 2 hours.",
+        BPtip6: "* 1. Make sure your address correct. Assets cannot be retrieved once transferred.<br />&nbsp; 2. In general, token will be instantly transferred into your wallet after withdrawn. To secure assets, when you meke a large withdrawal, the token will be manually reviewed. Arrival time won't last over 2 hours. Thanks for your patience.",
         BPIFS: "Instruction for staking",
         BPIFStext1: "1.	The smallest number of freezing and unfreezing is 1 AB. Freezing and unfreezing are not allowed during the period of paying out dividends.",
         BPIFStext2: "2.	Users can only get dividends by freezing AB before the ending of countdown. It is suggested that users finish their stake at least several minutes ahead of countdown)",
