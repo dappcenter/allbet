@@ -30,7 +30,7 @@
                 <input type="text" v-model.trim="formData.email" :placeholder="$t('message.PopRegisterEmail')">
             </div>
             <!-- 图形验证码 -->
-            <div class="input-wrap">
+            <div class="input-wrap" v-show="registerType == 'phone'">
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <!-- 短信\邮箱验证码 -->
-            <div class="input-wrap">
+            <div class="input-wrap" v-show="registerType == 'phone'">
                 <label>{{$t('message.PopCaptcha')}}</label>
                 <div class="input-flex">
                     <input type="text" v-if="registerType == 'phone'" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
@@ -179,7 +179,8 @@ export default {
             }else {
                 if(!this.verifyPhone()) return
             }
-            if(!this.verifyCaptcha() || !this.verifyPassword()) return
+            if(!this.verifyPassword()) return
+            console.log(obj)
             this.$http.post(url, obj).then(res => {
                 if(res.code == 200) {
                     this.alert({
@@ -460,7 +461,7 @@ export default {
             text-align: center;
             border-radius: .06rem;
             margin-top: .6rem;
-            background:#54506D;
+            background:#ffc425;
             &.disabled {
                 background-color: #393A50;
             }

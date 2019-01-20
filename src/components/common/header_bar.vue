@@ -144,7 +144,7 @@
                 <label>{{$t('message.PopEmail')}}</label>
                 <input type="text" v-model.trim="formData.email" :placeholder="$t('message.PopRegisterEmail')">
             </div>
-            <div class="input-wrap">
+            <!-- <div class="input-wrap">
                 <label>{{$t('message.PopGraphic')}}</label>
                 <div class="input-flex">
                     <input type="text" v-model="formData.picCode" :placeholder="$t('message.PopGraphicEnter')">
@@ -157,7 +157,7 @@
                     <input type="text" v-model="formData.captcha" :placeholder="$t('message.PopInputCaptcha')">
                     <AEFcountDownBtn v-model="captchaDisabledEmail" @click.native="getEmailCode('REGISTER')"></AEFcountDownBtn>
                 </div>
-            </div>
+            </div> -->
             <div class="input-wrap">
                 <label>{{$t('message.PopPassword')}}</label>
                 <input type="password" v-model="formData.password" :placeholder="$t('message.PopPasswordPlaceholder')">
@@ -457,7 +457,8 @@ export default {
             }else {
                 if(!this.verifyPhone()) return
             }
-            if(!this.verifyCaptcha() || !this.verifyPassword()) return
+            if(!this.verifyPassword()) return
+            console.log(obj)
             this.$http.post(url, obj).then(res => {
                 if(res.code == 200) {
                     this.alert({
