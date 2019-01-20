@@ -499,7 +499,7 @@ export default {
 			this.web3.diceApiHandle.methods.placeBetV1(rollUnder, modulo, commitLastBlock, commit, sigData).send({
 				from: this.currentAddr.coinAddress,
 				value: amountWei,
-				gas: 210000,
+				gas: 900000,
 				gasPrice: 10000000000
 			},(err, res) => {
 				if(!err) {

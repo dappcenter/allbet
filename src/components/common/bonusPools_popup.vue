@@ -85,7 +85,7 @@
                     <a href="javascript:;" class="unfreeze" @click="unfreezeInputPopup = true">{{$t('message.BPunfreeze')}}</a>
                 </div>
             </div>
-            <div class="freeze-status" v-if="storeBonusPoolsData.recoverAb != 0">
+            <div class="freeze-status" v-if="storeBonusPoolsData.recoverAb != 0"> 
                 <label>{{$t('message.BPCompleteCountdown')}}<TimeCountDown :time="storeBonusPoolsData.recoverAbTime*1"></TimeCountDown></label>
                 <div class="freeze-amount">
                     <span><i>{{$t('message.BPFreezeAmount')}}</i>{{storeBonusPoolsData.recoverAb}}</span>
@@ -432,7 +432,7 @@ export default {
                     let freezeAmountWei = this.web3.web3Instance.utils.toWei(this.freezeAmount+"", "ether")
                     this.web3.pledgeApiHandle.methods.lock(freezeAmountWei).send({
                         from: this.web3.coinbase,
-                        gas: 210000,
+                        gas: 900000,
 				        gasPrice: 10000000000
                     }, (err, res) => {
                         if(!err) {
@@ -510,7 +510,7 @@ export default {
                             let freezeAmountWei = this.web3.web3Instance.utils.toWei(unfreezeAmount+"", "ether")
                             this.web3.pledgeApiHandle.methods.unlock(res.result, freezeAmountWei).send({
                                 from: this.web3.coinbase,
-                                gas: 210000,
+                                gas: 900000,
                                 gasPrice: 10000000000
                             }, (err, res) => {
                                 if(!err) {
@@ -577,7 +577,7 @@ export default {
                     case "ETH":
                         this.web3.pledgeApiHandle.methods.cancel().send({
                             from: this.web3.coinbase,
-                            gas: 210000,
+                            gas: 900000,
                             gasPrice: 10000000000
                         }, (err, res) => {
                             if(!err) {
@@ -660,7 +660,7 @@ export default {
                             case "ETH":
                                 this.web3.pledgeApiHandle.methods.askForMoney(res.result.recdId, this.web3.coinbase, addr).send({
                                     from: this.web3.coinbase,
-                                    gas: 210000,
+                                    gas: 900000,
                                     gasPrice: 10000000000
                                 }, (err, res) => {
                                     if(!err) {
@@ -678,7 +678,6 @@ export default {
                                 })
                                 break
                             case "TRX":
-                                console.log(this.tronWeb.pledgeContract)
                                 this.tronWeb.pledgeContract.askForMoney(res.result.recdId, this.tronWeb.coinbase, addr).send({
                                 }).then(res => {
                                     this.alert({

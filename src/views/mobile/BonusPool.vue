@@ -430,7 +430,7 @@ export default {
                 let freezeAmountWei = this.web3.web3Instance.utils.toWei(this.freezeAmount+"", "ether")
                 this.web3.pledgeApiHandle.methods.lock(freezeAmountWei).send({
                     from: this.web3.coinbase,
-                    gas: 210000,
+                    gas: 900000,
                     gasPrice: 10000000000
                 }, (err, res) => {
                     if(!err) {
@@ -508,7 +508,7 @@ export default {
                         let freezeAmountWei = this.web3.web3Instance.utils.toWei(unfreezeAmount+"", "ether")
                         this.web3.pledgeApiHandle.methods.unlock(res.result, freezeAmountWei).send({
                             from: this.web3.coinbase,
-                            gas: 210000,
+                            gas: 900000,
                             gasPrice: 10000000000
                         }, (err, res) => {
                             if(!err) {
@@ -577,7 +577,7 @@ export default {
                 case "ETH":
                     this.web3.pledgeApiHandle.methods.cancel().send({
                         from: this.web3.coinbase,
-                        gas: 210000,
+                        gas: 900000,
                         gasPrice: 10000000000
                     }, (err, res) => {
                         if(!err) {
@@ -660,7 +660,7 @@ export default {
                         case "ETH":
                             this.web3.pledgeApiHandle.methods.askForMoney(res.result.recdId, this.web3.coinbase, addr).send({
                                 from: this.web3.coinbase,
-                                gas: 210000,
+                                gas: 900000,
                                 gasPrice: 10000000000
                             }, (err, res) => {
                                 if(!err) {
