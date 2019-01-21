@@ -6,9 +6,11 @@
         </div>
         <div class="tab1" v-show="tab == 1">
             <div class="progress-wrap">
-                <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
-                <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
+                <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX : 50AB）</h4>
+                <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH : 3200AB）</h4>
                 <div class="progress-bar"><i>{{(storeBonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': storeBonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+                <h5 v-show="coinType == 'TRX'">{{$t("message.abStage2")}}（{{$t("message.BPmost")}} 100TRX : 45AB）</h5>
+                <h5 v-show="coinType == 'ETH'">{{$t("message.abStage2")}}（{{$t("message.BPmost")}} 1ETH : 2400AB）</h5>
             </div>
             <div class="jackpot-wrap">
                 <h2>{{$t('message.BPtip3')}}<span>{{Math.floor(storeBonusPoolsData.totalPledge*100)/100}}</span>AB，{{$t('message.BPtip4')}}<span>{{Math.floor(storeBonusPoolsData.pledgeAb*100)/100}}</span> AB</h2>
@@ -801,7 +803,7 @@ export default {
                     background-color: #3C3450;
                     border-radius: 15px;
                     overflow: hidden;
-                    margin: 10px 0 20px;
+                    margin: 10px 0;
                     text-align: center;
                     span {
                         position: absolute;
@@ -819,6 +821,13 @@ export default {
                         position: relative;
                         z-index: 2;
                     }
+                    
+                }
+                h5 {
+                    color: #BBAEDF;
+                    font-size: 16px;
+                    text-align: center;  
+                    font-weight: 400;      
                 }
                 p {
                     color: #FFFFFE;
@@ -948,8 +957,8 @@ export default {
                             right: 10px;
                             width: 20px;
                             height: 20px;
-                            background: url(../../../public/img/help_icon.png) no-repeat center;
-                            background-size: 80%;   
+                            background: url(../../../public/img/help_icon03.png) no-repeat center;
+                            background-size: 80%; 
                             cursor: pointer;
                         }
                     }

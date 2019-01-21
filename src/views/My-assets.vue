@@ -10,7 +10,7 @@
 				<!-- ---- ETH ---- -->
 				<div v-show="currentAddr.mainCoin !== 'TRX'">
 					<li>
-						<div>ETH</div><div>{{(currentAddr.eth*1).toFixed(3)}}</div>
+						<div>ETH</div><div>{{currentAddr.assets.ETH.amount}}</div>
 						<!-- 平台账号开放充提 -->
 						<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
 							<span @click="showCharge = showCharge == 'chargeETH' ? '' : 'chargeETH'">{{$t('message.assetsRechargeCurrency')}}</span>
@@ -117,13 +117,13 @@
 						<span class="warnings">{{$t('message.assetsTips2')}}</span><span class="take-out" @click="withdrawDo('AT')">{{$t('message.assetsExtractCoins')}}</span>
 					</p>
 				</div> -->
-				<li><div>AB</div><div>{{currentAddr.bet}}</div><div style="color:#FFDB5B;">--</div></li>
+				<li><div>AB</div><div>{{Math.floor(currentAddr.bet*1000)/1000}}</div><div style="color:#FFDB5B;">--</div></li>
 
 				<!-- ---- TRX ---- -->
 				<div v-show="currentAddr.platform == 'DISPATCHER' || currentAddr.mainCoin == 'TRX'">
 					<li>
 						<div>TRX</div>
-						<div v-if="currentAddr.assets.TRX">{{currentAddr.assets.TRX.amount}}</div>
+						<div v-if="currentAddr.assets.TRX">{{Math.floor(currentAddr.assets.TRX.amount*1000)/1000}}</div>
 						<!-- 平台账号开放充提 -->
 						<div class="operation" v-show="currentAddr.platform == 'DISPATCHER'">
 							<span @click="showCharge = showCharge == 'chargeTRX' ? '' : 'chargeTRX'">{{$t('message.assetsRechargeCurrency')}}</span>
@@ -209,7 +209,8 @@ import {mapMutations, mapState} from "vuex"
 	},
     computed: {
 		...mapState({
-			currentAddr: state => state.user.currentAddr
+			currentAddr: state => state.user.currentAddr,
+			coinType: state => state.user.coinType
 		})
     },
 	watch: {

@@ -57,19 +57,33 @@
 		<!-- 移动端 -->
 		<div class="table-record minscreen">
 			<div class="t-head">
-				<span>{{$t("message.GamePlay")}}</span>
-				<!-- <span>{{$t("message.GameTime")}}</span> -->
+				<span v-if="boardType != 'ME'">{{$t("message.GamePlay")}}</span>
+				<span v-if="boardType != 'ME'">{{$t("message.GameTime")}}</span>
+				<span v-if="boardType == 'ME'">{{$t('message.PokerSuits')}}</span>
+				<span v-if="boardType == 'ME'">{{$t('message.PokerResults')}}</span>
 				<span>{{$t("message.GameBetNum")}}</span>
 				<span class="tr">{{$t("message.GameReward")}}</span>
 			</div>
 			<div class="t-body">
 				<ul class="list-content" :class="{'lose': item.winFlag == 'LOSE','win': item.winFlag == 'WIN','lucky': item.odds >= rule.luckyManOdds, 'rich': item.coinAmount >= rule.gangsterAmount}" v-for="item in displayedList">
-					<li class="user">
+					<li class="user" v-if="boardType != 'ME'">
 						<span>{{item.coinAddress.replace(/(.{4}).*(.{4})/, "$1....$2")}}</span>
 					</li>
-					<!-- <li>
+					<li class="tl" v-if="boardType != 'ME'">
 						<span>{{$fmtDate(item.updateTimestamp, "time")}}</span>
-					</li> -->
+					</li>
+					<li class="multi-row" v-if="boardType == 'ME'">
+						<div class="hs" v-if="item.pokerType != 0">
+							<img v-for="pt in item.pokerType.split(',')" :src="'img/poker/cardtype'+ pt +'.png'" alt="">
+						</div>
+						<div class="num">{{pokerNumTranslation(item.pokerNumber)}}</div>
+					</li>
+					<li class="multi-row" v-if="boardType == 'ME'">
+						<div class="hs">
+							<img :src="'img/poker/cardtype'+ luckyNumTranslation(item.luckyNum)[0] +'.png'" alt="">
+						</div>
+						<div class="num">{{luckyNumTranslation(item.luckyNum)[1]}}</div>
+					</li>
 					<li>
 						<span>{{item.coinAmount}}</span>
 					</li>
@@ -429,7 +443,7 @@ export default {
 }
 @media screen and (max-width: 800px){
 	.module-poker-record {
-		padding: 0 .2rem;
+		padding: 0 .1rem;
 		.tl {
 			text-align: left !important;
 		}
@@ -457,7 +471,7 @@ export default {
 		.table-record {
 			padding-bottom: .5rem;
 			.t-head {
-				padding: 0 .4rem;
+				padding: 0 .1rem;
 				height: .8rem;
 				font-size: .24rem;
 				.tl {
@@ -466,8 +480,9 @@ export default {
 			}
 			.t-body {
 				.list-content {
-					padding: 0 .4rem;
+					padding: 0 .1rem;
 					font-size: 10px;
+					font-weight: 400;
 					.tl {
 						text-align: center !important;
 					}
@@ -492,9 +507,28 @@ export default {
 						.minscreen {
 							display: block;
 						}
+						&.multi-row {
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							line-height: normal;
+							.hs {
+								img {
+									width: .2rem;
+									margin: 0 2px;
+								}
+							}
+							.num {
+								font-size: 12px;
+							}
+						}
 					}
 				}
 			}
+			&.minscreen {
+
+			}
+
 		}
 
 	}

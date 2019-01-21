@@ -8,9 +8,11 @@
         </div>
         <div class="part1" v-show="topBtnIndex == 0">
             <div class="progress-wrap">
-                <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX：50AB）</h4>
-                <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH：3200AB）</h4>
+                <h4 v-show="coinType == 'TRX'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 100TRX : 50AB）</h4>
+                <h4 v-show="coinType == 'ETH'">{{$t("message.BP3stage")}}（{{$t("message.BPmost")}} 1ETH : 3200AB）</h4>
                 <div class="progress-bar"><i>{{(storeBonusPoolsData.progressDig).toFixed(2)}}/1,000,000,000</i><span :style="{'width': storeBonusPoolsData.progressDig/1000000000*100 + '%'}"></span></div>
+                <h5 v-show="coinType == 'TRX'">{{$t("message.abStage2")}}（{{$t("message.BPmost")}} 100TRX : 45AB）</h5>
+                <h5 v-show="coinType == 'ETH'">{{$t("message.abStage2")}}（{{$t("message.BPmost")}} 1ETH : 2400AB）</h5>
             </div>
             <div class="jackpot-wrap">
                 <h2>{{$t('message.BPtip3')}}<span>{{Math.floor(storeBonusPoolsData.totalPledge*100)/100}}</span>AB，{{$t('message.BPtip4')}}<span>{{Math.floor(storeBonusPoolsData.pledgeAb*100)/100}}</span> AB</h2>
@@ -798,6 +800,12 @@ export default {
                     line-height: 0.3rem;
                     font-weight: 300;
                 }
+            }
+            h5 {
+                font-size: .2rem;
+                text-align: center;
+                font-weight: 400;
+                color: #968ECB;
             }
             p {
                 color: #D3CDFF;

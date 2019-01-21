@@ -601,43 +601,35 @@ export default {
 							if(res.result.tradeStatus == "DONE") {
 								this.$store.commit('closeAlert')
 								this.luckyNum = res.result.luckyNum
-								setTimeout(() => {
-									this.loading = false  //关闭loading
-									this.open = true
-									this.$store.dispatch('updateProperty')
-									if(res.result.winFlag == "WIN") {
-										setTimeout(() => {
-											this.openWinPopup({
-												ab: res.result.abNum,
-												rewards: res.result.rewards,
-												coinType: res.result.coinType,
-												winFlag: "WIN",
-												amount: res.result.coinAmount,
-												cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
-												luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
-											})
-										}, this.autoBet ? 0 : 1000)
-									}else if(res.result.winFlag == "LOSE") {
-										setTimeout(() => {
-											this.openWinPopup({
-												ab: res.result.abNum,
-												rewards: 0,
-												coinType: res.result.coinType,
-												winFlag: "LOSE",
-												amount: res.result.coinAmount,
-												cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
-												luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
-											})
-										}, this.autoBet ? 0 : 1000)
-									}
-									// 自动下注
+
+								this.loading = false  //关闭loading
+								this.open = true
+								this.$store.dispatch('updateProperty')
+								if(res.result.winFlag == "WIN") {
 									setTimeout(() => {
-										if(this.autoBet && this.userInfo.token) {
-											this.closePopup()
-											this.betDo()
-										}
-									}, 1000)
-								}, 1000)
+										this.openWinPopup({
+											ab: res.result.abNum,
+											rewards: res.result.rewards,
+											coinType: res.result.coinType,
+											winFlag: "WIN",
+											amount: res.result.coinAmount,
+											cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+											luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
+										})
+									}, this.autoBet ? 0 : 1000)
+								}else if(res.result.winFlag == "LOSE") {
+									setTimeout(() => {
+										this.openWinPopup({
+											ab: res.result.abNum,
+											rewards: 0,
+											coinType: res.result.coinType,
+											winFlag: "LOSE",
+											amount: res.result.coinAmount,
+											cardType: this.luckyNumTranslation(res.result.luckyNum)[0],
+											luckyNum: this.luckyNumTranslation(res.result.luckyNum)[1]
+										})
+									}, this.autoBet ? 0 : 1000)
+								}
 							}else {
 								this.alert({
 									type: "info",
@@ -645,14 +637,23 @@ export default {
 								})
                 				this.loading = false  //关闭loading
 							}
+							// 自动下注
+							setTimeout(() => {
+								if(this.autoBet && this.userInfo.token) {
+									this.closePopup()
+									this.betDo()
+								}
+							}, 1000)
 						}
 					}else {
+						if(this.autoBet) return   //开启自动投注后 忽略异常
 						clearInterval(this.timer)
 						this.timer = null
 						clearInterval(this.getBetResultTimer)
 						this.getBetResultTimer = null
 					}
 				}).catch(err => {
+					if(this.autoBet) return   //开启自动投注后 忽略异常
 					clearInterval(this.timer)
 					this.timer = null
 					clearInterval(this.getBetResultTimer)
@@ -903,45 +904,6 @@ export default {
                         }
                     }
                 }
-                // .poker {
-				// 	position: relative;
-				// 	height: 198px;
-				// 	width: 140px;
-                //     .img {
-				// 		position: absolute;
-                //         display: block;
-				// 		height: 100%;
-				// 		width: 100%;
-				// 		backface-visibility: hidden;
-				// 		transform-style: preserve-3d;
-  				// 		transition: ease-in-out 600ms;
-				// 	}
-				// 	.front {
-				// 		transform: rotateY(-180deg);
-				// 	}
-				// 	&.open {
-				// 		.front {
-				// 			transform: rotateY(0deg);
-				// 		}
-				// 		.back {
-				// 			transform: rotateY(180deg);
-				// 		}
-				// 	}
-				// 	&.loading {
-				// 		.svg {
-				// 			display: block;
-				// 		}
-				// 	}
-				// 	.svg {
-				// 		position: absolute;
-				// 		left: 10%;
-				// 		top: 50%;
-				// 		transform: translateY(-50%);
-				// 		z-index: 2;
-				// 		width: 80%;
-				// 		display: none;
-				// 	}
-				// }
 				.reset {
 					position: absolute;
 					left: 3%;

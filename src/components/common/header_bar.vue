@@ -53,6 +53,7 @@
                         <router-link to="account-security">{{$t("message.accountSecurity")}}</router-link>
                         <a href="javascript:;" @click="removeUserInfo('DISPATCHER')" v-if="storeCurrentAddr.platform == 'DISPATCHER'">{{$t("message.logout")}}</a>
                     </div>
+                    <a href="javascript:;" v-if="storeCurrentAddr.platform == 'DISPATCHER'" class="go-my minscreen" @click="$router.push('my')"></a>
                 </div>
                 <!-- pc登录按钮 -->
                 <a href="javascript:;" class="button login nominscreen" @click="displayStatus.loginSelect = true" v-show="addressList.length <= 0">{{$t("message.login")}}</a>
@@ -67,7 +68,7 @@
                 </div>
 
                 <!-- mobile登录按钮 -->
-                <a href="javascript:;" v-if="storeCurrentAddr.platform == 'DISPATCHER'" class="login minscreen" @click="$router.push('my')"></a>
+                <a href="javascript:;" v-if="storeCurrentAddr.platform == 'DISPATCHER' && !storeCurrentAddr.coinAddress" class="login minscreen" @click="$router.push('my')"></a>
             </div>
         </div>
 
@@ -1151,6 +1152,13 @@ export default {
             }
             .user-center {
                 margin-left: 0;
+                .go-my {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                }
             }
             // 语言按钮
             .language-select {

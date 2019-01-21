@@ -612,21 +612,22 @@ export default {
 										luckyNum: res.result.luckyNum
 									})
 								}
-								// 自动下注
-								setTimeout(() => {
-									if(this.autoBet && this.userInfo.token) {
-										this.closePopup()
-										this.betDo()
-									}
-								}, 1000)
 							}else {
 								this.alert({
 									type: "info",
 									msg: "Frustrated bet."
 								})
 							}
+							// 自动下注
+							setTimeout(() => {
+								if(this.autoBet && this.userInfo.token) {
+									this.closePopup()
+									this.betDo()
+								}
+							}, 1000)
 						}
 					}else {
+						if(this.autoBet) return   //开启自动投注后 忽略异常
 						this.betBtnLoading = false
 						clearInterval(this.timer)
 						this.timer = null
@@ -636,6 +637,7 @@ export default {
 						this.luckyColor = "green"
 					}
 				}).catch(err => {
+					if(this.autoBet) return   //开启自动投注后 忽略异常
 					this.betBtnLoading = false
 					clearInterval(this.timer)
 					this.timer = null
