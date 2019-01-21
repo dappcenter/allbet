@@ -86,7 +86,7 @@
             <input type="password" v-model.trim="loginForm.password" :placeholder="$t('message.PopLoginPass')" @keyup.enter="loginDo">
             <button class="primary-btn" @click="loginDo" @keyup.enter="loginDo">{{$t("message.login")}}</button>
             <div class="flex-wrap">
-                <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.registerAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
+                <p>{{$t('message.noAccount')}}<a href="javascript:;" @click="displayStatus.emailRegisterAccount = true;displayStatus.loginAccount = false">{{$t('message.registerNow')}}</a></p>
                 <p><a href="javascript:;" @click="findPassword = true; displayStatus.loginAccount = false">{{$t("message.forgetPassword")}}</a></p>
             </div>
             <i class="close-btn" @click="displayStatus.loginAccount = false"></i>
@@ -1158,6 +1158,11 @@ export default {
                     height: 100%;
                     top: 0;
                     left: 0;
+                }
+                span {
+                    max-width: 2rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
             // 语言按钮

@@ -378,11 +378,11 @@ export default {
             width: 100%;
             border: none;
             font-size: .3rem;
-            color: #fff;
+            color: #282440;
             text-align: center;
             border-radius: .06rem;
             margin-top: .6rem;
-            background:linear-gradient(90deg,rgba(69,182,245,1),rgba(45,92,245,1));
+            background:#FFC425;
             &.disabled {
                 background-color: #393A50;
             }

@@ -93,7 +93,7 @@ export default {
                 picCode: "",  //图形验证码
             },
             macCode: new Date().getTime(),
-            registerType: "phone",
+            registerType: "email",
             captchaDisabled: false,
             captchaDisabledEmail: false,
             prefixMenu: false,
