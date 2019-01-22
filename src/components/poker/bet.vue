@@ -390,6 +390,8 @@ export default {
 				}
 			}).then(res => {
 				if(res.code == 200) {
+					console.log("poker规则",res)
+					res.result.maxInvest = 20000    //手动设置最大下注金额为 20000
 					this.rule = res.result
 					// this.amount = res.result.minInvest
 				}
