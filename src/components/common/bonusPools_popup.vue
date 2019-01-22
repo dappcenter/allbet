@@ -299,7 +299,6 @@ export default {
                 }
             }).then(res => {
                 if(res.code == 200) {
-                    console.log(res)
                     this.$store.commit('UPDATE_BP_DATA', res.result)
                 }
             })

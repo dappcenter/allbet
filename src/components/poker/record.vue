@@ -118,9 +118,7 @@ export default {
 	created() {
 		this.getRule()
 		this.getData(this.boardType)
-		this.timer = window.setInterval(() => {
-			this.getDataPoll()
-		}, 3000)
+		this.getDataPoll()
 	},
 	watch: {
 		coinType() {
@@ -179,6 +177,9 @@ export default {
 			})
 		},
 		getDataPoll() {
+			clearInterval(this.timer)
+			this.timer = null
+
 			let coinAddress = null
 			if(this.currentAddr.assets) {
 				coinAddress = this.currentAddr.assets[this.coinType].coinAddress
@@ -186,10 +187,18 @@ export default {
 			if(!coinAddress && this.boardType == "ME") {
 				this.recordsList = []
 				this.displayedList = []
+				this.timer = window.setTimeout(() => {
+					this.getDataPoll()
+				}, 3000)
 				return
 			}
 			let boardType = this.boardType
-			if(this.lastRecord == "") return
+			if(this.lastRecord == "") {
+				this.timer = window.setTimeout(() => {
+					this.getDataPoll()
+				}, 3000)
+				return
+			}
 			PollHttp({
 				type: 'get',
 				url: '/app/dice/board',
@@ -210,6 +219,13 @@ export default {
 					this.$emit('setDiceStatistics', res.result.diceStatistics)
 				}else {
 				}
+				this.timer = window.setTimeout(() => {
+					this.getDataPoll()
+				}, 3000)
+			}).catch(err => {
+				this.timer = window.setTimeout(() => {
+					this.getDataPoll()
+				}, 3000)
 			})
 		},
 		updateList() {
@@ -251,6 +267,7 @@ export default {
 	},
 	destroyed() {
 		clearInterval(this.timer)
+		this.timer = null
 	}
 }
 </script>
