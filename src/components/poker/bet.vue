@@ -158,7 +158,7 @@
                     <img src="../../../public/img/poker/ab.png" alt="">
                     <div class="content">
                         <h4>{{$t('message.GameBetToGet')}} {{Math.floor((rule.winDig.split(':')[1]/rule.winDig.split(':')[0]*amount)*100)/100}} AB</h4>
-						<p>{{$t('message.GameStage')}} {{(rule.totalDig/1000000000*100).toFixed(2)}}%</p>
+						<p>{{$t('message.GameStage')}} {{((rule.totalDig > 1000000000 ? (rule.totalDig-1000000000) : rule.totalDig)/700000000*100).toFixed(2)}}%</p>
                         <span>{{$t('message.GameDigProportion')}}　 WIN {{rule.winDig.split(':')[0]}} : {{rule.winDig.split(':')[1]}} 　  LOSE {{rule.failDig.split(':')[0]}} : {{rule.failDig.split(':')[1]}}</span>
                     </div>
                     <i class="help nominscreen" @click="isShowABpopup = true"></i>
