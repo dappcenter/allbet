@@ -14,7 +14,7 @@ import dialogs from "./vuex/modules/dialogs"
 import user from "./vuex/modules/user"
 import tronHandler from "./vuex/modules/tronHandler"
 import database from "./vuex/modules/database"
-import eosHandler from "./vuex/modules/eosHandler"
+// import eosHandler from "./vuex/modules/eosHandler"
 
 
 Vue.use(Vuex);
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         user,
         tronHandler,
         database,
-        eosHandler
+        // eosHandler
     },
     plugins: [vuexLocal.plugin]
 });

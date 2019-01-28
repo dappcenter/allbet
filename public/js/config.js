@@ -51,19 +51,19 @@ if(window.location.href.indexOf('www.allbet.io') >= 0) {
 
     window.NETWORK = 4
 
-    // window.SERVERPATH = "https://apinode.allbet.io"
-    // window.BANCORADDRESS = "0x36fc06fef49e2d92fe9460685d56a5998d9ba187"   //bancor 合约
-    // window.ROLLERADDRESS = "0x2aef00e45e610fcd13fbc5b734b68c2353941520"   //dice游戏合约
-    // window.ETHPLEDGEADDRESS = "0x9e29ae7ef0ba62b561f07675715bc0f9316a0275"  //抵押合约
-    // window.ETHABTOKEN = "0x9a6d042f8be45202464d66a88602864ebdc287f1"   //ETH AB Token
-    // // TRX
-    // window.TRONROLLARADDRESS = "TKQ2WmYs9KRmD3c9TwUMjZ3vj5BKgADUZ5"   //dice游戏合约
-    // window.TRONFUNDRAIYADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"   //私募合约
-    // window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
-    // window.TRONPLEDGEADDRESS = "TC16s3QrYZvXBMv3WSdGkk6UX1fEoa69Sn"  //抵押合约
-    // window.TRONABTOKEN = "TNbYoP22d74RWy4ETssHsXYFrnmmbQ2fvt"        //tron AB Token
-    // window.TRONPOKERADDRESS = "TQAeHRPkwwCB7EUhMUes6nswSXWXZrj7mM"  //poker游戏合约
-    // // 网络标识
-    // window.NETWORK = 1
+    window.SERVERPATH = "https://apinode.allbet.io"
+    window.BANCORADDRESS = "0x36fc06fef49e2d92fe9460685d56a5998d9ba187"   //bancor 合约
+    window.ROLLERADDRESS = "0x2aef00e45e610fcd13fbc5b734b68c2353941520"   //dice游戏合约
+    window.ETHPLEDGEADDRESS = "0x9e29ae7ef0ba62b561f07675715bc0f9316a0275"  //抵押合约
+    window.ETHABTOKEN = "0x9a6d042f8be45202464d66a88602864ebdc287f1"   //ETH AB Token
+    // TRX
+    window.TRONROLLARADDRESS = "TKQ2WmYs9KRmD3c9TwUMjZ3vj5BKgADUZ5"   //dice游戏合约
+    window.TRONFUNDRAIYADDRESS = "TDmwcA6XuoSZCVdnpihZKtdLe85mUwWG64"   //私募合约
+    window.TRONFUNDRAIYADDRESS2 = "TGCz7hLkvBamcSh7TipdFtBaSM2DXeY5aT"  //合约转账
+    window.TRONPLEDGEADDRESS = "TC16s3QrYZvXBMv3WSdGkk6UX1fEoa69Sn"  //抵押合约
+    window.TRONABTOKEN = "TNbYoP22d74RWy4ETssHsXYFrnmmbQ2fvt"        //tron AB Token
+    window.TRONPOKERADDRESS = "TQAeHRPkwwCB7EUhMUes6nswSXWXZrj7mM"  //poker游戏合约
+    // 网络标识
+    window.NETWORK = 1
     
 }

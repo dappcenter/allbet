@@ -319,7 +319,7 @@ export default {
         GameBetAmount: "BET AMOUNT",
         GameRUTW: "ROLL UNDER TO WIN",
         GameBetToGet: "Bet To Get",
-        GameStage: "Rounds of mining: The first round",
+        GameStage: "Rounds of mining: The Second round",
         GameDigProportion: "Mining efficiency",
         GameHigGet: "Bet now for FREE tokens",
         GamePresell: "Presell",
